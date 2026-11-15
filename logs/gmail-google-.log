@@ -1,0 +1,20 @@
+[0.0s] {"type":"status","message":"Researching Gmail (Google)"}
+[17.1s] {"type":"tool","name":"search","target":"site:developers.google.com/identity/protocols/oauth2 Google OAuth app verification sensitive restricted scopes testing user cap","summary":"8 results"}
+[28.6s] {"type":"tool","name":"search","target":"site:support.google.com/cloud Google OAuth consent screen publishing status test users 100 Gmail","summary":"6 results"}
+[40.9s] {"type":"tool","name":"search","target":"site:developers.google.com/workspace/guides/configure-oauth-consent verification Gmail API scopes restricted verification security assessment","summary":"8 res
+[52.2s] {"type":"tool","name":"search","target":"site:developers.googleblog.com OAuth Google verification policy changes Gmail API OAuth","summary":"6 results"}
+[64.6s] {"type":"tool","name":"read","target":"https://developers.google.com/workspace/guides/configure-oauth-consent","summary":"18 facts"}
+[75.9s] {"type":"tool","name":"read","target":"https://developers.google.com/workspace/gmail/api/auth/scopes","summary":"22 facts"}
+[82.5s] {"type":"tool","name":"read","target":"https://support.google.com/cloud/answer/15549945?hl=en-GB","summary":"11 facts"}
+[89.6s] {"type":"tool","name":"read","target":"https://support.google.com/cloud/answer/13464321?hl=en","summary":"23 facts"}
+[100.9s] {"type":"tool","name":"read","target":"https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification","summary":"18 facts"}
+[109.7s] {"type":"tool","name":"read","target":"https://support.google.com/cloud/answer/13463817?hl=en-uk","summary":"24 facts"}
+[116.1s] {"type":"tool","name":"read","target":"https://developers.googleblog.com/en/usability-and-safety-updates-to-google-auth-platform/","summary":"10 facts"}
+[121.6s] {"type":"tool","name":"read","target":"https://developers.googleblog.com/elevating-user-trust-in-our-api-ecosystem/","summary":"17 facts"}
+[144.9s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[145.8s] {"type":"tool","name":"probe","target":"https://accounts.google.com/.well-known/openid-configuration","summary":"ok: authorize=https://accounts.google.com/o/oauth2/v2/auth; scopes=openid email prof"}
+[145.8s] {"type":"tool","name":"probe","target":"https://accounts.google.com/o/oauth2/v2/auth","summary":"ok: HTTP 302 -> https://accounts.google.com/signin/oauth/error?authError=Cg9pbnZhbGl"}
+[145.8s] {"type":"tool","name":"probe","target":"https://console.cloud.google.com/auth/overview","summary":"ok: HTTP 200 (final: https://accounts.google.com/v3/signin/identifier?continue=https"}
+[145.8s] {"type":"status","message":"Writing guide"}
+[180.3s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[181.0s] guide -> guides/gmail-google-oauth.json

@@ -1,0 +1,34 @@
+[0.0s] {"type":"status","message":"Researching Xero"}
+[23.4s] {"type":"tool","name":"search","target":"site:developer.xero.com OAuth 2.0 app registration redirect URI scopes app review production Xero","summary":"8 results"}
+[34.8s] {"type":"tool","name":"search","target":"site:developer.xero.com Xero developer terms app partner certification review production","summary":"7 results"}
+[51.1s] {"type":"tool","name":"search","target":"site:developer.xero.com changelog OAuth app Xero developer recent policy changes","summary":"7 results"}
+[61.5s] {"type":"tool","name":"search","target":"site:central.xero.com developer app approval OAuth Xero review","summary":"8 results"}
+[68.8s] {"type":"tool","name":"search","target":"site:developer.xero.com documentation getting started create app free account limits connections","summary":"8 results"}
+[75.3s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/getting-started-guide/","summary":"page empty or blocked (may need login or JS)"}
+[76.4s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/guides/oauth2/overview/","summary":"page empty or blocked (may need login or JS)"}
+[76.9s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/guides/oauth2/auth-flow/","summary":"page empty or blocked (may need login or JS)"}
+[77.4s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/guides/oauth2/scopes/","summary":"page empty or blocked (may need login or JS)"}
+[78.0s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/guides/oauth2/limits/","summary":"page empty or blocked (may need login or JS)"}
+[78.4s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/xero-app-store/app-partner-guides/building-and-growing-your-app/","summary":"page empty or blocked (may need login or JS
+[78.9s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/xero-app-store/app-partner-guides/certification-checkpoints/","summary":"page empty or blocked (may need login or JS)"}
+[85.5s] {"type":"tool","name":"read","target":"https://developer.xero.com/changelog","summary":"13 facts"}
+[89.1s] {"type":"tool","name":"read","target":"https://developer.xero.com/faq/oauth2","summary":"10 facts"}
+[98.9s] {"type":"tool","name":"search","target":"site:developer.xero.com \"My Apps\" \"create an app\" Xero developer portal","summary":"6 results"}
+[108.9s] {"type":"tool","name":"search","target":"site:developer.xero.com/documentation/guides/oauth2/limits \"Starter\" \"5 connections\"","summary":"5 results"}
+[119.6s] {"type":"tool","name":"search","target":"site:developer.xero.com/documentation/xero-app-store/app-partner-guides/building-and-growing-your-app \"10 active\" OR \"Plus Plan\"","summary":"5 results"}
+[127.1s] {"type":"tool","name":"search","target":"site:developer.xero.com/documentation/xero-app-store/app-partner-guides/certification-checkpoints \"certification\" \"scopes\"","summary":"4 results"}
+[138.2s] {"type":"tool","name":"search","target":"site:developer.xero.com \"https://login.xero.com/identity/connect/authorize\"","summary":"6 results"}
+[146.1s] {"type":"tool","name":"search","target":"site:developer.xero.com \"Core\" \"50 connections\" OAuth limits Xero","summary":"5 results"}
+[158.0s] {"type":"tool","name":"read","target":"https://developer.xero.com/pricing","summary":"25 facts"}
+[165.8s] {"type":"tool","name":"read","target":"https://developer.xero.com/faq/pricing-and-policy-updates","summary":"22 facts"}
+[166.7s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/xero-app-store/app-partner-guides/sign-in/","summary":"page empty or blocked (may need login or JS)"}
+[167.2s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/xero-app-store/app-partner-guides/app-listing/","summary":"page empty or blocked (may need login or JS)"}
+[167.7s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/development-accounts/","summary":"page empty or blocked (may need login or JS)"}
+[168.2s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/guides/oauth2/tenants/","summary":"page empty or blocked (may need login or JS)"}
+[183.8s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[187.7s] {"type":"tool","name":"probe","target":"https://login.xero.com/.well-known/openid-configuration","summary":"failed: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"}
+[187.7s] {"type":"tool","name":"probe","target":"https://login.xero.com/identity/connect/authorize","summary":"ok: HTTP 302 -> https://login.xero.com/identity/error?errorId=CfDJ8MOMn5AHNxVIkNNdLD"}
+[187.7s] {"type":"tool","name":"probe","target":"https://developer.xero.com/app/manage","summary":"ok: HTTP 200 (final: https://developer.xero.com/app/manage)"}
+[187.7s] {"type":"status","message":"Writing guide"}
+[214.3s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[215.9s] guide -> guides/xero.json

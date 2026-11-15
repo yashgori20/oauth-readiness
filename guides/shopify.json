@@ -1,0 +1,417 @@
+{
+  "app": "Shopify",
+  "slug": "shopify",
+  "website": "https://www.shopify.com/",
+  "developerConsole": "https://dev.shopify.com/dashboard",
+  "generatedAt": "2026-11-13T17:11:41.067Z",
+  "origin": "live",
+  "verdict": {
+    "difficulty": 3,
+    "summary": "A custom app for your own organization’s stores is comparatively self-serve, while a public App Store app needs Shopify approval and a one-time App Store registration fee. Plan around an unspecified review wait, and treat protected customer data—especially direct identifiers—as an additional approval gate.",
+    "activeEffort": "Create and configure the app, implement OAuth, select only necessary scopes, test on a development store, and prepare a production-ready App Store submission if distributing publicly.",
+    "waitTime": "No approval SLA is stated in the cited review documentation.",
+    "mainGate": "Public distribution requires Shopify approval; protected customer data or other sensitive information also requires approval."
+  },
+  "phases": [
+    {
+      "name": "Register",
+      "steps": [
+        {
+          "title": "Confirm the intended distribution model before creating the app",
+          "owner": "you",
+          "detail": {
+            "text": "Choose the distribution method carefully because Shopify does not allow it to be changed after selection. Public apps can install on multiple Shopify stores and require Shopify approval; custom apps are for one store, stores in the same Plus organization, or development stores and do not require approval.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://shopify.dev/docs/apps/launch/distribution",
+                "quote": "Public distribution Can be installed on multiple Shopify stores",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://shopify.dev/docs/apps/launch/distribution",
+                "quote": "Public distribution requires Shopify approval.",
+                "quoteVerified": false
+              },
+              {
+                "url": "https://shopify.dev/docs/apps/launch/distribution",
+                "quote": "You can't change the distribution method after you select it.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Low"
+        },
+        {
+          "title": "Create the app in Dev Dashboard",
+          "owner": "you",
+          "detail": {
+            "text": "Create the Shopify app in Dev Dashboard. You need app-development permission; a Partner organization is not required to use Dev Dashboard.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://shopify.dev/docs/apps/build/dev-dashboard/create-apps-using-dev-dashboard",
+                "quote": "You can create a new Shopify app right from your Dev Dashboard.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://shopify.dev/docs/apps/build/dev-dashboard/create-apps-using-dev-dashboard",
+                "quote": "You're a user with app development permissions.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://shopify.dev/docs/apps/build/dev-dashboard",
+                "quote": "You don't need a Partner organization to use the Dev Dashboard.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Low",
+          "link": "https://dev.shopify.com/dashboard"
+        }
+      ]
+    },
+    {
+      "name": "Configure",
+      "steps": [
+        {
+          "title": "Set the app URL and choose least-privilege scopes",
+          "owner": "you",
+          "detail": {
+            "text": "Configure the App URL in an app version and request only the data and features the app needs. Shopify approves protected customer data when the requested data is the minimum required for app functionality.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://shopify.dev/docs/apps/build/dev-dashboard/create-apps-using-dev-dashboard",
+                "quote": "App URL : Where Shopify loads your app.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://shopify.dev/docs/apps/build/dev-dashboard/create-apps-using-dev-dashboard",
+                "quote": "Scopes : The data and features your app can access.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://shopify.dev/docs/apps/launch/protected-customer-data",
+                "quote": "Shopify will approve your app to use protected customer data if the requested data is the minimum amount required by your app to provide the merchant with the app functionality.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Low"
+        },
+        {
+          "title": "Register exact OAuth redirect URIs",
+          "owner": "you",
+          "detail": {
+            "text": "Add each redirect URI in Dev Dashboard settings or the [auth] section of shopify.app.toml. The redirect_uri in OAuth must exactly match a registered URI.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://shopify.dev/docs/apps/build/authentication-authorization/authenticate-standalone-apps",
+                "quote": "You've added your app's redirect URI to your app's settings in the Dev Dashboard, or to the [auth] section of your shopify.app.toml .",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://shopify.dev/docs/apps/build/authentication-authorization/authenticate-standalone-apps",
+                "quote": "Must exactly match a redirect URI you've configured in the Dev Dashboard or your app's configuration TOML file.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Low"
+        },
+        {
+          "title": "Implement the authorization-code OAuth flow",
+          "owner": "agent",
+          "detail": {
+            "text": "For a standalone or API-only app, redirect the merchant to Shopify for approval, then exchange the returned code for an access token. The authorization request includes client_id, scope, redirect_uri, and state.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://shopify.dev/docs/apps/build/authentication-authorization/authenticate-standalone-apps",
+                "quote": "Because they can't use ID tokens , they authenticate using the OAuth authorization code grant flow: redirect the merchant to Shopify, get their approval, and exchange a code for an access token.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://shopify.dev/docs/apps/build/authentication-authorization/authenticate-standalone-apps",
+                "quote": "client_id : CLIENT_ID , \n scope : SCOPES , \n redirect_uri : REDIRECT_URI , \n state : nonce ,",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Medium",
+          "link": "https://shopify.dev/docs/apps/build/authentication-authorization/authenticate-standalone-apps"
+        },
+        {
+          "title": "Use expiring offline tokens for a new public Admin API app",
+          "owner": "agent",
+          "detail": {
+            "text": "For a new public app making GraphQL Admin API requests, include expiring=1 to request expiring offline access tokens.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://shopify.dev/changelog/posts/expiring-offline-access-tokens-required-for-public-apps-april-1-2026",
+                "quote": "Starting April 1, 2026, all new public apps must request and use expiring offline access tokens .",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://shopify.dev/docs/apps/build/authentication-authorization/authenticate-standalone-apps",
+                "quote": "New public apps must use expiring offline access tokens for GraphQL Admin API requests. Include expiring=1 in your request.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Low"
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "steps": [
+        {
+          "title": "Install and exercise the app on a development store",
+          "owner": "you",
+          "detail": {
+            "text": "Use a development store for build and test work without touching a live store.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://shopify.dev/docs/apps/build/dev-dashboard",
+                "quote": "Dev stores : You own them, for building and testing without touching a live store.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Medium"
+        },
+        {
+          "title": "Validate OAuth installation, consent, and scope-change handling",
+          "owner": "agent",
+          "detail": {
+            "text": "Test that installation sends the merchant directly to Shopify OAuth approval and that a scope change is manually approved by the merchant in Shopify admin.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://shopify.dev/docs/apps/launch/app-store-review/pass-app-review",
+                "quote": "If they don't redirect merchants to the OAuth grant screen, then your app won't be approved.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://shopify.dev/docs/apps/build/dev-dashboard/create-apps-using-dev-dashboard",
+                "quote": "Merchants still need to manually approve the new scopes in the Shopify admin.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Medium"
+        },
+        {
+          "title": "Complete development data-protection details if testing customer data",
+          "owner": "you",
+          "detail": {
+            "text": "Apps installed only on development stores do not need a protected-customer-data review request; testing apps can access customer data in development after the data-protection details are completed without submitting for review.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://shopify.dev/docs/apps/launch/protected-customer-data",
+                "quote": "You don't need to submit a request for review for apps that are installed only on development stores.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://shopify.dev/docs/apps/launch/protected-customer-data",
+                "quote": "If your app is for testing or installed only on a development store, you can access customer data in development after Step 5. You don't need to submit for review.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Medium"
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "steps": [
+        {
+          "title": "Prepare a complete, production-ready public App Store submission",
+          "owner": "you",
+          "detail": {
+            "text": "Submit only a production-ready app and provide testing information, test credentials, and a short screencast. Incomplete apps or apps with errors that prevent feature review will not be approved.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://shopify.dev/docs/apps/launch/app-store-review/pass-app-review",
+                "quote": "The app review team will only review production-ready apps. If you submit an app that is incomplete or has errors that prevent us from reviewing its features, then it won't be approved.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://shopify.dev/docs/apps/launch/app-store-review/pass-app-review",
+                "quote": "Ensure that you include testing information and test credentials in the app submission form. Include a short screencast of how your app should work.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Medium"
+        },
+        {
+          "title": "Run the available AI self-review before submission",
+          "owner": "you",
+          "detail": {
+            "text": "Use Shopify's AI-powered self-review, which checks the app against App Store requirements, before submitting.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://shopify.dev/changelog/posts/new-app-submission-experience-in-the-partner-dashboard",
+                "quote": "Before you submit your app, you can now run an AI-powered self-review that checks your app against App Store requirements.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Low"
+        },
+        {
+          "title": "Wait for Shopify's App Store and, if applicable, data-protection review",
+          "owner": "provider",
+          "detail": {
+            "text": "Public distribution requires Shopify approval. Access to protected customer data or other sensitive information requires approval, and Shopify can require evidence that the app and its practices meet protected-customer-data requirements.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://shopify.dev/docs/apps/launch/distribution",
+                "quote": "Public distribution requires Shopify approval.",
+                "quoteVerified": false
+              },
+              {
+                "url": "https://shopify.dev/docs/apps/build/dev-dashboard/create-apps-using-dev-dashboard",
+                "quote": "Access to protected customer data or other sensitive information requires approval .",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://shopify.dev/docs/apps/launch/protected-customer-data",
+                "quote": "During this review, you'll need to provide evidence that your app and your practices meet the protected customer data requirements .",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Unspecified"
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "steps": [
+        {
+          "title": "Register for the Shopify App Store and pay the one-time fee for public distribution",
+          "owner": "you",
+          "detail": {
+            "text": "Public distribution requires Shopify App Store registration and a one-time fee.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://shopify.dev/docs/apps/launch/distribution",
+                "quote": "Public distribution also requires registering for the Shopify App Store, which has a one-time fee.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Low"
+        },
+        {
+          "title": "Use Shopify billing for all App Store app charges",
+          "owner": "agent",
+          "detail": {
+            "text": "All charges associated with an app submitted to the Shopify App Store must use Shopify's billing system.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://shopify.dev/docs/apps/launch/app-store-review/pass-app-review",
+                "quote": "All charges associated with apps submitted to the Shopify App Store must use Shopify's billing system.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Medium"
+        }
+      ]
+    }
+  ],
+  "gotchas": [
+    {
+      "text": "Level 2 protected customer data includes directly identifying name, address, phone, or email fields and is subject to data-protection review participation.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://shopify.dev/docs/apps/launch/protected-customer-data",
+          "quote": "2 Customer data including name, address, phone, or email fields",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "A broken or unusable interface on installation is a review problem.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://shopify.dev/docs/apps/launch/app-store-review/pass-app-review",
+          "quote": "The app interface is broken and unusable upon installation",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Resubmitting the app slows down the review process.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://shopify.dev/docs/apps/launch/app-store-review/pass-app-review",
+          "quote": "Resubmitting your app slows down the review process.",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "whenBlocked": [
+    {
+      "text": "Find App Store review feedback in Partner Dashboard under App > Distribution, where requirement statuses, reviewer comments, questions, and resubmission tracking are available.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://shopify.dev/changelog/posts/new-app-submission-experience-in-the-partner-dashboard",
+          "quote": "Review feedback for app submissions now lives in the Partner Dashboard under App > Distribution.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Resolve every identified issue before attempting to resubmit.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://shopify.dev/changelog/posts/new-app-submission-experience-in-the-partner-dashboard",
+          "quote": "You can't resubmit until all identified issues are resolved.",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "probes": [
+    {
+      "name": "Authorize endpoint",
+      "target": "https://{shop}.myshopify.com/admin/oauth/authorize",
+      "result": "TypeError: fetch failed",
+      "ok": false
+    },
+    {
+      "name": "URL reachable",
+      "target": "https://dev.shopify.com/dashboard",
+      "result": "HTTP 406 (final: https://dev.shopify.com/dashboard)",
+      "ok": false
+    }
+  ],
+  "uncertain": [
+    "The cited Shopify review documentation gives no App Store approval or protected-data-review SLA.",
+    "The cited official distribution page confirms a one-time App Store fee but does not state its amount.",
+    "The cited sources do not state the complete operational requirements or retention behavior for expiring offline access tokens.",
+    "The Dev Dashboard probe returned HTTP 406 and the templated authorization-endpoint probe failed, so these probes did not independently confirm logged-out console access or live authorization behavior."
+  ]
+}

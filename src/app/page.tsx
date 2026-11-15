@@ -1,103 +1,126 @@
-import Image from "next/image";
+import Link from "next/link";
+import { AppIcon, DIFFICULTY, DifficultyMeter, evidenceStats } from "@/components/GuideView";
+import { GenerateBox } from "@/components/GenerateBox";
+import { ArrowRight, ArrowUpRight } from "@/components/icons";
+import { listGuides } from "@/lib/store";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+const PIPELINE = [
+  ["Search", "Terra plans queries; Azure web search returns official docs, policy pages, developer blogs."],
+  ["Read", "Luna reads each page and returns only relevant facts, each with a verbatim quote."],
+  ["Probe", "Unauthenticated requests: OIDC discovery, the authorize endpoint with a fake client, the console URL."],
+  ["Write", "Terra turns notes and probe results into the guide, tagging every claim's evidence."],
+  ["Verify", "Code checks every quote against the cited page's text. Misses are marked unverified, not hidden."],
+];
+
+export default async function Home() {
+  const guides = await listGuides();
+  const stats = guides.map(evidenceStats);
+  const claims = stats.reduce((n, s) => n + s.claims.length, 0);
+  const quotes = stats.reduce((n, s) => n + s.quotes.length, 0);
+  const verified = stats.reduce((n, s) => n + s.verified, 0);
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div>
+      {/* Research */}
+      <section id="research" className="scroll-mt-14 border-b border-line px-5 pt-16 pb-14 sm:px-8 sm:pt-24 sm:pb-20">
+        <h1 className="max-w-[16ch] text-5xl leading-[1.1] font-normal tracking-[-0.035em] text-ink [text-wrap:balance] sm:text-[4.25rem]">
+          How long until your users can <span className="bg-brand px-2 text-white [box-decoration-break:clone]">connect it?</span>
+        </h1>
+        <p className="mt-6 max-w-[62ch] text-lg leading-relaxed text-ink-2">
+          Before your agent can act in someone&apos;s account, you need an OAuth app with that provider, and often their approval.
+          Each guide gives you the effort, the wait, what will block you, and which steps an agent can take off your plate.
+          Every claim shows its evidence.
+        </p>
+        <div className="mt-9 max-w-[760px]">
+          <GenerateBox />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        {guides.length > 0 && (
+          <p className="label tnum mt-10 text-muted">
+            {guides.length} guides · {claims} claims · {verified}/{quotes} quotes found on the cited page
+          </p>
+        )}
+      </section>
+
+      {/* Library */}
+      <section id="library" className="scroll-mt-14 border-b border-line">
+        <div className="flex flex-wrap items-end justify-between gap-3 px-5 pt-12 pb-6 sm:px-8">
+          <div>
+            <h2 className="text-3xl font-normal tracking-[-0.025em] text-ink">Library</h2>
+            <p className="mt-2 max-w-[60ch] text-ink-2">Chosen to cover different kinds of blocker, from self-serve to gated by business eligibility.</p>
+          </div>
+          <p className="label text-muted">Easiest first</p>
+        </div>
+        <ul className="grid gap-px border-t border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+          {guides.map((g) => (
+            <li key={g.slug} className="bg-surface">
+              <Link href={`/apps/${g.slug}`} className="group flex h-full flex-col px-5 py-6 transition-colors hover:bg-ground sm:px-7">
+                <div className="flex items-center gap-3">
+                  <AppIcon guide={g} size={32} />
+                  <span className="truncate text-lg font-medium tracking-tight text-ink">{g.app}</span>
+                  <ArrowRight className="ml-auto h-4 w-4 shrink-0 text-muted transition-transform group-hover:translate-x-0.5 group-hover:text-brand" />
+                </div>
+                <div className="mt-4 flex items-center gap-2.5">
+                  <DifficultyMeter value={g.verdict.difficulty} />
+                  <span className="label text-ink">{DIFFICULTY[g.verdict.difficulty]}</span>
+                </div>
+                <p className="mt-3 line-clamp-3 text-[15px] leading-relaxed text-ink-2">{g.verdict.mainGate}</p>
+                <p className="mt-auto pt-4 text-xs leading-relaxed text-muted">
+                  <span className="label">Wait</span> {g.verdict.waitTime.split(/(?<=[a-z0-9)])[.;](\s|$)/)[0]}
+                </p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Method */}
+      <section id="method" className="scroll-mt-14">
+        <div className="grid border-b border-line lg:grid-cols-[1fr_1.2fr]">
+          <div className="px-5 py-12 sm:px-8">
+            <h2 className="text-3xl font-normal tracking-[-0.025em] text-ink">Why this scope</h2>
+            <p className="mt-4 max-w-[58ch] text-ink-2 leading-relaxed">
+              Composio&apos;s managed-auth directory lists 382 OAuth toolkits. Composio runs the OAuth app for 124 of them; for the
+              other <span className="bg-brand-soft px-1 text-brand">258, developers must bring their own</span>. Even with a managed app,
+              production usually needs your own: your name on the consent screen, your scopes, your quota.
+            </p>
+            <p className="mt-4 max-w-[58ch] text-ink-2 leading-relaxed">
+              So the developer&apos;s real question isn&apos;t how OAuth works. It&apos;s whether they can launch, how long it takes, and
+              what will stop them. Every guide answers that in its first screen, then gives the path.
+            </p>
+            <a
+              href="https://docs.composio.dev/toolkits/managed-auth"
+              target="_blank"
+              rel="noreferrer"
+              className="label mt-6 inline-flex items-center gap-1.5 text-brand hover:text-brand-hover"
+            >
+              Managed-auth directory <ArrowUpRight className="h-3.5 w-3.5" />
+            </a>
+          </div>
+          <div className="border-t border-line px-5 py-12 sm:px-8 lg:border-t-0 lg:border-l">
+            <h2 className="text-3xl font-normal tracking-[-0.025em] text-ink">How a guide is made</h2>
+            <ol className="mt-6 border border-line">
+              {PIPELINE.map(([name, text], i) => (
+                <li key={name} className="grid grid-cols-[44px_88px_1fr] items-baseline gap-2 px-4 py-4 [&+li]:border-t [&+li]:border-line">
+                  <span className="label tnum text-muted">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="label text-ink">{name}</span>
+                  <span className="text-sm leading-relaxed text-ink-2">{text}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+        <div className="px-5 py-12 sm:px-8">
+          <h2 className="text-3xl font-normal tracking-[-0.025em] text-ink">What the agent can&apos;t do</h2>
+          <ul className="mt-5 grid max-w-[980px] gap-x-10 gap-y-3 text-[15px] leading-relaxed text-ink-2 md:grid-cols-2">
+            <li>It never logs into a developer console, so &quot;tested&quot; only covers what an unauthenticated request can show.</li>
+            <li>Review timelines are what providers state; real waits vary, and guides say so when no timeline is published.</li>
+            <li>Docs change. Each guide carries its research date, and live research re-checks current pages.</li>
+            <li>Some docs block bots; those pages go through a rendering reader, and anything still unread stays unverified.</li>
+          </ul>
+        </div>
+      </section>
     </div>
   );
 }

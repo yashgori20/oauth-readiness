@@ -1,0 +1,443 @@
+{
+  "app": "Xero",
+  "slug": "xero",
+  "website": "https://developer.xero.com/",
+  "developerConsole": "https://developer.xero.com/app/manage",
+  "generatedAt": "2026-11-13T17:06:27.959Z",
+  "origin": "live",
+  "verdict": {
+    "difficulty": 4,
+    "summary": "You can self-serve a free OAuth app and test with up to five production connections, but Core and above require app certification. Plan around certification and paid-tier gating before promising scale; journal, XPM, and bulk-connection use cases additionally require Advanced, a security assessment, and Xero use-case approval.",
+    "activeEffort": "A free Xero account, demo company, and OAuth application are required to start.",
+    "waitTime": "Xero does not publish an approval or certification SLA in the reviewed pricing and policy material.",
+    "mainGate": "App certification is required for Core, Plus, Advanced and Enterprise."
+  },
+  "phases": [
+    {
+      "name": "Register",
+      "steps": [
+        {
+          "title": "Create a Xero account, enable the demo company, and create an OAuth 2.0 application in My Apps",
+          "owner": "you",
+          "detail": {
+            "text": "Xero's starter onboarding requires developers to sign up for a free Xero account, enable a demo company, and add an OAuth 2.0 application.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/documentation/getting-started-guide/",
+                "quote": "sign up for a free Xero account, enable a demo company, and add an OAuth 2.0 application.",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "minutes",
+          "link": "https://developer.xero.com/app/manage"
+        },
+        {
+          "title": "Start on Starter and define the initial pilot cohort",
+          "owner": "you",
+          "detail": {
+            "text": "The Starter tier has unlimited data access to enable early innovation but is capped at 5 connections.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/faq/pricing-and-policy-updates",
+                "quote": "The Starter tier has unlimited data access to enable early innovation but is capped at 5 connections.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "minutes",
+          "link": "https://developer.xero.com/pricing"
+        }
+      ]
+    },
+    {
+      "name": "Configure",
+      "steps": [
+        {
+          "title": "Register exact callback URLs",
+          "owner": "you",
+          "detail": {
+            "text": "Redirect URIs must be absolute URIs and wildcards are not supported.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/faq/oauth2",
+                "quote": "The OAuth 2.0 spec (section 3.1.2 of RFC 6749) requires that a redirection URI must be an absolute URI. The use of wildcards in redirect URI is not supported.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "minutes",
+          "link": "https://developer.xero.com/faq/oauth2"
+        },
+        {
+          "title": "Validate the redirect-URI inventory across environments",
+          "owner": "agent",
+          "detail": {
+            "text": "An app can use up to 50 redirect URIs.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/faq/oauth2",
+                "quote": "You can use up to 50 redirect URIs for your app.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "minutes",
+          "link": "https://developer.xero.com/faq/oauth2"
+        },
+        {
+          "title": "Draft least-privilege granular-scope justification",
+          "owner": "agent",
+          "detail": {
+            "text": "Apps created on or after 2 March 2026 already use granular scopes.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/changelog",
+                "quote": "Apps created on or after 2 March 2026 already use granular scopes.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "hours",
+          "link": "https://developer.xero.com/changelog"
+        },
+        {
+          "title": "Design the AI data boundary and prohibit UI automation",
+          "owner": "agent",
+          "detail": {
+            "text": "Data obtained through Xero APIs must not be used to train or contribute to the creation of any AI or machine learning model.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/faq/pricing-and-policy-updates",
+                "quote": "The primary update prohibits the use of data obtained through Xero’s APIs to train or contribute to the creation of any AI or machine learning model.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "hours",
+          "link": "https://developer.xero.com/faq/pricing-and-policy-updates"
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "steps": [
+        {
+          "title": "Build and test the authorization-code OAuth flow using the app credentials",
+          "owner": "agent",
+          "detail": {
+            "text": "Xero supports the Proof Key for Code Exchange (PKCE) extension to the authorization code flow.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/faq/oauth2",
+                "quote": "Xero supports the Proof Key for Code Exchange (PKCE) extension to the authorization code flow.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "hours",
+          "link": "https://login.xero.com/identity/connect/authorize"
+        },
+        {
+          "title": "Implement token refresh, reauthorization, and callback-failure recovery",
+          "owner": "agent",
+          "detail": {
+            "text": "Unused refresh tokens expire after 60 days.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/faq/oauth2",
+                "quote": "Unused refresh tokens expire after 60 days.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "hours",
+          "link": "https://developer.xero.com/faq/oauth2"
+        },
+        {
+          "title": "Test with the demo company and no more than five connected organisations",
+          "owner": "you",
+          "detail": {
+            "text": "The Starter tier has unlimited data access to enable early innovation but is capped at 5 connections.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/faq/pricing-and-policy-updates",
+                "quote": "The Starter tier has unlimited data access to enable early innovation but is capped at 5 connections.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "hours",
+          "link": "https://developer.xero.com/faq/pricing-and-policy-updates"
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "steps": [
+        {
+          "title": "Apply for the required paid tier and submit certification materials before scaling beyond Starter",
+          "owner": "you",
+          "detail": {
+            "text": "App certification is required for Core, Plus, Advanced and Enterprise.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/faq/pricing-and-policy-updates",
+                "quote": "App certification is required for Core, Plus, Advanced and Enterprise",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "days",
+          "link": "https://developer.xero.com/faq/pricing-and-policy-updates"
+        },
+        {
+          "title": "Wait for Xero's certification decision",
+          "owner": "provider",
+          "detail": {
+            "text": "Xero directs developers to separate certification documentation for details of the certification process.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/faq/pricing-and-policy-updates",
+                "quote": "More information about the Xero Developer certification process can be found here .",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "link": "https://developer.xero.com/faq/pricing-and-policy-updates"
+        },
+        {
+          "title": "If requesting journals, XPM, or bulk connections, submit the security assessment and use-case approval",
+          "owner": "you",
+          "detail": {
+            "text": "The Journals endpoint, Xero Practice Manager API, and Bulk Connections require a security assessment (initial and annual) and use case approval.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/faq/pricing-and-policy-updates",
+                "quote": "The Journals endpoint, Xero Practice Manager API, and Bulk Connections require a security assessment (initial and annual) and use case approval",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "weeks",
+          "link": "https://developer.xero.com/faq/pricing-and-policy-updates"
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "steps": [
+        {
+          "title": "Add payment details and move to Core when a sixth organisation must connect",
+          "owner": "you",
+          "detail": {
+            "text": "In order to add a 6th connection, you will need to first add your payment details.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/faq/pricing-and-policy-updates",
+                "quote": "In order to add a 6th connection, you will need to first add your payment details.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "minutes",
+          "link": "https://developer.xero.com/faq/pricing-and-policy-updates"
+        },
+        {
+          "title": "Select a tier based on connection scale and budget",
+          "owner": "you",
+          "detail": {
+            "text": "The published maximum connection counts are 5 for Starter, 50 for Core, 1,000 for Plus, 10,000 for Advanced, and no limit for Enterprise.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/pricing",
+                "quote": "Connections (maximum) 5",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.xero.com/pricing",
+                "quote": "Connections (maximum) 50",
+                "quoteVerified": false
+              },
+              {
+                "url": "https://developer.xero.com/pricing",
+                "quote": "Connections (maximum) 1000",
+                "quoteVerified": false
+              },
+              {
+                "url": "https://developer.xero.com/pricing",
+                "quote": "Connections (maximum) 10,000",
+                "quoteVerified": false
+              },
+              {
+                "url": "https://developer.xero.com/pricing",
+                "quote": "Connections (maximum) No Limit",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "minutes",
+          "link": "https://developer.xero.com/pricing"
+        }
+      ]
+    }
+  ],
+  "gotchas": [
+    {
+      "text": "The accounting.transactions scope is replaced by accounting.invoices, accounting.payments, accounting.banktransactions, and accounting.manualjournals.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/changelog",
+          "quote": "The accounting.transactions scope is replaced by accounting.invoices, accounting.payments, accounting.banktransactions, and accounting.manualjournals.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "The accounting.journals.read scope requires the Advanced tier and certification.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/changelog",
+          "quote": "accounting.journals.read is no longer granted by default. To access journals, you'll need the Advanced tier and certification.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Access tokens last 30 minutes, so production integrations need refresh-token handling.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/faq/oauth2",
+          "quote": "30 minutes.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If the callback fails for any reason, the user must be sent through the authorization flow again.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/faq/oauth2",
+          "quote": "If the callback fails for any reason you will need to send the user through the auth flow again.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Single-page apps are not currently supported.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/faq/oauth2",
+          "quote": "Single page apps are not currently supported.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Applications must not use bots or browser extensions to undermine security controls or simulate user actions.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/faq/pricing-and-policy-updates",
+          "quote": "apps must not use bots or browser extensions to undermine our security controls or simulate user actions.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "A Xero App Store listing is unavailable on Starter and Core, optional on Plus and Advanced, and required on Enterprise.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/faq/pricing-and-policy-updates",
+          "quote": "A Xero App Store listing is required for the Enterprise tier, recommended but optional for the Plus and Advanced tiers, and not available for the Starter and Core tiers.",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "whenBlocked": [
+    {
+      "text": "Remain within the five-connection Starter cap while testing, then add payment details before adding a sixth connection.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/faq/pricing-and-policy-updates",
+          "quote": "The Starter tier has unlimited data access to enable early innovation but is capped at 5 connections.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/faq/pricing-and-policy-updates",
+          "quote": "In order to add a 6th connection, you will need to first add your payment details.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Apply to move between tiers through the developer portal.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/faq/pricing-and-policy-updates",
+          "quote": "Beginning 2 March, 2026, you can apply to move between tiers within the developer portal.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "For journal, XPM, or bulk-connection access, complete the required security assessment and obtain use-case approval.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/faq/pricing-and-policy-updates",
+          "quote": "The Journals endpoint, Xero Practice Manager API, and Bulk Connections require a security assessment (initial and annual) and use case approval",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "probes": [
+    {
+      "name": "OIDC discovery",
+      "target": "https://login.xero.com/.well-known/openid-configuration",
+      "result": "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+      "ok": false
+    },
+    {
+      "name": "Authorize endpoint",
+      "target": "https://login.xero.com/identity/connect/authorize",
+      "result": "HTTP 302 -> https://login.xero.com/identity/error?errorId=CfDJ8MOMn5AHNxVIkNNdLD-L7IHASTfJO5roxBTQzQDPhoxJNUoFfoMYPx4Ni9rdObZy_4BgXN",
+      "ok": true
+    },
+    {
+      "name": "URL reachable",
+      "target": "https://developer.xero.com/app/manage",
+      "result": "HTTP 200 (final: https://developer.xero.com/app/manage)",
+      "ok": true
+    }
+  ],
+  "uncertain": [
+    "The reviewed official material does not state a certification, security-assessment, or use-case-approval review timeline.",
+    "The correct OpenID Connect discovery URL was not confirmed: the probed https://login.xero.com/.well-known/openid-configuration endpoint returned HTML rather than JSON.",
+    "The reviewed material does not specify the exact certification submission artifacts, security-assessment vendor or criteria, or approval decision criteria."
+  ]
+}

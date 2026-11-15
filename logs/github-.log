@@ -1,0 +1,21 @@
+[0.0s] {"type":"status","message":"Researching GitHub"}
+[15.4s] {"type":"tool","name":"search","target":"site:docs.github.com OAuth apps registering application authorization callback URL app review GitHub","summary":"8 results"}
+[29.9s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub OAuth app rate limits authorization application production approval verification","summary":"8 results"}
+[40.9s] {"type":"tool","name":"search","target":"site:github.blog OAuth app policy changes GitHub OAuth app restrictions","summary":"6 results"}
+[49.7s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app","summary":"9 facts"}
+[57.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps","summary":"23 facts"}
+[58.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/understanding-scopes-for-oauth-apps","summary":"page empty or blocked (may need login or JS)"}
+[62.0s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/rate-limits-for-oauth-apps","summary":"4 facts"}
+[65.9s] {"type":"tool","name":"read","target":"https://docs.github.com/en/organizations/managing-oauth-access-to-your-organizations-data/about-oauth-app-access-restrictions","summary":"13 facts"}
+[71.0s] {"type":"tool","name":"read","target":"https://github.blog/changelog/2025-06-24-security-updates-for-apps-and-api-access/","summary":"12 facts"}
+[73.5s] {"type":"tool","name":"read","target":"https://github.blog/changelog/2025-07-14-pkce-support-for-oauth-and-github-app-authentication/","summary":"9 facts"}
+[78.0s] {"type":"tool","name":"read","target":"https://github.blog/changelog/2026-08-14-multiple-redirect-uris-and-token-refresh-for-oauth-apps/","summary":"20 facts"}
+[95.4s] {"type":"tool","name":"search","target":"site:docs.github.com/en/apps/oauth-apps \"OAuth app scopes\"","summary":"0 results"}
+[99.3s] {"type":"tool","name":"read","target":"https://docs.github.com/en/organizations/managing-oauth-access-to-your-organizations-data/approving-oauth-apps-for-your-organization","summary":"6 facts"}
+[102.8s] {"type":"tool","name":"read","target":"https://docs.github.com/en/rest/authentication/permissions-required-for-fine-grained-personal-access-tokens","summary":"5 facts"}
+[120.2s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[121.8s] {"type":"tool","name":"probe","target":"https://github.com/login/oauth/authorize","summary":"ok: HTTP 302 -> https://github.com/login?client_id=probe-not-a-real-client&return_to"}
+[121.8s] {"type":"tool","name":"probe","target":"https://github.com/settings/developers","summary":"ok: HTTP 200 (final: https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Fs"}
+[121.8s] {"type":"status","message":"Writing guide"}
+[147.8s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[147.8s] guide -> guides/github.json

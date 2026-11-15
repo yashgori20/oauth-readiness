@@ -1,0 +1,344 @@
+{
+  "app": "Meta (Facebook Login and Marketing API)",
+  "slug": "meta-facebook-login-marketing-api",
+  "website": "https://developers.facebook.com/docs/facebook-login/",
+  "developerConsole": "https://developers.facebook.com/apps/",
+  "generatedAt": "2026-11-13T17:04:44.217Z",
+  "origin": "live",
+  "verdict": {
+    "difficulty": 4,
+    "summary": "Facebook Login can be developed with app-role users, but production access beyond basic identity and Marketing API use can require App Review, business verification, and possibly Tech Provider access verification. Build a narrow, demonstrable flow and submit early; plan around an uncommitted review and verification timeline rather than a launch-date SLA.",
+    "activeEffort": "Create and configure the app, build a working least-privilege OAuth and Marketing API flow, prepare review evidence, and complete any applicable business or Tech Provider verification.",
+    "waitTime": "Unstated for App Review, business verification, and Tech Provider verification.",
+    "mainGate": "App Review for non-basic Facebook Login permissions and applicable Marketing API access, with verification requirements depending on the requested access and business model."
+  },
+  "phases": [
+    {
+      "name": "Register",
+      "steps": [
+        {
+          "title": "Create the Meta app in the developer dashboard",
+          "owner": "you",
+          "detail": {
+            "text": "Create and configure the app in the Meta for Developers dashboard.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developers.facebook.com/apps/",
+                "quote": "Meta for Developers.",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "Minutes",
+          "link": "https://developers.facebook.com/apps/"
+        },
+        {
+          "title": "Determine whether the product serves other businesses",
+          "owner": "you",
+          "detail": {
+            "text": "An agent that serves other businesses using their assets should assess whether it is a Tech Provider and must complete the applicable access-verification flow; the trigger list includes several Marketing-API-related permissions.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developers.facebook.com/documentation/development/release/access-verification.md/",
+                "quote": "permissions that can trigger this requirement, including several Marketing API-related permissions.",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "Hours",
+          "link": "https://developers.facebook.com/documentation/development/release/access-verification.md/"
+        }
+      ]
+    },
+    {
+      "name": "Configure",
+      "steps": [
+        {
+          "title": "Add Facebook Login and configure the exact callback",
+          "owner": "you",
+          "detail": {
+            "text": "Configure Facebook Login and its valid OAuth redirect URI before sending users through OAuth; use only an exact callback URL controlled by the application.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developers.facebook.com/documentation/facebook-login/create-an-app.md/",
+                "quote": "Covers Facebook Login setup and permission statuses such as ‘Ready for testing’ and ‘Ready for live mode.’",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "Minutes",
+          "link": "https://developers.facebook.com/documentation/facebook-login/create-an-app.md/"
+        },
+        {
+          "title": "Configure Marketing API prerequisites",
+          "owner": "you",
+          "detail": {
+            "text": "Marketing API onboarding requires an app configuration and an active ad account.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started.md/",
+                "quote": "including app configuration and an active ad account.",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "Hours",
+          "link": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started.md/"
+        },
+        {
+          "title": "Define the minimum permission and Marketing API access request",
+          "owner": "agent",
+          "detail": {
+            "text": "Request only permissions used by the product, because permissions beyond public_profile and email generally require review before broader user access.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developers.facebook.com/documentation/facebook-login/guides/permissions/review.md/",
+                "quote": "permissions beyond `public_profile` and `email` generally require review before broader user access.",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "Hours",
+          "link": "https://developers.facebook.com/documentation/facebook-login/guides/permissions/review.md/"
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "steps": [
+        {
+          "title": "Assign real testers as app-role users",
+          "owner": "you",
+          "detail": {
+            "text": "During development, users listed in an app’s Roles section can grant valid permissions without Facebook approval.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developers.facebook.com/documentation/facebook-login/overview.md/",
+                "quote": "users listed in an app’s Roles section can grant valid permissions during development without Facebook approval.",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "Minutes",
+          "link": "https://developers.facebook.com/documentation/facebook-login/overview.md/"
+        },
+        {
+          "title": "Build and exercise the OAuth and requested API flows",
+          "owner": "agent",
+          "detail": {
+            "text": "The OAuth authorize endpoint returned HTTP 200 in the recorded probe.",
+            "evidence": "tested",
+            "sources": []
+          },
+          "effort": "Hours to days",
+          "link": "https://www.facebook.com/dialog/oauth"
+        },
+        {
+          "title": "Keep the app in development mode while testing",
+          "owner": "you",
+          "detail": {
+            "text": "Development Mode restricts permissions, features, discoverability, and generated data to users with app roles; production connections require Live Mode.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developers.facebook.com/documentation/development/build-and-test/app-modes.md/",
+                "quote": "Development Mode restricts permissions, features, discoverability, and generated data to users with app roles; switch to Live Mode after development and App Review.",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "Minutes",
+          "link": "https://developers.facebook.com/documentation/development/build-and-test/app-modes.md/"
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "steps": [
+        {
+          "title": "Prepare the App Review package",
+          "owner": "agent",
+          "detail": {
+            "text": "Prepare reviewer access, a working test flow, and a screen recording that demonstrates each requested permission or feature.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/appreview/tutorial.md/",
+                "quote": "submission requirements, including reviewer access, screen recordings, and demonstrations of each requested permission or feature.",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "Hours to days",
+          "link": "https://developers.facebook.com/documentation/resp-plat-initiatives/appreview/tutorial.md/"
+        },
+        {
+          "title": "Complete the current review answers and submit",
+          "owner": "you",
+          "detail": {
+            "text": "The current review flow covers verification, app settings, allowed usage, data handling, data protection, and reviewer instructions.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/appreview/content.md/",
+                "quote": "the six required components of the updated review process: verification, app settings, allowed usage, data handling, data protection, and reviewer instructions.",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "Hours",
+          "link": "https://developers.facebook.com/documentation/resp-plat-initiatives/appreview/content.md/"
+        },
+        {
+          "title": "Complete business and access verification if applicable",
+          "owner": "you",
+          "detail": {
+            "text": "Connect the app to a verified Meta Business or Business Portfolio where verification is required, especially for apps requesting advanced access or serving other businesses.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developers.facebook.com/documentation/development/release.md/",
+                "quote": "Business Verification is required, especially for apps requesting advanced access or serving other businesses.",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "Days to weeks of provider processing",
+          "link": "https://developers.facebook.com/documentation/development/release.md/"
+        },
+        {
+          "title": "Wait for review and answer requested changes",
+          "owner": "provider",
+          "detail": {
+            "text": "No fixed App Review, business-verification, or Tech Provider-verification timeline is stated in the reviewed materials.",
+            "evidence": "unverified",
+            "sources": []
+          },
+          "effort": "Unstated"
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "steps": [
+        {
+          "title": "Switch to Live Mode after approval",
+          "owner": "you",
+          "detail": {
+            "text": "Switch to Live Mode after development and App Review for production connections.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developers.facebook.com/documentation/development/build-and-test/app-modes.md/",
+                "quote": "Development Mode restricts permissions, features, discoverability, and generated data to users with app roles; switch to Live Mode after development and App Review.",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "Minutes",
+          "link": "https://developers.facebook.com/documentation/development/build-and-test/app-modes.md/"
+        },
+        {
+          "title": "Use current Marketing API access terminology in planning",
+          "owner": "agent",
+          "detail": {
+            "text": "For Marketing API planning, use Limited and Full Marketing API Access terminology rather than older Standard and Advanced terminology.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/",
+                "quote": "the newer terminology change from Standard/Advanced Access to Limited/Full Marketing API Access tiers.",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "Minutes",
+          "link": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/"
+        }
+      ]
+    }
+  ],
+  "gotchas": [
+    {
+      "text": "Apps are limited to 10 test users, and Meta currently says creation of new test users is temporarily unavailable.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://developers.facebook.com/documentation/development/build-and-test/test-users.md/",
+          "quote": "apps are limited to 10 test users, and Meta currently says creation of new test users is temporarily unavailable.",
+          "quoteVerified": false
+        }
+      ]
+    },
+    {
+      "text": "Every requested permission or feature must be demonstrated in the submission materials.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review/submission-guide.md/",
+          "quote": "every requested permission or feature must be demonstrated in the submission materials.",
+          "quoteVerified": false
+        }
+      ]
+    },
+    {
+      "text": "Unapproved access is restricted to app-role users, while approved access is for everyone.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review.md/",
+          "quote": "distinguishes approved access for all users from unapproved access limited to app-role users.",
+          "quoteVerified": false
+        }
+      ]
+    }
+  ],
+  "whenBlocked": [
+    {
+      "text": "If a review submission is rejected or blocked, reduce the request to product-used scopes and ensure each requested permission is separately demonstrated with working reviewer credentials and matching data-handling explanations.",
+      "evidence": "inferred",
+      "sources": []
+    },
+    {
+      "text": "If new test-user creation is unavailable, use existing eligible app-role users for development testing.",
+      "evidence": "inferred",
+      "sources": []
+    },
+    {
+      "text": "If serving other businesses or requesting access-verification-triggering Marketing API permissions, determine Tech Provider status and complete the applicable access-verification flow.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://developers.facebook.com/documentation/development/release/access-verification.md/",
+          "quote": "permissions that can trigger this requirement, including several Marketing API-related permissions.",
+          "quoteVerified": false
+        }
+      ]
+    }
+  ],
+  "probes": [
+    {
+      "name": "Authorize endpoint",
+      "target": "https://www.facebook.com/dialog/oauth",
+      "result": "HTTP 200",
+      "ok": true
+    },
+    {
+      "name": "URL reachable",
+      "target": "https://developers.facebook.com/apps/",
+      "result": "HTTP 200 (final: https://developers.facebook.com/apps/)",
+      "ok": true
+    }
+  ],
+  "uncertain": [
+    "The reviewed materials do not confirm an App Review, business-verification, or Tech Provider-verification SLA or review fee.",
+    "The general Graph API access-level page uses Standard and Advanced Access terminology, while newer Marketing API onboarding uses Limited and Full Marketing API Access; the evidence does not map every Marketing API permission or feature to a specific current tier.",
+    "The evidence does not identify which exact Marketing API permissions trigger Tech Provider access verification."
+  ]
+}
