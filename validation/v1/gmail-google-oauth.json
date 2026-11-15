@@ -1,0 +1,454 @@
+{
+  "app": "Gmail (Google)",
+  "slug": "gmail-google-oauth",
+  "website": "https://developers.google.com/workspace/gmail/api",
+  "developerConsole": "https://console.cloud.google.com/auth/overview",
+  "generatedAt": "2026-11-13T17:05:53.948Z",
+  "origin": "live",
+  "verdict": {
+    "difficulty": 4,
+    "summary": "A send-only integration using gmail.send is materially easier than mailbox-reading Gmail access, but a public app still needs Google verification. Plan around a security assessment, its recurring cost, and a multi-week review if you request restricted Gmail scopes and store or transmit that data on your servers.",
+    "activeEffort": "Set up the Google Cloud project and OAuth branding, verify a developer-owned domain, implement the OAuth flow, publish complete policy pages, and prepare scope justifications and a narrated end-to-end verification video.",
+    "waitTime": "Google estimates 2–3 business days for brand verification, 10 business days for sensitive-scope verification, and six weeks for restricted-scope verification; the estimates are not guaranteed.",
+    "mainGate": "Public applications requesting sensitive or restricted Gmail scopes must be verified; restricted-scope data stored or transmitted on developer servers additionally requires a security assessment."
+  },
+  "phases": [
+    {
+      "name": "Register",
+      "steps": [
+        {
+          "title": "Create or select a Google Cloud project and open Google Auth Platform",
+          "owner": "you",
+          "detail": {
+            "text": "OAuth configuration pages are now under the dedicated Google Auth Platform navigation section rather than APIs & Services.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.googleblog.com/en/usability-and-safety-updates-to-google-auth-platform/",
+                "quote": "OAuth configuration pages previously lived in the APIs & Services section. Now, these pages have their own dedicated navigation section called Google Auth Platform",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "link": "https://console.cloud.google.com/auth/overview"
+        },
+        {
+          "title": "Choose the audience",
+          "owner": "you",
+          "detail": {
+            "text": "Choose External for users with any Google Account; use Internal only when the project is associated with a Google Cloud Organization and access should be limited to its members.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://support.google.com/cloud/answer/15549945?hl=en-GB",
+                "quote": "Projects configured with a user type of External are available to any user with a Google Account.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/15549945?hl=en-GB",
+                "quote": "Projects associated with a Google Cloud Organization can configure Internal users to limit authorization requests to members of the organization.",
+                "quoteVerified": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Configure",
+      "steps": [
+        {
+          "title": "Prepare homepage, privacy policy, and scope-use copy",
+          "owner": "agent",
+          "detail": {
+            "text": "Draft a product homepage, privacy policy, user-data disclosure, and per-scope justification that explain only the user-facing Gmail features the app provides.",
+            "evidence": "inferred",
+            "sources": []
+          }
+        },
+        {
+          "title": "Configure OAuth branding and authorized domains",
+          "owner": "you",
+          "detail": {
+            "text": "The homepage must be on a verified domain you own, describe the app rather than only provide login, and the privacy-policy URL on the homepage must match the consent-screen URL. Every authorized domain must be ownership-verified in Search Console by a project owner or editor.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://support.google.com/cloud/answer/13464321?hl=en",
+                "quote": "The homepage must be hosted on a verified domain you own",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/13464321?hl=en",
+                "quote": "The homepage must describe your app’s functionality to its users. Your homepage can not be only a login page",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/13464321?hl=en",
+                "quote": "You must add the link of your privacy policy to your homepage and this link should match the link you added on your OAuth consent screen configuration",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/13464321?hl=en",
+                "quote": "You must verify that you own all domains listed in your Authorized domains section of the OAuth consent screen editor.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "link": "https://console.cloud.google.com/auth/overview"
+        },
+        {
+          "title": "Select the narrowest Gmail scopes",
+          "owner": "you",
+          "detail": {
+            "text": "Use gmail.send for a send-only feature where possible. Avoid restricted gmail.readonly, gmail.modify, gmail.metadata, and https://mail.google.com/ unless the feature actually requires their broader access; request mail.google.com only when immediate permanent deletion is needed.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.google.com/workspace/guides/configure-oauth-consent",
+                "quote": "Uygulamanızın ihtiyaç duyduğu minimum erişim düzeyini sağlayan kapsamları seçin.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.google.com/workspace/gmail/api/auth/scopes",
+                "quote": "以您的名义发送电子邮件。",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.google.com/workspace/gmail/api/auth/scopes",
+                "quote": "仅当您的应用需要立即永久删除会话和消息（绕过“已删除邮件”文件夹）时，才请求此范围。",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "link": "https://developers.google.com/workspace/gmail/api/auth/scopes"
+        },
+        {
+          "title": "Create a web OAuth client and record its secret",
+          "owner": "you",
+          "detail": {
+            "text": "Create application credentials after consent setup, configure an exact HTTPS redirect URI controlled by the app, and securely store the client secret when it is displayed because it is not shown again after the creation screen closes.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.google.com/workspace/guides/configure-oauth-consent",
+                "quote": "Sonraki adım Uygulamanız için erişim kimlik bilgileri oluşturun .",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.googleblog.com/en/usability-and-safety-updates-to-google-auth-platform/",
+                "quote": "Once the creation screen is closed, the client secret will not be shown again.",
+                "quoteVerified": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "steps": [
+        {
+          "title": "Add test users and test the complete authorization flow",
+          "owner": "you",
+          "detail": {
+            "text": "External projects in Testing require listed test users and are limited to 100 test users.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.google.com/workspace/guides/configure-oauth-consent",
+                "quote": "Kullanıcı türü için Harici 'yi seçtiyseniz test kullanıcıları ekleyin:",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/15549945?hl=en-GB",
+                "quote": "Projects configured with a publishing status of Testing are limited to up to 100 test users listed in the OAuth consent screen.",
+                "quoteVerified": true
+              }
+            ]
+          }
+        },
+        {
+          "title": "Build and exercise authorization, callback, token refresh, and Gmail API behavior",
+          "owner": "agent",
+          "detail": {
+            "text": "The authorization endpoint responds with a missing-client_id error when called without required parameters.",
+            "evidence": "tested",
+            "sources": [
+              {
+                "url": "https://accounts.google.com/o/oauth2/v2/auth",
+                "quote": "HTTP 302 -> https://accounts.google.com/signin/oauth/error?authError=Cg9pbnZhbGlkX3JlcXVlc3QSIU1pc3NpbmcgcmVxdWlyZWQgcGFyYW1ldGVyOiB (mentions \"client_id\")",
+                "quoteVerified": false
+              }
+            ]
+          }
+        },
+        {
+          "title": "Account for short-lived test authorization",
+          "owner": "agent",
+          "detail": {
+            "text": "Test-user authorization and any offline refresh token expire seven days after consent when Gmail scopes are requested.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://support.google.com/cloud/answer/15549945?hl=en-GB",
+                "quote": "Authorizations by a test user will expire seven days from the time of consent. If your OAuth client requests an offline access type and receives a refresh token, that token will also expire.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/15549945?hl=en-GB",
+                "quote": "If your app requests any other OAuth scopes, then this exception does not apply.",
+                "quoteVerified": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "steps": [
+        {
+          "title": "Prepare verification submission materials",
+          "owner": "agent",
+          "detail": {
+            "text": "Prepare English scope justifications and a demo-video script showing the end-to-end app, OAuth grant, exact requested scopes, and the features that use each scope.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://support.google.com/cloud/answer/13464321?hl=en",
+                "quote": "Must show the end-to-end flow of your app including the OAuth grant process",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/13464321?hl=en",
+                "quote": "Must demonstrate the app functionalities that utilize the requested OAuth scopes",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/13464321?hl=en",
+                "quote": "You must provide a detailed justification for your requested scope(s)",
+                "quoteVerified": true
+              }
+            ]
+          }
+        },
+        {
+          "title": "Submit brand and scope verification",
+          "owner": "you",
+          "detail": {
+            "text": "Submit accurate identity, homepage, policy, video, and scope-use materials. Insufficient scope justification can result in rejection.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://support.google.com/cloud/answer/13464321?hl=en",
+                "quote": "All apps that access Google APIs must verify that they accurately represent their identity and intent",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/13464321?hl=en",
+                "quote": "If your justification is deemed insufficient, your app verification request may be rejected.",
+                "quoteVerified": true
+              }
+            ]
+          }
+        },
+        {
+          "title": "Complete a security assessment if restricted data reaches your servers",
+          "owner": "you",
+          "detail": {
+            "text": "If the implementation stores or transmits restricted-scope Gmail data on developer servers, engage an independent assessor. Google charges no assessment fee, but the assessor's fee is agreed directly with the developer.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification",
+                "quote": "اگر داده‌های با گستره محدود را در سرورها ذخیره یا منتقل می‌کنید، باید ارزیابی امنیتی را تکمیل کنید.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/13463817?hl=en-uk",
+                "quote": "Google does not charge the developer any fees for security assessment.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/13463817?hl=en-uk",
+                "quote": "The cost for such a service is agreed on between the developer and the assessor without any involvement from Google.",
+                "quoteVerified": true
+              }
+            ]
+          }
+        },
+        {
+          "title": "Await Google's verification decision",
+          "owner": "provider",
+          "detail": {
+            "text": "Google reviews the verification submission; restricted-scope apps that require an assessment must be reassessed at least every 12 months after the assessor's Letter of Validation.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification",
+                "quote": "برنامه‌ها باید برای مطابقت مجدداً درستی‌سنجی شوند و حداقل هر ۱۲ ماه یک‌بار پس‌از تاریخ تأیید «نامه ارزیابی» (LOA) ارزیاب، ارزیابی امنیتی را تکمیل کنند.",
+                "quoteVerified": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "steps": [
+        {
+          "title": "Publish the app after approval",
+          "owner": "you",
+          "detail": {
+            "text": "Select Publish app to place the project in production, and request only scopes approved for the app.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://support.google.com/cloud/answer/15549945?hl=en-GB",
+                "quote": "A project's publishing status is considered In production after selecting the Publish app button.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/13463817?hl=en-uk",
+                "quote": "The scopes needs to be approved prior to making calls to them.",
+                "quoteVerified": true
+              }
+            ]
+          }
+        },
+        {
+          "title": "Keep the OAuth client and approved scope set active",
+          "owner": "you",
+          "detail": {
+            "text": "Exercise the OAuth client at least every six months and obtain approval before adding sensitive or restricted scopes to production requests.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.googleblog.com/en/usability-and-safety-updates-to-google-auth-platform/",
+                "quote": "Starting in June, OAuth clients inactive for 6 months will be automatically deleted",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/13463817?hl=en-uk",
+                "quote": "This is caused by approved apps making requests to sensitive or restricted scopes that the app has not been approved for during the verification process.",
+                "quoteVerified": true
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "gotchas": [
+    {
+      "text": "An unverified app requesting sensitive or restricted scopes displays an unverified-app warning and has a non-resettable lifetime cap of 100 new users; exhausting it can disable Google sign-in.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://support.google.com/cloud/answer/15549945?hl=en-GB",
+          "quote": "Google will display an Unverified apps warning message if your project's OAuth clients request authorization of scopes considered sensitive or restricted before your project has completed verification for those scopes.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://support.google.com/cloud/answer/13463817?hl=en-uk",
+          "quote": "the user cap applies over the entire lifetime of the project, and it cannot be reset or changed.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://support.google.com/cloud/answer/13463817?hl=en-uk",
+          "quote": "Failure to get your app verified before making requests to sensitive or restricted scopes will result in your project's 100-new-user cap eventually getting exhausted and Google sign-in being disabled for your users.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Gmail data must serve user-facing features and cannot be transferred or sold for advertising, market research, email-campaign tracking, or unrelated purposes.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.googleblog.com/elevating-user-trust-in-our-api-ecosystem/",
+          "quote": "3rd-party apps accessing these APIs must use the data to provide user-facing features",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.googleblog.com/elevating-user-trust-in-our-api-ecosystem/",
+          "quote": "may not transfer or sell the data for other purposes such as targeting ads, market research, email campaign tracking, and other unrelated purposes.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If Google rejects requested sensitive or restricted scopes, OAuth access to those unapproved scopes stops working.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://support.google.com/cloud/answer/13463817?hl=en-uk",
+          "quote": "If the app has been rejected for sensitive or restricted scopes, users’ access to the unapproved sensitive or restricted scopes in the app via OAuth will no longer work.",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "whenBlocked": [
+    {
+      "text": "If scope verification is rejected, remove the unapproved scope or remediate the policy issue, then resubmit the required verification materials before requesting that scope again.",
+      "evidence": "inferred",
+      "sources": [
+        {
+          "url": "https://support.google.com/cloud/answer/13463817?hl=en-uk",
+          "quote": "If the app has been rejected for sensitive or restricted scopes, users’ access to the unapproved sensitive or restricted scopes in the app via OAuth will no longer work.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If a verified app is blocked for requesting a new sensitive or restricted scope, add the scope in Cloud Console and obtain approval before making calls that request it.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://support.google.com/cloud/answer/13463817?hl=en-uk",
+          "quote": "The scopes needs to be approved prior to making calls to them.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If an inactive OAuth client is deleted, restore it within the stated 30-day restoration window.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.googleblog.com/en/usability-and-safety-updates-to-google-auth-platform/",
+          "quote": "Developers will be notified of deletion due to inactivity, and can restore clients up to 30 days after deletion.",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "probes": [
+    {
+      "name": "OIDC discovery",
+      "target": "https://accounts.google.com/.well-known/openid-configuration",
+      "result": "authorize=https://accounts.google.com/o/oauth2/v2/auth; scopes=openid email profile",
+      "ok": true
+    },
+    {
+      "name": "Authorize endpoint",
+      "target": "https://accounts.google.com/o/oauth2/v2/auth",
+      "result": "HTTP 302 -> https://accounts.google.com/signin/oauth/error?authError=Cg9pbnZhbGlkX3JlcXVlc3QSIU1pc3NpbmcgcmVxdWlyZWQgcGFyYW1ldGVyOiB (mentions \"client_id\")",
+      "ok": true
+    },
+    {
+      "name": "URL reachable",
+      "target": "https://console.cloud.google.com/auth/overview",
+      "result": "HTTP 200 (final: https://accounts.google.com/v3/signin/identifier?continue=https://console.cloud.google.com/auth/overview&followup=https://console.cloud.google.com/auth/overview&osid=1&passive=1209600&service=cloudconsole&flowName=WebLiteSignIn&flowEntry=ServiceLogin&dsh=S1476606831:1794589521103246)",
+      "ok": true
+    }
+  ],
+  "uncertain": [
+    "The reviewed sources provide non-guaranteed stage estimates but do not state a fixed end-to-end verification timeline.",
+    "The reviewed sources do not specify independent-assessor pricing or how long a security assessment takes.",
+    "The reviewed material does not establish detailed architectural boundaries for when a restricted-scope implementation is considered to store or transmit data on developer servers."
+  ]
+}

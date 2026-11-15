@@ -15,14 +15,34 @@ function toMarkdown(g: Guide) {
     "",
     `**Difficulty ${g.verdict.difficulty}/5.** ${g.verdict.summary}`,
     "",
-    `- **Hands-on effort:** ${g.verdict.activeEffort}`,
-    `- **Waiting on provider:** ${g.verdict.waitTime}`,
-    `- **What will block you:** ${g.verdict.mainGate}`,
+    `- **Your work:** ${g.verdict.activeEffort}`,
+    `- **Waiting for approval:** ${g.verdict.waitTime}`,
+    `- **Biggest blocker:** ${g.verdict.mainGate}`,
     "",
+    ...(g.agentPath
+      ? [
+          "## What to build",
+          "",
+          g.agentPath.recommendation.text,
+          "",
+          ...(g.agentPath.scopeTiers.length
+            ? ["| If your agent needs to | Ask for these scopes | What that means for approval |", "|---|---|---|", ...g.agentPath.scopeTiers.map((t) => `| ${t.need} | \`${t.scopes}\` | ${t.text} |`), ""]
+            : []),
+        ]
+      : []),
+    ...(g.essentials.length ? ["## Quick facts", "", ...g.essentials.flatMap((e) => [`- **${e.topic}:** ${e.text}`]), ""] : []),
     ...g.phases.flatMap((p, i) => [
       `## ${i + 1}. ${p.name}`,
       "",
-      ...p.steps.flatMap((s) => [`### [${s.owner}] ${s.title}${s.effort ? ` (${s.effort})` : ""}`, "", s.detail.text, "", cite(s.detail), ""]),
+      ...p.steps.flatMap((s) => [
+        `### [${s.owner}] ${s.title}${s.effort ? ` (${s.effort})` : ""}`,
+        "",
+        s.detail.text,
+        "",
+        ...(s.output ? ["Drafted by the agent:", "", "```", s.output, "```", ""] : []),
+        cite(s.detail),
+        "",
+      ]),
     ]),
     "## Gotchas",
     "",
@@ -34,7 +54,7 @@ function toMarkdown(g: Guide) {
     "",
     ...g.uncertain.map((u) => `- ${u}`),
     "",
-    `_Researched ${g.generatedAt.slice(0, 10)}. Evidence: tested = live request, sourced = quote verified on page._`,
+    `_Researched ${g.generatedAt.slice(0, 10)}. Evidence: sourced = official page, quote verified; reported = community source, quote verified; inferred = reasoning; unverified = quote not found or unsupported._`,
   ];
   return lines.join("\n");
 }
@@ -66,7 +86,7 @@ export function GuideActions({ guide }: { guide: Guide }) {
         <Download className="h-3.5 w-3.5" /> Markdown
       </button>
       {guide.developerConsole && (
-        <a href={guide.developerConsole} target="_blank" rel="noreferrer" className={`${btn} border-ink bg-ink text-white hover:bg-ink-2 hover:text-white`}>
+        <a href={guide.developerConsole} target="_blank" rel="noreferrer" className={`${btn} border-ink bg-ink text-on-ink hover:bg-ink-2 hover:text-on-ink`}>
           Developer console <ArrowUpRight className="h-3.5 w-3.5" />
         </a>
       )}

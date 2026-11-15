@@ -1,0 +1,451 @@
+{
+  "app": "Dropbox",
+  "slug": "dropbox",
+  "website": "https://www.dropbox.com/developers",
+  "developerConsole": "https://www.dropbox.com/developers/apps",
+  "generatedAt": "2026-11-15T05:26:26.059Z",
+  "origin": "live",
+  "verdict": {
+    "difficulty": 3,
+    "summary": "Dropbox app creation is self-serve, but unrestricted production distribution requires a production-readiness review. Plan around reaching 50 linked users or assembling evidence for an early-review request before relying on public-scale OAuth onboarding.",
+    "activeEffort": "Create the app, configure exact redirect URIs and least-privilege scopes, add branding and a privacy-policy URL, test the authorization flow, and submit detailed API-use information. For normal review, the app must first link 50 users; otherwise provide evidence and a detailed early-review explanation.",
+    "waitTime": "Dropbox says it responds to nearly all production requests within a few business days; no guaranteed review SLA was found.",
+    "mainGate": "Dropbox ordinarily will not review an app for production until it has linked at least 50 Dropbox users, unless Dropbox accepts an early-review request supported by evidence and a detailed explanation."
+  },
+  "phases": [
+    {
+      "name": "Register",
+      "steps": [
+        {
+          "title": "Confirm authority and account eligibility",
+          "owner": "you",
+          "detail": {
+            "text": "If acting for an organization, you must be authorized to bind it to the Developer Terms, and you must not have had a Dropbox account previously terminated by Dropbox.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://www.dropbox.com/developers/reference/tos",
+                "quote": "Developer must have authority to bind that organization to these Developer Terms, otherwise Developer must not use or access the DBX Platform.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://www.dropbox.com/developers/reference/tos",
+                "quote": "Developer has not previously had a Dropbox account that Dropbox terminated",
+                "quoteVerified": true
+              }
+            ]
+          }
+        },
+        {
+          "title": "Create the DBX Platform app",
+          "owner": "you",
+          "detail": {
+            "text": "Create and manage the app in the DBX Platform developer portal, selecting an API, the access type, and an app name.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+                "quote": "The DBX Platform developer portal can be found at www.dropbox.com/developers . Here you can create and manage your DBX Platform apps",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+                "quote": "It walks you through three steps: choose an API, choose the type of access you need, and name your app.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "link": "https://www.dropbox.com/developers/apps"
+        },
+        {
+          "title": "Prepare a privacy policy and initial scope rationale",
+          "owner": "agent",
+          "detail": {
+            "text": "Draft a clear privacy policy covering collected data and its use or sharing, plus a least-privilege justification for every requested scope.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://www.dropbox.com/developers/reference/tos",
+                "quote": "maintain this policy in compliance with all applicable privacy laws and regulations",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://www.dropbox.com/developers/reference/tos",
+                "quote": "use and disclose User Data only as authorized by the User and only as necessary for the functionality of the Developer App.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens",
+                "quote": "we strongly recommend deselecting the scopes your app doesn’t need, which results in better overall security and asking for less permissions from your users.",
+                "quoteVerified": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Configure",
+      "steps": [
+        {
+          "title": "Register exact OAuth redirect URIs",
+          "owner": "you",
+          "detail": {
+            "text": "Add every redirect URI before using it. Dropbox checks the authorization request's redirect_uri against registered values; the authorization reference requires an exact registered URI and HTTPS except for localhost.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/oauth",
+                "quote": "You’ll need to register the exact redirect URI(s) your app may use in the Developer Console for your application.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/oauth",
+                "quote": "Dropbox checks that the specified redirect_uri parameter in your Authorization URL matches one of the registered values at authorization time.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/authorization",
+                "quote": "This must be the exact URI registered under OAuth 2 on your app’s Settings tab in the Developer Console",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Low"
+        },
+        {
+          "title": "Configure only the scopes the app needs",
+          "owner": "you",
+          "detail": {
+            "text": "Console-selected scopes determine which API calls access tokens can execute. At authorization time, request a subset with the scope parameter when appropriate; omitting it requests all scopes selected in the Console.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/oauth",
+                "quote": "The selected scopes are applied to your access token and determine which API calls your application is allowed to execute.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/authorization",
+                "quote": "If this parameter is omitted, the authorization page will request all scopes selected on the Permissions tab.",
+                "quoteVerified": true
+              }
+            ]
+          }
+        },
+        {
+          "title": "Choose OAuth token behavior and implement PKCE",
+          "owner": "agent",
+          "detail": {
+            "text": "Implement authorization-code OAuth with PKCE using S256. Request token_access_type=offline only if the product needs refresh tokens for background or durable access; otherwise the default is online access.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/oauth",
+                "quote": "Include a code_challenge_method and code_challenge in your authorization URL. The code challenge method may be S256 or plain . Using S256 is the recommended approach.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/authorization",
+                "quote": "If omitted, this parameter defaults to online .",
+                "quoteVerified": true
+              }
+            ]
+          }
+        },
+        {
+          "title": "Add branding and the privacy-policy URL",
+          "owner": "you",
+          "detail": {
+            "text": "Set the branding privacy-policy URL and add an app icon before applying for production.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+                "quote": "The URL of your app’s privacy policy.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+                "quote": "Before you apply, add an app icon on your app’s Branding tab.",
+                "quoteVerified": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "steps": [
+        {
+          "title": "Use development status for initial integration testing",
+          "owner": "agent",
+          "detail": {
+            "text": "New apps begin in development status, and initially only the app creator can authorize the app. Build and test the OAuth flow once credentials are available.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+                "quote": "By default, all apps are created in the development state",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+                "quote": "Initially, your new app will only be authorized for you.",
+                "quoteVerified": true
+              }
+            ]
+          }
+        },
+        {
+          "title": "Enable testers and collect valid links",
+          "owner": "you",
+          "detail": {
+            "text": "Enable additional users for testing or internal use. Development apps can link up to 500 total Dropbox users.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+                "quote": "Clicking ‘Enable additional users’ will allow a limited number of additional users to link to you application for testing or internal use.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+                "quote": "it can only be linked with up to 500 total Dropbox users",
+                "quoteVerified": true
+              }
+            ]
+          }
+        },
+        {
+          "title": "Verify the OAuth endpoints used by the integration",
+          "owner": "agent",
+          "detail": {
+            "text": "Use https://www.dropbox.com/oauth2/authorize as the authorization endpoint and https://api.dropboxapi.com/oauth2/token as the token endpoint.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/authorization",
+                "quote": "https://www.dropbox.com/oauth2/authorize",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/authorization",
+                "quote": "https://api.dropboxapi.com/oauth2/token",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "link": "https://www.dropbox.com/oauth2/authorize"
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "steps": [
+        {
+          "title": "Prepare the production application narrative",
+          "owner": "agent",
+          "detail": {
+            "text": "Draft detailed API-usage answers, scope justifications, and any early-review evidence. Dropbox says more information may speed approval and reviews whether requested permissions are unnecessarily broad for the app's functionality.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+                "quote": "The more info you provide when applying, the faster we may be able to approve your app",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+                "quote": "we’ll review that your app doesn’t request an unnecessarily broad permission based on the functionality provided by the app.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+                "quote": "please provide evidence and a detailed explanation under the Request early review field",
+                "quoteVerified": true
+              }
+            ]
+          }
+        },
+        {
+          "title": "Request production status after 50 links or request early review",
+          "owner": "you",
+          "detail": {
+            "text": "Click Apply for production in the App configuration section of the app Settings tab. Dropbox normally does not review before 50 linked users; use the Request early review field with evidence and a detailed explanation if needed sooner.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+                "quote": "click Apply for production in the App configuration section of your app’s Settings tab in the Developer Console",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+                "quote": "it will not be reviewed until your app has linked with at least 50 Dropbox users",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+                "quote": "please provide evidence and a detailed explanation under the Request early review field",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "link": "https://www.dropbox.com/developers/apps"
+        },
+        {
+          "title": "Wait for the production-readiness decision",
+          "owner": "provider",
+          "detail": {
+            "text": "Dropbox performs a production-readiness review and can approve or deny the app. Dropbox says it responds to nearly all production requests within a few business days.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+                "quote": "Your app will undergo a production readiness review by Dropbox and will either be approved or denied.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://www.dropbox.com/developers/support",
+                "quote": "We respond to nearly all production requests within a few business days.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "A few business days for nearly all requests"
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "steps": [
+        {
+          "title": "Launch only after production approval",
+          "owner": "you",
+          "detail": {
+            "text": "A production-approved app can be linked by any number of Dropbox users. Its name can no longer be changed by the developer after production approval.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+                "quote": "Once your app is approved for production status, any number of Dropbox users can link to your app.",
+                "quoteVerified": true
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "gotchas": [
+    {
+      "text": "At 50 linked Dropbox users, the app has two weeks to apply for and receive production approval or Dropbox freezes further linking.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+          "quote": "once your app links 50 Dropbox users, you will have two weeks to apply for and receive production status approval",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Removing linked users does not unfreeze a frozen app; production approval is the only stated way to unfreeze it.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+          "quote": "the only way to unfreeze your app is to apply for and receive production status",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Dropbox can reject an app for failure to comply with its branding guidelines or Developer Terms.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+          "quote": "It will be rejected if it doesn’t.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "The authorization endpoint probe returned: HTTP 302 -> /oauth2/authorize_error?client_id=probe-not-a-real-client&error_detail=Invalid+client_id%3A+%22probe-not-a-real-client%2 (mentions \"client_id\")",
+      "evidence": "tested",
+      "sources": [
+        {
+          "url": "https://www.dropbox.com/oauth2/authorize"
+        }
+      ]
+    },
+    {
+      "text": "After production approval, developers cannot rename the app themselves.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://www.dropbox.com/developers/support",
+          "quote": "If you have an app in production status that you need renamed, open an API support ticket and we can do it for you.",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "whenBlocked": [
+    {
+      "text": "If Dropbox denies production status, correct the feedback and resubmit for production review.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+          "quote": "If your app is denied, feedback will be provided so that you can correct any issues and resubmit for production review.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If the app is frozen after the 50-user trigger, obtain production approval; removing linked users will not unfreeze it.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+          "quote": "the only way to unfreeze your app is to apply for and receive production status",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "For a necessary rename of a production app, open an API support ticket.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://www.dropbox.com/developers/support",
+          "quote": "If you have an app in production status that you need renamed, open an API support ticket and we can do it for you.",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "probes": [
+    {
+      "name": "Authorize endpoint",
+      "target": "https://www.dropbox.com/oauth2/authorize",
+      "result": "HTTP 302 -> /oauth2/authorize_error?client_id=probe-not-a-real-client&error_detail=Invalid+client_id%3A+%22probe-not-a-real-client%2 (mentions \"client_id\")",
+      "ok": true
+    },
+    {
+      "name": "URL reachable",
+      "target": "https://www.dropbox.com/developers/apps",
+      "result": "HTTP 200 (final: https://www.dropbox.com/login?cont=https%3A%2F%2Fwww.dropbox.com%2Fdevelopers%2Fapps)",
+      "ok": true
+    }
+  ],
+  "uncertain": [
+    "Dropbox does not publish a guaranteed SLA for production-review decisions in the reviewed materials.",
+    "The reviewed materials do not state the decision criteria or expected timing for an early-review request.",
+    "The reviewed production-review documentation does not state whether production review has a fee."
+  ]
+}

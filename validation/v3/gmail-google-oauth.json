@@ -1,0 +1,771 @@
+{
+  "app": "Gmail (Google OAuth)",
+  "slug": "gmail-google-oauth",
+  "website": "https://developers.google.com/workspace/gmail/api",
+  "developerConsole": "https://console.cloud.google.com/",
+  "generatedAt": "2026-11-15T07:00:29.310Z",
+  "origin": "live",
+  "verdict": {
+    "difficulty": 4,
+    "access": "gated",
+    "summary": "Use an External, published Google OAuth web application for a multi-tenant backend. A typical mailbox-reading/acting agent needs restricted Gmail scopes, OAuth verification, and—when restricted data is stored or transmitted through the backend—an annual security assessment by a Google-approved independent assessor. Labels-only access needs basic OAuth App Verification, while send-only access needs additional verification for a sensitive scope.",
+    "activeEffort": "3–5 days (sum of the step estimates below). No official end-to-end implementation-effort duration was found. Security-assessment scheduling and remediation duration was also not found.",
+    "waitTime": "6 weeks + 2–3 business days (official), excluding third-party security-assessment scheduling and remediation, for which no duration was found.",
+    "mainGate": "Restricted-scope verification plus an annual approved third-party security assessment when the backend stores or transmits restricted Gmail data."
+  },
+  "agentPath": {
+    "recommendation": {
+      "text": "Build a Web application OAuth client in a production Cloud project, select the External audience, and request only the Gmail scopes required by each enabled feature. Use gmail.modify only when the agent must read and change mailbox state; isolate an MCP integration in a separate agentic-marked OAuth client if it is added.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/policies",
+          "quote": "You must choose the client type that best matches the platform.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/production-readiness/overview",
+          "quote": "Apps for use anywhere: These applications target the widest possible audience, including individual Google Account holders and users within external Google Workspace organizations.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/workspace/gmail/api/auth/scopes",
+          "quote": "Generally, you should choose the most narrowly focused scope possible and avoid requesting scopes that your app doesn't require.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/workspace/gmail/release-notes",
+          "quote": "Use a separate client for a mixed REST + MCP application.",
+          "quoteVerified": false
+        }
+      ]
+    },
+    "scopeTiers": [
+      {
+        "text": "Manage only the user's Gmail labels; this is the least disruptive tier and needs basic OAuth App Verification.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://developers.google.com/workspace/gmail/api/auth/scopes",
+            "quote": "See and edit your email labels.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.google.com/workspace/gmail/api/auth/scopes",
+            "quote": "Non-sensitive : These scopes provide the smallest scope of authorization and only require basic OAuth App Verification.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Read or edit labels without reading message content.",
+        "scopes": "https://www.googleapis.com/auth/gmail.labels"
+      },
+      {
+        "text": "Send mail without mailbox reading; this requires additional OAuth App Verification for a sensitive scope.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://developers.google.com/workspace/gmail/api/auth/scopes",
+            "quote": "Send email on your behalf.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.google.com/workspace/gmail/api/auth/scopes",
+            "quote": "Sensitive : These scopes provide access to specific Google user data that users authorize for your app. They require additional OAuth App Verification.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Draft or send a user-approved outbound message.",
+        "scopes": "https://www.googleapis.com/auth/gmail.send"
+      },
+      {
+        "text": "Read and act on messages using restricted data; this requires restricted-scope verification and, for a backend that stores or transmits that data, an annual approved independent assessment.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://developers.google.com/workspace/gmail/api/auth/scopes",
+            "quote": "Read, compose, and send emails from your Gmail account. This scope does not allow immediate, permanent deletion of threads and messages, bypassing the trash.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.google.com/workspace/gmail/api/auth/scopes",
+            "quote": "Restricted : These scopes provide wide access to Google user data and require restricted scope OAuth App Verification.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification",
+            "quote": "If you store or transmit restricted scope data on servers, then you need to complete a security assessment.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Read messages, summarize them, and apply mailbox changes such as labels or archive actions.",
+        "scopes": "https://www.googleapis.com/auth/gmail.modify"
+      },
+      {
+        "text": "Permanently delete Gmail content only if it is indispensable; this is restricted-scope access and has the same restricted verification and backend-assessment consequence.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://developers.google.com/workspace/gmail/api/auth/scopes",
+            "quote": "Read, compose, send, and permanently delete all your email from Gmail.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.google.com/workspace/gmail/api/auth/scopes",
+            "quote": "Restricted : These scopes provide wide access to Google user data and require restricted scope OAuth App Verification.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Bypass Trash and permanently delete threads or messages.",
+        "scopes": "https://mail.google.com/"
+      }
+    ]
+  },
+  "essentials": [
+    {
+      "text": "Exchange the authorization code at https://oauth2.googleapis.com/token. Request access_type=offline for unattended actions, encrypt each tenant/user token record, and reconnect the user on invalidation or expiration; Google returns refresh tokens only on the initial authorization and documents access-token lifetime through expires_in rather than a universal fixed lifetime.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+          "quote": "To exchange an authorization code for an access token, call the https://oauth2.googleapis.com/token endpoint",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+          "quote": "Set the value to offline if your application needs to refresh access tokens when the user is not present at the browser.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+          "quote": "The refresh_token is only returned on the first authorization.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+          "quote": "expires_in The remaining lifetime of the access token in seconds.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/resources/best-practices",
+          "quote": "If your app has requested a refresh token for offline access, you must also handle their invalidation or expiration.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Tokens and refresh"
+    },
+    {
+      "text": "Register an owned HTTPS callback URI on the Web client and make the runtime redirect_uri byte-for-byte equivalent, including scheme, case, and trailing slash. Send state with the authorization request and reject callbacks whose returned state does not match the server-side connection record.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+          "quote": "The value must exactly match one of the authorized redirect URIs for the OAuth 2.0 client",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+          "quote": "Note that the http or https scheme, case, and trailing slash (' / ') must all match.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/policies",
+          "quote": "OAuth 2.0 clients for web apps must use redirect URIs and JavaScript origins that are compliant with Google’s validation rules, including using the HTTPS scheme.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/resources/best-practices",
+          "quote": "Before handling an OAuth 2.0 response, confirm that the state received from Google matches the state sent in your authorization request.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Redirect URIs"
+    },
+    {
+      "text": "Keep the External app in Testing only for controlled pre-production work: it permits up to 100 listed test users, and test-user consents and issued offline refresh tokens expire after seven days. A published but unverified sensitive/restricted app is also capped at 100 new users total after its unverified-app warning.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://support.google.com/cloud/answer/15549945?hl=en-GB",
+          "quote": "Projects configured with a publishing status of Testing are limited to up to 100 test users listed in the OAuth consent screen.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://support.google.com/cloud/answer/15549945?hl=en-GB",
+          "quote": "Authorizations by a test user will expire seven days from the time of consent. If your OAuth client requests an offline access type and receives a refresh token, that token will also expire.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://support.google.com/cloud/answer/15549945?hl=en-GB",
+          "quote": "100 new users in total, after the app presents the unverified app screen",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Test users and dev limits"
+    },
+    {
+      "text": "Budget Gmail method-specific quota usage against 1,200,000 quota units per minute per project and 6,000 per minute per user per project. Request eligible quota adjustments in Cloud Console before launch, but do not rely on approval and do not expect the daily threshold to be raised.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.google.com/workspace/gmail/api/reference/quota",
+          "quote": "Per minute per project 1,200,000 quota units",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/workspace/gmail/api/reference/quota",
+          "quote": "Per minute per user per project 6,000 quota units",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/workspace/gmail/api/reference/quota",
+          "quote": "Applying for an adjusted quota doesn't guarantee approval.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/workspace/gmail/api/reference/quota",
+          "quote": "You can't request an increase on this daily threshold limit.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Rate limits"
+    },
+    {
+      "text": "Google states that usage below the 80,000,000-unit daily project threshold does not incur extra charges, but its quota documentation says charges for exceeding request limits are planned later in 2026. Google does not charge a developer fee for the security assessment itself; an external assessor can charge separately.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.google.com/workspace/gmail/api/reference/quota",
+          "quote": "Per day per project 80,000,000 quota units",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/workspace/gmail/api/reference/quota",
+          "quote": "Usage under this threshold doesn't incur extra charges and your Google Cloud account isn't billed.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/workspace/gmail/api/reference/quota",
+          "quote": "Exceeding the quota request limits is planned to incur charges to your Google Cloud billing account later in 2026.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://support.google.com/cloud/answer/13463817?hl=en-uk",
+          "quote": "Google does not charge the developer any fees for security assessment.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://support.google.com/cloud/answer/13463817?hl=en-uk",
+          "quote": "The cost for such a service is agreed on between the developer and the assessor without any involvement from Google.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Cost"
+    },
+    {
+      "text": "Use separate Cloud projects for development, staging, and production. In the production project, publish the External app, satisfy domain/homepage/privacy-policy/contact requirements, then use Prepare for Verification; development, testing, and staging apps cannot be submitted.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/policies",
+          "quote": "you must create separate projects in the Google Cloud Console for each deployment tier, such as development, staging, and production.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://support.google.com/cloud/answer/13461325?hl=en",
+          "quote": "Apps in development, testing or staging are not applicable for verification.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://support.google.com/cloud/answer/13461325?hl=en",
+          "quote": "Once your app is published to production, click ‘Prepare for Verification’ to proceed to submit your app for verification.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/production-readiness/brand-verification",
+          "quote": "The privacy policy must be visible to users, hosted within the same domain as your application's home page, and linked to on the OAuth consent screen",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Going live"
+    },
+    {
+      "text": "Submit every requested sensitive or restricted scope with a feature-specific justification and a video showing the complete OAuth consent screen, authorization grant, and every scope-using feature. Google estimates 2–3 business days for brand verification, 10 business days for sensitive scopes, and 6 weeks for restricted scopes; estimates depend on responsiveness.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://support.google.com/cloud/answer/13461325?hl=en",
+          "quote": "If your app is requesting any sensitive or restricted scopes , you will need to explain how your app will use these scopes.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://support.google.com/cloud/answer/13464321?hl=en",
+          "quote": "Must show the end-to-end flow of your app including the OAuth grant process",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://support.google.com/cloud/answer/13464321?hl=en",
+          "quote": "Must demonstrate the app functionalities that utilize the requested OAuth scopes",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://support.google.com/cloud/answer/13463817?hl=en-uk",
+          "quote": "Brand Verification ... 2-3 Business days",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://support.google.com/cloud/answer/13463817?hl=en-uk",
+          "quote": "Restricted Scope Verification ... 6 weeks",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Submitting for review"
+    },
+    {
+      "text": "Encrypt multi-tenant tokens at rest, keep their datastore off the public internet, never send tokens in plaintext or commit client credentials, and implement explicit user confirmation for each agentic action. A backend that stores or transmits restricted Gmail data must complete an annual security assessment by a Google-approved independent assessor.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/policies",
+          "quote": "Never transmit tokens in plaintext, and always store encrypted tokens at rest",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/resources/best-practices",
+          "quote": "For server-side applications that store tokens for many users, encrypt them at rest and ensure that your datastore is not publicly accessible to the Internet.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/workspace/workspace-api-user-data-developer-policy",
+          "quote": "granularly require users to confirm the MCP, tool, skill, or other agentic behavior invocation.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification",
+          "quote": "the system must undergo an annual security assessment from an independent, third-party assessor that is approved by Google.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Security checks"
+    }
+  ],
+  "phases": [
+    {
+      "name": "Register",
+      "steps": [
+        {
+          "title": "Create separated Cloud projects and enable Gmail API",
+          "owner": "you",
+          "detail": {
+            "text": "In Google Cloud Console, create separate development, staging, and production projects; in each applicable project enable the Gmail API before adding Gmail scopes, because API scopes cannot be configured until their API is enabled.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.google.com/identity/protocols/oauth2/policies",
+                "quote": "you must create separate projects in the Google Cloud Console for each deployment tier, such as development, staging, and production.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/13461325?hl=en",
+                "quote": "Before you can add any Google product API scopes to your project, the respective APIs will need to be enabled through the API Console .",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min",
+          "link": "https://console.cloud.google.com/"
+        },
+        {
+          "title": "Draft the restricted-scope purpose statement",
+          "owner": "agent",
+          "detail": {
+            "text": "Adapt this feature-specific justification to the actual enabled features and requested scopes before entering it in Google Auth Platform, because Google requires an explanation for each sensitive or restricted scope.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://support.google.com/cloud/answer/13461325?hl=en",
+                "quote": "If your app is requesting any sensitive or restricted scopes , you will need to explain how your app will use these scopes.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "output": "Scope: gmail.modify\nPurpose: Read messages only after the connected user authorizes the connection, generate user-facing summaries, and perform a specific mailbox action only after granular user confirmation.\nData handling: We encrypt tokens at rest, do not use Gmail data to train a general model, do not sell or use it for ads, and delete connection data when it is no longer needed.\nNo permanent deletion is requested; mail.google.com is not used."
+        }
+      ]
+    },
+    {
+      "name": "Configure",
+      "steps": [
+        {
+          "title": "Configure External branding, data access, and a Web OAuth client",
+          "owner": "you",
+          "detail": {
+            "text": "In the production project's Google Auth Platform, choose External audience, add only required scopes, configure owned authorized domains and public homepage/privacy-policy URLs, then create a Web application client and securely save its secret when displayed.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.googleblog.com/en/usability-and-safety-updates-to-google-auth-platform/",
+                "quote": "Now, these pages have their own dedicated navigation section called Google Auth Platform .",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.googleblog.com/en/usability-and-safety-updates-to-google-auth-platform/",
+                "quote": "Once the creation screen is closed, the client secret will not be shown again.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.google.com/identity/protocols/oauth2/production-readiness/brand-verification",
+                "quote": "Verify ownership of your project's authorized domains within the Google Search Console .",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–2 hr",
+          "link": "https://console.cloud.google.com/"
+        },
+        {
+          "title": "Register the HTTPS callback and implement state validation",
+          "owner": "you",
+          "detail": {
+            "text": "Add the exact production HTTPS callback URL under the Web client's authorized redirect URIs; implement a server-side, single-use state record bound to the initiating tenant, user, and post-connect destination, and reject a callback unless it matches.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+                "quote": "The value must exactly match one of the authorized redirect URIs for the OAuth 2.0 client",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.google.com/identity/protocols/oauth2/resources/best-practices",
+                "quote": "The state parameter should be a unique, non-guessable value generated by your application.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–2 hr"
+        },
+        {
+          "title": "Prepare callback-handler logic",
+          "owner": "agent",
+          "detail": {
+            "text": "Use this as a callback-handler skeleton, adding error handling, encrypted vault storage, and single-use/expiry enforcement; exchange only a callback whose state matches the initiating authorization record.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+                "quote": "The server returns the exact value that you send as a name=value pair in the URL query component",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.google.com/identity/protocols/oauth2/resources/best-practices",
+                "quote": "Before handling an OAuth 2.0 response, confirm that the state received from Google matches the state sent in your authorization request.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "output": "const rec = await states.consume(req.query.state);\nif (!rec || !timingSafeEqual(req.query.state, rec.state)) throw Error('invalid state');\nconst token = await fetch('https://oauth2.googleapis.com/token', {method:'POST', body:new URLSearchParams({code:req.query.code,client_id:ID,client_secret:SECRET,redirect_uri:REDIRECT,grant_type:'authorization_code'})});\nawait vault.put(rec.tenantId, await token.json());\nreturn redirect(rec.destination);"
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "steps": [
+        {
+          "title": "Add controlled test users and exercise the complete consent flow",
+          "owner": "you",
+          "detail": {
+            "text": "In Google Auth Platform while the External app is in Testing, list controlled testers and test authorization, refresh, revocation/reconnect, granular action confirmation, and token deletion; do not treat seven-day test grants as durable production credentials.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://support.google.com/cloud/answer/15549945?hl=en-GB",
+                "quote": "Authorizations by a test user will expire seven days from the time of consent. If your OAuth client requests an offline access type and receives a refresh token, that token will also expire.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.google.com/identity/protocols/oauth2/resources/best-practices",
+                "quote": "If your app has requested a refresh token for offline access, you must also handle their invalidation or expiration.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–2 hr"
+        },
+        {
+          "title": "Implement policy controls for agent behavior",
+          "owner": "you",
+          "detail": {
+            "text": "Require a granular confirmation before every Gmail tool invocation, prevent prompt-injected message content from authorizing actions, and ensure Gmail data is used only for the visible user-facing feature rather than general-model training or advertising.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.google.com/workspace/workspace-api-user-data-developer-policy",
+                "quote": "Protecting against prompt injection techniques by either using Google Cloud Platform's Model Armor or other prompt injection protection.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.google.com/workspace/workspace-api-user-data-developer-policy",
+                "quote": "Transferring, selling, or using user data to create, train, or improve a machine learning or artificial intelligence model beyond that specific user’s personalized model for the appropriate use case or user-facing feature.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "half day"
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "steps": [
+        {
+          "title": "Publish the production app and submit verification evidence",
+          "owner": "you",
+          "detail": {
+            "text": "In the production project's Google Auth Platform, publish the app, select Prepare for Verification, submit all requested scopes and justifications, and attach a recording that shows the full consent grant and each scope-backed feature.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://support.google.com/cloud/answer/13461325?hl=en",
+                "quote": "Once your app is ready for verification, publish your app from ‘testing’ to ‘production’ by clicking on the ‘ Publish App ’ button.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/13464321?hl=en",
+                "quote": "Show the complete OAuth Consent Screen . The consent screen must also show the same exact scopes you are requesting",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "half day"
+        },
+        {
+          "title": "Prepare the reviewer video storyboard",
+          "owner": "agent",
+          "detail": {
+            "text": "Record this flow using the real production configuration and replace examples with every requested scope-backed feature, because reviewers require the complete OAuth grant and scope use to be demonstrated.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://support.google.com/cloud/answer/13464321?hl=en",
+                "quote": "Must show the end-to-end flow of your app including the OAuth grant process",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/13464321?hl=en",
+                "quote": "Must demonstrate the app functionalities that utilize the requested OAuth scopes",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "output": "1. Open the public homepage and privacy policy.\n2. Sign in and click Connect Gmail.\n3. Show the complete Google consent screen and requested scopes.\n4. Grant consent and return to the app.\n5. Show a Gmail summary using message access.\n6. Request and show granular confirmation for one mailbox action.\n7. Show the completed action and disconnect/delete-data control."
+        },
+        {
+          "title": "Complete the restricted-data security assessment",
+          "owner": "you",
+          "detail": {
+            "text": "If the backend stores or transmits restricted Gmail data, complete the required assessment path with a Google-approved independent assessor and remediate findings before or alongside restricted-scope verification; plan to repeat it at least every 12 months after LOA approval. No official duration for assessment scheduling, completion, or remediation was found, so do not treat 1–3 days as a completion estimate.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification",
+                "quote": "If you store or transmit restricted scope data on servers, then you need to complete a security assessment.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification",
+                "quote": "apps must be reverified for compliance and complete a security assessment at least every 12 months after your assessor's Letter of Assessment (LOA) approval date.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–3 days"
+        },
+        {
+          "title": "Await Google verification",
+          "owner": "provider",
+          "detail": {
+            "text": "Google reviews brand verification and restricted-scope verification after submission; monitor project owner, editor, and developer-contact mailboxes and answer requests promptly because the estimates depend on developer responsiveness.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://support.google.com/cloud/answer/13463817?hl=en-uk",
+                "quote": "these estimates are not guaranteed and will vary based on developer responsiveness",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://support.google.com/cloud/answer/13461325?hl=en",
+                "quote": "All communications with the OAuth review team will occur over email to the project owners and project editors configured when setting up your project.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "wait: 6 weeks + 2–3 business days"
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "steps": [
+        {
+          "title": "Operate connection, quota, and credential lifecycle controls",
+          "owner": "you",
+          "detail": {
+            "text": "Deploy encrypted per-tenant token storage, revocation/reconnect handling, quota monitoring, and client-use monitoring; make a token exchange at least once within each six-month period for retained clients, or be ready to restore a deleted inactive client within its 30-day window.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.googleblog.com/en/usability-and-safety-updates-to-google-auth-platform/",
+                "quote": "Starting in June, OAuth clients inactive for 6 months will be automatically deleted",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.googleblog.com/en/usability-and-safety-updates-to-google-auth-platform/",
+                "quote": "can restore clients up to 30 days after deletion.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.google.com/workspace/gmail/api/reference/quota",
+                "quote": "you can proactively request quota adjustments from the Quotas & System Limits page in the Google Cloud console.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "half day"
+        }
+      ]
+    }
+  ],
+  "gotchas": [
+    {
+      "text": "Do not use Gmail message data to train or improve a general AI model, build a permanent training database, sell it, or use it for ad targeting; restrict it to the connected user's approved user-facing feature.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.google.com/workspace/workspace-api-user-data-developer-policy",
+          "quote": "prohibits the scraping, building databases (including databases for model training purposes), or otherwise creating permanent copies of Google User data.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/terms/api-services-user-data-policy",
+          "quote": "Transferring, selling, or using user data for serving ads, including retargeting, personalized or interest-based advertising.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Treat Gmail content as untrusted input: enforce user confirmation for actions and add prompt-injection defenses before an agent can send, label, archive, or otherwise change mail.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.google.com/workspace/workspace-api-user-data-developer-policy",
+          "quote": "granularly require users to confirm the MCP, tool, skill, or other agentic behavior invocation.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/workspace/workspace-api-user-data-developer-policy",
+          "quote": "Protecting against prompt injection techniques by either using Google Cloud Platform's Model Armor or other prompt injection protection.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "MCP is a separate Gmail developer-preview path: from November 11, 2026, Gmail MCP rejects OAuth clients not marked as AI-powered/agentic, whereas REST-only Gmail clients are unaffected.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.google.com/workspace/gmail/release-notes",
+          "quote": "Starting November 11, 2026, Google Workspace MCP servers will reject requests from any app or integration whose OAuth client is not marked as agentic",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/workspace/gmail/release-notes",
+          "quote": "Apps and integrations that are not AI agents, like those that only call Google Workspace REST APIs, are not affected by this change.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "The OAuth callback is not a signed webhook: rely on exact redirect registration and a unique, server-bound state value rather than an assumed Google HMAC signature.",
+      "evidence": "inferred",
+      "sources": [
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/resources/best-practices",
+          "quote": "The state parameter should be a unique, non-guessable value generated by your application.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+          "quote": "The server returns the exact value that you send as a name=value pair in the URL query component",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "whenBlocked": [
+    {
+      "text": "For an active verification review, reply directly to the latest OAuth verification team email with the requested correction or evidence.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://support.google.com/cloud/answer/13463817?hl=en-uk",
+          "quote": "reach out by directly responding to the last email that the verification team sent you.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If there is no active reviewer email or you need escalation, open the Google OAuth verification support contact flow for a case, email, or chat with a specialist.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://support.google.com/cloud/contact/verify?hl=en",
+          "quote": "Your case has been created Connecting you to a specialist...",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If project capacity is inadequate, request a quota adjustment from Cloud Console's Quotas & System Limits page, while designing for denial because adjustment approval is not guaranteed.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.google.com/workspace/gmail/api/reference/quota",
+          "quote": "you can proactively request quota adjustments from the Quotas & System Limits page in the Google Cloud console.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/workspace/gmail/api/reference/quota",
+          "quote": "Applying for an adjusted quota doesn't guarantee approval.",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "probes": [
+    {
+      "name": "OIDC discovery",
+      "target": "https://accounts.google.com/.well-known/openid-configuration",
+      "result": "authorize=https://accounts.google.com/o/oauth2/v2/auth; scopes=openid email profile",
+      "ok": true
+    },
+    {
+      "name": "Authorize endpoint",
+      "target": "https://accounts.google.com/o/oauth2/v2/auth",
+      "result": "HTTP 302 -> https://accounts.google.com/signin/oauth/error?authError=Cg9pbnZhbGlkX3JlcXVlc3QSIU1pc3NpbmcgcmVxdWlyZWQgcGFyYW1ldGVyOiB (mentions \"client_id\")",
+      "ok": true
+    },
+    {
+      "name": "Developer console",
+      "target": "https://console.cloud.google.com/",
+      "result": "reachable, requires sign-in (HTTP 200, final https://accounts.google.com/v3/signin/identifier?continue=https://console.cloud.google.com/&followup=https://console.cloud.google.com/&osid=1&passive=1209600&service=cloudconsole&flowName=WebLiteSignIn&flowEntry=ServiceLogin&dsh=S656672875:1794725973537276)",
+      "ok": true
+    }
+  ],
+  "uncertain": [
+    "No source provides the duration, eligibility details for any self-scan route, or likely total price of the restricted-data security assessment.",
+    "The quota documentation says over-limit billing is planned later in 2026, but the researched material does not confirm whether that planned charge has begun as of 2026-11-15.",
+    "Couldn't confirm against its cited source: \"Build a Web application OAuth client in a production Cloud project, select the External audience, and request only the Gmail scopes requi…\""
+  ]
+}

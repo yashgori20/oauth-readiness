@@ -2,62 +2,409 @@
   "app": "GitHub",
   "slug": "github",
   "website": "https://github.com",
-  "developerConsole": "https://github.com/settings/developers",
-  "generatedAt": "2026-11-13T17:05:21.512Z",
+  "developerConsole": "https://github.com/settings/apps",
+  "generatedAt": "2026-11-15T07:06:42.029Z",
   "origin": "live",
   "verdict": {
     "difficulty": 2,
-    "summary": "GitHub OAuth app registration is self-serve: create the app, configure exact callback URLs, and implement the authorization-code flow. Plan around organization-specific approval when users need organization resources; there is no documented GitHub-wide OAuth-app verification review.",
-    "activeEffort": "Minutes to register, then normal OAuth implementation and testing effort.",
-    "waitTime": "No provider-wide review timeline is documented; organization-owner approval timing depends on each organization.",
-    "mainGate": "Organizations with OAuth app access restrictions require an organization owner to approve the app before it can access that organization's protected resources."
+    "access": "open",
+    "summary": "You can build a public GitHub App for each customer's repositories. Normal setup takes hours and does not require GitHub approval. During installation, the user or organization owner approves the requested permissions and selects repositories.",
+    "activeEffort": "3–6 hours, mostly building secure authorization and webhook handling",
+    "waitTime": "No provider review is required for normal GitHub App registration.",
+    "mainGate": "During each installation, the user or organization owner must approve the app's requested permissions and choose its repositories."
   },
+  "agentPath": {
+    "recommendation": {
+      "text": "Use a public GitHub App. Choose Any account so each customer can install it. Use installation tokens for background work and user tokens for attributed actions.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/deciding-when-to-build-a-github-app",
+          "quote": "If you want to access GitHub resources on behalf of a user or in an organization, or you anticipate a long-lived integration, we recommend building a GitHub App.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/deciding-when-to-build-a-github-app",
+          "quote": "OAuth apps can only act on behalf of a user while GitHub Apps can either act on behalf of a user or independently of a user.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app",
+          "quote": "Under ‘Where can this GitHub App be installed?’, select Only on this account or Any account.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    "scopeTiers": [
+      {
+        "text": "Read repository details. This needs no provider review. The installer still approves access for selected repositories.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app",
+            "quote": "GitHub Apps don't have any permissions by default. When you register a GitHub App, you can select permissions for the app.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app",
+            "quote": "When a user installs an app on their user account or organization, they see and grant the repository and organization permissions that the app requested.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Read repository names, owners, and basic details.",
+        "scopes": "Metadata: read"
+      },
+      {
+        "text": "Read source files. This needs no provider review. The installer must approve added access when installing.",
+        "evidence": "unverified",
+        "sources": [
+          {
+            "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app",
+            "quote": "GitHub Apps don't have any permissions by default. When you register a GitHub App, you can select permissions for the app.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app",
+            "quote": "Changing permissions requires reapproval by each installation owner.",
+            "quoteVerified": false
+          }
+        ],
+        "need": "Read source files for requested agent context.",
+        "scopes": "Contents: read"
+      },
+      {
+        "text": "Create and update engineering work. This needs no provider review. Each installer approves write access.",
+        "evidence": "unverified",
+        "sources": [
+          {
+            "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app",
+            "quote": "When a user installs an app on their user account or organization, they see and grant the repository and organization permissions that the app requested.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app",
+            "quote": "Changing permissions requires reapproval by each installation owner.",
+            "quoteVerified": false
+          }
+        ],
+        "need": "Create issues, comment on pull requests, and publish check results.",
+        "scopes": "Issues: read/write; Pull requests: read/write; Checks: write"
+      },
+      {
+        "text": "Edit automation workflows. This needs no provider review. Added access requires every existing installer to approve again.",
+        "evidence": "unverified",
+        "sources": [
+          {
+            "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app",
+            "quote": "Changing permissions requires reapproval by each installation owner.",
+            "quoteVerified": false
+          }
+        ],
+        "need": "Create or edit GitHub Actions workflow files.",
+        "scopes": "Contents: read/write; Workflows: write"
+      }
+    ]
+  },
+  "essentials": [
+    {
+      "text": "User tokens expire after 8 hours. Request offline_access for refresh tokens. Refresh tokens expire after six months and rotate after use.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app",
+          "quote": "By default, the user access token expires after 8 hours.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app",
+          "quote": "To receive an expiring user access token and a refresh token for this authorization, set this value to offline_access.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/refreshing-user-access-tokens",
+          "quote": "The user access token expires after eight hours, and the refresh token expires after six months.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/refreshing-user-access-tokens",
+          "quote": "Once you use a refresh token, that refresh token and the old user access token will no longer work.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Tokens and refresh"
+    },
+    {
+      "text": "Register exact HTTPS callback URLs. GitHub Apps allow up to 10 callback URLs. Do not enable wildcard matching for customer-controlled paths.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/about-the-user-authorization-callback-url",
+          "quote": "When wildcard matching is disabled, the redirect URL must exactly match the callback URL.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/about-the-user-authorization-callback-url",
+          "quote": "up to 10 callback URLs.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/about-the-user-authorization-callback-url",
+          "quote": "Enabling wildcard matching can expose your app to security risks, because it allows an attacker to send authorization codes to any subdomain or subdirectory of the callback URL.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Redirect URIs"
+    },
+    {
+      "text": "Create a separate public development app with matching settings. Use a draft Marketplace listing for billing tests without real charges.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.github.com/en/apps/github-marketplace/using-the-github-marketplace-api-in-your-app/testing-your-app",
+          "quote": "we recommend configuring a separate development app, with the same configuration as your production app",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/github-marketplace/using-the-github-marketplace-api-in-your-app/testing-your-app",
+          "quote": "Any purchases you make using a draft GitHub Marketplace listing will not create real transactions, and GitHub will not charge your credit card.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Test users and dev limits"
+    },
+    {
+      "text": "Installation tokens start at 5,000 requests per hour. Enterprise Cloud installations receive 15,000 requests per hour. User tokens normally share a 5,000 requests-per-hour budget.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+          "quote": "GitHub Apps authenticating with an installation access token use the installation's minimum rate limit of 5,000 requests per hour.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+          "quote": "15,000 requests per hour.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+          "quote": "5,000 requests per hour.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Rate limits"
+    },
+    {
+      "text": "Not found in the sources researched.",
+      "evidence": "unverified",
+      "sources": [],
+      "topic": "Cost"
+    },
+    {
+      "text": "Set the app to Any account. Customers then install it and choose repositories. Marketplace publication is optional for public discovery or GitHub-billed plans.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/deciding-when-to-build-a-github-app",
+          "quote": "With a GitHub App, the user or organization owner who installed the app can decide what repositories the app can access.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/github-marketplace/creating-apps-for-github-marketplace/requirements-for-listing-an-app",
+          "quote": "Marketplace apps must be publicly available in GitHub Marketplace and cannot be in public preview or available by invite only.",
+          "quoteVerified": false
+        }
+      ],
+      "topic": "Going live"
+    },
+    {
+      "text": "A normal GitHub App needs no Marketplace submission. Marketplace publication is optional. If used, click Request publish and wait for onboarding contact.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.github.com/en/apps/github-marketplace/listing-an-app-on-github-marketplace/submitting-your-listing-for-publication",
+          "quote": "click Request publish.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/github-marketplace/listing-an-app-on-github-marketplace/submitting-your-listing-for-publication",
+          "quote": "An onboarding expert will reach out to you with additional information.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Submitting for review"
+    },
+    {
+      "text": "Use state and PKCE S256 during user authorization. Verify webhook HMAC signatures over raw request bytes. Store keys and tokens in encrypted server-side storage.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app",
+          "quote": "When specified, the value should contain a random string to protect against forgery attacks.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps",
+          "quote": "Strongly recommended",
+          "quoteVerified": false
+        },
+        {
+          "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps",
+          "quote": "Must be S256 - the plain code challenge method is not supported.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries",
+          "quote": "The hash signature will appear in each delivery as the value of the X-Hub-Signature-256 header.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries",
+          "quote": "Never use a plain == operator.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries",
+          "quote": "Never hardcode a token into an application or push a token to any repository.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Security checks"
+    }
+  ],
+  "requests": [
+    {
+      "text": "For GitHub Apps, offline_access is the only supported scope and requests an expiring token with a refresh token.",
+      "evidence": "inferred",
+      "sources": [
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app",
+          "quote": "Direct the user to this URL, and add any necessary query parameters from the following list of parameters: https://github.com/login/oauth/authorize .",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app",
+          "quote": "scope string Optional To receive an expiring user access token and a refresh token for this authorization, set this value to offline_access . No other scopes are supported for GitHub Apps.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app",
+          "quote": "code_challenge string Strongly recommended Used to secure the authentication flow with PKCE (Proof Key for Code Exchange).",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Send the user to sign in",
+      "method": "GET",
+      "url": "https://github.com/login/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=offline_access&state=RANDOM_STATE&code_challenge=CODE_CHALLENGE&code_challenge_method=S256"
+    },
+    {
+      "text": "Exchange the callback code for a user access token and, with offline_access, a refresh token.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app",
+          "quote": "Exchange the code from the previous step for a user access token by making a POST request to this URL, along with the following query parameters: https://github.com/login/oauth/access_token",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app",
+          "quote": "code_verifier string Strongly recommended. Used to secure the authentication flow with PKCE (Proof Key for Code Exchange). Required if code_challenge was sent during the user authorization.",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Exchange the code for tokens",
+      "method": "POST",
+      "url": "https://github.com/login/oauth/access_token",
+      "curl": "curl --request POST \\\n  --url \"https://github.com/login/oauth/access_token?client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&code=AUTH_CODE&redirect_uri=YOUR_REDIRECT_URI&code_verifier=CODE_VERIFIER\" \\\n  --header \"Accept: application/json\""
+    },
+    {
+      "text": "Refresh tokens are single-use; using one invalidates it and the old access token.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/refreshing-user-access-tokens",
+          "quote": "Make a POST request to this URL, along with the following query parameters: https://github.com/login/oauth/access_token",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/refreshing-user-access-tokens",
+          "quote": "grant_type string Required. The value must be \"refresh_token\".",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/refreshing-user-access-tokens",
+          "quote": "Once you use a refresh token, that refresh token and the old user access token will no longer work.",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Refresh the access token",
+      "method": "POST",
+      "url": "https://github.com/login/oauth/access_token",
+      "curl": "curl --request POST \\\n  --url \"https://github.com/login/oauth/access_token?client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&grant_type=refresh_token&refresh_token=REFRESH_TOKEN\" \\\n  --header \"Accept: application/json\""
+    },
+    {
+      "text": "Retrieve the authenticated user to validate the identity after sign-in.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app",
+          "quote": "curl --request GET \\\n--url \"https://api.github.com/user\" \\\n--header \"Accept: application/vnd.github+json\" \\\n--header \"Authorization: Bearer USER_ACCESS_TOKEN\" \\\n--header \"X-GitHub-Api-Version: 2026-03-10\"",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Check the connection",
+      "method": "GET",
+      "url": "https://api.github.com/user",
+      "curl": "curl --request GET \\\n  --url \"https://api.github.com/user\" \\\n  --header \"Accept: application/vnd.github+json\" \\\n  --header \"Authorization: Bearer ACCESS_TOKEN\" \\\n  --header \"X-GitHub-Api-Version: 2026-03-10\""
+    }
+  ],
   "phases": [
     {
       "name": "Register",
       "steps": [
         {
-          "title": "Choose the app owner",
-          "owner": "you",
+          "title": "Draft the app manifest",
+          "owner": "agent",
           "detail": {
-            "text": "Register the OAuth app under a personal account or an organization where you have administrative access. A user or organization can own up to 100 OAuth apps.",
-            "evidence": "sourced",
+            "text": "Start with this least-privilege manifest. Replace the example URLs before registration. Remove write permissions you do not need. Metadata read is generally implicit for GitHub Apps, so omit `metadata` from `default_permissions` in the manifest below.",
+            "evidence": "unverified",
             "sources": [
               {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app",
-                "quote": "You can create and register an OAuth app under your personal account or under any organization you have administrative access to.",
-                "quoteVerified": true
+                "url": "https://docs.github.com/en/apps/sharing-github-apps/registering-a-github-app-from-a-manifest",
+                "quote": "The manifest defines public visibility, subscribed events, and required permissions.",
+                "quoteVerified": false
               },
               {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app",
-                "quote": "A user or organization can own up to 100 OAuth apps.",
+                "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app",
+                "quote": "GitHub Apps don't have any permissions by default. When you register a GitHub App, you can select permissions for the app.",
                 "quoteVerified": true
               }
             ]
           },
-          "effort": "Minutes"
+          "effort": "15 min",
+          "output": "{\n  \"name\": \"Your Agent\",\n  \"url\": \"https://app.example.com\",\n  \"public\": true,\n  \"redirect_url\": \"https://app.example.com/auth/github/callback\",\n  \"hook_attributes\": {\"url\": \"https://app.example.com/webhooks/github\"},\n  \"default_permissions\": {\n    \"metadata\": \"read\",\n    \"contents\": \"read\",\n    \"issues\": \"write\",\n    \"pull_requests\": \"write\",\n    \"checks\": \"write\"\n  }\n}"
         },
         {
-          "title": "Create the OAuth app in GitHub settings",
+          "title": "Register the public app",
           "owner": "you",
           "detail": {
-            "text": "In GitHub Settings, open Developer settings, select OAuth apps, and select New OAuth App.",
+            "text": "Open Settings, Developer settings, GitHub Apps, then New GitHub App. Choose Any account. Save the app ID, client ID, webhook secret, and private key securely.",
             "evidence": "sourced",
             "sources": [
               {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app",
-                "quote": "In the left sidebar, click OAuth apps .",
+                "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app",
+                "quote": "In the left sidebar, click Developer settings . In the left sidebar, click GitHub Apps . Click New GitHub App .",
                 "quoteVerified": true
               },
               {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app",
-                "quote": "Click New OAuth App .",
+                "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app",
+                "quote": "Under ‘Where can this GitHub App be installed?’, select Only on this account or Any account.",
                 "quoteVerified": true
               }
             ]
           },
-          "effort": "Minutes",
-          "link": "https://github.com/settings/developers"
+          "effort": "15 min",
+          "link": "https://github.com/settings/apps"
         }
       ]
     },
@@ -65,82 +412,52 @@
       "name": "Configure",
       "steps": [
         {
-          "title": "Provide homepage and callback URLs",
-          "owner": "you",
-          "detail": {
-            "text": "Supply a full homepage URL and authorization callback URL. An OAuth app can have up to 10 callback URLs.",
-            "evidence": "sourced",
-            "sources": [
-              {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app",
-                "quote": "In \"Homepage URL\", type the full URL to your app's website.",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app",
-                "quote": "In \"Authorization callback URL\", type the callback URL of your app.",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app",
-                "quote": "You can enter up to 10 callback URLs.",
-                "quoteVerified": true
-              }
-            ]
-          },
-          "effort": "Minutes"
-        },
-        {
-          "title": "Validate redirect-URI design",
+          "title": "Build the authorization handler",
           "owner": "agent",
           "detail": {
-            "text": "Use an explicit registered redirect_uri and exact callback matching where possible. With wildcard matching disabled, the redirect URL must exactly match a configured callback URL; GitHub warns wildcard matching can expose the app to security risks.",
+            "text": "Use this pattern in your authorization route. Bind state to the signed-in customer session. Exchange codes only at the registered callback URL.",
             "evidence": "sourced",
             "sources": [
               {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps",
-                "quote": "redirect_uri string Strongly recommended The URL in your application where users will be sent after authorization.",
+                "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app",
+                "quote": "Direct the user to this URL… https://github.com/login/oauth/authorize",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app",
+                "quote": "Exchange the code… https://github.com/login/oauth/access_token",
                 "quoteVerified": true
               },
               {
                 "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps",
-                "quote": "When wildcard matching is disabled, the redirect URL must exactly match the callback URL.",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps",
-                "quote": "Enabling wildcard matching can expose your app to security risks, because it allows an attacker to send authorization codes to any subdomain or subdirectory of the callback URL.",
+                "quote": "Must be S256 - the plain code challenge method is not supported.",
                 "quoteVerified": true
               }
             ]
           },
-          "effort": "Minutes"
+          "effort": "30 min",
+          "output": "const state = randomBytes(32).toString('base64url');\nconst verifier = randomBytes(32).toString('base64url');\nconst challenge = sha256base64url(verifier);\nsession.save({ state, verifier, customerId });\nredirect('https://github.com/login/oauth/authorize?' + qs({\n  client_id: CLIENT_ID, state,\n  code_challenge: challenge,\n  code_challenge_method: 'S256',\n  redirect_uri: CALLBACK,\n  scope: 'offline_access'\n}));\n// Callback: compare state, then exchange code with verifier.\n// Atomically replace both tokens after every refresh."
         },
         {
-          "title": "Select minimal scopes and token lifetime behavior",
+          "title": "Configure webhook validation",
           "owner": "you",
           "detail": {
-            "text": "Request only the scopes the app needs, as a space-delimited scope value. If the app needs renewable short-lived credentials, include offline_access; GitHub says this produces eight-hour access tokens and six-month refresh tokens.",
+            "text": "Set a high-entropy webhook secret in the app settings. Verify X-Hub-Signature-256 against raw request bytes before parsing or queuing each delivery.",
             "evidence": "sourced",
             "sources": [
               {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps",
-                "quote": "scope string Context dependent A space-delimited list of scopes .",
+                "url": "https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries",
+                "quote": "The hash signature will appear in each delivery as the value of the X-Hub-Signature-256 header.",
                 "quoteVerified": true
               },
               {
-                "url": "https://github.blog/changelog/2026-08-14-multiple-redirect-uris-and-token-refresh-for-oauth-apps/",
-                "quote": "Include the offline_access scope in your authentication request, which triggers the short-lived token pattern.",
-                "quoteVerified": false
-              },
-              {
-                "url": "https://github.blog/changelog/2026-08-14-multiple-redirect-uris-and-token-refresh-for-oauth-apps/",
-                "quote": "they get an access token that lives for eight hours and a refresh token that's valid for six months.",
+                "url": "https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries",
+                "quote": "Never use a plain == operator.",
                 "quoteVerified": true
               }
             ]
           },
-          "effort": "Minutes"
+          "effort": "1–2 hr"
         }
       ]
     },
@@ -148,88 +465,36 @@
       "name": "Test",
       "steps": [
         {
-          "title": "Implement authorization-code OAuth with state and PKCE",
-          "owner": "agent",
+          "title": "Create a development app",
+          "owner": "you",
           "detail": {
-            "text": "Direct users to GitHub's authorization endpoint with the registered client_id, a random state value, requested scopes, and a registered redirect_uri. Abort the flow if returned state does not match. PKCE is supported and recommended; GitHub accepts only S256.",
+            "text": "Register a separate public development app with matching settings. Install it on test repositories before connecting customer accounts.",
             "evidence": "sourced",
             "sources": [
               {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps",
-                "quote": "GET https://github.com/login/oauth/authorize",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps",
-                "quote": "client_id string Required The client ID you received from GitHub when you registered .",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps",
-                "quote": "state string Strongly recommended An unguessable random string. It is used to protect against cross-site request forgery attacks.",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps",
-                "quote": "If the states don't match, then a third party created the request, and you should abort the process.",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://github.blog/changelog/2025-07-14-pkce-support-for-oauth-and-github-app-authentication/",
-                "quote": "PKCE (Proof Key for Code Exchange) is now supported and recommended for user authentication in OAuth and GitHub Apps.",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://github.blog/changelog/2025-07-14-pkce-support-for-oauth-and-github-app-authentication/",
-                "quote": "Only the S256 code challenge method is accepted.",
+                "url": "https://docs.github.com/en/apps/github-marketplace/using-the-github-marketplace-api-in-your-app/testing-your-app",
+                "quote": "we recommend configuring a separate development app, with the same configuration as your production app",
                 "quoteVerified": true
               }
             ]
           },
-          "effort": "Hours",
-          "link": "https://github.com/login/oauth/authorize"
+          "effort": "30 min"
         },
         {
-          "title": "Exchange the callback code promptly and test reauthorization behavior",
-          "owner": "agent",
+          "title": "Test customer isolation",
+          "owner": "you",
           "detail": {
-            "text": "Exchange the authorization code at GitHub's token endpoint within 10 minutes. Test with a user who has not previously authorized the app because previously authorized users may not see the scope-consent screen.",
-            "evidence": "sourced",
+            "text": "Test two separate installations. Confirm each installation token only reaches its selected repositories. Test token refresh and rejected webhook signatures.",
+            "evidence": "inferred",
             "sources": [
               {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps",
-                "quote": "The temporary code will expire after 10 minutes.",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps",
-                "quote": "POST https://github.com/login/oauth/access_token",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps",
-                "quote": "For users who have authorized scopes for the application, the user won't be shown the OAuth authorization page with the list of scopes.",
+                "url": "https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/deciding-when-to-build-a-github-app",
+                "quote": "With a GitHub App, the user or organization owner who installed the app can decide what repositories the app can access.",
                 "quoteVerified": true
               }
             ]
           },
-          "effort": "Hours",
-          "link": "https://github.com/login/oauth/access_token"
-        },
-        {
-          "title": "Verify the authorization endpoint is reachable",
-          "owner": "agent",
-          "detail": {
-            "text": "HTTP 302 -> https://github.com/login?client_id=probe-not-a-real-client&return_to=%2Flogin%2Foauth%2Fauthorize%3Fclient_id%3Dprobe-no (mentions \"client_id\")",
-            "evidence": "tested",
-            "sources": [
-              {
-                "url": "https://github.com/login/oauth/authorize"
-              }
-            ]
-          },
-          "effort": "Minutes",
-          "link": "https://github.com/login/oauth/authorize"
+          "effort": "1–2 hr"
         }
       ]
     },
@@ -237,41 +502,20 @@
       "name": "Review",
       "steps": [
         {
-          "title": "Request organization approval when organization resources are needed",
+          "title": "Skip Marketplace submission",
           "owner": "you",
           "detail": {
-            "text": "For organizations with OAuth app access restrictions enabled, users must request approval from an organization owner before authorizing the app. The owner reviews the application information and grants access in the organization's OAuth app policy settings.",
+            "text": "Do not submit anything for normal GitHub App installation. Marketplace publication is optional for discovery or GitHub-billed plans. If you choose Marketplace, first meet its listing requirements and request publication. For paid Marketplace plans, the publisher must be verified and complete financial onboarding. The app needs at least 100 installations, and an app owned by a personal account must be transferred to an organization. Paid plans must offer monthly and annual prices and handle Marketplace billing events, including purchases, upgrades, downgrades, cancellations, and trials. After you click Request publish, an onboarding expert will contact you.",
             "evidence": "sourced",
             "sources": [
               {
-                "url": "https://docs.github.com/en/organizations/managing-oauth-access-to-your-organizations-data/approving-oauth-apps-for-your-organization",
-                "quote": "When OAuth app access restrictions are enabled, organization members and outside collaborators must request approval from an organization owner before they can authorize an OAuth app",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://docs.github.com/en/organizations/managing-oauth-access-to-your-organizations-data/approving-oauth-apps-for-your-organization",
-                "quote": "After you review the information about the requested application, click Grant access.",
+                "url": "https://docs.github.com/en/apps/github-marketplace/listing-an-app-on-github-marketplace/submitting-your-listing-for-publication",
+                "quote": "click Request publish.",
                 "quoteVerified": true
               }
             ]
           },
-          "effort": "Minutes plus organization-owner wait"
-        },
-        {
-          "title": "Do not wait for a GitHub-wide OAuth-app certification",
-          "owner": "you",
-          "detail": {
-            "text": "The reviewed documentation identifies organization-specific OAuth app approval, not a provider-wide OAuth-app verification or certification submission.",
-            "evidence": "inferred",
-            "sources": [
-              {
-                "url": "https://docs.github.com/en/organizations/managing-oauth-access-to-your-organizations-data/about-oauth-app-access-restrictions",
-                "quote": "Organizations can choose which OAuth apps have access to their repositories and other resources by enabling OAuth app access restrictions.",
-                "quoteVerified": true
-              }
-            ]
-          },
-          "effort": "None"
+          "effort": "5 min"
         }
       ]
     },
@@ -279,80 +523,86 @@
       "name": "Production",
       "steps": [
         {
-          "title": "Use an externally accessible public app when serving external users",
+          "title": "Publish the installation link",
           "owner": "you",
           "detail": {
-            "text": "If users outside the owning organization or enterprise need the app, make it public. An Enterprise Managed User-owned app that needs external users must be recreated outside the enterprise.",
+            "text": "Add your public app installation link to your product. Explain requested permissions and repository selection before redirecting customers.",
             "evidence": "sourced",
             "sources": [
               {
-                "url": "https://github.blog/changelog/2025-06-24-security-updates-for-apps-and-api-access/",
-                "quote": "If your app is owned by an EMU account but needs to be accessed by users outside of your enterprise, you need to recreate the application outside of your enterprise.",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://github.blog/changelog/2025-06-24-security-updates-for-apps-and-api-access/",
-                "quote": "If users outside of your organization and enterprise need to access the app, make it public.",
+                "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app",
+                "quote": "When a user installs an app on their user account or organization, they see and grant the repository and organization permissions that the app requested.",
                 "quoteVerified": true
               }
             ]
           },
-          "effort": "Minutes"
+          "effort": "15 min"
         },
         {
-          "title": "Operate within OAuth token and sign-in limits",
-          "owner": "agent",
+          "title": "Add rate-limit backoff",
+          "owner": "you",
           "detail": {
-            "text": "Handle token issuance capacity and reauthorization: OAuth apps are limited to 2,000 access-token requests per hour, and the next sign-in after ten sign-ins by one user in an hour requires reauthorization.",
+            "text": "Read rate-limit headers and queue retries with backoff. Keep work separate per customer installation. Never pool tokens to bypass limits.",
             "evidence": "sourced",
             "sources": [
               {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/rate-limits-for-oauth-apps",
-                "quote": "OAuth apps are subject to a rate limit of 2,000 access token requests per hour .",
+                "url": "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+                "quote": "GitHub Apps authenticating with an installation access token use the installation's minimum rate limit of 5,000 requests per hour.",
                 "quoteVerified": true
               },
               {
-                "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/rate-limits-for-oauth-apps",
-                "quote": "If an app signs the user in ten times within one hour, the next sign in within the same hour will require re-authorization of the application.",
+                "url": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
+                "quote": "You may not share API tokens to exceed GitHub's rate limitations.",
                 "quoteVerified": true
               }
             ]
           },
-          "effort": "Ongoing"
+          "effort": "1–2 hr"
         }
       ]
     }
   ],
   "gotchas": [
     {
-      "text": "An unapproved OAuth app cannot access private organization resources or perform privileged create, update, or delete actions on public organization resources.",
+      "text": "Permission changes require approval again from every existing installation owner.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app",
+          "quote": "Changing permissions requires reapproval by each installation owner.",
+          "quoteVerified": false
+        }
+      ]
+    },
+    {
+      "text": "A refreshed token replaces both the old access token and refresh token. Store replacements together.",
       "evidence": "sourced",
       "sources": [
         {
-          "url": "https://docs.github.com/en/organizations/managing-oauth-access-to-your-organizations-data/about-oauth-app-access-restrictions",
-          "quote": "API access to private organization resources is not available for unapproved OAuth apps. In addition, there are no privileged create, update, or delete actions on public organization resources.",
+          "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/refreshing-user-access-tokens",
+          "quote": "Once you use a refresh token, that refresh token and the old user access token will no longer work.",
           "quoteVerified": true
         }
       ]
     },
     {
-      "text": "New organizations have OAuth app access restrictions enabled by default.",
+      "text": "Administration permission needs a clear public explanation when you request it.",
       "evidence": "sourced",
       "sources": [
         {
-          "url": "https://docs.github.com/en/organizations/managing-oauth-access-to-your-organizations-data/about-oauth-app-access-restrictions",
-          "quote": "When you create a new organization, OAuth app access restrictions are enabled by default. Organization owners can disable OAuth app access restrictions at any time.",
+          "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app",
+          "quote": "If your app requires ‘Administration’ permissions, consider explaining this requirement on your app's homepage.",
           "quoteVerified": true
         }
       ]
     },
     {
-      "text": "PKCE is recommended but was not required by GitHub in its July 2025 announcement.",
+      "text": "Commercial AI model training on public GitHub content has separate Terms obligations. Review the full D.9 rule with counsel.",
       "evidence": "sourced",
       "sources": [
         {
-          "url": "https://github.blog/changelog/2025-07-14-pkce-support-for-oauth-and-github-app-authentication/",
-          "quote": "GitHub is not requiring PKCE for any authentication flow at this time",
+          "url": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
+          "quote": "By using automated means to access, collect, or otherwise use (‘Access’) any publicly accessible Content from the Service for the purpose of developing or training any commercially available artificial intelligence model",
           "quoteVerified": true
         }
       ]
@@ -360,40 +610,46 @@
   ],
   "whenBlocked": [
     {
-      "text": "If a user is blocked from authorizing access to organization resources, have them request organization-owner approval for the OAuth app.",
-      "evidence": "sourced",
+      "text": "If an organization blocks installation, ask its owner to review the requested permissions and selected repositories.",
+      "evidence": "inferred",
       "sources": [
         {
-          "url": "https://docs.github.com/en/organizations/managing-oauth-access-to-your-organizations-data/approving-oauth-apps-for-your-organization",
-          "quote": "When OAuth app access restrictions are enabled, organization members and outside collaborators must request approval from an organization owner before they can authorize an OAuth app",
+          "url": "https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app",
+          "quote": "When a user installs an app on their user account or organization, they see and grant the repository and organization permissions that the app requested.",
           "quoteVerified": true
         }
       ]
     },
     {
-      "text": "If an EMU-owned app must serve users outside its enterprise, recreate it outside the enterprise.",
+      "text": "If Marketplace publication stalls, reply to the onboarding email with the app slug, listing URL, date, and test details.",
       "evidence": "sourced",
       "sources": [
         {
-          "url": "https://github.blog/changelog/2025-06-24-security-updates-for-apps-and-api-access/",
-          "quote": "If your app is owned by an EMU account but needs to be accessed by users outside of your enterprise, you need to recreate the application outside of your enterprise.",
+          "url": "https://docs.github.com/en/support/contacting-github-support/creating-a-support-ticket",
+          "quote": "If your account uses a paid GitHub plan, Copilot Business, or Copilot Enterprise, you can directly contact GitHub Support.",
           "quoteVerified": true
         }
       ]
     },
     {
-      "text": "If token issuance is temporarily blocked, reduce or defer access-token requests because GitHub documents a 2,000-per-hour OAuth-app limit.",
-      "evidence": "sourced",
+      "text": "If you have a free account and need non-security help, post a GitHub Community discussion with reproduction details.",
+      "evidence": "unverified",
       "sources": [
         {
-          "url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/rate-limits-for-oauth-apps",
-          "quote": "OAuth apps are subject to a rate limit of 2,000 access token requests per hour .",
-          "quoteVerified": true
+          "url": "https://docs.github.com/en/support/contacting-github-support/creating-a-support-ticket",
+          "quote": "Free accounts should generally use GitHub Community discussions, except account/security/abuse issues.",
+          "quoteVerified": false
         }
       ]
     }
   ],
   "probes": [
+    {
+      "name": "OIDC discovery",
+      "target": "github.com",
+      "result": "no discovery document on these hosts (provider may not support OIDC)",
+      "ok": false
+    },
     {
       "name": "Authorize endpoint",
       "target": "https://github.com/login/oauth/authorize",
@@ -401,15 +657,14 @@
       "ok": true
     },
     {
-      "name": "URL reachable",
-      "target": "https://github.com/settings/developers",
-      "result": "HTTP 200 (final: https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Fsettings%2Fdevelopers)",
+      "name": "Developer console",
+      "target": "https://github.com/settings/apps",
+      "result": "reachable, requires sign-in (HTTP 200, final https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Fsettings%2Fapps)",
       "ok": true
     }
   ],
   "uncertain": [
-    "No reviewed source states a provider-wide OAuth-app review timeline, because no provider-wide OAuth-app verification or certification process was identified.",
-    "No reviewed source states how a developer configures an OAuth app's public or private visibility in the GitHub console.",
-    "No reviewed source confirms whether the August 2026 offline_access token-refresh rollout applies to every existing OAuth app without additional console configuration."
+    "Operational pricing was not found in the sources researched.",
+    "8 claims couldn't be matched word-for-word to their cited page and are marked Unverified. Check those sources before relying on them."
   ]
 }

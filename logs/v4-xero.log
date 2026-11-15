@@ -1,0 +1,33 @@
+[0.0s] {"type":"status","message":"Researching Xero"}
+[23.2s] {"type":"tool","name":"search","target":"site:developer.xero.com OAuth 2.0 app types web app custom connection token lifetime refresh tokens","summary":"8 results"}
+[23.2s] {"type":"tool","name":"search","target":"site:developer.xero.com app partner certification submit app review marketplace approval","summary":"6 results"}
+[23.2s] {"type":"tool","name":"search","target":"site:developer.xero.com Xero developer pricing API rate limits demo company","summary":"7 results"}
+[23.2s] {"type":"tool","name":"search","target":"site:developer.xero.com scopes OAuth 2.0 accounting.transactions offline_access","summary":"7 results"}
+[23.2s] {"type":"tool","name":"search","target":"site:developer.xero.com redirect URI PKCE state OAuth 2.0","summary":"6 results"}
+[23.2s] {"type":"tool","name":"search","target":"site:developer.xero.com AI LLM terms developer API policy","summary":"6 results"}
+[23.2s] {"type":"tool","name":"search","target":"Xero developer blog AI API terms changelog OAuth 2025 2026","summary":"8 results"}
+[23.2s] {"type":"tool","name":"search","target":"Xero OAuth app review approval time community Xero app partner certification","summary":"8 results"}
+[23.2s] {"type":"tool","name":"search","target":"site:developer.xero.com xero-cli app manifest config","summary":"6 results"}
+[23.2s] {"type":"tool","name":"search","target":"site:developer.xero.com support contact developer support","summary":"5 results"}
+[23.2s] {"type":"tool","name":"search","target":"site:developer.xero.com custom connections prerequisites partner OAuth","summary":"7 results"}
+[23.2s] {"type":"tool","name":"search","target":"site:developer.xero.com developer terms security token storage webhook signature","summary":"6 results"}
+[37.9s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/guides/oauth2/overview/","summary":"10 facts"}
+[37.9s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/guides/oauth2/auth-flow/","summary":"12 facts"}
+[37.9s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/guides/oauth2/token-types/","summary":"17 facts"}
+[37.9s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/guides/oauth2/scopes/","summary":"28 facts"}
+[37.9s] {"type":"tool","name":"read","target":"https://developer.xero.com/pricing","summary":"20 facts"}
+[37.9s] {"type":"tool","name":"read","target":"https://developer.xero.com/faq/pricing-and-policy-updates","summary":"19 facts"}
+[37.9s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/xero-app-store/app-partner-guides/building-and-growing-your-app/","summary":"11 facts"}
+[37.9s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/xero-app-store/app-partner-guides/certification-checkpoints/","summary":"20 facts"}
+[37.9s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/guides/oauth2/limits/","summary":"10 facts"}
+[37.9s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/development-accounts/","summary":"16 facts"}
+[37.9s] {"type":"tool","name":"read","target":"https://developer.xero.com/xero-developer-platform-terms-conditions","summary":"8 facts"}
+[37.9s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/best-practices/data-integrity/managing-tokens/","summary":"20 facts"}
+[65.6s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[66.0s] {"type":"tool","name":"probe","target":"https://identity.xero.com/.well-known/openid-configuration","summary":"ok: authorize=https://login.xero.com/identity/connect/authorize; scopes="}
+[66.0s] {"type":"tool","name":"probe","target":"https://login.xero.com/identity/connect/authorize","summary":"ok: HTTP 302 -> https://login.xero.com/identity/error?errorId=CfDJ8MOMn5AHNxVIkNNdLD"}
+[66.0s] {"type":"tool","name":"probe","target":"https://developer.xero.com/app/manage","summary":"ok: HTTP 200 (final: https://developer.xero.com/app/manage)"}
+[66.0s] {"type":"status","message":"Writing guide"}
+[106.5s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[111.9s] {"type":"status","message":"Checking the guide for contradictions"}
+[122.5s] guide -> guides/xero.json

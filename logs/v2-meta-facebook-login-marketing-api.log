@@ -1,0 +1,47 @@
+[0.0s] {"type":"status","message":"Researching Meta (Facebook Login and Marketing API)"}
+[19.6s] {"type":"tool","name":"search","target":"site:developers.facebook.com/docs/facebook-login Facebook Login access tokens expiration refresh data access","summary":"8 results"}
+[19.6s] {"type":"tool","name":"search","target":"site:developers.facebook.com/docs/marketing-api access levels app review standard access advanced access","summary":"4 results"}
+[19.6s] {"type":"tool","name":"search","target":"site:developers.facebook.com/docs/development create app types business app review submit for review Meta","summary":"8 results"}
+[19.6s] {"type":"tool","name":"search","target":"site:developers.facebook.com/docs/apps/review Meta app review requirements business verification","summary":"5 results"}
+[19.6s] {"type":"tool","name":"search","target":"site:developers.facebook.com/docs/marketing-api/get-started rate limits pricing","summary":"6 results"}
+[19.6s] {"type":"tool","name":"search","target":"site:developers.facebook.com terms AI LLM generative AI Meta Platform Terms","summary":"7 results"}
+[19.6s] {"type":"tool","name":"search","target":"Meta Marketing API app review how long community forum 2025","summary":"7 results"}
+[19.6s] {"type":"tool","name":"search","target":"site:developers.facebook.com/blog Marketing API changelog 2025 2026","summary":"7 results"}
+[19.6s] {"type":"tool","name":"search","target":"site:developers.facebook.com/docs/facebook-login/guides/advanced/manual-flow redirect URI valid oauth redirects","summary":"5 results"}
+[32.7s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/","summary":"21 facts"}
+[32.7s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review/content.md/","summary":"12 facts"}
+[32.7s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/resp-plat-initiatives/appreview/FAQs.md/","summary":"12 facts"}
+[32.7s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/facebook-login/guides/access-tokens/get-long-lived.md/","summary":"16 facts"}
+[32.7s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/facebook-login/guides/advanced/manual-flow.md/","summary":"11 facts"}
+[32.7s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/development/release/business-verification.md/","summary":"14 facts"}
+[32.7s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/ads-commerce/marketing-api/overview/rate-limiting.md/","summary":"17 facts"}
+[32.7s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/resp-plat-initiatives/appreview/tutorial.md/","summary":"23 facts"}
+[32.7s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/mcp.md/","summary":"22 facts"}
+[32.7s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/ads-commerce/marketing-api/marketing-api-changelog.md/","summary":"8 facts"}
+[32.7s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/development/create-an-app/app-dashboard/app-types.md/","summary":"7 facts"}
+[54.0s] {"type":"tool","name":"search","target":"site:developers.facebook.com/terms Meta Platform Terms artificial intelligence LLM","summary":"4 results"}
+[54.0s] {"type":"tool","name":"search","target":"site:developers.facebook.com/policy Meta Platform Terms AI models training prompts","summary":"7 results"}
+[54.0s] {"type":"tool","name":"search","target":"Meta developer community app review wait time rejected permissions ads_management 2026","summary":"8 results"}
+[54.0s] {"type":"tool","name":"search","target":"site:developers.facebook.com/help/contact developer support app review Meta contact","summary":"8 results"}
+[54.0s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started.md/","summary":"7 facts"}
+[54.0s] {"type":"tool","name":"read","target":"https://developers.facebook.com/terms/","summary":"14 facts"}
+[54.0s] {"type":"tool","name":"read","target":"https://developers.facebook.com/policy/","summary":"16 facts"}
+[54.0s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/development/create-an-app.md","summary":"11 facts"}
+[54.0s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/ads-commerce/marketing-api/using-the-api/faq.md/","summary":"6 facts"}
+[54.0s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/resp-plat-initiatives/appreview/content.md/","summary":"10 facts"}
+[76.6s] {"type":"tool","name":"search","target":"site:reddit.com Meta app review ads_management review took days 2025","summary":"5 results"}
+[76.6s] {"type":"tool","name":"search","target":"site:reddit.com/r/FacebookAds Meta Marketing API app review wait time 2025","summary":"3 results"}
+[76.6s] {"type":"tool","name":"search","target":"site:developers.facebook.com/community app review ads_management \"days\"","summary":"7 results"}
+[76.6s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/development/support.md/","summary":"13 facts"}
+[76.6s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/development/permissions.md/","summary":"13 facts"}
+[76.6s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/facebook-login/auth-vs-data.md/","summary":"9 facts"}
+[76.6s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authentication.md/","summary":"page empty or blocked (may need login or JS)"
+[76.6s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/ads-commerce/marketing-api/creative/generative-ai-features.md/","summary":"page empty or blocked (may need login or
+[108.7s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[109.3s] {"type":"tool","name":"probe","target":"https://www.facebook.com/.well-known/openid-configuration","summary":"ok: authorize=https://facebook.com/dialog/oauth/; scopes="}
+[109.3s] {"type":"tool","name":"probe","target":"https://www.facebook.com/v27.0/dialog/oauth","summary":"ok: HTTP 200"}
+[109.3s] {"type":"tool","name":"probe","target":"https://developers.facebook.com/apps/","summary":"ok: HTTP 200 (final: https://developers.facebook.com/apps/)"}
+[109.3s] {"type":"status","message":"Writing guide"}
+[151.4s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[151.4s] {"type":"status","message":"Checking the guide for contradictions"}
+[161.5s] guide -> guides/meta-facebook-login-marketing-api.json

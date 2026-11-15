@@ -1,0 +1,624 @@
+{
+  "app": "Dropbox",
+  "slug": "dropbox",
+  "website": "https://www.dropbox.com/developers",
+  "developerConsole": "https://www.dropbox.com/developers/apps",
+  "generatedAt": "2026-11-15T06:54:39.489Z",
+  "origin": "live",
+  "verdict": {
+    "difficulty": 3,
+    "access": "gated",
+    "summary": "Use one Dropbox OAuth app and connect each tenant's Dropbox account through that tenant's own authorization flow. Development is self-serve, but unrestricted production distribution requires Dropbox production approval; normally, Dropbox will not review the application until it has linked 50 users, unless it accepts an eligible early-review case. Prefer App folder access and progressive authorization unless the agent demonstrably needs files outside its dedicated folder.",
+    "activeEffort": "3–6 hours (estimate), mostly OAuth implementation, production-review materials, and tester coordination",
+    "waitTime": "2–5 business days after the 50-user eligibility gate (inferred from Dropbox's “few business days” response time) [inferred]; time to reach 50 linked users is unknown",
+    "mainGate": "Unless Dropbox accepts an eligible early-review case, link at least 50 Dropbox users, then pass Dropbox's production-readiness review before unrestricted production distribution."
+  },
+  "agentPath": {
+    "recommendation": {
+      "text": "Register one consumer Dropbox OAuth app for the product, have every tenant authorize their own account, start with App folder access, and request added scopes only when a user enables a feature that needs them. Escalate the shared-app architecture to API Support before production submission if the product resembles a platform exposing multiple independent third-party apps.",
+      "evidence": "inferred",
+      "sources": [
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+          "quote": "Once your app is approved for production status, any number of Dropbox users can link to your app.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions",
+          "quote": "With scopes, you may also request more permissions from the end user at a later time, only if and when they are needed.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://community.dropbox.com/en/discussion/862005/production-status-approval-for-app-platform/p1",
+          "quote": "whether it can be one application or it's a proxy for multiple applications",
+          "quoteVerified": true
+        }
+      ]
+    },
+    "scopeTiers": [
+      {
+        "text": "Connect an account and identify the user: request account_info.read only.",
+        "evidence": "inferred",
+        "sources": [
+          {
+            "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+            "quote": "Scopes are selected on your app’s Permissions tab in the Developer Console.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Show the connected Dropbox account and bind it to the correct tenant.",
+        "scopes": "account_info.read"
+      },
+      {
+        "text": "Read and retrieve agent-approved files: request files.metadata.read and files.content.read, limited to App folder where feasible.",
+        "evidence": "inferred",
+        "sources": [
+          {
+            "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+            "quote": "Your app gets read and write access to this folder only",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+            "quote": "Your app should use the least privileged permission it can.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "List, search, and retrieve documents for a user-authorized agent task.",
+        "scopes": "files.metadata.read; files.content.read"
+      },
+      {
+        "text": "Create, update, or delete files: add files.content.write only after the user enables write actions.",
+        "evidence": "inferred",
+        "sources": [
+          {
+            "url": "https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions",
+            "quote": "With scopes, you may also request more permissions from the end user at a later time, only if and when they are needed.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+            "quote": "Your app should use the least privileged permission it can.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Save generated outputs or perform an explicitly approved file operation.",
+        "scopes": "files.metadata.read; files.content.read; files.content.write"
+      },
+      {
+        "text": "Create shared links or manage sharing: add sharing.write only for a sharing feature; use Full Dropbox only when the user must select content anywhere in Dropbox.",
+        "evidence": "inferred",
+        "sources": [
+          {
+            "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+            "quote": "You get full access to all the files and folders in a user’s Dropbox.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+            "quote": "Your app should use the least privileged permission it can.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Share an agent-created or agent-selected file outside the app folder.",
+        "scopes": "files.metadata.read; files.content.read; files.content.write; sharing.write"
+      }
+    ]
+  },
+  "essentials": [
+    {
+      "text": "Use authorization-code OAuth with token_access_type=offline for background agent work. Treat access-token lifetime as the expiry returned by Dropbox; store refresh tokens encrypted and tenant-isolated, and refresh through /oauth2/token using grant_type=refresh_token. Refresh tokens can be reused and do not automatically expire, but can be revoked.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.dropbox.com/oauth-guide",
+          "quote": "Dropbox access tokens are short lived, and will expire after a short period of time.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.dropbox.com/oauth-guide",
+          "quote": "you’ll need to include token_access_type=offline as a parameter on your Authorization URL in order to return a refresh_token inside your access token payload.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://dropbox.tech/developers/using-oauth-2-0-with-offline-access",
+          "quote": "The refresh token can be repeatedly re-used and doesn't expire automatically (though it can be revoked on demand).",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.dropbox.com/oauth-guide",
+          "quote": "To update your access token, call the /oauth2/token endpoint - specifying your refresh_token as a parameter and using the grant_type of refresh_token .",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Tokens and refresh"
+    },
+    {
+      "text": "Register each exact HTTPS callback URI in the Developer Console and send the same redirect_uri in the authorization and token exchange flow. Dropbox rejects redirect targets that are not registered.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+          "quote": "Redirection to any URI not specified here will not be allowed.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.dropbox.com/oauth-guide",
+          "quote": "Dropbox checks that the specified redirect_uri parameter in your Authorization URL matches one of the registered values at authorization time.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Redirect URIs"
+    },
+    {
+      "text": "New apps begin in Development status and initially connect only to the developer account; enable additional accounts for testing. A development app can link up to 500 total Dropbox users, while a new Dropbox Business app begins with one development team and can be raised to five development teams.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+          "quote": "When you first create a Dropbox API app, it’s given development status and can only be connected to your own account.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+          "quote": "it can only be linked with up to 500 total Dropbox users",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://www.dropbox.com/developers/documentation/http/teams",
+          "quote": "You can raise this limit to 5 development teams in total.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Test users and dev limits"
+    },
+    {
+      "text": "No numeric general API-request limit was found in the researched official material. Build per-tenant queues, minimize requests, and handle 429 and transient failures with exponential backoff; inspect the app Analytics tab.",
+      "evidence": "inferred",
+      "sources": [
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+          "quote": "The Analytics tab of your app in the Developer Console provides details about how your app is using the DBX Platform and APIs",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Rate limits"
+    },
+    {
+      "text": "Dropbox charges no developer fee for API use, and users with free or paid Dropbox accounts can connect the app.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://www.dropbox.com/developers/support",
+          "quote": "Yes! There's no cost to you as the developer, and any type of Dropbox account, free or paid, can use your app.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Cost"
+    },
+    {
+      "text": "After production approval, any number of Dropbox users can link to the app. Before applying, add a non-Dropbox-lookalike logo on the Branding tab and ensure the product follows the Developer Terms and Branding Guidelines.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+          "quote": "Once your app is approved for production status, any number of Dropbox users can link to your app.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+          "quote": "Before you apply, add an app icon on your app’s Branding tab.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://www.dropbox.com/developers/reference/branding-guide",
+          "quote": "We’ll also need your app’s logo as part of the production application process:",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Going live"
+    },
+    {
+      "text": "Use Apply for production in the Developer Console after linking at least 50 users, unless Dropbox accepts an eligible early-review case. Dropbox performs a production-readiness review and approves or denies the application; nearly all requests receive a response within a few business days.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+          "quote": "it will not be reviewed until your app has linked with at least 50 Dropbox users",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+          "quote": "Your app will undergo a production readiness review by Dropbox and will either be approved or denied.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://www.dropbox.com/developers/support",
+          "quote": "We respond to nearly all production requests within a few business days.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Submitting for review"
+    },
+    {
+      "text": "Use a one-time high-entropy state bound server-side to the tenant and callback, use S256 PKCE for public clients, keep tokens encrypted and out of browser clients/logs, and verify each webhook's X-Dropbox-Signature over the raw body before processing it. Obtain user authorization before sending Dropbox data to an LLM or another processor.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.dropbox.com/oauth-guide",
+          "quote": "you may pass a state parameter the authorization URL - which will be returned as a query parameter in the redirect.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.dropbox.com/oauth-guide",
+          "quote": "Using S256 is the recommended approach.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://www.dropbox.com/developers/terms",
+          "quote": "prevent loss, theft, damage, or unauthorized access to or disclosure of User Data and access tokens using no less than reasonable security measures",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://www.dropbox.com/developers/reference/webhooks",
+          "quote": "Every notification request will include a header called X-Dropbox-Signature that includes an HMAC-SHA256 signature of the request body, using your app secret as the signing key.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://www.dropbox.com/developers/terms",
+          "quote": "use and disclose User Data only as authorized by the User and only as necessary for the functionality of the Developer App",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Security checks"
+    }
+  ],
+  "phases": [
+    {
+      "name": "Register",
+      "steps": [
+        {
+          "title": "Create the Dropbox API app",
+          "owner": "you",
+          "detail": {
+            "text": "In the Dropbox Developer Console, create one app; choose the API, choose App folder unless the product requires files outside its dedicated folder, and enter the product name. This creates the shared OAuth client that each tenant will authorize.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+                "quote": "It walks you through three steps: choose an API, choose the type of access you need, and name your app.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+                "quote": "For non-Business API apps this can be either App folder or Full Dropbox.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "link": "https://www.dropbox.com/developers/apps"
+        }
+      ]
+    },
+    {
+      "name": "Configure",
+      "steps": [
+        {
+          "title": "Configure minimum permissions and redirect URIs",
+          "owner": "you",
+          "detail": {
+            "text": "In the app Permissions tab, enable only the initial read and identity scopes; in OAuth settings, register every exact production and development callback URI. Do not enable write or sharing permissions until the corresponding feature is enabled.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+                "quote": "Scopes are selected on your app’s Permissions tab in the Developer Console.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+                "quote": "Redirection to any URI not specified here will not be allowed.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "link": "https://www.dropbox.com/developers/apps"
+        },
+        {
+          "title": "Prepare a tenant-bound OAuth callback handler",
+          "owner": "agent",
+          "detail": {
+            "text": "Implement the authorization-code callback so state and the PKCE verifier are generated per connection, stored server-side against the signed-in tenant and exact redirect URI, consumed once, and checked before tokens are saved. Add token_access_type=offline to the authorization URL for scheduled work.",
+            "evidence": "inferred",
+            "sources": [
+              {
+                "url": "https://developers.dropbox.com/oauth-guide",
+                "quote": "you may pass a state parameter the authorization URL - which will be returned as a query parameter in the redirect.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.dropbox.com/oauth-guide",
+                "quote": "Using S256 is the recommended approach.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.dropbox.com/oauth-guide",
+                "quote": "you’ll need to include token_access_type=offline as a parameter on your Authorization URL in order to return a refresh_token inside your access token payload.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min",
+          "output": "const state = randomBytes(32).toString(\"base64url\");\nconst verifier = randomBytes(64).toString(\"base64url\");\nawait db.oauthState.insert({ state, verifier, tenantId, redirectUri, exp: Date.now()+600000 });\n// callback:\nconst row = await db.oauthState.consume(req.query.state);\nif (!row || row.exp < Date.now() || row.tenantId !== session.tenantId) throw Error(\"invalid state\");\nconst tokens = await exchangeCode(req.query.code, row.redirectUri, row.verifier);\nawait vault.put(row.tenantId, encrypt(tokens));"
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "steps": [
+        {
+          "title": "Link controlled test accounts and exercise tenant isolation",
+          "owner": "you",
+          "detail": {
+            "text": "Keep the app in Development status, add controlled testers, and test initial connect, refresh, revoke handling, state replay rejection, least-privilege read operations, and explicit write/share confirmation. Verify no tenant can retrieve another tenant's encrypted token or files.",
+            "evidence": "inferred",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+                "quote": "When you first create a Dropbox API app, it’s given development status and can only be connected to your own account.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://www.dropbox.com/developers/terms",
+                "quote": "prevent loss, theft, damage, or unauthorized access to or disclosure of User Data and access tokens using no less than reasonable security measures",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–2 hr"
+        },
+        {
+          "title": "Prepare reviewer test instructions",
+          "owner": "agent",
+          "detail": {
+            "text": "Draft a short reviewer script that demonstrates OAuth consent, the least-privilege boundary, an explicitly approved write action, and disconnect behavior. Supply this with a testable build if Dropbox requests production-review access.",
+            "evidence": "reported",
+            "sources": [
+              {
+                "url": "https://community.dropbox.com/en/discussion/862005/production-status-approval-for-app-platform/p1",
+                "quote": "If possible, please also provide a way for us to test the application, along with any relevant setup instructions",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min",
+          "output": "Reviewer test script\n1. Sign in with the supplied test account.\n2. Open Settings → Dropbox → Connect.\n3. Approve the displayed Dropbox permissions.\n4. Ask the agent to list one file in its app folder.\n5. Confirm it cannot access files outside that folder.\n6. Enable write access, then approve creation of a test file.\n7. Disconnect Dropbox and confirm later jobs stop."
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "steps": [
+        {
+          "title": "Reach production-review eligibility and assemble evidence",
+          "owner": "you",
+          "detail": {
+            "text": "Before applying, link at least 50 Dropbox users unless Dropbox accepts an eligible early-review case, add the required Branding-tab logo, verify the privacy policy discloses authorized data processing and LLM sharing, and prepare a test account plus reviewer instructions where appropriate. Seek written guidance from API Support first if this is an app platform rather than one integrated product.",
+            "evidence": "inferred",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+                "quote": "it will not be reviewed until your app has linked with at least 50 Dropbox users",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+                "quote": "Before you apply, add an app icon on your app’s Branding tab.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://www.dropbox.com/developers/terms",
+                "quote": "only access, store, transfer and process User Data in accordance with Users’ instructions, including a Developer App’s configuration settings",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "half day"
+        },
+        {
+          "title": "Apply for production",
+          "owner": "you",
+          "detail": {
+            "text": "In the Developer Console, select Apply for production and submit the requested API-use description and branding information. Provide test access and setup instructions if requested or available. Describe the single-product, per-tenant authorization architecture and justify every enabled permission.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+                "quote": "Your app will undergo a production readiness review by Dropbox and will either be approved or denied.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min",
+          "link": "https://www.dropbox.com/developers/apps"
+        },
+        {
+          "title": "Wait for Dropbox's production decision",
+          "owner": "provider",
+          "detail": {
+            "text": "Wait for the production-readiness decision, then address any denial feedback before resubmitting. Treat the stated few-business-day response as an estimate rather than an approval SLA.",
+            "evidence": "inferred",
+            "sources": [
+              {
+                "url": "https://www.dropbox.com/developers/support",
+                "quote": "We respond to nearly all production requests within a few business days.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+                "quote": "Your app will undergo a production readiness review by Dropbox and will either be approved or denied.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "wait: 2–5 business days"
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "steps": [
+        {
+          "title": "Enable general tenant connections and monitor operations",
+          "owner": "you",
+          "detail": {
+            "text": "After approval, enable the Dropbox connection for general tenants, retain progressive authorization for write/share features, monitor the Analytics tab, and queue retries per tenant for transient failures. Never collect Dropbox credentials in the product UI.",
+            "evidence": "inferred",
+            "sources": [
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+                "quote": "Once your app is approved for production status, any number of Dropbox users can link to your app.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+                "quote": "The Analytics tab of your app in the Developer Console provides details about how your app is using the DBX Platform and APIs",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://www.dropbox.com/developers/terms",
+                "quote": "collect any login credentials from or allow Users to input any login credentials into any user interface other than the Dropbox login page",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min"
+        }
+      ]
+    }
+  ],
+  "gotchas": [
+    {
+      "text": "After the app reaches 50 linked users, a reported two-week approval window can freeze additional linking if production approval is not granted, even below the 500-user development ceiling.",
+      "evidence": "reported",
+      "sources": [
+        {
+          "url": "https://community.dropbox.com/en/discussion/857591/do-i-need-to-request-production-status",
+          "quote": "If production approval isn't granted within that window, your app’s ability to link additional users will be frozen — even if you haven't yet reached the 500-user limit.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "A shared Dropbox app behind a platform of multiple third-party applets may be evaluated as a proxy for multiple applications rather than a single application.",
+      "evidence": "reported",
+      "sources": [
+        {
+          "url": "https://community.dropbox.com/en/discussion/862005/production-status-approval-for-app-platform/p1",
+          "quote": "whether it can be one application or it's a proxy for multiple applications",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Webhook verification proves the notification came from Dropbox, but it does not replace OAuth state validation or PKCE on the authorization callback.",
+      "evidence": "inferred",
+      "sources": [
+        {
+          "url": "https://www.dropbox.com/developers/reference/webhooks",
+          "quote": "This lets your app verify that the notification really came from Dropbox.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.dropbox.com/oauth-guide",
+          "quote": "Using S256 is the recommended approach.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Full Dropbox access covers all files and folders in a user's Dropbox, so it materially increases the review explanation, consent, and AI-data-minimization burden compared with App folder access.",
+      "evidence": "inferred",
+      "sources": [
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide",
+          "quote": "You get full access to all the files and folders in a user’s Dropbox.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://www.dropbox.com/developers/terms",
+          "quote": "use and disclose User Data only as authorized by the User and only as necessary for the functionality of the Developer App",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "whenBlocked": [
+    {
+      "text": "If the app is treated as a multi-app platform or production eligibility is unclear, open an API Support ticket with the architecture diagram, a testable build, reviewer credentials, and setup instructions; ask whether one shared app key is acceptable.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://www.dropbox.com/developers/support",
+          "quote": "If you can't find an answer in the community, resources above, or frequently asked questions below, you can contact API support.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://community.dropbox.com/en/discussion/862005/production-status-approval-for-app-platform/p1",
+          "quote": "If possible, please also provide a way for us to test the application, along with any relevant setup instructions",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If production is denied, use Dropbox's feedback to correct the test path, permission justification, branding, or disclosure and submit the application again through the Developer Console.",
+      "evidence": "inferred",
+      "sources": [
+        {
+          "url": "https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console",
+          "quote": "Your app will undergo a production readiness review by Dropbox and will either be approved or denied.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If Business testing is required and no suitable team is available, request a Dropbox Business Development Account through the support request process and accept the additional terms if approved.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://www.dropbox.com/developers/support",
+          "quote": "Development accounts are granted on a by-request basis and are contingent on additional terms and conditions outlined in the request form.",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "probes": [
+    {
+      "name": "OIDC discovery",
+      "target": "https://www.dropbox.com/.well-known/openid-configuration",
+      "result": "authorize=https://www.dropbox.com/oauth2/authorize; scopes=openid profile email",
+      "ok": true
+    },
+    {
+      "name": "Authorize endpoint",
+      "target": "https://www.dropbox.com/oauth2/authorize",
+      "result": "HTTP 302 -> /oauth2/authorize_error?client_id=probe-not-a-real-client&error_detail=Invalid+client_id%3A+%22probe-not-a-real-client%2 (mentions \"client_id\")",
+      "ok": true
+    },
+    {
+      "name": "Developer console",
+      "target": "https://www.dropbox.com/developers/apps",
+      "result": "reachable, requires sign-in (HTTP 200, final https://www.dropbox.com/login?cont=https%3A%2F%2Fwww.dropbox.com%2Fdevelopers%2Fapps)",
+      "ok": true
+    }
+  ],
+  "uncertain": [
+    "The researched official material does not publish a numeric general Dropbox API rate limit.",
+    "Dropbox does not publish a fixed universal access-token lifetime; the implementation must use the expiry returned by the token endpoint.",
+    "The time required to acquire 50 linked users is product-dependent and no source provides an estimate.",
+    "Exact current Dropbox scope identifier names for each listed capability were not captured in the research notes; verify identifiers in the Permissions tab before implementation."
+  ]
+}

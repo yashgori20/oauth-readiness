@@ -1,0 +1,542 @@
+{
+  "app": "Calendly",
+  "slug": "calendly",
+  "website": "https://calendly.com",
+  "developerConsole": "https://developer.calendly.com",
+  "generatedAt": "2026-11-15T06:57:02.524Z",
+  "origin": "live",
+  "verdict": {
+    "difficulty": 2,
+    "access": "open",
+    "summary": "Use a Production OAuth 2.1 app for each end user's independent Calendly connection; do not use a personal access token for this multi-tenant model. Build and validate against a separate Sandbox app, then create a Production app with one HTTPS callback, PKCE, encrypted rotating refresh-token storage, and only the scopes the agent needs. There is no documented Production OAuth app review queue; user consent to requested scopes is the operative access gate.",
+    "activeEffort": "1–3 days, mostly implementing OAuth PKCE, encrypted token rotation, tenant-safe callback handling, and webhook verification (estimate)",
+    "waitTime": "No documented review wait: the published setup material describes direct app creation and does not document a review queue or SLA.",
+    "mainGate": "Each end user must consent to the requested OAuth scopes, and Production requires exactly one HTTPS redirect URI."
+  },
+  "agentPath": {
+    "recommendation": {
+      "text": "Create separate Sandbox and Production OAuth apps. Use the authorization-code OAuth 2.1 flow with PKCE for each tenant user's connection, retain tokens only in server-side encrypted storage, and use the hosted MCP server only if Dynamic Client Registration—not manually issued console credentials—fits the product architecture.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.calendly.com/docs/authentication/overview",
+          "quote": "OAuth is required for multiple accounts, while personal access tokens are used for installing in a single account at a time.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+          "quote": "We recommend that you start with a Sandbox app for development. Create a second app for Production when you are ready to use real customer data.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.calendly.com/docs/mcp/calendly-mcp-server",
+          "quote": "❌ Manual OAuth app provisioning (console-issued credentials)",
+          "quoteVerified": true
+        }
+      ]
+    },
+    "scopeTiers": [
+      {
+        "text": "Read a user's profile, event types, availability, and scheduled events. This needs ordinary end-user consent; no provider scope-review tier is documented.",
+        "evidence": "unverified",
+        "sources": [
+          {
+            "url": "https://developer.calendly.com/docs/authentication/scopes",
+            "quote": "For newly created OAuth apps and new Personal Access Tokens, no API access is granted until scopes are explicitly requested and approved.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developer.calendly.com/docs/authentication/scopes",
+            "quote": "scheduled_events:read Retrieve scheduled events and invitee information.",
+            "quoteVerified": false
+          }
+        ],
+        "need": "Read scheduling context",
+        "scopes": "users:read; event_types:read; availability:read; scheduled_events:read"
+      },
+      {
+        "text": "Create or modify scheduling outcomes. This adds write authority and should be requested only when the user explicitly enables agent actions; no separate provider review tier is documented.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://developer.calendly.com/docs/authentication/scopes",
+            "quote": "scheduled_events:write Create event invitees, cancel events or mark invitees as no-show.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developer.calendly.com/docs/authentication/scopes",
+            "quote": "Confirm that the user granted all requested scopes (users can decline scopes during install).",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Book, cancel, mark no-shows, or change event types and availability",
+        "scopes": "scheduled_events:write; event_types:write; availability:write"
+      },
+      {
+        "text": "Synchronize changes with webhooks or make one-off booking links. Webhook payloads require the related read scopes in addition to webhooks:write; customized managed Shares need shares:write rather than scheduling_links:write.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://developer.calendly.com/docs/authentication/scopes",
+            "quote": "Your app must be granted the related read scopes to receive webhook event payloads.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developer.calendly.com/docs/authentication/scopes",
+            "quote": "scheduling_links:write Create a single-use scheduling link from an existing event type without any customization.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Event synchronization or agent-generated booking links",
+        "scopes": "webhooks:write; scheduled_events:read; event_types:read; scheduling_links:write"
+      }
+    ]
+  },
+  "essentials": [
+    {
+      "text": "Access tokens expire after two hours. Keep refresh tokens only in encrypted server-side storage; refresh tokens are single-use, so serialize refreshes per connection and atomically store the replacement token after every successful refresh.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.calendly.com/api-docs/calendly-o-auth/o-auth/post-oauth-refresh-token",
+          "quote": "Access Tokens expire after 2 hours.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.calendly.com/docs/authentication/refresh-token-rotation-guide",
+          "quote": "A refresh token is revoked immediately after a successful POST /oauth/token call.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.calendly.com/docs/authentication/refresh-token-rotation-guide",
+          "quote": "Refresh tokens are handled only on the server side , in secure storage.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Tokens and refresh"
+    },
+    {
+      "text": "Register exactly one stable callback URI per OAuth app. Sandbox supports HTTPS and localhost HTTP; Production accepts HTTPS URIs only, and the token exchange must send the same redirect URI used to obtain the code.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+          "quote": "Redirect URI : the URL where Calendly sends users after they authorize your app. Enter exactly one URI.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+          "quote": "Production https URIs only",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+          "quote": "redirect_uri : the same redirect URI that you used to get the code",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Redirect URIs"
+    },
+    {
+      "text": "Not found in the sources researched",
+      "evidence": "unverified",
+      "sources": [],
+      "topic": "Test users and dev limits"
+    },
+    {
+      "text": "Apply limits per connected user: Free users have 50 requests per user per minute, while OAuth token issuance is capped at eight tokens per user per minute. On HTTP 429, wait for X-RateLimit-Reset before retrying.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.calendly.com/api-docs/overview/rate-limits",
+          "quote": "Free Plan 50 requests per user per minute",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.calendly.com/api-docs/overview/rate-limits",
+          "quote": "Only 8 OAuth tokens per user can be requested within a span of 1 minute.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.calendly.com/api-docs/overview/rate-limits",
+          "quote": "If you receive a 429 response, wait until the X-RateLimit-Reset time has elapsed before retrying.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Rate limits"
+    },
+    {
+      "text": "OAuth access does not require a particular Calendly plan: API GET and POST requests are available on behalf of users on every plan, including Free. Connected-user plan and role still govern available functions; Enterprise pricing starts at $15k per year and 50 seats.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.calendly.com/docs/getting-started/frequently-asked-questions",
+          "quote": "Developers can make GET and POST requests to API endpoints on behalf of a Calendly user on any subscription plan, including the Free plan",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.calendly.com/docs/getting-started/introduction",
+          "quote": "Access to the Calendly API is determined by your subscription and user role in Calendly.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://calendly.com/pricing",
+          "quote": "Starts at $15k /yr Starts at 50 seats.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Cost"
+    },
+    {
+      "text": "Create a separate Production OAuth app when handling real customer data, configure its single HTTPS callback, and securely save the client secret and webhook signing key during creation because they cannot be displayed again.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+          "quote": "Environment type : select Sandbox for development and testing, or Production when your app is ready for real users.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+          "quote": "Copy all three values and store them securely before you leave this screen. You cannot view the client secret or the webhook signing key again.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Going live"
+    },
+    {
+      "text": "Not found in the sources researched",
+      "evidence": "unverified",
+      "sources": [],
+      "topic": "Submitting for review"
+    },
+    {
+      "text": "PKCE with S256 is mandatory for every OAuth app. Verify webhooks using HMAC-SHA256 over timestamp, a period, and the raw JSON body; reject stale deliveries, with Calendly's example using a three-minute tolerance.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.calendly.com/api-docs/calendly-o-auth/o-auth/get-oauth-authorize",
+          "quote": "Every OAuth app must use PKCE conforming to RFC 7636, with the S256 method.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.calendly.com/api-docs/overview/webhooks/webhook-signatures",
+          "quote": "# Determine the expected signature by computing an HMAC with the SHA256 hash function.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.calendly.com/api-docs/overview/webhooks/webhook-signatures",
+          "quote": "In the example below, the tolerance zone is set to 3 minutes, so any webhooks received that are older than 3 minutes will be rejected.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Security checks"
+    }
+  ],
+  "phases": [
+    {
+      "name": "Register",
+      "steps": [
+        {
+          "title": "Create a Sandbox OAuth app",
+          "owner": "you",
+          "detail": {
+            "text": "Sign in to Calendly, open Profile menu → Developer → Developer tools, select Create, and choose Sandbox as the environment. Use this app only for integration development before registering a distinct Production app for customer data.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+                "quote": "Open Developer tools . In Calendly, open the Profile menu and select Developer .",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+                "quote": "Environment type : select Sandbox for development and testing, or Production when your app is ready for real users.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "link": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app"
+        }
+      ]
+    },
+    {
+      "name": "Configure",
+      "steps": [
+        {
+          "title": "Set the single callback and preserve app secrets",
+          "owner": "you",
+          "detail": {
+            "text": "In the OAuth app Redirect URI field, enter one stable callback endpoint; use HTTPS for Production. Copy the client ID, client secret, and webhook signing key into the production secret manager before leaving the creation screen.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+                "quote": "Redirect URI : the URL where Calendly sends users after they authorize your app. Enter exactly one URI.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+                "quote": "Copy all three values and store them securely before you leave this screen. You cannot view the client secret or the webhook signing key again.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "link": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app"
+        },
+        {
+          "title": "Prepare the tenant-safe OAuth callback contract",
+          "owner": "agent",
+          "detail": {
+            "text": "Implement the callback using a server-stored, single-use transaction bound to the tenant and user connection. Send response_type=code, the registered redirect URI, and an S256 PKCE challenge; at callback validate the transaction before exchanging the code with the same URI and verifier.",
+            "evidence": "inferred",
+            "sources": [
+              {
+                "url": "https://developer.calendly.com/api-docs/calendly-o-auth/o-auth/get-oauth-authorize",
+                "quote": "Redirect the user to Calendly’s authorization page with the client_id , redirect_uri , and code_challenge",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.calendly.com/api-docs/calendly-o-auth/o-auth/get-oauth-authorize",
+                "quote": "If the request does not include a code_challenge , it fails.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+                "quote": "If your app runs on a server, also send your client secret. Use HTTP Basic authentication with your client ID as the username and your client secret as the password.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min",
+          "output": "const tx = await db.oauthTx.create({tenantId, nonce: crypto.randomUUID(), verifier, expiresAt});\nconst url = new URL('https://auth.calendly.com/oauth/authorize');\nurl.search = new URLSearchParams({response_type:'code',client_id:ID,redirect_uri:REDIRECT,code_challenge:challenge,code_challenge_method:'S256',state:tx.nonce});\n// callback: load and consume tx by state; require its tenant binding.\n// Exchange code with the exact REDIRECT, PKCE verifier, and Basic(ID, SECRET).\n// Encrypt tokens and atomically replace refresh_token on refresh."
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "steps": [
+        {
+          "title": "Test consent, refresh rotation, and denied permissions",
+          "owner": "agent",
+          "detail": {
+            "text": "Run the Sandbox acceptance checks against a test connection, including declined scope handling, single-use refresh-token rotation, webhook signature rejection, and per-user rate-limit backoff before creating Production credentials.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.calendly.com/docs/authentication/scopes",
+                "quote": "Confirm that the user granted all requested scopes (users can decline scopes during install).",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.calendly.com/docs/authentication/refresh-token-rotation-guide",
+                "quote": "A refresh token is revoked immediately after a successful POST /oauth/token call.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.calendly.com/api-docs/overview/rate-limits",
+                "quote": "If you receive a 429 response, wait until the X-RateLimit-Reset time has elapsed before retrying.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min",
+          "output": "Sandbox acceptance checks:\n1. Authorize read-only scopes; confirm the tenant binding.\n2. Decline one requested scope; show a reconnect message.\n3. Refresh once; verify the old refresh token is unusable.\n4. Force concurrent refresh attempts; permit one writer only.\n5. Send a stale or altered webhook; reject it.\n6. Confirm 429 retries wait for X-RateLimit-Reset."
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "steps": [
+        {
+          "title": "No provider app-review submission is documented",
+          "owner": "you",
+          "detail": {
+            "text": "Do not wait for a documented OAuth app-review queue. Confirm internally that the Production app requests minimum scopes and that consent, data-use disclosures, and security controls are ready; then proceed to create the Production app.",
+            "evidence": "inferred",
+            "sources": [
+              {
+                "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+                "quote": "Select Create .",
+                "quoteVerified": false
+              },
+              {
+                "url": "https://developer.calendly.com/docs/authentication/scopes",
+                "quote": "For newly created OAuth apps and new Personal Access Tokens, no API access is granted until scopes are explicitly requested and approved.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "5 min",
+          "link": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app"
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "steps": [
+        {
+          "title": "Register and deploy the Production OAuth app",
+          "owner": "you",
+          "detail": {
+            "text": "Create a second OAuth app with Environment type set to Production, configure the deployed HTTPS callback, store its new credentials separately from Sandbox, and enable the user connection flow with the minimum selected scopes.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+                "quote": "We recommend that you start with a Sandbox app for development. Create a second app for Production when you are ready to use real customer data.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+                "quote": "Production https URIs only",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min",
+          "link": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app"
+        },
+        {
+          "title": "Publish the data-use disclosure",
+          "owner": "agent",
+          "detail": {
+            "text": "Prepare and publish a connection-screen disclosure that transparently states the collection, use, and sharing of Calendly customer data, including any sharing with AI service providers that applies to the workflow. Limit use of the data to the practices disclosed.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://calendly.com/legal/developer-policy",
+                "quote": "Use of customer data must be transparent by disclosing the collection, use and sharing of the data. You must limit your use of the data to the practices you disclose.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "output": "Draft disclosure for review:\n“When you connect Calendly, we access only the permissions you approve to provide requested scheduling assistance. We process Calendly data to run the selected workflow and may send necessary data to our AI service providers. We do not use your connection for unrelated purposes. You can disconnect Calendly at any time.”"
+        }
+      ]
+    }
+  ],
+  "gotchas": [
+    {
+      "text": "A Production app can register exactly one HTTPS callback URI. Do not model tenant-specific redirect URIs; bind tenant context to a server-side authorization transaction instead.",
+      "evidence": "inferred",
+      "sources": [
+        {
+          "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+          "quote": "Redirect URI : the URL where Calendly sends users after they authorize your app. Enter exactly one URI.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+          "quote": "Production https URIs only",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Refresh-token rotation can disconnect a tenant if two workers refresh simultaneously: a successful refresh immediately revokes the old token.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.calendly.com/docs/authentication/refresh-token-rotation-guide",
+          "quote": "A refresh token is revoked immediately after a successful POST /oauth/token call.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Create Event Invitee is especially constrained for Free and Trial users, with five requests per user per day; do not assume general API limits are sufficient for automated booking.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.calendly.com/api-docs/overview/rate-limits",
+          "quote": "Create Event Invitee Free 5 requests per user per day",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Do not request recap, outgoing-communication, or data-deletion access by default because those permissions expose highly sensitive content or destructive operations.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.calendly.com/docs/authentication/scopes",
+          "quote": "meeting_recaps:read Retrieve recap summaries, action items, discussions, and transcripts.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "An AI agent must remain an authorized workflow layer rather than recreating or replacing the Calendly scheduling experience.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://calendly.com/legal/developer-policy",
+          "quote": "Use the API in any of your applications to replicate or attempt to replace the user experience of the Calendly Offering;",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "whenBlocked": [
+    {
+      "text": "If the Developer menu is missing during account migration, manage the OAuth app at developer.calendly.com instead.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+          "quote": "Don’t see Developer in your Profile menu? Your account is still being moved. Until then, manage OAuth apps at developer.calendly.com .",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If the webhook signing key was lost or was not issued for an existing OAuth application, contact support+developer@calendly.com.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.calendly.com/api-docs/overview/webhooks/webhook-signatures",
+          "quote": "If you didn’t receive a webhook signing key for an OAuth 2.0 application you’ve previously created or need to retrieve one because you lost it, then contact support+developer@calendly.com .",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If a user declines a required scope, direct that user to reconnect and approve the missing permission rather than treating the connection as fully authorized.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.calendly.com/docs/authentication/scopes",
+          "quote": "Confirm that the user granted all requested scopes (users can decline scopes during install).",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "probes": [
+    {
+      "name": "OIDC discovery",
+      "target": "https://calendly.com/.well-known/openid-configuration",
+      "result": "authorize=https://calendly.com/oauth/authorize; scopes=",
+      "ok": true
+    },
+    {
+      "name": "Authorize endpoint",
+      "target": "https://auth.calendly.com/oauth/authorize",
+      "result": "HTTP 301 -> https://calendly.com/oauth/authorize?client_id=probe-not-a-real-client&response_type=code&redirect_uri=https%3A%2F%2Fexa (mentions \"client_id\")",
+      "ok": true
+    },
+    {
+      "name": "Developer console",
+      "target": "https://developer.calendly.com",
+      "result": "HTTP 200 (final: https://developer.calendly.com/docs/getting-started/overview)",
+      "ok": true
+    }
+  ],
+  "uncertain": [
+    "Couldn't confirm against its cited source: \"Read a user's profile, event types, availability, and scheduled events. This needs ordinary end-user consent; no provider scope-review ti…\""
+  ]
+}

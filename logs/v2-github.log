@@ -1,0 +1,46 @@
+[0.0s] {"type":"status","message":"Researching GitHub"}
+[14.9s] {"type":"tool","name":"search","target":"site:docs.github.com apps creating GitHub App versus OAuth app install users organization production review","summary":"search failed: HTTP 429"}
+[14.9s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub OAuth app authorization callback URL device flow refresh tokens expiration","summary":"7 results"}
+[14.9s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub App permissions rate limits user access token expiration refresh token","summary":"8 results"}
+[14.9s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub Marketplace app listing review requirements submit review","summary":"6 results"}
+[14.9s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub app developer terms AI machine learning policy","summary":"8 results"}
+[14.9s] {"type":"tool","name":"search","target":"site:github.blog changelog GitHub Apps OAuth apps developer changes 2025 2026","summary":"8 results"}
+[14.9s] {"type":"tool","name":"search","target":"GitHub App Marketplace review how long rejected community discussion","summary":"search failed: HTTP 429"}
+[14.9s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub Apps registration prerequisites verification pricing GitHub App","summary":"8 results"}
+[14.9s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub OAuth app scopes organization approval third party application restrictions","summary":"8 results"}
+[14.9s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub REST API rate limits GitHub Apps OAuth apps","summary":"6 results"}
+[27.0s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app","summary":"16 facts"}
+[27.0s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/differences-between-github-apps-and-oauth-apps","summary":"16 facts"}
+[27.0s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app","summary":"21 facts"}
+[27.0s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/refreshing-user-access-tokens","summary":"12 facts"}
+[27.0s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/listing-an-app-on-github-marketplace/submitting-your-listing-for-publication","summary":"5 facts"}
+[27.0s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/creating-apps-for-github-marketplace/requirements-for-listing-an-app","summary":"12 facts"}
+[27.0s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/github-marketplace-overview/applying-for-publisher-verification-for-your-organization","summary":"8 facts"}
+[27.0s] {"type":"tool","name":"read","target":"https://docs.github.com/en/site-policy/github-terms/github-registered-developer-agreement","summary":"12 facts"}
+[27.0s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/rate-limits-for-github-apps","summary":"6 facts"}
+[27.0s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps","summary":"18 facts"}
+[27.0s] {"type":"tool","name":"read","target":"https://github.blog/changelog/2026-10-13-github-app-improvements-for-least-privilege-and-management/","summary":"17 facts"}
+[27.0s] {"type":"tool","name":"read","target":"https://github.blog/changelog/2025-07-14-pkce-support-for-oauth-and-github-app-authentication/","summary":"7 facts"}
+[45.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps","summary":"15 facts"}
+[45.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/about-creating-github-apps","summary":"9 facts"}
+[45.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/site-policy/github-terms/github-marketplace-developer-agreement","summary":"19 facts"}
+[45.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/support/github-contacts","summary":"nothing relevant"}
+[45.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/github-marketplace-overview/about-github-marketplace-for-apps","summary":"6 facts"}
+[45.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/rate-limits-for-oauth-apps","summary":"2 facts"}
+[45.6s] {"type":"tool","name":"read","target":"https://github.blog/changelog/2026-08-14-multiple-redirect-uris-and-token-refresh-for-oauth-apps/","summary":"17 facts"}
+[45.6s] {"type":"tool","name":"search","target":"GitHub Community Discussion GitHub Marketplace listing review how long approval rejection","summary":"8 results"}
+[45.6s] {"type":"tool","name":"search","target":"site:github.com/orgs/community/discussions GitHub Marketplace review approval time","summary":"3 results"}
+[45.6s] {"type":"tool","name":"search","target":"GitHub Marketplace app review rejection community forum onboarding expert wait time","summary":"8 results"}
+[56.0s] {"type":"tool","name":"read","target":"https://github.com/orgs/community/discussions/169005","summary":"4 facts"}
+[56.0s] {"type":"tool","name":"read","target":"https://github.com/orgs/community/discussions/191706","summary":"7 facts"}
+[56.0s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/using-the-github-marketplace-api-in-your-app/testing-your-app","summary":"7 facts"}
+[56.0s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app","summary":"4 facts"}
+[56.0s] {"type":"tool","name":"read","target":"https://support.github.com/contact","summary":"4 facts"}
+[85.3s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[86.0s] {"type":"tool","name":"probe","target":"github.com","summary":"failed: no discovery document on these hosts (provider may not support OIDC)"}
+[86.0s] {"type":"tool","name":"probe","target":"https://github.com/login/oauth/authorize","summary":"ok: HTTP 302 -> https://github.com/login?client_id=probe-not-a-real-client&return_to"}
+[86.0s] {"type":"tool","name":"probe","target":"https://github.com/settings/apps","summary":"ok: reachable, requires sign-in (HTTP 200, final https://github.com/login?return_to="}
+[86.0s] {"type":"status","message":"Writing guide"}
+[125.5s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[125.5s] {"type":"status","message":"Checking the guide for contradictions"}
+[135.3s] guide -> guides/github.json

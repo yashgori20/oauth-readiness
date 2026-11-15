@@ -49,16 +49,16 @@ export async function listGuides(): Promise<Guide[]> {
   const files = await readdir(DIR).catch(() => [] as string[]);
   const disk = await Promise.all(files.filter((f) => f.endsWith(".json")).map((f) => fromDisk(f.slice(0, -5))));
   const all = new Map<string, Guide>();
-  // Curated disk guides win over live ones with the same slug.
-  for (const g of [...(await fromBlob()), ...memory.values(), ...disk, ...CURATED.values()]) if (g) all.set(g.slug, g);
+  // Later wins: the guides/ folder beats the build-time bundle (fresher in dev, identical on Vercel).
+  for (const g of [...(await fromBlob()), ...memory.values(), ...CURATED.values(), ...disk]) if (g) all.set(g.slug, g);
   return [...all.values()].sort((a, b) => a.verdict.difficulty - b.verdict.difficulty || a.app.localeCompare(b.app));
 }
 
 export async function getGuide(slug: string): Promise<Guide | null> {
   if (!/^[a-z0-9-]+$/.test(slug)) return null;
-  if (CURATED.has(slug)) return CURATED.get(slug)!;
   const disk = await fromDisk(slug);
   if (disk) return disk;
+  if (CURATED.has(slug)) return CURATED.get(slug)!;
   if (memory.has(slug)) return memory.get(slug)!;
   if (BLOB) {
     try {

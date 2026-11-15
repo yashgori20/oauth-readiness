@@ -1,0 +1,39 @@
+[0.0s] {"type":"status","message":"Researching Gmail (Google OAuth)"}
+[20.6s] {"type":"tool","name":"search","target":"site:developers.google.com/identity/protocols/oauth2 Google OAuth web server offline refresh tokens PKCE redirect URI","summary":"5 results","detail":["Using O
+[20.6s] {"type":"tool","name":"search","target":"site:support.google.com/cloud/answer OAuth app verification Google scopes sensitive restricted verification submit review","summary":"8 results","detail":["OAu
+[20.6s] {"type":"tool","name":"search","target":"site:developers.google.com/workspace/gmail/api/auth/scopes Gmail API scopes restricted sensitive","summary":"6 results","detail":["Choose Gmail API scopes | Go
+[20.6s] {"type":"tool","name":"search","target":"site:developers.google.com/workspace/guides/configure-oauth-consent-screen testing users 100 Google OAuth","summary":"6 results","detail":["Configure the OAuth
+[20.6s] {"type":"tool","name":"search","target":"site:developers.google.com/identity/protocols/oauth2/production-readiness Google OAuth production app verification","summary":"8 results","detail":["OAuth App 
+[20.6s] {"type":"tool","name":"search","target":"site:developers.google.com/workspace/gmail/api/reference/quota Gmail API quota limits","summary":"3 results","detail":["Usage limits | Gmail | Google for Devel
+[20.6s] {"type":"tool","name":"search","target":"site:cloud.google.com/iam/quotas Google Cloud billing OAuth Gmail API pricing","summary":"8 results","detail":["Quotas and limits | Identity and Access Managem
+[20.6s] {"type":"tool","name":"search","target":"Google API Services User Data Policy AI LLM Gmail API developer","summary":"8 results","detail":["Google API Services User Data Policy | Google for Developers 
+[20.6s] {"type":"tool","name":"search","target":"site:developers.google.com Google OAuth verification security assessment restricted scopes CASA","summary":"8 results","detail":["Restricted scope verification
+[20.6s] {"type":"tool","name":"search","target":"Google OAuth app verification review time community Gmail restricted scopes security assessment","summary":"8 results","detail":["Frequently Asked Questions - 
+[20.6s] {"type":"tool","name":"search","target":"site:developers.google.com/workspace/gmail/api/guides Gmail API quickstart test users OAuth consent screen","summary":"6 results","detail":["Python quickstart 
+[20.6s] {"type":"tool","name":"search","target":"Google OAuth consent screen API console create OAuth client CLI gcloud branding audience data access","summary":"8 results","detail":["Get started with the Goo
+[39.3s] {"type":"tool","name":"read","target":"https://developers.google.com/workspace/gmail/api/auth/scopes","summary":"28 facts","detail":["Gmail API authorization scopes define the level of access granted 
+[39.3s] {"type":"tool","name":"read","target":"https://support.google.com/cloud/answer/13461325?hl=en","summary":"20 facts","detail":["Create or select a Google Cloud project for the app before verification. 
+[39.3s] {"type":"tool","name":"read","target":"https://support.google.com/cloud/answer/13464321?hl=en","summary":"32 facts","detail":["Google OAuth verification guidance is not a policy document; API Terms of
+[39.3s] {"type":"tool","name":"read","target":"https://developers.google.com/identity/protocols/oauth2/web-server","summary":"22 facts","detail":["Authorization endpoint: `https://accounts.google.com/o/oauth2
+[39.3s] {"type":"tool","name":"read","target":"https://support.google.com/cloud/answer/15549945?hl=en-GB","summary":"13 facts","detail":["Testing projects are limited to 100 test users listed in the OAuth con
+[39.3s] {"type":"tool","name":"read","target":"https://developers.google.com/workspace/gmail/api/reference/quota","summary":"77 facts","detail":["The page was last updated 2026-10-16 UTC. | quote: \"Last upda
+[39.3s] {"type":"tool","name":"read","target":"https://developers.google.com/workspace/workspace-api-user-data-developer-policy","summary":"12 facts","detail":["The policy prohibits using Google Workspace use
+[39.3s] {"type":"tool","name":"read","target":"https://support.google.com/cloud/answer/13463817?hl=en-GB","summary":"12 facts","detail":["Brand verification is expected to take 2–3 business days. | quote: \"2
+[39.3s] {"type":"tool","name":"read","target":"https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification","summary":"12 facts","detail":["Apps that store or tr
+[39.3s] {"type":"tool","name":"read","target":"https://support.google.com/cloud/answer/15549257?hl=en","summary":"23 facts","detail":["OAuth clients are categorized as public or private; private clients can s
+[39.3s] {"type":"tool","name":"read","target":"https://developers.google.com/terms/api-services-user-data-policy","summary":"12 facts","detail":["Page last updated February 15, 2024. | quote: \"Last updated F
+[39.3s] {"type":"tool","name":"read","target":"https://workspace.google.com/blog/ai-and-machine-learning/api-policy-protections","summary":"6 facts","detail":["Google clarified how existing Workspace API poli
+[57.5s] {"type":"tool","name":"search","target":"site:reddit.com Google OAuth verification Gmail API CASA review experience weeks 2025","summary":"8 results","detail":["Restricted scope verification | App ver
+[57.5s] {"type":"tool","name":"search","target":"site:community.nango.dev Google OAuth verification Gmail restricted scopes","summary":"8 results","detail":["Restricted scope verification | App verification t
+[57.5s] {"type":"tool","name":"search","target":"site:developers.google.com/identity/protocols/oauth2/native-app PKCE Google OAuth","summary":"4 results","detail":["OAuth 2.0 for Desktop Apps | Google for Dev
+[57.5s] {"type":"tool","name":"search","target":"Google Auth Platform API gcloud CLI OAuth client consent screen configuration","summary":"8 results","detail":["Configure the OAuth consent screen and choose s
+[57.5s] {"type":"tool","name":"search","target":"site:support.google.com/cloud Google OAuth verification support contact Trust Safety","summary":"8 results","detail":["OAuth App Verification Help Center | htt
+[57.5s] {"type":"tool","name":"search","target":"Google Gmail API OAuth verification security assessment cost CASA community vendor guide","summary":"8 results","detail":["Restricted scope verification | App 
+[83.4s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[83.7s] {"type":"tool","name":"probe","target":"https://accounts.google.com/.well-known/openid-configuration","summary":"ok: authorize=https://accounts.google.com/o/oauth2/v2/auth; scopes=openid email prof"}
+[83.7s] {"type":"tool","name":"probe","target":"https://accounts.google.com/o/oauth2/v2/auth","summary":"ok: HTTP 302 -> https://accounts.google.com/signin/oauth/error?authError=Cg9pbnZhbGl"}
+[83.7s] {"type":"tool","name":"probe","target":"https://console.cloud.google.com/auth/overview","summary":"ok: reachable, requires sign-in (HTTP 200, final https://accounts.google.com/v3/sign"}
+[83.7s] {"type":"status","message":"Writing guide"}
+[121.9s] {"type":"status","message":"Writing the sign-in link and curl commands"}
+[124.2s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[124.2s] {"type":"status","message":"Checking the guide for contradictions"}

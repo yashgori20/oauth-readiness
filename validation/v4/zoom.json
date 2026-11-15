@@ -1,0 +1,828 @@
+{
+  "app": "Zoom",
+  "slug": "zoom",
+  "website": "https://www.zoom.com/",
+  "developerConsole": "https://marketplace.zoom.us/",
+  "generatedAt": "2026-11-15T07:08:15.938Z",
+  "origin": "live",
+  "verdict": {
+    "difficulty": 4,
+    "access": "gated",
+    "summary": "Build a General OAuth app that each user manages. A listed or unlisted public launch needs Marketplace review. Community guidance suggests about 2–3 weeks after a complete submission, but this is not guaranteed.",
+    "activeEffort": "2–4 days, mostly building OAuth, review materials, and security documentation",
+    "waitTime": "Community guidance: about 2–3 weeks after submission; this can take longer.",
+    "mainGate": "Listed and unlisted distribution require Marketplace review before broad customer use."
+  },
+  "agentPath": {
+    "recommendation": {
+      "text": "Create a General OAuth app that users manage themselves. Choose published unlisted for direct installs, or listed for Marketplace discovery. This limits each connection to the authorizing user's data.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/integrations/create/",
+          "quote": "User-managed: Individual users add and manage the app. The app has access to only the user's authorized data.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/build-flow/before-you-build/",
+          "quote": "Available options: internal, private, beta, published (listed), published (unlisted).",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/build-flow/before-you-build/",
+          "quote": "Unlisted apps can still be installed by anyone who has the direct installation link.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    "scopeTiers": [
+      {
+        "text": "Read the connected user's profile, meetings, and recordings. Review checks that every requested permission is necessary.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://developers.zoom.us/docs/integrations/oauth-scopes-overview/",
+            "quote": "Choose to require the minimal amount of scopes for your app.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.zoom.us/docs/distribute/app-review-process/",
+            "quote": "The Marketplace Security Review Team verifies that the app only requests the minimum necessary OAuth scopes required for its functionality.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Read the connected user's profile, meetings, and recordings.",
+        "scopes": "user:read:user; meeting:read:meeting; recording:read:recording"
+      },
+      {
+        "text": "Create or update the connected user's meetings. Review must match this write access to a visible feature.",
+        "evidence": "unverified",
+        "sources": [
+          {
+            "url": "https://developers.zoom.us/docs/integrations/oauth-scopes-overview/",
+            "quote": "Choose to require the minimal amount of scopes for your app.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.zoom.us/docs/distribute/app-review-process/",
+            "quote": "The Marketplace Security Review Team verifies that the app only requests the minimum necessary OAuth scopes required for its functionality.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.zoom.us/docs/api/rate-limits/",
+            "quote": "Meeting and Webinar create/update requests are limited to 100 per day per user, based on UTC.",
+            "quoteVerified": false
+          }
+        ],
+        "need": "Create or update meetings for the connected user.",
+        "scopes": "meeting:read:meeting; meeting:write:meeting"
+      },
+      {
+        "text": "Manage data for many users in one customer's Zoom account. A customer admin must install an account-level app. Master permissions also require the account owner.",
+        "evidence": "unverified",
+        "sources": [
+          {
+            "url": "https://developers.zoom.us/docs/integrations/create/",
+            "quote": "Admin-managed: Account admins add and manage the app. Depending on the scope, the app can access and manage the user data of users on their account.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.zoom.us/docs/integrations/oauth-scopes-overview/",
+            "quote": "Master-level scopes can only be granted to an account-level app by account owners.",
+            "quoteVerified": false
+          }
+        ],
+        "need": "Manage meetings or users across one customer's whole Zoom account.",
+        "scopes": "account-level meeting and user scopes; master scopes only when required"
+      }
+    ]
+  },
+  "essentials": [
+    {
+      "text": "Access tokens expire after one hour. Refresh tokens expire after 90 days. Store the newest refresh token for each connected user.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "Access tokens expire after one hour.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "Refresh tokens expire after 90 days.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "You should always use the latest refresh token for the next refresh request.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Tokens and refresh"
+    },
+    {
+      "text": "Set a redirect URL and OAuth allow list. Enable Strict Mode URL in production. Do not submit loopback development URLs.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/integrations/create/",
+          "quote": "OAuth redirect URL (required)",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/integrations/create/",
+          "quote": "OAuth allow lists (required)",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/build-flow/basic-info/oauth-info/",
+          "quote": "Strict Mode URL (Optional) : Allows only exact matches of the registered OAuth redirect URLs.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/build-flow/basic-info/oauth-info/",
+          "quote": "These resources are not suitable for production-ready end users and may be rejected during the marketplace publishing review.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Redirect URIs"
+    },
+    {
+      "text": "Test locally with development credentials and your own Zoom account. Beta user-managed apps normally allow 100 additions. Beta authorization URLs last four weeks and allow two four-week extensions.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/distribute/sharing-private-and-beta-apps/",
+          "quote": "To test unpublished changes to your app, use the development version of the app locally.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/distribute/app-submission/authorization-url-faq/",
+          "quote": "the standard number of additions allowed for a beta user-level application is 100.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/distribute/app-submission/authorization-url-faq/",
+          "quote": "We issue authorization URLs for a period of 4 weeks after which you can request two additional 4-week extensions.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Test users and dev limits"
+    },
+    {
+      "text": "Limits are shared across all apps and users in each customer's account. Meeting and webinar create or update requests are limited to 100 daily per user. Back off after HTTP 429 responses.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/api/rate-limits/",
+          "quote": "Rate limits are applied at the account level. These rate limits are shared by users for all apps installed on the account.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/api/rate-limits/",
+          "quote": "Meeting and Webinar create/update requests are limited to 100 per day per user, based on UTC.",
+          "quoteVerified": false
+        },
+        {
+          "url": "https://developers.zoom.us/docs/api/rate-limits/",
+          "quote": "When you exceed a rate limit, the API request will fail and return a HTTP 429 status code.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Rate limits"
+    },
+    {
+      "text": "No general API registration fee was found in the researched developer documentation. Marketplace billing requires a United States payment account. Zoom takes 15% of gross retail sales, excluding taxes.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/distribute/monetization/pricing-fees-faq/",
+          "quote": "Payment accounts must be for an individual or business located within the geographic United States.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/distribute/monetization/pricing-fees-faq/",
+          "quote": "Zoom's standard agency commission is 15% of gross retail sales (excluding taxes).",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Cost"
+    },
+    {
+      "text": "Use production credentials for the first Marketplace submission. Choose listed for discovery or unlisted for direct-link installs. Both need review.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/distribute/app-submission/submit-apps-review/",
+          "quote": "For First-time submissions Make sure your environment is using the Production Client ID during authorization.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/build-flow/before-you-build/",
+          "quote": "Published (Listed) apps are available to all Zoom users on the Zoom App Marketplace, and are required to go through a rigorous quality and security review.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/distribute/app-review-process/",
+          "quote": "Public and unlisted apps undergo a dedicated review process.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Going live"
+    },
+    {
+      "text": "Provide a test plan, reviewer credentials, technical design, and verified callback domain. Review team notes must be addressed before resubmission.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/distribute/app-submission/submit-apps-review/",
+          "quote": "provide test credentials that allow Zoom reviewers to fully experience your integration.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/distribute/app-submission/submit-apps-review/",
+          "quote": "We perform a one-time verification to make sure that the domain where you receive Zoom callbacks is owned by you.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/distribute/app-submission/submit-apps-review/",
+          "quote": "You must review all notes from the Review Team and respond to or acknowledge them before resubmitting your app.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Submitting for review"
+    },
+    {
+      "text": "Compliance review comes before security testing. Explain your architecture, controls, and Zoom data use. Handle deauthorization and revoke access tokens.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/distribute/app-review-process/",
+          "quote": "Compliance review is done before security testing.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/distribute/app-review-process/",
+          "quote": "The information you provide outlines how the app is built, what security controls are in place, and how it uses data collected via Zoom OAuth scopes.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/distribute/app-submission/common-rejection-issues/",
+          "quote": "Handle Zoom's Deauthorization Event Notification",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/distribute/app-submission/common-rejection-issues/",
+          "quote": "Revoke the Access Token",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Security checks"
+    }
+  ],
+  "requests": [
+    {
+      "text": "Send the user to Zoom to authorize the requested user-level scopes.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth-scopes-overview/",
+          "quote": "https://zoom.us/oauth/authorize?client_id={clientID}&response_type=code&redirect_uri={redirect_uri}&scope={mandatory_granular_scopes}&optional_scope={optional_granular_scopes}",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "Optionally, add a state parameter to the authorization URL. Zoom returns the same state value on the redirect, so your app can confirm that the response matches its request and prevent cross-site request forgery.",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Send the user to sign in",
+      "method": "GET",
+      "url": "https://zoom.us/oauth/authorize?client_id=YOUR_CLIENT_ID&response_type=code&redirect_uri=YOUR_REDIRECT_URI&scope=user%3Aread%3Auser%20meeting%3Aread%3Ameeting%20recording%3Aread%3Arecording%20meeting%3Awrite%3Ameeting&state=RANDOM_STATE"
+    },
+    {
+      "text": "Exchange the redirect authorization code for access and refresh tokens.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "Once you have the authorization code from the user in the redirect URI, request an access token by sending a POST request to https://zoom.us/oauth/token with a Basic Authorization header.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "grant_type authorization_code \ncode The code in the redirect URI after a successful user authorization. \nredirect_uri Your redirect URI. Use the same OAuth Redirect URL in your Marketplace app.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "The Basic Authorization header is your Client ID and Client Secret separated by a colon ( : ) and Base64 encoded.",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Exchange the code for tokens",
+      "method": "POST",
+      "url": "https://zoom.us/oauth/token",
+      "curl": "curl --request POST 'https://zoom.us/oauth/token' \\\n  --user 'YOUR_CLIENT_ID:YOUR_CLIENT_SECRET' \\\n  --header 'Content-Type: application/x-www-form-urlencoded' \\\n  --data-urlencode 'grant_type=authorization_code' \\\n  --data-urlencode 'code=AUTH_CODE' \\\n  --data-urlencode 'redirect_uri=YOUR_REDIRECT_URI'"
+    },
+    {
+      "text": "Use the latest refresh token; refresh tokens expire after 90 days.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "To refresh an access token, send a POST request to https://zoom.us/oauth/token with a basic authorization header.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "grant_type refresh_token \nrefresh_token Your refresh_token .",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "Refresh tokens expire after 90 days. You should always use the latest refresh token for the next refresh request.",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Refresh the access token",
+      "method": "POST",
+      "url": "https://zoom.us/oauth/token",
+      "curl": "curl --request POST 'https://zoom.us/oauth/token' \\\n  --user 'YOUR_CLIENT_ID:YOUR_CLIENT_SECRET' \\\n  --header 'Content-Type: application/x-www-form-urlencoded' \\\n  --data-urlencode 'grant_type=refresh_token' \\\n  --data-urlencode 'refresh_token=REFRESH_TOKEN'"
+    },
+    {
+      "text": "Retrieve the Zoom user associated with the access token.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "GET https://api.zoom.us/v2/users/me",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "Request header\n{ \"Authorization\": \"Bearer <JWT_TOKEN>\" }",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Check the connection",
+      "method": "GET",
+      "url": "https://api.zoom.us/v2/users/me",
+      "curl": "curl --request GET 'https://api.zoom.us/v2/users/me' \\\n  --header 'Authorization: Bearer ACCESS_TOKEN'"
+    },
+    {
+      "text": "Revoke the access token to deauthorize the connection.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "To revoke an access token for all app types, send a POST request to https://zoom.us/oauth/revoke with a basic authorization header.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "token Your access_token .",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "The basic authorization header is your Client ID and Client Secret with a colon : in between, Base64 Encoded.",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Revoke access",
+      "method": "POST",
+      "url": "https://zoom.us/oauth/revoke",
+      "curl": "curl --request POST 'https://zoom.us/oauth/revoke' \\\n  --user 'YOUR_CLIENT_ID:YOUR_CLIENT_SECRET' \\\n  --header 'Content-Type: application/x-www-form-urlencoded' \\\n  --data-urlencode 'token=ACCESS_TOKEN'"
+    }
+  ],
+  "phases": [
+    {
+      "name": "Register",
+      "steps": [
+        {
+          "title": "Create a General app",
+          "owner": "you",
+          "detail": {
+            "text": "Open Develop, then Build an app, then General app. Select user-managed access for individual customer connections. This prevents access beyond the authorizing user's data.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.zoom.us/docs/integrations/create/",
+                "quote": "On the Created apps page, click Develop and select Build an app.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.zoom.us/docs/integrations/create/",
+                "quote": "User-managed: Individual users add and manage the app. The app has access to only the user's authorized data.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "link": "https://marketplace.zoom.us/"
+        },
+        {
+          "title": "Get developer access",
+          "owner": "you",
+          "detail": {
+            "text": "Ask your Zoom administrator to assign the Zoom for developers role. The Marketplace shows Develop only after this permission is enabled.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.zoom.us/docs/integrations/create/",
+                "quote": "The Marketplace only displays the Developer link when it detects that the user has the proper developer permissions.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.zoom.us/docs/integrations/create/",
+                "quote": "To enable the Zoom for developers role, log into the Zoom web portal as admin and go to User Management > Roles > Role Settings > Advanced features",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "link": "https://developers.zoom.us/docs/integrations/create/"
+        }
+      ]
+    },
+    {
+      "name": "Configure",
+      "steps": [
+        {
+          "title": "Set OAuth callback URLs",
+          "owner": "you",
+          "detail": {
+            "text": "Add separate development and production HTTPS callback URLs in OAuth information. Add both to the allow list. Enable exact redirect matching for production.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.zoom.us/docs/integrations/create/",
+                "quote": "OAuth redirect URL (required)",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.zoom.us/docs/integrations/create/",
+                "quote": "OAuth allow lists (required)",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.zoom.us/docs/build-flow/basic-info/oauth-info/",
+                "quote": "Strict Mode URL (Optional) : Allows only exact matches of the registered OAuth redirect URLs.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "link": "https://developers.zoom.us/docs/build-flow/basic-info/oauth-info/"
+        },
+        {
+          "title": "Draft callback handler",
+          "owner": "agent",
+          "detail": {
+            "text": "Implement a server-side callback with a high-entropy session-bound state value. Validate state before exchanging the code. Keep the client secret outside browser code.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.zoom.us/docs/integrations/oauth/",
+                "quote": "Optionally, add a state parameter to the authorization URL. Zoom returns the same state value on the redirect",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.zoom.us/docs/integrations/oauth/",
+                "quote": "Use PKCE to enable user authorization with a public client ID and no client secret, without the need for a backend server.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min",
+          "output": "GET /oauth/zoom/callback\n1. Load the signed session cookie.\n2. Reject missing code or state.\n3. Compare state with the session value.\n4. Exchange code server-side at /oauth/token.\n5. Encrypt tokens under the connected user ID.\n6. Replace refresh token atomically.\n7. Redirect to a success page."
+        },
+        {
+          "title": "Choose minimal permissions",
+          "owner": "agent",
+          "detail": {
+            "text": "Prepare a feature-to-permission justification. Remove any permission without a visible agent feature. This reduces rejection risk.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developers.zoom.us/docs/integrations/oauth-scopes-overview/",
+                "quote": "Choose to require the minimal amount of scopes for your app.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.zoom.us/docs/distribute/app-submission/common-rejection-issues/",
+                "quote": "Apps may be rejected for requesting unused or redundant scopes.",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "30 min",
+          "output": "Reviewer scope statement:\nWe request user, meeting, and recording read access to show the connected user's Zoom data. We request meeting write access only when users enable meeting creation. We do not request account-wide or master permissions. Each permission is used only for the user-facing feature described in our listing."
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "steps": [
+        {
+          "title": "Test development OAuth",
+          "owner": "you",
+          "detail": {
+            "text": "Use development credentials and your own Zoom account. Test consent, token refresh, disconnect, and every requested feature before submitting.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.zoom.us/docs/distribute/sharing-private-and-beta-apps/",
+                "quote": "To test unpublished changes to your app, use the development version of the app locally.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.zoom.us/docs/integrations/create/",
+                "quote": "The build flow automatically generates app credentials (client ID & client secret) for your app.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–2 hr",
+          "link": "https://developers.zoom.us/docs/distribute/sharing-private-and-beta-apps/"
+        },
+        {
+          "title": "Add webhook validation",
+          "owner": "you",
+          "detail": {
+            "text": "Use a public HTTPS domain with TLS 1.2 or later. Verify each x-zm-signature with HMAC-SHA-256. Return endpoint challenges within three seconds.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developers.zoom.us/docs/api/webhooks/",
+                "quote": "Zoom uses the value of the secret token to hash the webhook data, which it sends in the x-zm-signature webhook request header.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.zoom.us/docs/api/webhooks/",
+                "quote": "The endpoint must return the challenge response within three seconds.",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "1–2 hr",
+          "link": "https://developers.zoom.us/docs/api/webhooks/"
+        },
+        {
+          "title": "Test rate-limit handling",
+          "owner": "you",
+          "detail": {
+            "text": "Add retry backoff for HTTP 429 responses. Cap meeting creation and updates below the daily per-user limit. Queue background work per customer's Zoom account.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developers.zoom.us/docs/api/rate-limits/",
+                "quote": "When you exceed a rate limit, the API request will fail and return a HTTP 429 status code.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.zoom.us/docs/api/rate-limits/",
+                "quote": "Meeting and Webinar create/update requests are limited to 100 per day per user, based on UTC.",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "30 min",
+          "link": "https://developers.zoom.us/docs/api/rate-limits/"
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "steps": [
+        {
+          "title": "Prepare reviewer instructions",
+          "owner": "agent",
+          "detail": {
+            "text": "Draft simple test instructions for every reviewer role. Include expected results for login, consent, core features, and disconnection.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.zoom.us/docs/distribute/app-submission/submit-apps-review/",
+                "quote": "provide test credentials that allow Zoom reviewers to fully experience your integration.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min",
+          "output": "Reviewer test plan:\n1. Sign in with the supplied test account.\n2. Select Connect Zoom.\n3. Approve the requested permissions.\n4. Confirm meetings appear in the app.\n5. Create one test meeting.\n6. Disconnect Zoom in Settings.\nExpected result: access stops after disconnect."
+        },
+        {
+          "title": "Submit Marketplace application",
+          "owner": "you",
+          "detail": {
+            "text": "Switch authorization to the production client ID. Complete listing metadata, technical design, release notes, test plan, and reviewer credentials. Submit as listed or unlisted distribution.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.zoom.us/docs/distribute/app-submission/submit-apps-review/",
+                "quote": "For First-time submissions Make sure your environment is using the Production Client ID during authorization.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.zoom.us/docs/distribute/app-review-process/",
+                "quote": "All apps undergo functionality, usability and compliance review",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "half day",
+          "link": "https://developers.zoom.us/docs/distribute/app-submission/submit-apps-review/"
+        },
+        {
+          "title": "Wait for review",
+          "owner": "provider",
+          "detail": {
+            "text": "Zoom's community guidance says functional review has a 72-hour SLA per submission, excluding weekends and U.S. holidays. Security review then takes approximately two weeks after functional review is complete. This is not an official guarantee and may take longer.",
+            "evidence": "reported",
+            "sources": [
+              {
+                "url": "https://devforum.zoom.us/t/from-beta-to-marketplace/127292",
+                "quote": "Functional reviews have a 72-hour SLA (excluding weekends and U.S. holidays) for each submission.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://devforum.zoom.us/t/from-beta-to-marketplace/127292",
+                "quote": "Security reviews take approximately 2 weeks from the completion of the functional review.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "wait: about 2–3 weeks"
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "steps": [
+        {
+          "title": "Publish the approved app",
+          "owner": "you",
+          "detail": {
+            "text": "Publish the approved listing or share its unlisted installation link. Monitor token refresh failures and require reconnection after refresh-token expiry.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.zoom.us/docs/build-flow/before-you-build/",
+                "quote": "Unlisted apps can still be installed by anyone who has the direct installation link.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.zoom.us/docs/integrations/oauth/",
+                "quote": "If your refresh token expires, you can direct the user to the authorize URL to restart the User OAuth flow.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min"
+        },
+        {
+          "title": "Handle consent withdrawal",
+          "owner": "you",
+          "detail": {
+            "text": "Process deauthorization events, revoke access tokens, and stop processing deleted or withdrawn connections. Clearly disclose AI processing and external data storage.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.zoom.us/docs/distribute/app-submission/common-rejection-issues/",
+                "quote": "Handle Zoom's Deauthorization Event Notification",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://explore.zoom.us/docs/en-us/legal/zoom_api_license_and_tou.html",
+                "quote": "In no event shall Licensee or the Zoom Application engage in Account Access or transmit, store, or access Account Data outside the scope of the Subscriber’s Access Consent.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–2 hr"
+        }
+      ]
+    }
+  ],
+  "gotchas": [
+    {
+      "text": "Do not use Server-to-Server OAuth for customer connections. It manages your own Zoom account.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/integrations/create/",
+          "quote": "To build an app that provides server-to-server interaction with Zoom APIs to manage your account, create a server-to-server OAuth app.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Private distribution works only inside your Zoom account. It is not a broad customer launch path.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/distribute/sharing-private-and-beta-apps/",
+          "quote": "You can only share private apps with members within your Zoom account.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "All listing, privacy, support, and documentation URLs must use domains your company owns.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/distribute/app-submission/common-rejection-issues/",
+          "quote": "All app metadata and resource URLs—such as Terms of Use, Support URL, Privacy Policy, and Documentation—must be hosted on fully qualified domain names (FQDNs) owned by your company.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Webhook endpoints face recurring validation every 72 hours. Keep challenge handling available during outages and deployments.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/changelog/platform/webhook-url-validation/",
+          "quote": "Webhook endpoints require initial manual validation before Zoom will send events to them. Endpoints will also be validated every 72-hours using a challenge-response check.",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "whenBlocked": [
+    {
+      "text": "If Develop is missing, ask the Zoom account administrator to enable the Zoom for developers role in Role Settings.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/integrations/create/",
+          "quote": "To enable the Zoom for developers role, log into the Zoom web portal as admin and go to User Management > Roles > Role Settings > Advanced features",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If beta additions are exhausted, email marketplace.security@zoom.us with the reason for a higher limit.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/distribute/app-submission/authorization-url-faq/",
+          "quote": "The app developer can send a request to Zoom to increase the limit by contacting marketplace.security@zoom.us and providing a reason for requesting an increase.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If review rejects the app, address every reviewer note before resubmitting through Marketplace support or Developer Support.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/distribute/app-submission/submit-apps-review/",
+          "quote": "You must review all notes from the Review Team and respond to or acknowledge them before resubmitting your app.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.zoom.us/support/"
+        }
+      ]
+    },
+    {
+      "text": "If a refresh token expires, send the user through the authorization URL again.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.zoom.us/docs/integrations/oauth/",
+          "quote": "If your refresh token expires, you can direct the user to the authorize URL to restart the User OAuth flow.",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "probes": [
+    {
+      "name": "OIDC discovery",
+      "target": "https://zoom.us/.well-known/openid-configuration",
+      "result": "authorize=https://zoom.us/oauth/authorize; scopes=openid email profile",
+      "ok": true
+    },
+    {
+      "name": "Authorize endpoint",
+      "target": "https://zoom.us/oauth/authorize",
+      "result": "HTTP 302 -> https://zoom.us/oauth/signin?_rnd=1794726458576&client_id=probe-not-a-real-client&redirect_uri=https%3A%2F%2Fexample.com (mentions \"client_id\")",
+      "ok": true
+    },
+    {
+      "name": "Developer console",
+      "target": "https://marketplace.zoom.us/",
+      "result": "HTTP 200 (final: https://marketplace.zoom.us/)",
+      "ok": true
+    }
+  ],
+  "uncertain": [
+    "No official Marketplace review timeline was found. Community reports show that the stated timeline can be exceeded.",
+    "6 claims couldn't be matched word-for-word to their cited page and are marked Unverified. Check those sources before relying on them."
+  ]
+}

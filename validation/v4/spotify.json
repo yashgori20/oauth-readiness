@@ -1,0 +1,809 @@
+{
+  "app": "Spotify",
+  "slug": "spotify",
+  "website": "https://developer.spotify.com/documentation/web-api",
+  "developerConsole": "https://developer.spotify.com/dashboard",
+  "generatedAt": "2026-11-15T07:11:00.763Z",
+  "origin": "live",
+  "verdict": {
+    "difficulty": 5,
+    "access": "ineligible",
+    "summary": "Spotify content cannot be put into an AI model. An agent may use Spotify data only transiently for user-authorized execution or display, without putting that content into the model. Wider distribution requires Partner Application approval and then Extended Quota review. The organization must meet more than the 250,000 monthly-active-user requirement. It must also be legally registered, have a launched service, use a company email, be available in key Spotify markets, show commercial viability, and follow Spotify's Terms.",
+    "activeEffort": "2–5 days, mostly compliance evidence and a reviewer demo, once eligible",
+    "waitTime": "Up to 6 weeks for quota-extension review after Partner Application approval. No official Partner Application timeline was found.",
+    "mainGate": "Extended Quota Mode requires an approved Partner Application. Applicants must be legally registered organizations with a company email, an active launched service, at least 250,000 monthly active users, availability in key Spotify markets, commercial viability, and Terms compliance. Spotify also reserves extended access for established, scalable, impactful use cases that support artist and creator discovery."
+  },
+  "agentPath": {
+    "recommendation": {
+      "text": "Use a Dashboard app in Development Mode for five allowed testers. Seek written Spotify permission before sending Spotify content to an AI model. Request Extended Quota Mode only after the organization meets Spotify's eligibility rules.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+          "quote": "Up to 5 authenticated Spotify users can use an app that is in development mode",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/terms",
+          "quote": "using the Spotify Platform or any Spotify Content to train a machine learning or AI model or otherwise ingesting Spotify Content into a machine learning or AI model;",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+          "quote": "Maintaining a minimum of active users (at least 250k MAUs)",
+          "quoteVerified": true
+        }
+      ]
+    },
+    "scopeTiers": [
+      {
+        "text": "Use no scopes for public catalog information only. This does not read a customer's Spotify account.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://developer.spotify.com/documentation/web-api/tutorials/code-flow",
+            "quote": "scope Optional A space-separated list of scopes .If no scopes are specified, authorization will be granted only to access publicly available information",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Find public artists, albums, tracks, and playlists.",
+        "scopes": ""
+      },
+      {
+        "text": "Read listening status with the smallest account-data scope. Extended Quota review still applies when serving more than five people.",
+        "evidence": "inferred",
+        "sources": [
+          {
+            "url": "https://developer.spotify.com/documentation/web-api/concepts/scopes",
+            "quote": "Read access to a user’s player state.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+            "quote": "Apps in this category can be installed by an unlimited number of users and the allowlist in development mode no longer applies.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Read the customer's current playback status.",
+        "scopes": "user-read-playback-state"
+      },
+      {
+        "text": "Read private playlists and saved music only when the feature needs them. Spotify documents app-level review, not separate scope review.",
+        "evidence": "inferred",
+        "sources": [
+          {
+            "url": "https://developer.spotify.com/documentation/web-api/concepts/scopes",
+            "quote": "Read access to user's private playlists.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developer.spotify.com/documentation/web-api/concepts/scopes",
+            "quote": "Read access to a user's library.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+            "quote": "The app review team will review the information that you have provided, test out your app and send you feedback by email",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Read the customer's private playlists and saved music.",
+        "scopes": "playlist-read-private; user-library-read"
+      },
+      {
+        "text": "Request write scopes only for a confirmed customer action. Extended Quota review and full policy compliance apply.",
+        "evidence": "inferred",
+        "sources": [
+          {
+            "url": "https://developer.spotify.com/documentation/web-api/concepts/scopes",
+            "quote": "Write access to a user's private playlists.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developer.spotify.com/documentation/web-api/concepts/scopes",
+            "quote": "Write access to a user's public playlists.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developer.spotify.com/documentation/web-api/concepts/scopes",
+            "quote": "Write access to a user’s playback state",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Create playlists or control playback after customer confirmation.",
+        "scopes": "playlist-modify-private; playlist-modify-public; user-modify-playback-state"
+      }
+    ]
+  },
+  "essentials": [
+    {
+      "text": "Access tokens last one hour. Dashboard refresh tokens last six months from authorization. Save a replacement refresh token when returned. Reconnect the customer after invalid_grant.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens",
+          "quote": "Access tokens are intentionally configured to have a limited lifespan (1 hour)",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens",
+          "quote": "Refresh tokens issued to apps registered in the Developer Dashboard have a lifetime of 6 months.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens",
+          "quote": "Refreshing an access token does not extend the refresh token's lifetime.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens",
+          "quote": "Your app should discard the refresh token and start the appropriate authorization code flow instead of retrying the refresh request.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Tokens and refresh"
+    },
+    {
+      "text": "Allowlist every callback in the Dashboard. Each callback must exactly match its authorization request. Use HTTPS, except explicit loopback IP addresses. Do not use localhost.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/tutorials/code-flow",
+          "quote": "The value of redirect_uri here must exactly match one of the values you entered when you registered your application, including upper or lowercase, terminating slashes, and such.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/redirect_uri",
+          "quote": "Use HTTPS for your redirect URI, unless you are using a loopback address, when HTTP is permitted.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/redirect_uri",
+          "quote": "localhost is not allowed as redirect URI.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Redirect URIs"
+    },
+    {
+      "text": "Development Mode needs a Premium app owner. Add each tester to the allowlist. At most five authenticated Spotify users can test the app.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+          "quote": "The app owner must have a Spotify Premium account for apps in development mode to function.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+          "quote": "Up to 5 authenticated Spotify users can use an app that is in development mode",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+          "quote": "Each Spotify user who installs your app will need to be added to your app's allowlist before they can use it.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Test users and dev limits"
+    },
+    {
+      "text": "Rate limits use a rolling 30-second window. On HTTP 429, wait for Retry-After seconds. Handle QUOTA_EXCEEDED when the shared development quota is exhausted.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/rate-limits",
+          "quote": "Spotify's API rate limit is calculated based on the number of calls that your app makes to Spotify in a rolling 30 second window.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/rate-limits",
+          "quote": "The header of the 429 response will normally include a Retry-After header with a value in seconds.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/blog/2026-07-23-web-api-quota-updates",
+          "quote": "When your quota is exceeded, the 429 Too Many Requests response now returns a structured JSON body with a \"reason\": \"QUOTA_EXCEEDED\" field.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Rate limits"
+    },
+    {
+      "text": "No paid quota price or upgrade path was found in the researched sources. Do not assume payment grants Extended Quota Mode.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+          "quote": "Application must be sent through a company email by using this form.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Cost"
+    },
+    {
+      "text": "Extended Quota Mode allows unlimited installs and removes the Development Mode allowlist. It requires an approved Partner Application first.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+          "quote": "Apps in this category can be installed by an unlimited number of users and the allowlist in development mode no longer applies.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+          "quote": "If your Partner Application form is approved, you can ask Spotify to move your app from development mode into extended quota mode.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Going live"
+    },
+    {
+      "text": "Submit the Partner Application from a company email. After approval, complete the Dashboard quota-extension questionnaire and submit it. Spotify says review can take up to six weeks.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+          "quote": "Application must be sent through a company email by using this form.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+          "quote": "Tell us about your app by filling out the provided questionnaire (4 steps) Tap Submit",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+          "quote": "This review process can take up to six weeks.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Submitting for review"
+    },
+    {
+      "text": "No separate security audit was found. Use industry-standard security, collect only needed data, and offer account disconnect. Delete personal data after disconnect.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/terms",
+          "quote": "Prior to using the Spotify Platform, you must have in place industry standard security and protections for any Spotify Content (including Spotify Personal Data) in your possession and/or control.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/policy",
+          "quote": "Only request and process the data that is needed to operate your SDA.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/policy",
+          "quote": "you must provide all users with an easily accessible mechanism to disconnect their Spotify account from your SDA at any time",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/policy",
+          "quote": "you agree to delete and no longer request or process any of that user’s personal data.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Security checks"
+    }
+  ],
+  "requests": [
+    {
+      "text": "Verify that the returned state matches RANDOM_STATE before continuing.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/tutorials/code-flow",
+          "quote": "our application must build and send a GET request to the /authorize endpoint",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/tutorials/code-flow",
+          "quote": "res.redirect('https://accounts.spotify.com/authorize?' +\nquerystring.stringify({\nresponse_type: 'code',\nclient_id: client_id,\nscope: scope,\nredirect_uri: redirect_uri,\nstate: state\n}));",
+          "quoteVerified": false
+        }
+      ],
+      "label": "Send the user to sign in",
+      "method": "GET",
+      "url": "https://accounts.spotify.com/authorize?response_type=code&client_id=YOUR_CLIENT_ID&scope=user-read-playback-state%20playlist-read-private%20user-library-read%20playlist-modify-private%20playlist-modify-public%20user-modify-playback-state&redirect_uri=YOUR_REDIRECT_URI&state=RANDOM_STATE"
+    },
+    {
+      "text": "The redirect URI must exactly match the one used in the authorization request.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/tutorials/code-flow",
+          "quote": "If the user accepted your request, then your app is ready to exchange the authorization code for an access token. It can do this by sending a POST request to the /api/token endpoint.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/tutorials/code-flow",
+          "quote": "url: 'https://accounts.spotify.com/api/token',\nform: {\ncode: code,\nredirect_uri: redirect_uri,\ngrant_type: 'authorization_code'\n},\nheaders: {\n'content-type': 'application/x-www-form-urlencoded',\n'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))\n}",
+          "quoteVerified": false
+        }
+      ],
+      "label": "Exchange the code for tokens",
+      "method": "POST",
+      "url": "https://accounts.spotify.com/api/token",
+      "curl": "curl --request POST 'https://accounts.spotify.com/api/token' \\\n  --header 'Content-Type: application/x-www-form-urlencoded' \\\n  --header \"Authorization: Basic $(printf '%s' 'YOUR_CLIENT_ID:YOUR_CLIENT_SECRET' | base64)\" \\\n  --data-urlencode 'grant_type=authorization_code' \\\n  --data-urlencode 'code=AUTH_CODE' \\\n  --data-urlencode 'redirect_uri=YOUR_REDIRECT_URI'"
+    },
+    {
+      "text": "Refresh tokens for Developer Dashboard apps expire after 6 months.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens",
+          "quote": "The expires_in value returned by the Spotify token endpoint\n( POST https://accounts.spotify.com/api/token ) is the lifetime of the access\ntoken, not the refresh token.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens",
+          "quote": "To refresh an access token, we must send a POST request with the following\nparameters:",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens",
+          "quote": "grant_type Required Set it to refresh_token . \nrefresh_token Required The refresh token returned from the authorization token request.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens",
+          "quote": "Authorization Only required for the Authorization Code Base 64 encoded string that contains the client ID and client secret key. The field must have the format: Authorization: Basic <base64 encoded client_id:client_secret>",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Refresh the access token",
+      "method": "POST",
+      "url": "https://accounts.spotify.com/api/token",
+      "curl": "curl --request POST 'https://accounts.spotify.com/api/token' \\\n  --header 'Content-Type: application/x-www-form-urlencoded' \\\n  --header \"Authorization: Basic $(printf '%s' 'YOUR_CLIENT_ID:YOUR_CLIENT_SECRET' | base64)\" \\\n  --data-urlencode 'grant_type=refresh_token' \\\n  --data-urlencode 'refresh_token=REFRESH_TOKEN'"
+    }
+  ],
+  "phases": [
+    {
+      "name": "Register",
+      "steps": [
+        {
+          "title": "Create the Dashboard app",
+          "owner": "you",
+          "detail": {
+            "text": "In the Spotify Developer Dashboard, select Create an App. Enter the app name and description shown to customers. Accept the Developer Terms.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/apps",
+                "quote": "To create an app, go to your Dashboard and click on the Create an App button",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/apps",
+                "quote": "Enter an App Name and App Description of your choice (they will be displayed to the user on the grant screen), put a tick in the Developer Terms",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "link": "https://developer.spotify.com/dashboard",
+          "output": "Client ID and Client Secret"
+        },
+        {
+          "title": "Store app credentials safely",
+          "owner": "you",
+          "detail": {
+            "text": "Store the Client ID and Client Secret in server-side secrets. Never put the secret in browser or mobile code. Rotate it after any exposure.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/apps",
+                "quote": "Always store the client secret key securely; never reveal it publicly!",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "output": "Server-side secret configuration"
+        }
+      ]
+    },
+    {
+      "name": "Configure",
+      "steps": [
+        {
+          "title": "Allowlist the callback URL",
+          "owner": "you",
+          "detail": {
+            "text": "In Dashboard settings, add your fixed HTTPS callback URL under Redirect URIs. Use the identical URL during authorization and token exchange. Do not accept customer-controlled callback URLs.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/apps",
+                "quote": "In Redirect URIs enter one or more addresses that you want to allowlist with Spotify.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/tutorials/code-flow",
+                "quote": "The value of this parameter must exactly match the value of redirect_uri supplied when requesting the authorization code.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "5 min",
+          "link": "https://developer.spotify.com/dashboard",
+          "output": "Saved HTTPS callback URL"
+        },
+        {
+          "title": "Draft the callback handler",
+          "owner": "agent",
+          "detail": {
+            "text": "Use a server-side Authorization Code callback. Bind state to the signed-in customer and callback session. Reject a state mismatch before exchanging the code.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/tutorials/code-flow",
+                "quote": "state Optional, but strongly recommended This provides protection against attacks such as cross-site request forgery.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/tutorials/code-flow",
+                "quote": "If there is a mismatch then your app should reject the request and stop the authentication flow.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min",
+          "output": "const state = crypto.randomUUID();\nsession.set(\"spotify_state\", state);\nredirect(authorizeUrl({ state, redirect_uri: CALLBACK }));\n\nif (query.state !== session.get(\"spotify_state\")) {\n  throw new Error(\"Invalid OAuth state\");\n}\nconst tokens = await exchangeCode(query.code, CALLBACK);\nawait saveEncrypted(user.id, tokens);\n"
+        },
+        {
+          "title": "Choose the minimum scopes",
+          "owner": "you",
+          "detail": {
+            "text": "Enable only scopes required by enabled customer features. Start with public data or read-only access. Require explicit customer confirmation before each write action.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.spotify.com/policy",
+                "quote": "Only request and process the data that is needed to operate your SDA.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/scopes",
+                "quote": "Write access to a user's private playlists.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min",
+          "output": "Feature-to-scope list"
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "steps": [
+        {
+          "title": "Add test users",
+          "owner": "you",
+          "detail": {
+            "text": "Keep the app in Development Mode. Ensure the app owner has Premium. Add no more than five authenticated tester accounts to the allowlist.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+                "quote": "The app owner must have a Spotify Premium account for apps in development mode to function.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+                "quote": "Up to 5 authenticated Spotify users can use an app that is in development mode",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "link": "https://developer.spotify.com/dashboard",
+          "output": "Allowlisted tester accounts"
+        },
+        {
+          "title": "Test token expiry",
+          "owner": "you",
+          "detail": {
+            "text": "Test one-hour access-token renewal, refresh-token replacement, and expired-token reconnect. Test 429 handling with Retry-After. Do not retry invalid_grant.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens",
+                "quote": "When a refresh token is not returned, continue using the existing token.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens",
+                "quote": "The token endpoint returns invalid_grant when a refresh token is expired, revoked, or otherwise invalid.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/rate-limits",
+                "quote": "If your app exceeds the rate limit for your app then you'll begin to see 429 error responses from Spotify's Web API",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–2 hr",
+          "output": "Passing reconnect and refresh tests"
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "steps": [
+        {
+          "title": "Qualify for Partner review",
+          "owner": "you",
+          "detail": {
+            "text": "Apply from a company email only if the applicant is a legally registered organization with an active launched service, at least 250,000 monthly active users, availability in key Spotify markets, commercial viability, and Terms compliance. Extended access is also reserved for established, scalable, impactful use cases that support artist and creator discovery. Do not ingest Spotify content into an AI model. Use it only transiently for user-authorized execution or display.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+                "quote": "as of May 15th 2025, Spotify only accepts applications from organizations (not individuals).",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+                "quote": "Operating an active, and Launched Service",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+                "quote": "Application must be sent through a company email by using this form.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.spotify.com/terms",
+                "quote": "using the Spotify Platform or any Spotify Content to train a machine learning or AI model or otherwise ingesting Spotify Content into a machine learning or AI model;",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–3 days",
+          "output": "Partner Application evidence"
+        },
+        {
+          "title": "Prepare review materials",
+          "owner": "agent",
+          "detail": {
+            "text": "Prepare a reviewer demo plan and truthful app materials. Include privacy, disconnect, rate-limit, and data-deletion behavior. The developer must verify every statement before submission.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.spotify.com/blog/2023-05-29-quota-extension",
+                "quote": "This starts with the application information, images, APIs/SDKs used, and extends into things like the Terms of Service .",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.spotify.com/blog/2023-05-29-quota-extension",
+                "quote": "Implementing proper error handling and fallback strategies will ensure smooth functionality even when rate limits are encountered.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.spotify.com/policy",
+                "quote": "You must provide a privacy policy which clearly describes how you intend to access, use, process and disclose user data.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "half day",
+          "output": "Reviewer checklist:\n1. Show the OAuth consent screen.\n2. Show each requested scope in use.\n3. Show token deletion after disconnect.\n4. Show 429 Retry-After handling.\n5. Link the privacy policy and terms.\n6. State that Spotify content is excluded from training, embeddings, evaluation, and long-term memory."
+        },
+        {
+          "title": "Submit quota extension",
+          "owner": "you",
+          "detail": {
+            "text": "After Partner Application approval, open the Dashboard quota-extension request. Complete all four questionnaire steps. Provide working reviewer access and accurate policy URLs.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+                "quote": "If your Partner Application form is approved, you can ask Spotify to move your app from development mode into extended quota mode.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+                "quote": "Tell us about your app by filling out the provided questionnaire (4 steps) Tap Submit",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–2 hr",
+          "link": "https://developer.spotify.com/dashboard",
+          "output": "Submitted four-step quota questionnaire"
+        },
+        {
+          "title": "Wait for Spotify review",
+          "owner": "provider",
+          "detail": {
+            "text": "Spotify reviews the submission, tests the app, and emails feedback. Reply promptly to requests for clarification. The published review period can take up to six weeks.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+                "quote": "The app review team will review the information that you have provided, test out your app and send you feedback by email",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+                "quote": "This review process can take up to six weeks.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "wait: up to 6 weeks",
+          "output": "Approval, feedback, or rejection email"
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "steps": [
+        {
+          "title": "Enable Extended Quota Mode",
+          "owner": "you",
+          "detail": {
+            "text": "Only after approval, let customers connect without the Development Mode allowlist. Keep data collection minimal. Give every customer an accessible disconnect control that deletes their personal data.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+                "quote": "Apps in this category can be installed by an unlimited number of users and the allowlist in development mode no longer applies.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.spotify.com/policy",
+                "quote": "you agree to delete and no longer request or process any of that user’s personal data.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "output": "Production monitoring and support plan"
+        }
+      ]
+    }
+  ],
+  "gotchas": [
+    {
+      "text": "Do not send Spotify content into prompts, embeddings, evaluation sets, long-term memory, or training data without written permission. Spotify prohibits ingesting Spotify content into an AI model.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/terms",
+          "quote": "using the Spotify Platform or any Spotify Content to train a machine learning or AI model or otherwise ingesting Spotify Content into a machine learning or AI model;",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Development Mode is not a business launch path. It is limited to five allowlisted users and shared developer quota.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/blog/2026-02-06-update-on-developer-access-and-platform-security",
+          "quote": "It is intentionally limited and should not be relied on as a foundation for building or scaling a business on Spotify.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/blog/2026-07-23-web-api-quota-updates",
+          "quote": "Quota counting is now per developer account, not per Client ID.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "A refresh token expires six months after authorization. Refreshing access tokens does not extend that date.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens",
+          "quote": "Refresh tokens issued to apps registered in the Developer Dashboard have a lifetime of 6 months.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens",
+          "quote": "Refreshing an access token does not extend the refresh token's lifetime.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Do not manipulate plays or follows. Do not build a replacement for Spotify's core experience.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/policy",
+          "quote": "Don’t artificially increase, or claim to artificially increase, play counts, follow counts or otherwise manipulate the Spotify Service.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/policy",
+          "quote": "Do not build products or services that mimic, or replicate or attempt to replace a core user experience of Spotify",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "whenBlocked": [
+    {
+      "text": "If AI use is essential, request written permission from Spotify before launch. Do not submit an Extended Quota request assuming normal agent use is allowed.",
+      "evidence": "inferred",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/terms",
+          "quote": "using the Spotify Platform or any Spotify Content to train a machine learning or AI model or otherwise ingesting Spotify Content into a machine learning or AI model;",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If the organization lacks 250,000 monthly active users, keep the app in Development Mode or use another music provider. Spotify's Partner Application is the required production route.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+          "quote": "Maintaining a minimum of active users (at least 250k MAUs)",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+          "quote": "Application must be sent through a company email by using this form.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If review stalls or feedback is unclear, ask in the Spotify Developer Community. Include the app ID, submission date, and the exact review feedback.",
+      "evidence": "inferred",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/community",
+          "quote": "Community",
+          "quoteVerified": false
+        }
+      ]
+    },
+    {
+      "text": "If Spotify rejects the app, fix every cited policy issue and resubmit through the Dashboard after approval eligibility remains valid.",
+      "evidence": "inferred",
+      "sources": [
+        {
+          "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+          "quote": "The app review team will review the information that you have provided, test out your app and send you feedback by email",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "probes": [
+    {
+      "name": "OIDC discovery",
+      "target": "https://accounts.spotify.com/.well-known/openid-configuration",
+      "result": "authorize=https://accounts.spotify.com/oauth2/v2/auth; scopes=email openid profile",
+      "ok": true
+    },
+    {
+      "name": "Authorize endpoint",
+      "target": "https://accounts.spotify.com/authorize",
+      "result": "HTTP 303 -> https://accounts.spotify.com/en/login?continue=https%3A%2F%2Faccounts.spotify.com%2Fauthorize%3Fclient_id%3Dprobe-not-a- (mentions \"client_id\")",
+      "ok": true
+    },
+    {
+      "name": "Developer console",
+      "target": "https://developer.spotify.com/dashboard",
+      "result": "HTTP 200 (final: https://developer.spotify.com/dashboard)",
+      "ok": true
+    }
+  ],
+  "uncertain": [
+    "No official timeline for Partner Application approval was found.",
+    "Spotify does not state whether it grants written exceptions for AI agents that ingest Spotify content into a model.",
+    "3 claims couldn't be matched word-for-word to their cited page and are marked Unverified. Check those sources before relying on them."
+  ]
+}

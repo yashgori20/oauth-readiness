@@ -1,0 +1,44 @@
+[0.0s] {"type":"status","message":"Researching Dropbox"}
+[21.9s] {"type":"tool","name":"search","target":"site:developers.dropbox.com OAuth guide refresh tokens scopes app review production Dropbox","summary":"7 results"}
+[21.9s] {"type":"tool","name":"search","target":"site:help.dropbox.com developers app approval production review Dropbox API","summary":"6 results"}
+[21.9s] {"type":"tool","name":"search","target":"site:developers.dropbox.com app console permissions scopes redirect URI rate limits","summary":"search failed: HTTP 429"}
+[21.9s] {"type":"tool","name":"search","target":"Dropbox developer terms AI machine learning policy API","summary":"8 results"}
+[21.9s] {"type":"tool","name":"search","target":"Dropbox developer blog changelog OAuth scopes review 2025 2026","summary":"search failed: HTTP 429"}
+[21.9s] {"type":"tool","name":"search","target":"Dropbox API app review community how long approval","summary":"search failed: HTTP 429"}
+[21.9s] {"type":"tool","name":"search","target":"site:developers.dropbox.com Dropbox API pricing billing free","summary":"8 results"}
+[21.9s] {"type":"tool","name":"search","target":"site:dropboxforum.com Dropbox app review approval rejected OAuth production","summary":"8 results"}
+[21.9s] {"type":"tool","name":"search","target":"Dropbox developer app distribution development production status 500 users","summary":"4 results"}
+[21.9s] {"type":"tool","name":"search","target":"Dropbox OAuth authorize URL token endpoint OpenID Connect","summary":"search failed: HTTP 429"}
+[34.2s] {"type":"tool","name":"read","target":"https://docs.dropboxapi.com/dropbox-api/docs/oauth","summary":"24 facts"}
+[34.2s] {"type":"tool","name":"read","target":"https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console","summary":"18 facts"}
+[34.2s] {"type":"tool","name":"read","target":"https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide","summary":"14 facts"}
+[34.2s] {"type":"tool","name":"read","target":"https://dropbox.tech/developers/using-oauth-2-0-with-offline-access","summary":"16 facts"}
+[34.2s] {"type":"tool","name":"read","target":"https://docs.dropboxapi.com/dropbox-api/docs/get-started/authorization","summary":"13 facts"}
+[34.2s] {"type":"tool","name":"read","target":"https://www.dropbox.com/developers/reference/tos","summary":"18 facts"}
+[34.2s] {"type":"tool","name":"read","target":"https://www.dropbox.com/acceptable_use","summary":"nothing relevant"}
+[34.2s] {"type":"tool","name":"read","target":"https://www.dropbox.com/developers/support","summary":"9 facts"}
+[34.2s] {"type":"tool","name":"read","target":"https://community.dropbox.com/en/discussion/862005/production-status-approval-for-app-platform/p1","summary":"9 facts"}
+[34.2s] {"type":"tool","name":"read","target":"https://community.dropbox.com/en/discussion/171193/app-has-been-frozen-pending-review","summary":"5 facts"}
+[34.2s] {"type":"tool","name":"read","target":"https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions","summary":"9 facts"}
+[34.2s] {"type":"tool","name":"read","target":"https://www.dropbox.com/developers/reference/rate-limits","summary":"1 facts"}
+[51.5s] {"type":"tool","name":"search","target":"site:community.dropbox.com \"production status\" \"days\" review Dropbox API","summary":"search failed: HTTP 429"}
+[51.5s] {"type":"tool","name":"search","target":"site:community.dropbox.com \"production request\" \"business days\" Dropbox","summary":"search failed: HTTP 429"}
+[51.5s] {"type":"tool","name":"search","target":"site:developers.dropbox.com \"files.content.read\" \"files.content.write\" scopes","summary":"5 results"}
+[51.5s] {"type":"tool","name":"search","target":"site:developers.dropbox.com branding guide app review privacy policy Dropbox API","summary":"8 results"}
+[51.5s] {"type":"tool","name":"search","target":"site:dropbox.tech/developers 2025 2026 Dropbox API changelog","summary":"5 results"}
+[51.5s] {"type":"tool","name":"search","target":"site:developers.dropbox.com Dropbox API rate limit 429 Retry-After","summary":"search failed: HTTP 429"}
+[51.5s] {"type":"tool","name":"search","target":"site:developers.dropbox.com app console create app https://www.dropbox.com/developers/apps","summary":"search failed: HTTP 429"}
+[67.3s] {"type":"tool","name":"read","target":"https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens","summary":"19 facts"}
+[67.3s] {"type":"tool","name":"read","target":"https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/branding-guide","summary":"15 facts"}
+[67.3s] {"type":"tool","name":"read","target":"https://dropbox.tech/developers/api-server-certificate-changes","summary":"9 facts"}
+[67.3s] {"type":"tool","name":"read","target":"https://community.dropbox.com/en/discussion/234706/submit-for-review","summary":"7 facts"}
+[67.3s] {"type":"tool","name":"read","target":"https://community.dropbox.com/en/discussion/87936/submitting-an-app-for-production","summary":"4 facts"}
+[67.3s] {"type":"tool","name":"read","target":"https://www.dropbox.com/developers/documentation/http/teams","summary":"14 facts"}
+[99.6s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[100.7s] {"type":"tool","name":"probe","target":"https://www.dropbox.com/.well-known/openid-configuration","summary":"ok: authorize=https://www.dropbox.com/oauth2/authorize; scopes=openid profile email"}
+[100.7s] {"type":"tool","name":"probe","target":"https://www.dropbox.com/oauth2/authorize","summary":"ok: HTTP 302 -> /oauth2/authorize_error?client_id=probe-not-a-real-client&error_deta"}
+[100.7s] {"type":"tool","name":"probe","target":"https://www.dropbox.com/developers/apps","summary":"ok: reachable, requires sign-in (HTTP 200, final https://www.dropbox.com/login?cont="}
+[100.7s] {"type":"status","message":"Writing guide"}
+[142.8s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[142.8s] {"type":"status","message":"Checking the guide for contradictions"}
+[155.7s] guide -> guides/dropbox.json

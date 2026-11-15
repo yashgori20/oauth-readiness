@@ -1,0 +1,40 @@
+[0.0s] {"type":"status","message":"Researching Shopify"}
+[17.9s] {"type":"tool","name":"search","target":"site:shopify.dev docs OAuth authorization code grant access token expiry refresh token Shopify app","summary":"8 results"}
+[17.9s] {"type":"tool","name":"search","target":"site:shopify.dev app distribution public custom app review submit for review","summary":"7 results"}
+[17.9s] {"type":"tool","name":"search","target":"site:shopify.dev protected customer data review requirements Shopify app","summary":"6 results"}
+[17.9s] {"type":"tool","name":"search","target":"site:shopify.dev Shopify app scopes access scopes review","summary":"6 results"}
+[17.9s] {"type":"tool","name":"search","target":"site:shopify.dev app store requirements AI artificial intelligence policy","summary":"8 results"}
+[17.9s] {"type":"tool","name":"search","target":"site:shopify.dev Shopify app rate limits GraphQL Admin API REST","summary":"5 results"}
+[17.9s] {"type":"tool","name":"search","target":"site:shopify.dev partner account requirements app development pricing fees","summary":"8 results"}
+[17.9s] {"type":"tool","name":"search","target":"Shopify app review how long community forum rejection 2025","summary":"7 results"}
+[17.9s] {"type":"tool","name":"search","target":"site:shopify.dev changelog AI app Shopify 2025 2026 developer","summary":"8 results"}
+[17.9s] {"type":"tool","name":"search","target":"site:shopify.dev app development redirect URLs localhost test stores app distribution","summary":"8 results"}
+[17.9s] {"type":"tool","name":"search","target":"site:shopify.dev contact partner support app review","summary":"7 results"}
+[17.9s] {"type":"tool","name":"search","target":"site:shopify.dev app store requirements launch checklist webhooks assets install requirements","summary":"8 results"}
+[31.0s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/apps/build/authentication-authorization/access-tokens","summary":"24 facts"}
+[31.0s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/apps/build/authentication-authorization/authenticate-standalone-apps","summary":"15 facts"}
+[31.0s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/apps/launch/distribution/select-distribution-method","summary":"9 facts"}
+[31.0s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/apps/launch/app-store-review/submit-app-for-review","summary":"34 facts"}
+[31.0s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/apps/launch/protected-customer-data","summary":"48 facts"}
+[31.0s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/api/usage/access-scopes","summary":"18 facts"}
+[31.0s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/apps/launch/distribution/revenue-share","summary":"12 facts"}
+[31.0s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/apps/build/apis/graphql-admin/rate-limits","summary":"7 facts"}
+[31.0s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/apps/launch/shopify-app-store/app-store-requirements","summary":"13 facts"}
+[31.0s] {"type":"tool","name":"read","target":"https://shopify.dev/changelog/posts/shopify-app-store-submission-requirements-build-grow-then-expand","summary":"8 facts"}
+[31.0s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/apps/build/app-configuration","summary":"12 facts"}
+[31.0s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/apps/build/stores/development-stores","summary":"16 facts"}
+[40.2s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/apps/launch/app-store-review/review-process","summary":"11 facts"}
+[40.2s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/apps/launch/app-store-review/pass-app-review","summary":"23 facts"}
+[40.2s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/apps/launch/privacy-requirements","summary":"12 facts"}
+[40.2s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/apps/build/compliance/privacy-law-compliance","summary":"10 facts"}
+[40.2s] {"type":"tool","name":"read","target":"https://shopify.dev/support","summary":"2 facts"}
+[40.2s] {"type":"tool","name":"read","target":"https://community.shopify.com/t/review-process-timeline/399738","summary":"nothing relevant"}
+[40.2s] {"type":"tool","name":"read","target":"https://community.shopify.com/t/how-long-does-it-take-for-an-app-review-to-be-completed/264027","summary":"nothing relevant"}
+[40.2s] {"type":"tool","name":"read","target":"https://shopify.dev/changelog/posts/sidekick-app-extensions-app-store-requirements","summary":"6 facts"}
+[40.2s] {"type":"tool","name":"read","target":"https://shopify.dev/docs/apps/build/dev-dashboard","summary":"8 facts"}
+[68.4s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[68.8s] {"type":"tool","name":"probe","target":"https://dev.shopify.com/dashboard","summary":"ok: reachable, requires sign-in (HTTP 406, final https://dev.shopify.com/dashboard)"}
+[68.8s] {"type":"status","message":"Writing guide"}
+[118.2s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[118.2s] {"type":"status","message":"Checking the guide for contradictions"}
+[132.5s] guide -> guides/shopify.json

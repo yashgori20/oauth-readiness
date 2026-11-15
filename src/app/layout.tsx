@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import localFont from "next/font/local";
 import Link from "next/link";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,7 +28,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${geistSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Apply a saved theme before paint so there's no flash; otherwise the system setting applies. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}`,
+          }}
+        />
+      </head>
       <body className="font-sans antialiased">
         <div className="mx-auto min-h-screen max-w-[1240px] border-x border-line bg-surface">
           <header className="sticky top-0 z-20 border-b border-line bg-surface/95 backdrop-blur-sm">
@@ -43,7 +52,8 @@ export default function RootLayout({
                 <Link href="/#method" className="label hidden px-2.5 py-2 text-ink-2 hover:text-ink sm:block">
                   Method
                 </Link>
-                <Link href="/#research" className="label border border-ink bg-ink px-3 py-2 text-white hover:bg-ink-2">
+                <ThemeToggle />
+                <Link href="/#research" className="label border border-ink bg-ink px-3 py-2 text-on-ink hover:bg-ink-2">
                   Research an app
                 </Link>
               </nav>

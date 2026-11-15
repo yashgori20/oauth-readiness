@@ -4,6 +4,19 @@
 export type PageCache = Map<string, string>;
 
 const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130 Safari/537.36";
+const LANG = "en-US,en;q=0.9";
+
+// Some docs (Google's especially) localise by IP or headers; a quote in Turkish is useless evidence.
+// Ask for English explicitly. The cache key stays the URL the model cited, so quote checks still line up.
+function english(url: string) {
+  try {
+    const u = new URL(url);
+    if (/(^|\.)google\.com$/.test(u.hostname) && !u.searchParams.has("hl")) u.searchParams.set("hl", "en");
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
 
 type SearchResult = { title: string; url: string; snippet: string };
 
@@ -60,11 +73,13 @@ function htmlToText(html: string) {
 // Jina's reader renders JS-heavy and bot-blocked docs (e.g. developers.facebook.com) to markdown. Free, no key.
 async function readerFetch(url: string) {
   try {
-    const res = await fetch(`https://r.jina.ai/${url}`, { headers: { Accept: "text/plain" }, signal: AbortSignal.timeout(45000) });
+    const res = await fetch(`https://r.jina.ai/${english(url)}`, { headers: { Accept: "text/plain", "Accept-Language": LANG, "X-Locale": "en-US" }, signal: AbortSignal.timeout(45000) });
     if (!res.ok) return "";
     const body = await res.text();
     const i = body.indexOf("Markdown Content:");
-    return i >= 0 ? body.slice(i + 17).trim() : body;
+    const md = i >= 0 ? body.slice(i + 17).trim() : body;
+    // Markdown link and image syntax would put URLs mid-sentence and break word-for-word quote checks.
+    return md.replace(/!\[[^\]]*\]\([^)]*\)/g, " ").replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/\*\*|__/g, "");
   } catch {
     return "";
   }
@@ -75,15 +90,19 @@ export async function fetchPageText(url: string, cache: PageCache): Promise<{ te
   if (cache.has(url)) return { text: cache.get(url) };
   let text = "";
   try {
-    const res = await fetch(url, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(12000) });
+    const res = await fetch(english(url), { headers: { "User-Agent": UA, "Accept-Language": LANG }, signal: AbortSignal.timeout(12000) });
     if (res.ok && (res.headers.get("content-type") ?? "").includes("html")) text = htmlToText(await res.text());
   } catch {}
-  if (text.length < 800) text = (await readerFetch(url)) || text;
+  // Thin pages are often JS-rendered (only the title survives a plain fetch): try the rendering reader and keep the longer text.
+  if (text.length < 3000) {
+    const rendered = await readerFetch(url);
+    if (rendered.length > text.length) text = rendered;
+  }
   if (text.length < 800 && process.env.TAVILY_API_KEY) {
     const res = await fetch("https://api.tavily.com/extract", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${process.env.TAVILY_API_KEY}` },
-      body: JSON.stringify({ urls: [url] }),
+      body: JSON.stringify({ urls: [english(url)] }),
     });
     if (res.ok) text = (await res.json()).results?.[0]?.raw_content ?? text;
   }

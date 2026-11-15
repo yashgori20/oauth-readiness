@@ -1,0 +1,685 @@
+{
+  "app": "Xero",
+  "slug": "xero",
+  "website": "https://www.xero.com/",
+  "developerConsole": "https://developer.xero.com/app/manage",
+  "generatedAt": "2026-11-15T06:48:46.685Z",
+  "origin": "live",
+  "verdict": {
+    "difficulty": 4,
+    "access": "gated",
+    "summary": "A multi-tenant Xero agent can begin self-service with an OAuth Web/Auth Code or PKCE app, but the Starter tier is limited to five connections. A typical commercial agent that needs more connections, hosted Remote MCP, or App Store distribution must move to paid tiers; certification and App Store review introduce provider gates. OAuth production through the developer's own sales channel does not itself require an App Store listing.",
+    "activeEffort": "No published implementation-time estimate; required work includes secure OAuth lifecycle handling, connection-management UX, agent safety controls, and certification materials.",
+    "waitTime": "Unknown: Xero publishes no fixed certification or App Store review turnaround, and no dependable numeric community timeframe is available. App Store review also requires Sign Up with Xero and ten active customer connections before submission.",
+    "mainGate": "Starter permits five connections; commercial scale requires a paid tier, while App Store listing requires Plus or above, certification compliance, and ten active customer connections."
+  },
+  "agentPath": {
+    "recommendation": {
+      "text": "Build an OAuth Web/Auth Code app when the agent backend can protect the client secret; use PKCE only when a native or agent-client initiates authorization and cannot safely retain a secret. Use per-user OAuth connections for each customer tenant, not Custom Connections, and choose direct distribution unless App Store discovery is a business requirement.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/custom-connections/",
+          "quote": "If your app needs to connect to multiple Xero organisations then you should use the code flow or PKCE flow instead.",
+          "quoteVerified": false
+        },
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/overview/",
+          "quote": "Web server apps that can securely store a client secret",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/overview/",
+          "quote": "Mobile and desktop apps that can’t securely store a client secret. (SPAs not currently supported).",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/custom-connections/",
+          "quote": "a premium integration option that utilise the client credentials grant type to access data from a single Xero organisation",
+          "quoteVerified": true
+        }
+      ]
+    },
+    "scopeTiers": [
+      {
+        "text": "Read invoices and payments only. This is the lowest-privilege accounting-data tier and has no published per-scope consent-review tier; it is still capped by the Starter connection limit until the app moves to a paid tier.",
+        "evidence": "unverified",
+        "sources": [
+          {
+            "url": "https://developer.xero.com/documentation/guides/oauth2/scopes/",
+            "quote": "View invoices",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developer.xero.com/documentation/guides/oauth2/scopes/",
+            "quote": "GET only.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/certification-checkpoints/",
+            "quote": "Only request the minimal scopes that you require.",
+            "quoteVerified": false
+          },
+          {
+            "url": "https://developer.xero.com/documentation/guides/oauth2/limits/",
+            "quote": "New apps default to the starter tier with 5 connections.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Let the agent answer invoice and payment questions without creating accounting records.",
+        "scopes": "accounting.invoices.read; accounting.payments.read"
+      },
+      {
+        "text": "Read broader bookkeeping data. Add only the specific read scopes and report permissions used by tools; no general scope-specific review tier is published, but new granular permissions require renewed user consent.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://developer.xero.com/faq/granular-scopes",
+            "quote": "Because you are requesting a different set of permissions, the user must provide explicit consent for the granular scopes.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developer.xero.com/documentation/guides/oauth2/scopes/",
+            "quote": "You should request the minimum scopes required for whatever action that user is performing.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Answer questions involving bank transactions, journals, and selected reports.",
+        "scopes": "accounting.banktransactions.read; accounting.manualjournals.read; applicable granular report read scopes"
+      },
+      {
+        "text": "Create or manage invoices, payments, bank transactions, or journals. This raises product-review risk because the agent must obtain explicit in-product confirmation and correctly map customer-specific account codes; do not bundle write scopes into a read-only connection.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://developer.xero.com/documentation/guides/oauth2/scopes/",
+            "quote": "View and manage invoices",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developer.xero.com/faq",
+            "quote": "The tools on V1 do not elicit user confirmation.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/certification-checkpoints/",
+            "quote": "Never assume a default value as customers can create custom codes or import quite different account code structures.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Carry out a user-confirmed accounting action.",
+        "scopes": "accounting.invoices; accounting.payments; accounting.banktransactions; accounting.manualjournals"
+      },
+      {
+        "text": "Use Journals, Xero Practice Manager, or Bulk Connections at premium scale. This requires Advanced access plus initial and annual security assessment and use-case approval.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://developer.xero.com/faq/pricing-and-policy-updates",
+            "quote": "The Journals endpoint, Xero Practice Manager API, and Bulk Connections require a security assessment (initial and annual) and use case approval",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Access premium endpoints or bulk-connect customers.",
+        "scopes": "endpoint-specific permissions"
+      }
+    ]
+  },
+  "essentials": [
+    {
+      "text": "Request offline_access for a long-lived agent connection. Access tokens are valid for up to 30 minutes and refresh tokens for up to 60 days; refresh rotates both tokens, so encrypt them server-side and atomically replace the stored pair. A stale refresh token is retryable for only 30 minutes before the user must reconnect.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/token-types/",
+          "quote": "for up to 30 minutes.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/token-types/",
+          "quote": "These are only provided if you request the scope `offline_access` when authorising the user.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/token-types/",
+          "quote": "for up to 60 days.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/token-types/",
+          "quote": "Every time you use a `refresh_token`, you will get a new one along with the new `access_token`.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/token-types/",
+          "quote": "You must save both tokens in order to maintain API access.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/token-types/",
+          "quote": "the user will need to re-authorise your application.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Tokens and refresh"
+    },
+    {
+      "text": "Register an HTTPS callback URL and use precisely that same URI in the authorization request and token exchange. For local testing, use http://localhost/; do not use http://127.0.0.1.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/auth-flow/",
+          "quote": "This must be an https address, however for testing you can use http://localhost/ … http://127.0.0.1 cannot be used.",
+          "quoteVerified": false
+        },
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/auth-flow/",
+          "quote": "The same redirect URI that was used when requesting the code.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Redirect URIs"
+    },
+    {
+      "text": "Create a free developer account, enable the demo company, and test with Starter's five connections. Each organisation or practice can connect no more than five uncertified apps, so test tenants can hit a separate limit.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/documentation/getting-started-guide/",
+          "quote": "Signup for a free Xero account",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/documentation/getting-started-guide/",
+          "quote": "Enable the Xero demo company.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/limits/",
+          "quote": "New apps default to the starter tier with 5 connections.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/limits/",
+          "quote": "each organisation or practice is limited to connecting a maximum of five uncertified apps. There is no limit on connecting certified apps.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Test users and dev limits"
+    },
+    {
+      "text": "Queue work per tenant and handle HTTP 429 with backoff. A tenant allows five concurrent calls, 60 calls per minute, and 1,000 daily calls on Starter or 5,000 on higher tiers; the app-wide minute cap is 10,000 calls.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/limits/",
+          "quote": "Concurrent Limit: 5 calls in progress at one time",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/limits/",
+          "quote": "Minute Limit: 60 calls per minute",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/limits/",
+          "quote": "1,000 calls per day for starter, 5,000 calls per day for higher tiers.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/limits/",
+          "quote": "10,000 calls per minute.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/limits/",
+          "quote": "Rate-limit overflow returns HTTP 429.",
+          "quoteVerified": false
+        }
+      ],
+      "topic": "Rate limits"
+    },
+    {
+      "text": "Starter is free; paid app tiers are Core $35 AUD, Plus $245 AUD, Advanced $1445 AUD, and Enterprise price on application, excluding tax. Core, Plus, and Advanced include 10 GB, 50 GB, and 250 GB monthly API egress respectively, with $2.40 AUD per GB listed overage; payment uses a registered credit card.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/pricing",
+          "quote": "No charge $35 AUD $245 AUD $1445 AUD Price on Application",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/pricing",
+          "quote": "$2.40 AUD",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/pricing",
+          "quote": "Payments are accepted via registered credit card.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Cost"
+    },
+    {
+      "text": "For direct commercial distribution, connect customers through OAuth and sell through the product's own website or sales channels. Use paid Core or above for Remote MCP with real customer organisations; Starter Remote MCP is limited to the demo organisation.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/faqs/",
+          "quote": "Xero app partners can continue to sell their apps to Xero customers via other channels, such as their own website or other sales channels.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/faq",
+          "quote": "The Remote MCP is included on plans Core and above.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/faq",
+          "quote": "Starter can use Remote MCP only with the demo organisation",
+          "quoteVerified": false
+        }
+      ],
+      "topic": "Going live"
+    },
+    {
+      "text": "For App Store distribution, reach Plus or above, satisfy certification checkpoints, implement Sign Up with Xero, and obtain ten active customer connections. In Developer Centre, complete the App Store listing and submit only when final because submitted listing information cannot be edited while under review.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/certification-checkpoints/",
+          "quote": "To be listed on the App Store, you will need to be in the Plus tier or above.",
+          "quoteVerified": false
+        },
+        {
+          "url": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/building-and-growing-your-app/",
+          "quote": "you’ve built Sign Up with Xero and have ten active customer connections.",
+          "quoteVerified": false
+        },
+        {
+          "url": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/app-listing/",
+          "quote": "Once you’re ready, click ‘Submit listing’. You won’t be able to edit your information after you submit as it will be under review.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Submitting for review"
+    }
+  ],
+  "phases": [
+    {
+      "name": "Register",
+      "steps": [
+        {
+          "title": "Create the developer account and OAuth app",
+          "owner": "you",
+          "detail": {
+            "text": "Create a free Xero developer account, enable the demo company, then sign in to Developer Centre and add an OAuth application. Select the Web/Auth Code app type when your backend controls the callback and can keep the client secret server-side.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/documentation/getting-started-guide/",
+                "quote": "Signup for a free Xero account",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.xero.com/documentation/getting-started-guide/",
+                "quote": "Enable the Xero demo company.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.xero.com/app/manage",
+                "quote": "Add your OAuth 2.0 application (you’ll be prompted to login to Xero first).",
+                "quoteVerified": false
+              }
+            ]
+          },
+          "effort": "15 min",
+          "link": "https://developer.xero.com/app/manage"
+        }
+      ]
+    },
+    {
+      "name": "Configure",
+      "steps": [
+        {
+          "title": "Prepare the callback and scope checklist",
+          "owner": "agent",
+          "detail": {
+            "text": "Use this checklist when configuring the app and implementing the authorization-code callback so redirect validation, CSRF protection, tenant selection, and offline operation are designed together.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/documentation/guides/oauth2/auth-flow/",
+                "quote": "The state parameter should be used to avoid forgery attacks.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.xero.com/documentation/guides/oauth2/auth-flow/",
+                "quote": "A user may have access to multiple tenants and will choose which ones to connect to your app.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "5 min",
+          "output": "OAuth configuration checklist\n- Redirect URI: https://YOUR_DOMAIN/oauth/xero/callback\n- Local test URI only: http://localhost/\n- Use the identical redirect_uri in authorize and token requests.\n- Generate and validate one-time state per authorization.\n- Request offline_access plus only tool-required granular scopes.\n- Store client secret and rotated token pairs only on the server.\n- Send xero-tenant-id with each tenant API request."
+        },
+        {
+          "title": "Set redirect URI and OAuth credentials",
+          "owner": "you",
+          "detail": {
+            "text": "In the application's OAuth configuration, enter the production HTTPS callback URI and, if needed, http://localhost/ for local testing. Keep the client secret only in server-side secret storage; do not place it, access tokens, or client identifiers in browser-delivered application state.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/documentation/guides/oauth2/auth-flow/",
+                "quote": "This must be an https address, however for testing you can use http://localhost/ … http://127.0.0.1 cannot be used.",
+                "quoteVerified": false
+              },
+              {
+                "url": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/certification-checkpoints/",
+                "quote": "Never show or store sensitive data like the access token, client id and client secret in the client side of the application",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "link": "https://developer.xero.com/app/manage"
+        },
+        {
+          "title": "Implement tenant-aware OAuth and action safety",
+          "owner": "you",
+          "detail": {
+            "text": "Implement authorization against https://login.xero.com/identity/connect/authorize and token exchange at https://identity.xero.com/connect/token. Persist the selected tenant ID with each connection, rotate refresh-token pairs atomically, and require an explicit in-product confirmation immediately before every accounting write.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/documentation/guides/oauth2/auth-flow/",
+                "quote": "Requests need a bearer token plus `xero-tenant-id`.",
+                "quoteVerified": false
+              },
+              {
+                "url": "https://developer.xero.com/documentation/guides/oauth2/token-types/",
+                "quote": "You must save both tokens in order to maintain API access.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.xero.com/faq",
+                "quote": "The tools on V1 do not elicit user confirmation.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–2 hr"
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "steps": [
+        {
+          "title": "Run demo-company connection and resilience tests",
+          "owner": "you",
+          "detail": {
+            "text": "Use the demo company to test consent, multiple-tenant selection, code reuse and expiry handling, refresh-token rotation, reconnect behavior, disconnect behavior, per-tenant request queuing, and visible API-error messages. Confirm every mutation presents the selected tenant, proposed values, and a final confirmation before the API call.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/documentation/guides/oauth2/auth-flow/",
+                "quote": "expires after five minutes.",
+                "quoteVerified": false
+              },
+              {
+                "url": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/certification-checkpoints/",
+                "quote": "It is essential to find a way to let users know an error has taken place, within your integration.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–2 hr"
+        },
+        {
+          "title": "Implement connection lifecycle controls",
+          "owner": "you",
+          "detail": {
+            "text": "Add a connection settings screen that displays each tenant name and connection status, provides reconnect guidance, and offers a disconnect control that calls the Connections DELETE endpoint. For accounting writes, require user-selected account-code mapping rather than applying a default.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/certification-checkpoints/",
+                "quote": "Use the method of DELETE from the Connections endpoint to remove a connection to a tenant.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/certification-checkpoints/",
+                "quote": "you will need mapping functionality so that users can select one or more account codes.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "half day"
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "steps": [
+        {
+          "title": "Prepare certification and listing evidence",
+          "owner": "agent",
+          "detail": {
+            "text": "Use this reviewer script as the basis for a test account handoff and certification evidence, adapting menu labels to the shipped product.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/certification-checkpoints/",
+                "quote": "Using the offline_access scope is a requirement for certification.",
+                "quoteVerified": false
+              },
+              {
+                "url": "https://developer.xero.com/xero-developer-platform-terms-conditions",
+                "quote": "You must not use API Data sourced from the Xero developer platform to train or fine tune any artificial intelligence models including machine learning tools, large language models or predictive analytics tools.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "output": "Reviewer test instructions\n1. Sign in and choose Connect Xero.\n2. Complete Xero OAuth; select the intended organisation.\n3. Open Settings > Xero Connections to verify tenant name and status.\n4. Run a read-only query.\n5. Start a write action; verify the proposed values and account mapping, then confirm before submission.\n6. Disconnect from Settings and verify the tenant is removed.\n7. Reconnect and verify the status returns to Connected.\nSecurity note: tokens are server-side only; Xero data is not used to train or fine-tune models."
+        },
+        {
+          "title": "Submit the optional App Store listing",
+          "owner": "you",
+          "detail": {
+            "text": "After reaching Plus or above, meeting certification checkpoints, implementing Sign Up with Xero, and reaching ten active customer connections, open App Store listing in Developer Centre. Complete mandatory listing fields and submit the final listing; supply an SVG logo, a short description, support details, a pricing plan, and compliant screenshots.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/app-listing/",
+                "quote": "300 characters max",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/app-listing/",
+                "quote": ".JPG or .PNG format and within 5MB file size, 1280 x 800px.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "half day",
+          "link": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/app-listing/"
+        },
+        {
+          "title": "Wait for Xero review outcome",
+          "owner": "provider",
+          "detail": {
+            "text": "Wait for the Developer Evangelist to report requested changes or confirm that the submitted App Store listing can go live; no fixed review turnaround is published.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/app-listing/",
+                "quote": "A Developer Evangelist will be in touch to confirm if you need to make any changes and when your app listing is ready to go live.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "wait: unknown"
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "steps": [
+        {
+          "title": "Select the production tier and monitor use",
+          "owner": "you",
+          "detail": {
+            "text": "Add a registered credit card and choose Core for up to 50 connections, Plus for up to 1,000, Advanced for up to 10,000, or Enterprise for unlimited connections as product demand requires. Monitor app-level connection count and API egress, and use Core or above before connecting real organisations through Remote MCP.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://developer.xero.com/pricing",
+                "quote": "5 / 50 / 1,000 / 10,000 / unlimited",
+                "quoteVerified": false
+              },
+              {
+                "url": "https://developer.xero.com/pricing",
+                "quote": "Connection count and API data consumption via the Xero API is measured and priced at the app level.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developer.xero.com/faq",
+                "quote": "The Remote MCP is included on plans Core and above.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min",
+          "link": "https://developer.xero.com/pricing"
+        }
+      ]
+    }
+  ],
+  "gotchas": [
+    {
+      "text": "Do not use Custom Connections for a SaaS agent serving many customer organisations: it is single-organisation client-credentials access, requires an additional subscription, and is region-limited.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/custom-connections/",
+          "quote": "a premium integration option that utilise the client credentials grant type to access data from a single Xero organisation",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Apps created on or after 2 March 2026 use granular scopes. Existing users must explicitly consent again when granular permissions change, and broad scopes remain only until September 2027.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/faq/granular-scopes",
+          "quote": "Apps created on or after 2 March 2026 will use the new granular scopes",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/faq/granular-scopes",
+          "quote": "Because you are requesting a different set of permissions, the user must provide explicit consent for the granular scopes.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Remote MCP V1 does not request confirmation itself. An agent that creates invoices, payments, or journals must enforce confirmation and retain an audit trail in its own product before invoking a write tool.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/faq",
+          "quote": "The tools on V1 do not elicit user confirmation.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Do not train or fine-tune AI models with Xero API data. If accounting content is sent to an external LLM provider, obtain associated-user consent and ensure that transfer is part of the approved app use case.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/xero-developer-platform-terms-conditions",
+          "quote": "You must not use API Data sourced from the Xero developer platform to train or fine tune any artificial intelligence models including machine learning tools, large language models or predictive analytics tools.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developer.xero.com/xero-developer-platform-terms-conditions",
+          "quote": "API Data shall not be passed to another third party without consent from the associated user",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "whenBlocked": [
+    {
+      "text": "If an organisation has reached its five-uncertified-app limit, ask the customer to disconnect an unused uncertified app or pursue certification, because certified apps are not subject to that organisation-level limit.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/limits/",
+          "quote": "each organisation or practice is limited to connecting a maximum of five uncertified apps. There is no limit on connecting certified apps.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If certification, App Store, billing, or an unresolved platform issue blocks launch, email api@xero.com with the app ID, tier, affected tenant, reproduction details, and requested decision.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/faqs/",
+          "quote": "If your question isn’t currently listed, please feel free to send it to us at api@xero.com.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If the product needs Journals, Xero Practice Manager, or Bulk Connections, contact Xero support for the Advanced use-case approval process before committing the feature to customers.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/faq/pricing-and-policy-updates",
+          "quote": "Please reach out to our support team for more information about the use case approval process.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If a refresh token is no longer usable after its retry window, route the customer to the OAuth reconnect flow and replace the stored connection token pair after consent.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developer.xero.com/documentation/guides/oauth2/token-types/",
+          "quote": "the user will need to re-authorise your application.",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "probes": [
+    {
+      "name": "OIDC discovery",
+      "target": "https://identity.xero.com/.well-known/openid-configuration",
+      "result": "authorize=https://login.xero.com/identity/connect/authorize; scopes=",
+      "ok": true
+    },
+    {
+      "name": "Authorize endpoint",
+      "target": "https://login.xero.com/identity/connect/authorize",
+      "result": "HTTP 302 -> https://login.xero.com/identity/error?errorId=CfDJ8MOMn5AHNxVIkNNdLD-L7IFFPcZRNPdhvIeMk5tJiZa9PuELkv0SkXzrymZNSuH9hoWfno",
+      "ok": true
+    },
+    {
+      "name": "Developer console",
+      "target": "https://developer.xero.com/app/manage",
+      "result": "HTTP 200 (final: https://developer.xero.com/app/manage)",
+      "ok": true
+    }
+  ],
+  "uncertain": []
+}

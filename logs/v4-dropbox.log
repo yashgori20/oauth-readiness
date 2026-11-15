@@ -1,0 +1,31 @@
+[0.0s] {"type":"status","message":"Researching Dropbox"}
+[24.1s] {"type":"tool","name":"search","target":"site:developers.dropbox.com OAuth guide scopes refresh token PKCE Dropbox","summary":"8 results"}
+[24.1s] {"type":"tool","name":"search","target":"site:developers.dropbox.com app review production approval Dropbox app console","summary":"4 results"}
+[24.1s] {"type":"tool","name":"search","target":"site:help.dropbox.com developers app permissions production status Dropbox API","summary":"6 results"}
+[24.1s] {"type":"tool","name":"search","target":"site:developers.dropbox.com pricing API rate limits Dropbox","summary":"6 results"}
+[24.1s] {"type":"tool","name":"search","target":"site:developers.dropbox.com AI LLM policy terms Dropbox API","summary":"8 results"}
+[24.1s] {"type":"tool","name":"search","target":"site:developers.dropbox.com app console development production users limit","summary":"3 results"}
+[24.1s] {"type":"tool","name":"search","target":"Dropbox API app review wait time community","summary":"6 results"}
+[24.1s] {"type":"tool","name":"search","target":"site:developers.dropbox.com developer blog changelog OAuth Dropbox 2025 2026","summary":"5 results"}
+[38.1s] {"type":"tool","name":"read","target":"https://docs.dropboxapi.com/dropbox-api/docs/oauth","summary":"22 facts"}
+[38.1s] {"type":"tool","name":"read","target":"https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide","summary":"20 facts"}
+[38.1s] {"type":"tool","name":"read","target":"https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console","summary":"11 facts"}
+[38.1s] {"type":"tool","name":"read","target":"https://www.dropbox.com/developers/reference/tos","summary":"15 facts"}
+[38.1s] {"type":"tool","name":"read","target":"https://docs.dropboxapi.com/dropbox-api/docs/performance","summary":"10 facts"}
+[38.1s] {"type":"tool","name":"read","target":"https://dropbox.tech/developers/using-oauth-2-0-with-offline-access","summary":"10 facts"}
+[38.1s] {"type":"tool","name":"read","target":"https://www.dropbox.com/developers/support","summary":"9 facts"}
+[38.1s] {"type":"tool","name":"read","target":"https://community.dropbox.com/en/discussion/846671/does-a-dropbox-app-have-a-limit-on-development-users","summary":"7 facts"}
+[38.1s] {"type":"tool","name":"read","target":"https://community.dropbox.com/en/discussion/11597/how-quickly-does-an-app-get-approved-for-production-status/p1","summary":"2 facts"}
+[38.1s] {"type":"tool","name":"read","target":"https://docs.dropboxapi.com/dropbox-api/docs/technical-reference/data-transport-limit","summary":"6 facts"}
+[51.5s] {"type":"tool","name":"read","target":"https://www.dropbox.com/developers/apps","summary":"3 facts"}
+[51.5s] {"type":"tool","name":"read","target":"https://www.dropbox.com/developers/reference/tos","summary":"6 facts"}
+[67.5s] {"type":"tool","name":"search","target":"site:developers.dropbox.com \"files.content.read\" \"files.content.write\" \"sharing.write\" scopes","summary":"7 results"}
+[74.9s] {"type":"tool","name":"read","target":"https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens","summary":"17 facts"}
+[95.4s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[96.3s] {"type":"tool","name":"probe","target":"https://www.dropbox.com/.well-known/openid-configuration","summary":"ok: authorize=https://www.dropbox.com/oauth2/authorize; scopes=openid profile email"}
+[96.3s] {"type":"tool","name":"probe","target":"https://www.dropbox.com/oauth2/authorize","summary":"ok: HTTP 302 -> /oauth2/authorize_error?client_id=probe-not-a-real-client&error_deta"}
+[96.3s] {"type":"tool","name":"probe","target":"https://www.dropbox.com/developers/apps","summary":"ok: reachable, requires sign-in (HTTP 200, final https://www.dropbox.com/login?cont="}
+[96.3s] {"type":"status","message":"Writing guide"}
+[141.3s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[147.6s] {"type":"status","message":"Checking the guide for contradictions"}
+[167.4s] guide -> guides/dropbox.json

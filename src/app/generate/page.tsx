@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { GuideView } from "@/components/GuideView";
-import { ArrowRight, Bolt, Check, Doc, Pen, Search } from "@/components/icons";
+import { ArrowRight, Bolt, Check, Chevron, Doc, Pen, Search } from "@/components/icons";
 import type { AgentEvent } from "@/lib/agent";
 import type { Guide } from "@/lib/guide";
 
@@ -112,13 +112,44 @@ function Live() {
             if (ev.type !== "tool") return null;
             const Icon = ICON[ev.name as keyof typeof ICON] ?? Doc;
             const bad = /failed|empty|blocked|nothing relevant/.test(ev.summary);
-            return (
-              <li key={i} className="settle grid grid-cols-[16px_1fr] gap-3 px-5 py-2.5 sm:grid-cols-[16px_1fr_auto] sm:px-8 [&+li]:border-t [&+li]:border-line">
+            const row = (
+              <>
                 <Icon className="h-3.5 w-3.5 text-muted" />
                 <span className="min-w-0 truncate text-ink-2" title={ev.target}>
                   {ev.target}
                 </span>
-                <span className={`col-start-2 sm:col-start-auto ${bad ? "text-red" : "text-muted"}`}>{ev.summary}</span>
+                <span className={`col-start-2 inline-flex items-center gap-1.5 sm:col-start-auto ${bad ? "text-red" : "text-muted"}`}>
+                  {ev.summary}
+                  {!!ev.detail?.length && <Chevron className="h-3 w-3 transition-transform group-open:rotate-90" />}
+                </span>
+              </>
+            );
+            const grid = "grid grid-cols-[16px_1fr] gap-3 px-5 py-2.5 sm:grid-cols-[16px_1fr_auto] sm:px-8";
+            return (
+              <li key={i} className="settle [&+li]:border-t [&+li]:border-line">
+                {ev.detail?.length ? (
+                  // Drill down: search results, or the facts the reader pulled from the page.
+                  <details className="group">
+                    <summary className={`${grid} cursor-pointer list-none hover:bg-ground`}>{row}</summary>
+                    <ul className="space-y-1.5 border-t border-line bg-ground px-5 py-3 pl-12 font-sans text-[13px] leading-relaxed text-ink-2 sm:px-8 sm:pl-[60px]">
+                      {ev.detail.map((d, j) => {
+                        if (ev.name === "search") {
+                          const [title, url] = d.split(" | ");
+                          return (
+                            <li key={j}>
+                              <a href={url} target="_blank" rel="noreferrer" className="hover:text-brand">
+                                {title} <span className="text-muted">· {url.replace(/^https?:\/\/(www\.)?/, "").slice(0, 70)}</span>
+                              </a>
+                            </li>
+                          );
+                        }
+                        return <li key={j}>{d}</li>;
+                      })}
+                    </ul>
+                  </details>
+                ) : (
+                  <div className={grid}>{row}</div>
+                )}
               </li>
             );
           })}

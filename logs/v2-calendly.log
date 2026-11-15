@@ -1,0 +1,35 @@
+[0.0s] {"type":"status","message":"Researching Calendly"}
+[13.3s] {"type":"tool","name":"search","target":"site:developer.calendly.com OAuth scopes authorization redirect URI token expiration refresh token","summary":"6 results"}
+[13.3s] {"type":"tool","name":"search","target":"site:developer.calendly.com register OAuth app developer portal review approval","summary":"7 results"}
+[13.3s] {"type":"tool","name":"search","target":"site:developer.calendly.com API authentication personal access token OAuth","summary":"6 results"}
+[13.3s] {"type":"tool","name":"search","target":"site:calendly.com developer terms AI artificial intelligence API","summary":"8 results"}
+[13.3s] {"type":"tool","name":"search","target":"Calendly developer OAuth app review approval community","summary":"8 results"}
+[13.3s] {"type":"tool","name":"search","target":"site:developer.calendly.com rate limits pricing API OAuth","summary":"8 results"}
+[13.3s] {"type":"tool","name":"search","target":"Calendly API changelog OAuth developer blog","summary":"8 results"}
+[13.3s] {"type":"tool","name":"search","target":"site:developer.calendly.com \"OAuth\" \"app\"","summary":"6 results"}
+[26.7s] {"type":"tool","name":"read","target":"https://developer.calendly.com/docs/authentication/creating-an-oauth-app","summary":"18 facts"}
+[26.7s] {"type":"tool","name":"read","target":"https://developer.calendly.com/docs/authentication/overview","summary":"5 facts"}
+[26.7s] {"type":"tool","name":"read","target":"https://developer.calendly.com/docs/authentication/scopes","summary":"34 facts"}
+[26.7s] {"type":"tool","name":"read","target":"https://developer.calendly.com/api-docs/calendly-o-auth/o-auth/post-oauth-refresh-token","summary":"13 facts"}
+[26.7s] {"type":"tool","name":"read","target":"https://developer.calendly.com/docs/authentication/refresh-token-rotation-guide","summary":"8 facts"}
+[26.7s] {"type":"tool","name":"read","target":"https://developer.calendly.com/api-docs/calendly-o-auth/o-auth/get-oauth-authorize","summary":"10 facts"}
+[26.7s] {"type":"tool","name":"read","target":"https://developer.calendly.com/api-docs/overview/rate-limits","summary":"11 facts"}
+[26.7s] {"type":"tool","name":"read","target":"https://calendly.com/legal/developer-policy","summary":"18 facts"}
+[26.7s] {"type":"tool","name":"read","target":"https://developer.calendly.com/docs/getting-started/frequently-asked-questions","summary":"11 facts"}
+[26.7s] {"type":"tool","name":"read","target":"https://developer.calendly.com/release-notes/2026/11/3","summary":"7 facts"}
+[26.7s] {"type":"tool","name":"read","target":"https://developer.calendly.com/docs/api-guides/schedule-events-with-ai-agents","summary":"17 facts"}
+[41.5s] {"type":"tool","name":"search","target":"site:community.calendly.com \"OAuth app\" \"production\" review","summary":"5 results"}
+[41.5s] {"type":"tool","name":"search","target":"site:community.calendly.com OAuth approval review wait time","summary":"5 results"}
+[41.5s] {"type":"tool","name":"search","target":"site:developer.calendly.com support developer contact OAuth app","summary":"7 results"}
+[41.5s] {"type":"tool","name":"search","target":"site:calendly.com/legal developer policy AI LLM generative artificial intelligence","summary":"6 results"}
+[41.5s] {"type":"tool","name":"read","target":"https://developer.calendly.com/release-notes","summary":"2 facts"}
+[41.5s] {"type":"tool","name":"read","target":"https://community.calendly.com/api-webhook-help-61/trouble-with-oauth2-token-exchange-using-calendly-api-invalid-grant-error-1285","summary":"11 facts"}
+[41.5s] {"type":"tool","name":"read","target":"https://community.calendly.com/api-webhook-help-61/forcing-calendy-oauth-consent-4589","summary":"11 facts"}
+[65.9s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[66.9s] {"type":"tool","name":"probe","target":"auth.calendly.com","summary":"failed: no discovery document on these hosts (provider may not support OIDC)"}
+[66.9s] {"type":"tool","name":"probe","target":"https://auth.calendly.com/oauth/authorize","summary":"ok: HTTP 301 -> https://calendly.com/oauth/authorize?client_id=probe-not-a-real-clie"}
+[66.9s] {"type":"tool","name":"probe","target":"https://developer.calendly.com","summary":"ok: HTTP 200 (final: https://developer.calendly.com/docs/getting-started/overview)"}
+[66.9s] {"type":"status","message":"Writing guide"}
+[103.4s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[103.4s] {"type":"status","message":"Checking the guide for contradictions"}
+[124.2s] guide -> guides/calendly.json

@@ -31,7 +31,7 @@ export function GenerateBox() {
         </label>
         <button
           disabled={!app.trim()}
-          className="label flex h-14 items-center justify-center gap-2 bg-ink px-6 text-white transition-colors hover:bg-brand disabled:cursor-not-allowed disabled:bg-[#b9b8b4]"
+          className="label flex h-14 items-center justify-center gap-2 bg-ink px-6 text-on-ink transition-colors hover:bg-brand hover:text-white disabled:cursor-not-allowed disabled:bg-disabled"
         >
           Research it live <ArrowRight className="h-4 w-4" />
         </button>

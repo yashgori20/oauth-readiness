@@ -18,6 +18,59 @@
   --green-soft: #e8f6ee;
   --red: #b42318;
   --red-soft: #fdecea;
+  --on-ink: #ffffff; /* text on an ink-filled button */
+  --disabled: #b9b8b4;
+  --scroll: #c9c8c4;
+  --placeholder: #8a8a87;
+  color-scheme: light;
+}
+
+/* Dark: same structure, warm near-black ground, a lighter blue that holds contrast on dark. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0c0c0d;
+    --surface: #141415;
+    --ink: #f2f2ef;
+    --ink-2: #c6c6c1;
+    --muted: #8f8f8a;
+    --line: #2a2a2c;
+    --brand: #5566ff;
+    --brand-hover: #6e7cff;
+    --brand-soft: #1a1d3f;
+    --amber: #f0b45a;
+    --amber-soft: #2d2410;
+    --green: #52c98d;
+    --green-soft: #10261a;
+    --red: #ff7d70;
+    --red-soft: #2f1512;
+    --on-ink: #0f0f0f;
+    --disabled: #3a3a3c;
+    --scroll: #3a3a3c;
+    --placeholder: #6f6f6b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #0c0c0d;
+  --surface: #141415;
+  --ink: #f2f2ef;
+  --ink-2: #c6c6c1;
+  --muted: #8f8f8a;
+  --line: #2a2a2c;
+  --brand: #5566ff;
+  --brand-hover: #6e7cff;
+  --brand-soft: #1a1d3f;
+  --amber: #f0b45a;
+  --amber-soft: #2d2410;
+  --green: #52c98d;
+  --green-soft: #10261a;
+  --red: #ff7d70;
+  --red-soft: #2f1512;
+  --on-ink: #0f0f0f;
+  --disabled: #3a3a3c;
+  --scroll: #3a3a3c;
+  --placeholder: #6f6f6b;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -38,10 +91,12 @@
   --color-green-soft: var(--green-soft);
   --color-red: var(--red);
   --color-red-soft: var(--red-soft);
+  --color-on-ink: var(--on-ink);
+  --color-disabled: var(--disabled);
 }
 
 html {
-  scrollbar-color: #c9c8c4 var(--ground);
+  scrollbar-color: var(--scroll) var(--ground);
 }
 
 body {
@@ -65,7 +120,7 @@ a {
 }
 
 input::placeholder {
-  color: #8a8a87;
+  color: var(--placeholder);
 }
 
 details summary::-webkit-details-marker {
@@ -100,3 +155,7 @@ details summary::-webkit-details-marker {
     animation: none;
   }
 }
+
+/* Help panel: sections an answer points to flash briefly. */
+.ask-target { transition: background-color 0.6s ease, box-shadow 0.6s ease; }
+.ask-hit { background-color: var(--brand-soft) !important; box-shadow: inset 3px 0 0 var(--brand); }

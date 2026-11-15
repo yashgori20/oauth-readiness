@@ -1,0 +1,414 @@
+{
+  "app": "Strava",
+  "slug": "strava",
+  "website": "https://developers.strava.com/",
+  "developerConsole": "https://www.strava.com/settings/api",
+  "generatedAt": "2026-11-15T05:42:38.152Z",
+  "origin": "live",
+  "verdict": {
+    "difficulty": 5,
+    "summary": "Do not build or submit the proposed AI-agent integration: Strava’s API Policy prohibits use of Strava API materials or data in the operation of any AI application. Plan around using no Strava API/data, redesigning the product outside the AI use case, or obtaining written guidance from Strava before investing in OAuth or production review.",
+    "activeEffort": "OAuth registration and a 10-athlete configuration path are self-service, but policy compliance is a hard eligibility gate for this AI use case.",
+    "waitTime": "No fixed review SLA is stated; a community response says reviews typically take 7–10 business days, but this is not an official commitment.",
+    "mainGate": "The API Policy prohibits Strava API materials or Strava Data in the development, training, evaluation, or operation of an AI application."
+  },
+  "phases": [
+    {
+      "name": "Register",
+      "steps": [
+        {
+          "title": "Assess the proposed AI use against the API Policy before creating an app",
+          "owner": "agent",
+          "detail": {
+            "text": "Strava prohibits using its API Materials or Strava Data, directly or indirectly, in connection with the development, training, evaluation, or operation of any AI Application.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://www.strava.com/legal/api_policy",
+                "quote": "You may not use the Strava API Materials or Strava Data, directly or indirectly, in connection with the development, training, evaluation, or operation of any AI Application.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Low",
+          "link": "https://www.strava.com/legal/api_policy"
+        },
+        {
+          "title": "Create an app only if Strava confirms the use is permitted or the product is no longer an AI application",
+          "owner": "you",
+          "detail": {
+            "text": "After logging in, create the app in Strava API Settings; Strava says a Strava subscription is required.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.strava.com/docs/getting-started/",
+                "quote": "After you are logged in, go to https://www.strava.com/settings/api and create an app. Note: A Strava subscription is required.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Minutes",
+          "link": "https://www.strava.com/settings/api"
+        },
+        {
+          "title": "Confirm account eligibility",
+          "owner": "you",
+          "detail": {
+            "text": "The API agreement requires that you are at least 18 years of age and defines “You” as an individual or the entity represented.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://www.strava.com/legal/api",
+                "quote": "you are at least 18 years of age",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://www.strava.com/legal/api",
+                "quote": "“You” means you individually or the entity that you represent.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Minutes",
+          "link": "https://www.strava.com/legal/api"
+        }
+      ]
+    },
+    {
+      "name": "Configure",
+      "steps": [
+        {
+          "title": "Set the callback domain and validate redirect URIs",
+          "owner": "agent",
+          "detail": {
+            "text": "For development, configure the Authorization Callback Domain to localhost or another domain, then use a real domain when going live; redirect URIs must fall within the configured callback domain, while localhost and 127.0.0.1 are allowlisted.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.strava.com/docs/getting-started/",
+                "quote": "Authorization Callback Domain: When building your app, change “Authorization Callback Domain” to localhost or any domain. When taking your app live, change “Authorization Callback Domain” to a real domain.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.strava.com/docs/authentication/",
+                "quote": "Must be within the callback domain specified by the application. localhost and 127.0.0.1 are white-listed.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Low",
+          "link": "https://developers.strava.com/docs/authentication/"
+        },
+        {
+          "title": "Configure minimum OAuth scopes",
+          "owner": "agent",
+          "detail": {
+            "text": "Request only scopes needed for normal operation because users may opt out of requested scopes. activity:read excludes Only You activities and privacy-zone data; activity:read_all includes them, and profile:read_all reads all profile information even when profile visibility is Followers or Only You.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.strava.com/docs/authentication/",
+                "quote": "Applications should request only the scopes required for the application to function normally.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.strava.com/docs/authentication/",
+                "quote": "Scopes requested by the application are shown as checked boxes, but the user may opt out of any requested scopes.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.strava.com/docs/authentication/",
+                "quote": "activity:read : read the user's activity data for activities that are visible to Everyone and Followers, excluding privacy zone data",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.strava.com/docs/authentication/",
+                "quote": "activity:read_all : the same access as activity:read , plus privacy zone data and access to read the user's activities with visibility set to Only You",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.strava.com/docs/authentication/",
+                "quote": "profile:read_all : read all profile information even if the user has set their profile visibility to Followers or Only You",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Low",
+          "link": "https://developers.strava.com/docs/authentication/"
+        },
+        {
+          "title": "Plan deauthorization support",
+          "owner": "agent",
+          "detail": {
+            "text": "POST https://www.strava.com/oauth/revoke is recommended from June 1, 2026 and becomes the only supported deauthorization endpoint effective June 1, 2027.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.strava.com/docs/authentication/",
+                "quote": "As of June 1, 2026 applications can choose to leverage the endpoint POST https://www.strava.com/oauth/revoke . This is the recommended method for deauthorization and will be the only endpoint supported for deauthorization effective June 1, 2027.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Low",
+          "link": "https://developers.strava.com/docs/authentication/"
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "steps": [
+        {
+          "title": "Implement and test the OAuth authorization-code flow after credentials exist",
+          "owner": "agent",
+          "detail": {
+            "text": "Web applications send users to GET https://www.strava.com/oauth/authorize, then call POST https://www.strava.com/oauth/token with the client ID and client secret.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.strava.com/docs/authentication/",
+                "quote": "Web applications\n Redirect the user to GET https://www.strava.com/oauth/authorize .",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.strava.com/docs/authentication/",
+                "quote": "The application must now call the POST https://www.strava.com/oauth/token with its client ID and client secret",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Low",
+          "link": "https://developers.strava.com/docs/authentication/"
+        },
+        {
+          "title": "Use the initial single-player environment, then use self-service expanded access if eligible",
+          "owner": "you",
+          "detail": {
+            "text": "New apps start with athlete capacity 1 and may be used solely by the developer for the developer’s own data; Strava’s API Settings dashboard introduced self-service expanded access for single-player developers, and the configured access level permits 10 connected athletes.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.strava.com/docs/rate-limits/",
+                "quote": "All newly created apps will have an athlete capacity of 1, aka \"Single Player Mode\". Developers in Single Player Mode can use their app solely for themselves, and can access their own data.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.strava.com/docs/changelog/",
+                "quote": "Introduction of self service expanded access in API Settings Dashboard for single player developers.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.strava.com/docs/getting-started/",
+                "quote": "Athlete capacity of 10",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Minutes",
+          "link": "https://developers.strava.com/docs/rate-limits/"
+        },
+        {
+          "title": "Design data handling and synchronization within policy and rate limits",
+          "owner": "agent",
+          "detail": {
+            "text": "A user’s Strava Data may be displayed or disclosed in the application only to that user, cached Strava Data may not be retained longer than seven days, and activity polling can exhaust daily rate limits.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://www.strava.com/legal/api_policy",
+                "quote": "Strava Data provided by a specific Strava user may be displayed or disclosed in your Developer Application only to that user.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://www.strava.com/legal/api_policy",
+                "quote": "You may not retain Strava Data in your cache for longer than seven (7) days.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.strava.com/docs/rate-limits/",
+                "quote": "Activity polling is causing you to hit your daily rate limits",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Medium",
+          "link": "https://www.strava.com/legal/api_policy"
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "steps": [
+        {
+          "title": "Submit for review before authenticating an eleventh athlete",
+          "owner": "you",
+          "detail": {
+            "text": "Scaling beyond 10 connected athletes requires app review, and additional athletes cannot authenticate until review is complete; submit the Developer Program form with screenshots of every place Strava data appears and the Connect with Strava button.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.strava.com/docs/rate-limits/",
+                "quote": "If you want to scale beyond 10 connected athletes you’ll need to submit your app for review . Until your app has been reviewed, you won't be able to authenticate any additional athletes to your app.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.strava.com/docs/rate-limits/",
+                "quote": "Please complete our Developer Program form for review and be sure to include screenshots of all the places Strava data is shown and the \"Connect with Strava\" button in your application.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Hours",
+          "link": "https://developers.strava.com/docs/rate-limits/"
+        },
+        {
+          "title": "Wait for Strava’s discretionary decision",
+          "owner": "provider",
+          "detail": {
+            "text": "Increased access is not guaranteed, and Strava does not commit to a fixed review-time service-level agreement.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.strava.com/docs/rate-limits/",
+                "quote": "Please note: increased access is not a guarantee.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://www.strava.com/legal/api_policy",
+                "quote": "Strava does not commit to a fixed review-time service-level agreement",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "link": "https://www.strava.com/legal/api_policy"
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "steps": [
+        {
+          "title": "Operate only after the AI-policy blocker is resolved and approved access is available",
+          "owner": "you",
+          "detail": {
+            "text": "For this proposed AI-agent use case, production operation remains prohibited by the API Policy unless Strava provides guidance that changes the applicability of the AI Application prohibition.",
+            "evidence": "inferred",
+            "sources": [
+              {
+                "url": "https://www.strava.com/legal/api_policy",
+                "quote": "You may not use the Strava API Materials or Strava Data, directly or indirectly, in connection with the development, training, evaluation, or operation of any AI Application.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "Ongoing",
+          "link": "https://www.strava.com/legal/api_policy"
+        }
+      ]
+    }
+  ],
+  "gotchas": [
+    {
+      "text": "API/platform access is currently provided at no charge, but a Strava subscription is required to create an app.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://www.strava.com/legal/api",
+          "quote": "Access to and use of the Strava API Materials and the Strava Platform are currently provided at no charge.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.strava.com/docs/getting-started/",
+          "quote": "Note: A Strava subscription is required.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "At the 10-athlete tier, read limits are 200 requests per 15 minutes and 2,000 per day; overall limits are 400 requests per 15 minutes and 4,000 per day.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.strava.com/docs/rate-limits/",
+          "quote": "Read read limits: 200 requests / 15min & 2,000 requests / day",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.strava.com/docs/rate-limits/",
+          "quote": "Overall rate limits: 400 requests / 15min & 4,000 requests / day",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Strava only raises rate limits for apps approaching capacity and says that, below 100 users, rate-limit problems are most likely inefficient API usage.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.strava.com/docs/rate-limits/",
+          "quote": "We only raise rate limits for apps that are approaching capacity.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.strava.com/docs/rate-limits/",
+          "quote": "If you have fewer than 100 users, the problem is most likely inefficient usage of the API.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "A lawful privacy policy meeting GDPR and UK GDPR requirements is required.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://www.strava.com/legal/api_policy",
+          "quote": "You must provide a lawful privacy policy for your Developer Application that meets the requirements of the GDPR and the UK GDPR",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "whenBlocked": [
+    {
+      "text": "Do not attempt to exceed or circumvent Strava limitations; align the product with the policy or seek written guidance from Strava before proceeding, because attempted circumvention may result in temporary or permanent blocking.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://www.strava.com/legal/api_policy",
+          "quote": "If Strava believes that you have attempted to exceed or circumvent these limitations, you will be notified and your access may be temporarily or permanently blocked.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If production review is rejected, prepare to address the standard review materials and policy requirements; one community developer reported generic rather than individualized rejection feedback.",
+      "evidence": "unverified",
+      "sources": [
+        {
+          "url": "https://communityhub.strava.com/developers-api-7/problem-with-rejection-in-review-13703",
+          "quote": "My app, SummitGo, has been rejected multiple times, but the rejection email only contains the standard list of possible reasons.",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "probes": [
+    {
+      "name": "Authorize endpoint",
+      "target": "https://www.strava.com/oauth/authorize",
+      "result": "HTTP 400",
+      "ok": true
+    },
+    {
+      "name": "URL reachable",
+      "target": "https://www.strava.com/settings/api",
+      "result": "HTTP 200 (final: https://www.strava.com/login)",
+      "ok": true
+    }
+  ],
+  "uncertain": [
+    "The reviewed policy does not state an exception process or criteria under which Strava may permit an otherwise prohibited AI Application.",
+    "Strava states no fixed review SLA. A community response says reviews typically take 7–10 business days, but that timing is not an official commitment.",
+    "The reviewed materials establish new apps begin in Single Player Mode and describe self-service expanded access, but do not state a guaranteed timing or eligibility rule for every expansion from 1 to 10 athletes."
+  ]
+}

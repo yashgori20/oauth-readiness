@@ -1,0 +1,41 @@
+[0.0s] {"type":"status","message":"Researching Meta (Facebook Login and Marketing API)"}
+[19.7s] {"type":"tool","name":"search","target":"site:developers.facebook.com docs Facebook Login app review permissions access tokens redirect URI PKCE","summary":"8 results"}
+[19.7s] {"type":"tool","name":"search","target":"site:developers.facebook.com Marketing API access levels standard advanced access app review","summary":"7 results"}
+[19.7s] {"type":"tool","name":"search","target":"site:developers.facebook.com marketing api rate limiting business verification access level pricing","summary":"8 results"}
+[19.7s] {"type":"tool","name":"search","target":"site:developers.facebook.com docs app development mode roles test users live mode","summary":"6 results"}
+[19.7s] {"type":"tool","name":"search","target":"site:developers.facebook.com terms AI LLM generative AI platform terms Meta API","summary":"8 results"}
+[19.7s] {"type":"tool","name":"search","target":"site:developers.facebook.com blog changelog Marketing API Facebook Login 2025 2026","summary":"3 results"}
+[19.7s] {"type":"tool","name":"search","target":"Meta app review real review time rejected community Facebook Login marketing API","summary":"8 results"}
+[19.7s] {"type":"tool","name":"search","target":"site:developers.facebook.com app dashboard create app CLI app manifest","summary":"7 results"}
+[19.7s] {"type":"tool","name":"search","target":"site:developers.facebook.com docs Facebook Login security state redirect URI token storage","summary":"7 results"}
+[19.7s] {"type":"tool","name":"search","target":"site:developers.facebook.com support contact app review appeal business verification","summary":"8 results"}
+[31.8s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/","summary":"30 facts"}
+[31.8s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/ads-commerce/marketing-api/overview/rate-limiting.md/","summary":"22 facts"}
+[31.8s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/development/create-an-app/other-app-types.md/","summary":"10 facts"}
+[31.8s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review/submission-guide.md/","summary":"24 facts"}
+[31.8s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/facebook-login/guides/access-tokens.md/","summary":"6 facts"}
+[31.8s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/facebook-login/guides/advanced/manual-flow.md/","summary":"11 facts"}
+[31.8s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/facebook-login/security.md","summary":"20 facts"}
+[31.8s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/development/release/business-verification.md/","summary":"10 facts"}
+[31.8s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/development/build-and-test/app-modes.md/","summary":"13 facts"}
+[31.8s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/mcp.md/","summary":"13 facts"}
+[31.8s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/development/support.md/","summary":"16 facts"}
+[31.8s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/ads-commerce/marketing-api/marketing-api-changelog.md/","summary":"6 facts"}
+[56.0s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/development/create-an-app/marketing-api-use-cases.md/","summary":"24 facts"}
+[56.0s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/facebook-login/guides/permissions/review.md/","summary":"page empty or blocked (may need login or JS)"}
+[56.0s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/development/build-and-test/test-users.md/","summary":"16 facts"}
+[56.0s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started.md/","summary":"8 facts"}
+[56.0s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/ads-commerce/marketing-api/using-the-api/faq.md/","summary":"page empty or blocked (may need login or JS)"}
+[56.0s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/graph-api/webhooks/getting-started.md/","summary":"page empty or blocked (may need login or JS)"}
+[56.0s] {"type":"tool","name":"read","target":"https://developers.facebook.com/terms","summary":"12 facts"}
+[56.0s] {"type":"tool","name":"search","target":"Facebook Meta app review wait time community 2025 app review marketing API","summary":"8 results"}
+[56.0s] {"type":"tool","name":"search","target":"site:docs.nango.dev Meta Facebook OAuth refresh token long lived","summary":"6 results"}
+[56.0s] {"type":"tool","name":"search","target":"site:developers.facebook.com Meta app dashboard API create app CLI manifest","summary":"8 results"}
+[87.4s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[87.9s] {"type":"tool","name":"probe","target":"https://www.facebook.com/.well-known/openid-configuration","summary":"ok: authorize=https://facebook.com/dialog/oauth/; scopes="}
+[87.9s] {"type":"tool","name":"probe","target":"https://www.facebook.com/v27.0/dialog/oauth","summary":"ok: HTTP 200"}
+[87.9s] {"type":"tool","name":"probe","target":"https://developers.facebook.com/apps/","summary":"ok: HTTP 200 (final: https://developers.facebook.com/apps/)"}
+[87.9s] {"type":"status","message":"Writing guide"}
+[131.3s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[133.2s] {"type":"status","message":"Checking the guide for contradictions"}
+[151.1s] guide -> guides/meta-facebook-login-marketing-api.json

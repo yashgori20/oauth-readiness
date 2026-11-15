@@ -1,0 +1,44 @@
+[0.0s] {"type":"status","message":"Researching GitHub"}
+[16.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub Apps OAuth apps differences marketplace verification review app approval","summary":"8 results","detail":["Differences between GitH
+[16.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub App manifest CLI create app webhook security OAuth user authorization token refresh","summary":"8 results","detail":["Registering a
+[16.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub OAuth app authorization callback URL PKCE state token expiration refresh tokens","summary":"8 results","detail":["Authorizing OAuth
+[16.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub app permissions rate limits installation access token expire","summary":"8 results","detail":["Authenticating as a GitHub App insta
+[16.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub Marketplace listing requirements review timeline paid app pricing","summary":"8 results","detail":["Requirements for listing an app
+[16.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub AI policy generative AI API terms developer blog","summary":"8 results","detail":["GitHub Terms of Service | https://docs.github.co
+[16.0s] {"type":"tool","name":"search","target":"GitHub App review approval time community GitHub Marketplace review integration vendor","summary":"7 results","detail":["Submitting your listing for publicatio
+[16.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub support contact developer app OAuth app","summary":"8 results","detail":["Contacting GitHub Support | https://docs.github.com/en/su
+[16.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub App testing development app test installation sandbox","summary":"7 results","detail":["Testing your app - GitHub Docs | https://do
+[16.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub terms API token storage security GitHub Apps","summary":"8 results","detail":["Keeping your API credentials secure - GitHub Docs | 
+[29.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/deciding-when-to-build-a-github-app","summary":"15 facts","detail":["GitHub gener
+[29.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app","summary":"17 facts","detail":["GitHub Apps can be regist
+[29.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/refreshing-user-access-tokens","summary":"7 facts","detail":["User access t
+[29.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps","summary":"34 facts","detail":["GitHub supports OAuth 2.0 authorization co
+[29.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app","summary":"11 facts","detail":["GitHub Apps 
+[29.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/rate-limits-for-github-apps","summary":"nothing relevant","detail":[]}
+[29.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/listing-an-app-on-github-marketplace/submitting-your-listing-for-publication","summary":"7 facts","detail":["A
+[29.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/creating-apps-for-github-marketplace/requirements-for-listing-an-app","summary":"12 facts","detail":["Listings
+[29.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/github-marketplace-overview/applying-for-publisher-verification-for-your-organization","summary":"8 facts","de
+[29.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries","summary":"14 facts","detail":["Choose a random webhook secret with high entrop
+[29.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/sharing-github-apps/registering-a-github-app-from-a-manifest","summary":"12 facts","detail":["GitHub App manifests share a precon
+[29.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/site-policy/github-terms/github-synthetic-media-and-ai-tools","summary":"page empty or blocked (may need login or JS)"}
+[99.1s] {"type":"tool","name":"read","target":"https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=latest","summary":"18 facts","detail":["Unauthenticated requests are l
+[99.1s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/github-marketplace-overview/about-github-marketplace-for-apps","summary":"8 facts","detail":["GitHub Marketpla
+[99.1s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/selling-your-app-on-github-marketplace/receiving-payment-for-app-purchases","summary":"6 facts","detail":["Git
+[99.1s] {"type":"tool","name":"read","target":"https://docs.github.com/en/support/contacting-github-support/creating-a-support-ticket","summary":"9 facts","detail":["GitHub Support tickets can be created thro
+[99.1s] {"type":"tool","name":"read","target":"https://github.com/orgs/community/discussions/208022","summary":"31 facts","detail":["Discussion date: Sep 16, 2026. | quote: \"Sep 16, 2026\"","The listing had 
+[99.1s] {"type":"tool","name":"read","target":"https://github.com/orgs/community/discussions/192774","summary":"5 facts","detail":["Discussion posted April 16, 2026; the GitHub App was submitted for Marketpla
+[99.1s] {"type":"tool","name":"search","target":"site:github.blog/changelog GitHub App OAuth callback URL wildcard August 2026","summary":"failed: fetch failed"}
+[99.1s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub API terms machine learning AI use API content restrictions","summary":"failed: fetch failed"}
+[99.1s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub Marketplace transaction fee 2026 5%","summary":"failed: fetch failed"}
+[99.1s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub App no review required public install any account","summary":"failed: fetch failed"}
+[108.2s] {"type":"tool","name":"read","target":"https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features#github-api-terms","summary":"7 facts","detail":["Page versi
+[108.2s] {"type":"tool","name":"read","target":"https://docs.github.com/en/site-policy/acceptable-use-policies/github-synthetic-media-and-ai-tools","summary":"4 facts","detail":["GitHub prohibits projects desi
+[108.2s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app","summary":"9 facts","detail":["OAuth apps can be created under a personal a
+[108.2s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/authenticating-as-a-github-app-installation","summary":"13 facts","detail":
+[108.2s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/listing-an-app-on-github-marketplace/setting-pricing-plans-for-your-listing","summary":"12 facts","detail":["P
+[108.2s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/using-the-github-marketplace-api-in-your-app/testing-your-app","summary":"13 facts","detail":["GitHub recommen
+[139.6s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[140.3s] {"type":"tool","name":"probe","target":"github.com","summary":"failed: no discovery document on these hosts (provider may not support OIDC)"}
+[140.3s] {"type":"tool","name":"probe","target":"https://github.com/login/oauth/authorize","summary":"ok: HTTP 302 -> https://github.com/login?client_id=probe-not-a-real-client&return_to"}
+[140.3s] {"type":"tool","name":"probe","target":"https://github.com/settings/apps","summary":"ok: reachable, requires sign-in (HTTP 200, final https://github.com/login?return_to="}
+[140.3s] {"type":"status","message":"Writing guide"}

@@ -1,0 +1,43 @@
+[0.0s] {"type":"status","message":"Researching GitHub"}
+[19.0s] {"type":"tool","name":"search","target":"site:docs.github.com OAuth apps GitHub app choosing app type installation many users","summary":"7 results"}
+[19.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub OAuth app authorization scopes token expiration refresh token PKCE","summary":"8 results"}
+[19.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub App register app public marketplace review requirements","summary":"8 results"}
+[19.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub app rate limits pricing marketplace verification","summary":"8 results"}
+[19.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub acceptable use AI machine learning API terms","summary":"6 results"}
+[19.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub OAuth app callback URL security state PKCE","summary":"7 results"}
+[19.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub App webhook security validate payload signature","summary":"7 results"}
+[19.0s] {"type":"tool","name":"search","target":"site:docs.github.com GitHub marketplace listing requirements submit for review","summary":"6 results"}
+[19.0s] {"type":"tool","name":"search","target":"GitHub community GitHub App Marketplace review time rejection","summary":"8 results"}
+[19.0s] {"type":"tool","name":"search","target":"site:github.blog developer GitHub Apps OAuth apps changelog 2025 2026","summary":"8 results"}
+[19.0s] {"type":"tool","name":"search","target":"site:docs.github.com contact GitHub support marketplace app review","summary":"7 results"}
+[31.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/differences-between-github-apps-and-oauth-apps","summary":"18 facts"}
+[31.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app","summary":"4 facts"}
+[31.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/making-a-github-app-public-or-private","summary":"7 facts"}
+[31.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps","summary":"15 facts"}
+[31.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/authenticating-as-a-github-app-installation","summary":"13 facts"}
+[31.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/creating-apps-for-github-marketplace/requirements-for-listing-an-app","summary":"22 facts"}
+[31.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/listing-an-app-on-github-marketplace/submitting-your-listing-for-publication","summary":"4 facts"}
+[31.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/github-marketplace-overview/applying-for-publisher-verification-for-your-organization","summary":"9 facts"}
+[31.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api","summary":"5 facts"}
+[31.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps","summary":"21 facts"}
+[31.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/about-the-user-authorization-callback-url","summary":"8 facts"}
+[31.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries","summary":"13 facts"}
+[41.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app","summary":"8 facts"}
+[41.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/setting-up-a-github-app/choosing-permissions-for-a-github-app","summary":"14 facts"}
+[41.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/github-marketplace/selling-your-app-on-github-marketplace/pricing-plans-for-github-marketplace-apps","summary":"13 facts"}
+[41.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/site-policy/github-terms/github-terms-of-service","summary":"14 facts"}
+[41.5s] {"type":"tool","name":"read","target":"https://github.blog/changelog/2026-10-13-github-app-improvements-for-least-privilege-and-management/","summary":"5 facts"}
+[41.5s] {"type":"tool","name":"read","target":"https://github.blog/changelog/2025-07-14-pkce-support-for-oauth-and-github-app-authentication/","summary":"8 facts"}
+[41.5s] {"type":"tool","name":"read","target":"https://github.com/orgs/community/discussions/191706","summary":"10 facts"}
+[41.5s] {"type":"tool","name":"read","target":"https://github.com/orgs/community/discussions/204716","summary":"6 facts"}
+[41.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/support/contacting-github-support","summary":"4 facts"}
+[41.5s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/using-webhooks-with-github-apps","summary":"8 facts"}
+[47.6s] {"type":"tool","name":"read","target":"https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps","summary":"3 facts"}
+[76.6s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[77.3s] {"type":"tool","name":"probe","target":"github.com","summary":"failed: no discovery document on these hosts (provider may not support OIDC)"}
+[77.3s] {"type":"tool","name":"probe","target":"https://github.com/login/oauth/authorize","summary":"ok: HTTP 302 -> https://github.com/login?client_id=probe-not-a-real-client&return_to"}
+[77.3s] {"type":"tool","name":"probe","target":"https://github.com/settings/apps","summary":"ok: reachable, requires sign-in (HTTP 200, final https://github.com/login?return_to="}
+[77.3s] {"type":"status","message":"Writing guide"}
+[113.0s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[114.7s] {"type":"status","message":"Checking the guide for contradictions"}
+[131.6s] guide -> guides/github.json
