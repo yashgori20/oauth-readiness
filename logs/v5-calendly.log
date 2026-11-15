@@ -1,0 +1,44 @@
+[0.0s] {"type":"status","message":"Researching Calendly"}
+[13.4s] {"type":"tool","name":"search","target":"site:developer.calendly.com OAuth applications scopes authorization code refresh token","summary":"6 results","detail":["Creating an OAuth app | Calendly | Dev
+[13.4s] {"type":"tool","name":"search","target":"site:developer.calendly.com \"OAuth\" \"redirect\"","summary":"5 results","detail":["Creating an OAuth app | Calendly | Developer Documentation | https://devel
+[13.4s] {"type":"tool","name":"search","target":"site:developer.calendly.com API authentication personal access token OAuth","summary":"7 results","detail":["Authentication | Calendly | Developer Documentatio
+[13.4s] {"type":"tool","name":"search","target":"site:calendly.com pricing developer API OAuth app approval","summary":"8 results","detail":["Pricing | Calendly | https://calendly.com/pricing","Introduction t
+[13.4s] {"type":"tool","name":"search","target":"Calendly OAuth integration review approval developer community","summary":"8 results","detail":["Creating an OAuth app | Calendly | Developer Documentation | h
+[13.4s] {"type":"tool","name":"search","target":"site:developer.calendly.com rate limits webhooks OAuth","summary":"8 results","detail":["Rate Limits | Calendly | Developer Documentation | https://developer.c
+[28.5s] {"type":"tool","name":"read","target":"https://developer.calendly.com/docs/authentication/creating-an-oauth-app","summary":"22 facts","detail":["Prerequisite: log in to Calendly or sign up for a Calen
+[28.5s] {"type":"tool","name":"read","target":"https://developer.calendly.com/docs/authentication/overview","summary":"9 facts","detail":["OAuth is required for apps distributed to multiple accounts; PATs are
+[28.5s] {"type":"tool","name":"read","target":"https://developer.calendly.com/docs/authentication/scopes","summary":"47 facts","detail":["OAuth scopes define permissions for applications accessing Calendly AP
+[28.5s] {"type":"tool","name":"read","target":"https://developer.calendly.com/api-docs/calendly-o-auth/o-auth/post-oauth-refresh-token","summary":"11 facts","detail":["OAuth token endpoint: `POST https://auth
+[28.5s] {"type":"tool","name":"read","target":"https://developer.calendly.com/docs/authentication/refresh-token-rotation-guide","summary":"8 facts","detail":["Calendly is moving to single-use refresh tokens w
+[28.5s] {"type":"tool","name":"read","target":"https://developer.calendly.com/api-docs/overview/rate-limits","summary":"15 facts","detail":["Paid Plans API rate limit: 500 requests per user per minute. | quot
+[28.5s] {"type":"tool","name":"read","target":"https://developer.calendly.com/docs/getting-started/introduction","summary":"10 facts","detail":["Calendly provides three integration APIs: API v2, Embed API, an
+[28.5s] {"type":"tool","name":"read","target":"https://developer.calendly.com/api-docs/overview/webhooks/webhook-signatures","summary":"11 facts","detail":["A webhook signing key is a unique secret shared bet
+[28.5s] {"type":"tool","name":"read","target":"https://developer.calendly.com/api-docs/calendly-o-auth/o-auth/get-oauth-authorize","summary":"14 facts","detail":["Authorization endpoint: `https://auth.calendl
+[28.5s] {"type":"tool","name":"read","target":"https://developer.calendly.com/docs/authentication/how-to-authenticate-with-personal-access-tokens","summary":"12 facts","detail":["PATs authenticate internal or
+[46.1s] {"type":"tool","name":"search","target":"site:calendly.com/legal AI artificial intelligence developer terms API","summary":"6 results","detail":["Security, Data Use & Integration Guidelines - Calendly
+[46.1s] {"type":"tool","name":"search","target":"site:developer.calendly.com changelog OAuth scopes 2026","summary":"5 results","detail":["March 3, 2026 | Calendly | Developer Documentation | https://develope
+[46.1s] {"type":"tool","name":"search","target":"site:calendly.com/help API pricing FAQ developer API plans","summary":"5 results","detail":["Calendly API overview | https://calendly.com/help/calendly-api-ove
+[46.1s] {"type":"tool","name":"search","target":"site:community.calendly.com OAuth app production approval review Calendly","summary":"6 results","detail":["How to implement “Add Integration → MY APP OAuth si
+[46.1s] {"type":"tool","name":"search","target":"Calendly developer support contact API OAuth","summary":"7 results","detail":["Build with Calendly | Calendly | Developer Documentation | https://developer.cal
+[46.1s] {"type":"tool","name":"search","target":"site:developer.calendly.com CLI OAuth app manifest","summary":"6 results","detail":["Creating an OAuth app | Calendly | Developer Documentation | https://devel
+[46.1s] {"type":"tool","name":"search","target":"Calendly Partner Marketplace integration submission requirements","summary":"8 results","detail":["Creating an OAuth app | Calendly | Developer Documentation |
+[46.1s] {"type":"tool","name":"search","target":"site:calendly.com/legal developer terms API terms","summary":"6 results","detail":["Security, Data Use & Integration Guidelines - Calendly | https://calendly.c
+[46.1s] {"type":"tool","name":"search","target":"Calendly OAuth app review time approval","summary":"6 results","detail":["Creating an OAuth app | Calendly | Developer Documentation | https://developer.calend
+[46.1s] {"type":"tool","name":"search","target":"site:developer.calendly.com/docs \"Production\" \"review\" OAuth","summary":"4 results","detail":["Creating an OAuth app | Calendly | Developer Documentation |
+[59.2s] {"type":"tool","name":"read","target":"https://calendly.com/legal/developer-policy","summary":"19 facts","detail":["Technology partners must securely configure operating systems, networks, and web ser
+[59.2s] {"type":"tool","name":"read","target":"https://calendly.com/help/calendly-api-overview","summary":"8 facts","detail":["Page updated Nov 4, 2026. | quote: \"Updated Nov 4, 2026 · 3 min read\"","API acc
+[59.2s] {"type":"tool","name":"read","target":"https://developer.calendly.com/release-notes/2026/3/3","summary":"2 facts","detail":["Authorization scopes became available for API access on March 3, 2026. | qu
+[59.2s] {"type":"tool","name":"read","target":"https://community.calendly.com/api-webhook-help-61/mcp-server-5503","summary":"5 facts","detail":["Page question dated Mar 25, 2026; staff response dated Mar 26,
+[59.2s] {"type":"tool","name":"read","target":"https://community.calendly.com/api-webhook-help-61/missing-required-parameter-code_verifier-4746","summary":"11 facts","detail":["The question was posted on Sept
+[59.2s] {"type":"tool","name":"read","target":"https://calendly.com/partners/contact","summary":"5 facts","detail":["Partnership applicants must submit information for consideration by Calendly’s team. | quot
+[59.2s] {"type":"tool","name":"read","target":"https://developer.calendly.com/docs/mcp/calendly-mcp-server","summary":"14 facts","detail":["Calendly MCP connects AI-powered applications and developers to Cale
+[59.2s] {"type":"tool","name":"read","target":"https://developer.calendly.com/","summary":"4 facts","detail":["Calendly provides direct developer support for technical questions and integration help. | quote:
+[83.1s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[83.9s] {"type":"tool","name":"probe","target":"auth.calendly.com","summary":"failed: no discovery document on these hosts (provider may not support OIDC)"}
+[83.9s] {"type":"tool","name":"probe","target":"https://auth.calendly.com/oauth/authorize","summary":"ok: HTTP 301 -> https://calendly.com/oauth/authorize?client_id=probe-not-a-real-clie"}
+[83.9s] {"type":"tool","name":"probe","target":"https://developer.calendly.com/","summary":"ok: HTTP 200 (final: https://developer.calendly.com/docs/getting-started/overview)"}
+[83.9s] {"type":"status","message":"Writing guide"}
+[116.5s] {"type":"status","message":"Writing the sign-in link and curl commands"}
+[131.7s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[131.7s] {"type":"status","message":"Checking the guide for contradictions"}
+[143.7s] guide -> guides/calendly.json

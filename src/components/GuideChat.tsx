@@ -7,8 +7,8 @@ type Msg =
   | { role: "user"; content: string }
   | { role: "assistant"; content: string; refs?: { id: string; label: string }[]; sources?: { title: string; url: string }[]; searched?: boolean; error?: boolean };
 
-const PAGE = 1240; // the site's content width
 const PANEL = 400;
+const DOCK_MIN = 1100; // from this width the panel is always open on the right and the page shifts left
 
 const STARTERS = ["How long will this really take?", "Which scopes does my agent need?", "What happens if I get rejected?"];
 
@@ -33,37 +33,27 @@ export function GuideChat({ slug, app }: { slug: string; app: string }) {
 
   useEffect(() => end.current?.scrollIntoView({ behavior: "smooth" }), [msgs, busy]);
 
-  // Wide screens have spare space beside the 1240px page: dock the panel there, open by default.
+  // Laptop and desktop widths: the panel is always open on the right.
   useEffect(() => {
-    const mq = window.matchMedia(`(min-width: ${PAGE + PANEL}px)`);
+    const mq = window.matchMedia(`(min-width: ${DOCK_MIN}px)`);
     const apply = () => {
       setDocked(mq.matches);
-      let hidden = false;
-      try {
-        hidden = localStorage.getItem("ask-hidden") === "1";
-      } catch {}
-      setOpen(mq.matches && !hidden);
+      setOpen(mq.matches);
     };
     apply();
     mq.addEventListener("change", apply);
     return () => mq.removeEventListener("change", apply);
   }, []);
 
-  // When docked and open, reserve the space on the right so the panel never covers the section it points to.
+  // Reserve the space on the right: the page moves left and the panel never covers the section it points to.
   useEffect(() => {
-    document.body.style.paddingRight = docked && open ? `${PANEL}px` : "";
+    document.body.style.paddingRight = docked ? `${PANEL}px` : "";
     return () => {
       document.body.style.paddingRight = "";
     };
-  }, [docked, open]);
+  }, [docked]);
 
-  const toggle = (next: boolean) => {
-    setOpen(next);
-    if (docked)
-      try {
-        localStorage.setItem("ask-hidden", next ? "0" : "1");
-      } catch {}
-  };
+  const toggle = (next: boolean) => setOpen(next);
 
   async function ask(question: string) {
     const text = question.trim();
@@ -85,7 +75,7 @@ export function GuideChat({ slug, app }: { slug: string; app: string }) {
     }
   }
 
-  if (!open)
+  if (!open && !docked)
     return (
       <button
         onClick={() => toggle(true)}
@@ -102,9 +92,11 @@ export function GuideChat({ slug, app }: { slug: string; app: string }) {
     >
       <header className="flex h-14 shrink-0 items-center justify-between border-b border-line px-5">
         <span className="font-medium tracking-tight text-ink">Ask about {app}</span>
-        <button onClick={() => toggle(false)} className="p-1 text-muted hover:text-ink" aria-label={docked ? "Hide panel" : "Close"} title={docked ? "Hide panel" : "Close"}>
-          <Cross className="h-4 w-4" />
-        </button>
+        {!docked && (
+          <button onClick={() => toggle(false)} className="p-1 text-muted hover:text-ink" aria-label="Close" title="Close">
+            <Cross className="h-4 w-4" />
+          </button>
+        )}
       </header>
 
       <div className="flex-1 overflow-y-auto px-5 py-5">

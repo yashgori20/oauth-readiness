@@ -1,0 +1,23 @@
+[0.0s] {"type":"status","message":"Researching Zoom"}
+[23.6s] {"type":"tool","name":"search","target":"site:developers.zoom.us OAuth app publish marketplace review scopes refresh tokens Zoom 2026","summary":"8 results","detail":["OAuth 2.0 - Integrations - Zoom 
+[23.6s] {"type":"tool","name":"search","target":"site:developers.zoom.us docs build oauth app authorization code redirect URL PKCE Zoom","summary":"6 results","detail":["OAuth 2.0 - Integrations - Zoom Develo
+[23.6s] {"type":"tool","name":"search","target":"site:developers.zoom.us marketplace app submission review requirements timeline","summary":"8 results","detail":["How long does the App Review Process take? - 
+[23.6s] {"type":"tool","name":"search","target":"site:developers.zoom.us zoom app types OAuth app account-level user-managed distribution","summary":"8 results","detail":["Create an OAuth app - Integrations -
+[23.6s] {"type":"tool","name":"search","target":"site:developers.zoom.us pricing API rate limits developer account Zoom Marketplace","summary":"8 results","detail":["Rate limits - API - Zoom Developer Docs | 
+[23.6s] {"type":"tool","name":"search","target":"site:zoom.com legal developer terms AI machine learning Zoom API","summary":"8 results","detail":["App Marketplace Terms of Service | Zoom | https://www.zoom.c
+[23.6s] {"type":"tool","name":"search","target":"Zoom OAuth app marketplace review time community Nango Apideck Codat","summary":"8 results","detail":["App Review Process - Distribute - Zoom Developer Docs | 
+[23.6s] {"type":"tool","name":"search","target":"site:developers.zoom.us CLI app manifest OAuth app configuration Zoom","summary":"8 results","detail":["Manifests Overview - Build Flow - Zoom Developer Docs |
+[23.6s] {"type":"tool","name":"search","target":"site:developers.zoom.us support contact Marketplace app review appeal","summary":"7 results","detail":["Supporting published apps - Distribute - Zoom Developer
+[23.6s] {"type":"tool","name":"search","target":"site:developers.zoom.us OAuth security state token storage webhook validation","summary":"7 results","detail":["OAuth 2.0 - Integrations - Zoom Developer Docs 
+[45.9s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/integrations/oauth/","summary":"26 facts","detail":["OAuth 2.0 supports authorization and access tokens for Zoom APIs. | quote: \
+[45.9s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/integrations/create/","summary":"20 facts","detail":["OAuth apps are created through the Zoom App Marketplace. | quote: \"By crea
+[45.9s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/distribute/","summary":"9 facts","detail":["Unlisted apps limit access and are not available to the general public. | quote: \"Un
+[45.9s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/distribute/app-submission/submit-apps-review/","summary":"19 facts","detail":["The Publish section is used to confirm required fi
+[45.9s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/distribute/app-review-process/","summary":"18 facts","detail":["Public and unlisted apps undergo a dedicated review process; priv
+[45.9s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/build-flow/basic-info/oauth-info/","summary":"12 facts","detail":["OAuth values differ between development and production environ
+[45.9s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/api/rate-limits/","summary":"17 facts","detail":["Rate limits define maximum requests per account within a period; exceeding one 
+[45.9s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/distribute/app-submission/common-rejection-issues/","summary":"15 facts","detail":["Test plan: insufficient information can delay
+[45.9s] {"type":"tool","name":"read","target":"https://developers.zoom.us/blog/how-long-does-app-review-take/","summary":"4 facts","detail":["Page date: 05-11-2022 | quote: \"05-11-2022\"","Apps are reviewed 
+[45.9s] {"type":"tool","name":"read","target":"https://www.zoom.com/en/trust/legal/zoom-api-license-and-tou/","summary":"17 facts","detail":["Page date: Last Updated July 16, 2025 | quote: \"Last Updated: Jul
+[45.9s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/build-flow/manifests/","summary":"21 facts","detail":["A manifest is a JSON-formatted configuration file for a Zoom App. | quote:
+[45.9s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/api/webhooks/","summary":"20 facts","detail":["Webhook endpoint must be publicly accessible over HTTPS, support TLSv1.2+, and use

@@ -46,3 +46,4 @@
 [152.3s] {"type":"status","message":"Writing the sign-in link and curl commands"}
 [166.4s] {"type":"status","message":"Checking quotes against the pages the agent read"}
 [166.4s] {"type":"status","message":"Checking the guide for contradictions"}
+[183.0s] guide -> guides/xero.json

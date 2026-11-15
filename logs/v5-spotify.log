@@ -35,3 +35,7 @@
 [70.1s] {"type":"tool","name":"probe","target":"https://accounts.spotify.com/authorize","summary":"ok: HTTP 303 -> https://accounts.spotify.com/en/login?continue=https%3A%2F%2Faccount"}
 [70.1s] {"type":"tool","name":"probe","target":"https://developer.spotify.com/dashboard","summary":"ok: HTTP 200 (final: https://developer.spotify.com/dashboard)"}
 [70.1s] {"type":"status","message":"Writing guide"}
+[108.4s] {"type":"status","message":"Writing the sign-in link and curl commands"}
+[118.0s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[118.0s] {"type":"status","message":"Checking the guide for contradictions"}
+[137.8s] guide -> guides/spotify.json
