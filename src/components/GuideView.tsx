@@ -2,7 +2,8 @@ import { allClaims, type Claim, type Guide } from "@/lib/guide";
 import { CopyButton } from "./CopyButton";
 import { GuideActions } from "./GuideActions";
 import { GuideChat } from "./GuideChat";
-import { ArrowUpRight, Check, Chevron, Cross } from "./icons";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight, Check, Chevron, Cross } from "./icons";
 
 export const OWNER = {
   agent: { label: "Agent", long: "An agent can do this", cls: "bg-brand-soft text-brand" },
@@ -116,7 +117,10 @@ export function GuideView({ guide }: { guide: Guide }) {
   return (
     <article>
       {/* Verdict */}
-      <header id="ref-verdict" className="scroll-mt-16 border-b border-line px-5 pt-8 pb-10 sm:px-8 sm:pt-10">
+      <header id="ref-verdict" className="scroll-mt-16 border-b border-line px-5 pt-6 pb-10 sm:px-8 sm:pt-8">
+        <Link href="/#library" className="label group mb-6 inline-flex items-center gap-1.5 text-muted hover:text-ink">
+          <ArrowRight className="h-3.5 w-3.5 rotate-180 transition-transform group-hover:-translate-x-0.5" /> All guides
+        </Link>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <span className="label text-muted">
             {guide.origin === "live" ? "Researched live" : "Curated"} ·{" "}
