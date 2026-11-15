@@ -65,7 +65,12 @@ export default function RootLayout({
           <footer className="border-t border-line px-5 py-8 sm:px-8">
             <div className="flex flex-col gap-2 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
               <p>Built by Yash Gori for the Composio APM, Integrations take-home. Not affiliated with Composio.</p>
-              <p className="label">Research: GPT-5.6 Terra · Page reading: GPT-5.6 Luna</p>
+              <p className="label flex flex-wrap gap-x-4">
+                <a href="https://github.com/yashgori20/oauth-readiness" target="_blank" rel="noreferrer" className="hover:text-ink">
+                  Source on GitHub
+                </a>
+                <span>Research: GPT-5.6 Terra · Page reading: GPT-5.6 Luna</span>
+              </p>
             </div>
           </footer>
         </div>

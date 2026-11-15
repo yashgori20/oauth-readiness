@@ -1,6 +1,7 @@
 # OAuth Readiness
 
-**Live:** https://oauth-readiness-ten.vercel.app
+**Live:** https://oauth-readiness-ten.vercel.app  
+**Repo:** https://github.com/yashgori20/oauth-readiness
 
 Before an agent can act in someone's Gmail, Xero or Spotify account, the developer needs an OAuth app registered with that provider, and often the provider's approval. That part is slow and badly documented: some apps take ten minutes, others need a registered business and weeks of review.
 
