@@ -3,6 +3,7 @@ import { readdirSync, readFileSync } from "node:fs";
 const claimsOf = (g) => [
   ...(g.agentPath ? [g.agentPath.recommendation, ...g.agentPath.scopeTiers] : []),
   ...(g.essentials ?? []),
+  ...(g.requests ?? []),
   ...g.phases.flatMap((p) => p.steps.map((s) => s.detail)),
   ...g.gotchas,
   ...g.whenBlocked,

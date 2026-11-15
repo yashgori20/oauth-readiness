@@ -258,7 +258,97 @@
       "topic": "Security checks"
     }
   ],
-  "requests": [],
+  "requests": [
+    {
+      "text": "Open this browser URL and validate that the returned state matches RANDOM_STATE.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+          "quote": "https://accounts.google.com/o/oauth2/v2/auth",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+          "quote": "Recommended, offline access will give you both an access and refresh token so that your app can refresh the access token without user interaction.",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Send the user to sign in",
+      "method": "GET",
+      "url": "https://accounts.google.com/o/oauth2/v2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.metadata%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.send&state=RANDOM_STATE&access_type=offline&code_challenge=CODE_CHALLENGE&code_challenge_method=S256"
+    },
+    {
+      "text": "Exchange the callback authorization code for access and refresh tokens.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+          "quote": "https://oauth2.googleapis.com/token",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Exchange the code for tokens",
+      "method": "POST",
+      "url": "https://oauth2.googleapis.com/token",
+      "curl": "curl --request POST \\\n  --data \"code=AUTH_CODE\" \\\n  --data \"client_id=YOUR_CLIENT_ID\" \\\n  --data \"client_secret=YOUR_CLIENT_SECRET\" \\\n  --data \"redirect_uri=YOUR_REDIRECT_URI\" \\\n  --data \"grant_type=authorization_code\" \\\n  --data \"code_verifier=CODE_VERIFIER\" \\\n  \"https://oauth2.googleapis.com/token\""
+    },
+    {
+      "text": "Use the stored refresh token to obtain a new access token.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+          "quote": "https://oauth2.googleapis.com/token",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+          "quote": "Recommended, offline access will give you both an access and refresh token so that your app can refresh the access token without user interaction.",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Refresh the access token",
+      "method": "POST",
+      "url": "https://oauth2.googleapis.com/token",
+      "curl": "curl --request POST \\\n  --data \"client_id=YOUR_CLIENT_ID\" \\\n  --data \"client_secret=YOUR_CLIENT_SECRET\" \\\n  --data \"refresh_token=REFRESH_TOKEN\" \\\n  --data \"grant_type=refresh_token\" \\\n  \"https://oauth2.googleapis.com/token\""
+    },
+    {
+      "text": "Fetch the connected Gmail user's profile to verify the token works.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.google.com/gmail/api/reference/rest/v1/users/getProfile",
+          "quote": "GET https://gmail.googleapis.com/gmail/v1/users/{userId}/profile",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+          "quote": "After obtaining an access token, it should be included in API requests, preferably as an Authorization: Bearer HTTP header.",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Check the connection",
+      "method": "GET",
+      "url": "https://gmail.googleapis.com/gmail/v1/users/me/profile",
+      "curl": "curl --request GET \\\n  --header \"Authorization: Bearer ACCESS_TOKEN\" \\\n  \"https://gmail.googleapis.com/gmail/v1/users/me/profile\""
+    },
+    {
+      "text": "Revoke the supplied token and disconnect the user's authorization.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+          "quote": "To programmatically revoke a token, your application makes a request to https://oauth2.googleapis.com/revoke and includes the token as a parameter:",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Revoke access",
+      "method": "POST",
+      "url": "https://oauth2.googleapis.com/revoke?token=ACCESS_TOKEN",
+      "curl": "curl --request POST \\\n  --header \"Content-Type: application/x-www-form-urlencoded\" \\\n  \"https://oauth2.googleapis.com/revoke?token=ACCESS_TOKEN\""
+    }
+  ],
   "phases": [
     {
       "name": "Register",

@@ -7,7 +7,7 @@
   "origin": "live",
   "verdict": {
     "difficulty": 5,
-    "access": "open",
+    "access": "gated",
     "summary": "A typical small AI-agent startup is unlikely to qualify for public Spotify distribution. Broad distribution needs Extended Quota Mode, Spotify’s approved public-access mode. New requests need a legally registered organization, an active launched service, and at least 250,000 monthly active users. Spotify also assesses market availability, commercial viability, and policy compliance.",
     "activeEffort": "About 4–6 hours for the listed registration, configuration, and test steps. Review preparation and submission add time.",
     "waitTime": "Up to 6 weeks, possibly longer during peak periods [official and community-reported]",

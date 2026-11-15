@@ -429,6 +429,8 @@ function numericEffort(g: Guide): Guide {
 // Final, code-enforced pass: numeric effort, and anything the verifier couldn't confirm listed as uncertain.
 export function listUnverified(g: Guide): Guide {
   g = numericEffort(g);
+  // Difficulty 4-5 means review, verification or eligibility: never "open".
+  if (g.verdict.difficulty >= 4 && g.verdict.access === "open") g = { ...g, verdict: { ...g.verdict, access: "gated" } };
   // One summary line, so verification misses don't bury the real open questions.
   const n = allClaims(g).filter((c) => c.evidence === "unverified" && c.sources.length && !c.text.startsWith("Not found")).length;
   const line = `${n} claim${n === 1 ? "" : "s"} couldn't be matched word-for-word to ${n === 1 ? "its" : "their"} cited page and ${n === 1 ? "is" : "are"} marked Unverified. Check those sources before relying on them.`;

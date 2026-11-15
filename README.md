@@ -76,7 +76,7 @@ A first prototype used `gpt-oss-120b` on Groq's free tier. One guide used about 
 
 ## Validation
 
-See [VALIDATION.md](VALIDATION.md). In short: across the library, 243 of 258 quotes (94%) were found on the cited page, and only 4 of 147 claims are tagged *tested*. It also records what broke and what changed because of it: bot-blocked docs, stitched quotes, an over-cautious model, wrong probe domains, and apps that don't use OAuth at all.
+See [VALIDATION.md](VALIDATION.md). In short: across the 10 guides, 712 of 727 quotes (97.9%) are confirmed word for word on the page they cite, and 16 of 361 claims are visibly marked unverified. Three rounds of independent reviewer agents scored the guides against the brief and fact-checked 58 high-stakes claims; their findings drove five versions of the pipeline, all kept in `validation/`. It also records what broke along the way and the limits that remain, including how much a guide can vary from one run to the next.
 
 ## Limits
 

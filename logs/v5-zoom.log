@@ -21,3 +21,22 @@
 [45.9s] {"type":"tool","name":"read","target":"https://www.zoom.com/en/trust/legal/zoom-api-license-and-tou/","summary":"17 facts","detail":["Page date: Last Updated July 16, 2025 | quote: \"Last Updated: Jul
 [45.9s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/build-flow/manifests/","summary":"21 facts","detail":["A manifest is a JSON-formatted configuration file for a Zoom App. | quote:
 [45.9s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/api/webhooks/","summary":"20 facts","detail":["Webhook endpoint must be publicly accessible over HTTPS, support TLSv1.2+, and use
+[80.2s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/integrations/oauth-scopes-overview/","summary":"24 facts","detail":["Zoom has user-level, admin-level, and Master-level classic s
+[80.2s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/integrations/end-user-auth/","summary":"8 facts","detail":["Users may install an app through its Authorization URL or the Zoom Ap
+[80.2s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/integrations/PKCE/","summary":"21 facts","detail":["PKCE is intended for public clients without a backend server, including nativ
+[80.2s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/distribute/app-review-guidelines/","summary":"30 facts","detail":["Page published March 12, 2023. | quote: \"Published: March, 12
+[80.2s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/distribute/published-apps/support/","summary":"10 facts","detail":["Developers must continue maintaining published apps, assistin
+[80.2s] {"type":"tool","name":"read","target":"https://devforum.zoom.us/t/average-approval-time-for-publishing-app/105707","summary":"2 facts","detail":["On Mar 18, 2024, staff said functional review may pass
+[80.2s] {"type":"tool","name":"read","target":"https://nango.dev/docs/api-integrations/zoom","summary":"6 facts","detail":["Nango does not yet provide a Nango-managed Zoom OAuth app; the community/vendor must
+[80.2s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/build-flow/manifests/schema/manifest-apis/","summary":"nothing relevant","detail":[]}
+[80.2s] {"type":"tool","name":"read","target":"https://developers.zoom.us/docs/build/platform-studio/","summary":"8 facts","detail":["No credit card is required to create a Build Platform account. | quote: \"
+[80.2s] {"type":"tool","name":"read","target":"https://developers.zoom.us/changelog/","summary":"5 facts","detail":["AI Services announced the Summarizer and Translator APIs. | quote: \"Now Available: Zoom AI
+[103.5s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[103.9s] {"type":"tool","name":"probe","target":"https://zoom.us/.well-known/openid-configuration","summary":"ok: authorize=https://zoom.us/oauth/authorize; scopes=openid email profile"}
+[103.9s] {"type":"tool","name":"probe","target":"https://zoom.us/oauth/authorize","summary":"ok: HTTP 302 -> https://zoom.us/oauth/signin?_rnd=1794727503442&client_id=probe-not-"}
+[103.9s] {"type":"tool","name":"probe","target":"https://marketplace.zoom.us/develop/create","summary":"ok: HTTP 200 (final: https://marketplace.zoom.us/develop/create)"}
+[103.9s] {"type":"status","message":"Writing guide"}
+[147.3s] {"type":"status","message":"Writing the sign-in link and curl commands"}
+[162.5s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[162.5s] {"type":"status","message":"Checking the guide for contradictions"}
+[180.9s] guide -> guides/zoom.json
