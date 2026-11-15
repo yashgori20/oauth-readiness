@@ -728,5 +728,292 @@
   "uncertain": [
     "The reviewed materials do not say whether Strava offers an exception for AI use. They provide no process, contact, or criteria for one.",
     "The reviewed OAuth documentation does not document PKCE support."
-  ]
+  ],
+  "research": {
+    "seconds": 143,
+    "log": [
+      {
+        "t": 0,
+        "type": "status",
+        "message": "Researching Strava"
+      },
+      {
+        "t": 16.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.strava.com OAuth API authentication Strava developer app authorization refresh tokens",
+        "summary": "7 results"
+      },
+      {
+        "t": 16.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.strava.com \"Rate Limits\" \"Strava API\"",
+        "summary": "3 results"
+      },
+      {
+        "t": 16.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.strava.com \"API Agreement\" artificial intelligence",
+        "summary": "6 results"
+      },
+      {
+        "t": 16.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.strava.com \"API Reference\" applications settings callback domain",
+        "summary": "5 results"
+      },
+      {
+        "t": 16.2,
+        "type": "tool",
+        "name": "search",
+        "target": "Strava API application review approval production developer program API access pricing",
+        "summary": "8 results"
+      },
+      {
+        "t": 16.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:communityhub.strava.com API application approval review Strava",
+        "summary": "8 results"
+      },
+      {
+        "t": 16.2,
+        "type": "tool",
+        "name": "search",
+        "target": "Strava API app review approval community wait time",
+        "summary": "6 results"
+      },
+      {
+        "t": 16.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.strava.com webhooks API Strava push subscriptions",
+        "summary": "5 results"
+      },
+      {
+        "t": 16.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.strava.com API Agreement developer guidelines data privacy",
+        "summary": "8 results"
+      },
+      {
+        "t": 16.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.strava.com OAuth PKCE state Strava",
+        "summary": "5 results"
+      },
+      {
+        "t": 30.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.strava.com/docs/getting-started/",
+        "summary": "10 facts"
+      },
+      {
+        "t": 30.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.strava.com/docs/authentication/",
+        "summary": "34 facts"
+      },
+      {
+        "t": 30.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.strava.com/docs/rate-limits/",
+        "summary": "11 facts"
+      },
+      {
+        "t": 30.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://partners.strava.com/developers/developers-faqs",
+        "summary": "nothing relevant"
+      },
+      {
+        "t": 30.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://communityhub.strava.com/developers-knowledge-base-14/strava-api-faq-12906",
+        "summary": "16 facts"
+      },
+      {
+        "t": 30.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://www.strava.com/legal/api",
+        "summary": "18 facts"
+      },
+      {
+        "t": 30.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://www.strava.com/legal/api_policy",
+        "summary": "20 facts"
+      },
+      {
+        "t": 30.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.strava.com/docs/webhooks/",
+        "summary": "13 facts"
+      },
+      {
+        "t": 30.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.strava.com/docs/changelog/",
+        "summary": "11 facts"
+      },
+      {
+        "t": 30.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://communityhub.strava.com/developers-api-7/no-response-on-app-review-very-disappointed-13209",
+        "summary": "8 facts"
+      },
+      {
+        "t": 30.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://press.strava.com/articles/updates-to-stravas-api-agreement",
+        "summary": "5 facts"
+      },
+      {
+        "t": 45,
+        "type": "tool",
+        "name": "search",
+        "target": "site:partners.strava.com/developers \"Developer Program form\" \"7-10\"",
+        "summary": "4 results"
+      },
+      {
+        "t": 45,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.strava.com \"Developer Program form\"",
+        "summary": "4 results"
+      },
+      {
+        "t": 45,
+        "type": "tool",
+        "name": "search",
+        "target": "site:strava.com/pricing Strava subscription price FAQ 2026 developer API",
+        "summary": "7 results"
+      },
+      {
+        "t": 45,
+        "type": "tool",
+        "name": "search",
+        "target": "site:communityhub.strava.com/developers-api \"rejected\" application review Strava API",
+        "summary": "5 results"
+      },
+      {
+        "t": 45,
+        "type": "tool",
+        "name": "search",
+        "target": "site:communityhub.strava.com/developers-api \"20 days\" approval Strava",
+        "summary": "7 results"
+      },
+      {
+        "t": 45,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.strava.com CLI manifest app configuration Strava API",
+        "summary": "8 results"
+      },
+      {
+        "t": 45,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.strava.com \"profile:write\" \"activity:write\" scopes",
+        "summary": "4 results"
+      },
+      {
+        "t": 55.7,
+        "type": "tool",
+        "name": "read",
+        "target": "https://support.strava.com/en-us/articles/15401674-subscription-pricing-faq",
+        "summary": "9 facts"
+      },
+      {
+        "t": 55.7,
+        "type": "tool",
+        "name": "read",
+        "target": "https://communityhub.strava.com/developers-api-7/problem-with-rejection-in-review-13703",
+        "summary": "6 facts"
+      },
+      {
+        "t": 55.7,
+        "type": "tool",
+        "name": "read",
+        "target": "https://communityhub.strava.com/developers-api-7/so-the-api-approval-team-does-exist-13247",
+        "summary": "10 facts"
+      },
+      {
+        "t": 55.7,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.strava.com/docs/oauth-updates/",
+        "summary": "24 facts"
+      },
+      {
+        "t": 55.7,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.strava.com/swagger/swagger.json",
+        "summary": "19 facts"
+      },
+      {
+        "t": 80.3,
+        "type": "status",
+        "message": "Probing the provider's OAuth endpoints"
+      },
+      {
+        "t": 81.4,
+        "type": "tool",
+        "name": "probe",
+        "target": "www.strava.com",
+        "summary": "failed: no discovery document on these hosts (provider may not support OIDC)"
+      },
+      {
+        "t": 81.4,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://www.strava.com/oauth/authorize",
+        "summary": "ok: HTTP 400"
+      },
+      {
+        "t": 81.4,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://www.strava.com/settings/api",
+        "summary": "ok: reachable, requires sign-in (HTTP 200, final https://www.strava.com/login)"
+      },
+      {
+        "t": 81.4,
+        "type": "status",
+        "message": "Writing guide"
+      },
+      {
+        "t": 116.3,
+        "type": "status",
+        "message": "Writing the sign-in link and curl commands"
+      },
+      {
+        "t": 129,
+        "type": "status",
+        "message": "Checking quotes against the pages the agent read"
+      },
+      {
+        "t": 129,
+        "type": "status",
+        "message": "Checking the guide for contradictions"
+      }
+    ]
+  }
 }

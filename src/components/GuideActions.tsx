@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Claim, Guide } from "@/lib/guide";
-import { ArrowUpRight, Copy, Download } from "./icons";
+import { ArrowUpRight, Copy, Download, Search } from "./icons";
 
 // Markdown export so a guide can travel into a ticket, a PR, or a Slack thread.
 function toMarkdown(g: Guide) {
@@ -85,6 +85,11 @@ export function GuideActions({ guide }: { guide: Guide }) {
       >
         <Download className="h-3.5 w-3.5" /> Markdown
       </button>
+      {guide.research && (
+        <a href={`/apps/${guide.slug}/research`} className={btn}>
+          <Search className="h-3.5 w-3.5" /> How it was researched
+        </a>
+      )}
       {guide.developerConsole && (
         <a href={guide.developerConsole} target="_blank" rel="noreferrer" className={`${btn} border-ink bg-ink text-on-ink hover:bg-ink-2 hover:text-on-ink`}>
           Developer console <ArrowUpRight className="h-3.5 w-3.5" />

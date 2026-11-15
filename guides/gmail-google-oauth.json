@@ -757,5 +757,271 @@
     "The sources do not state the CASA assessment duration or the assessor's fee amount.",
     "The sources say Gmail billing changes were planned later in 2026. Confirm current quota billing before launch.",
     "1 claim couldn't be matched word-for-word to its cited page and is marked Unverified. Check those sources before relying on them."
-  ]
+  ],
+  "research": {
+    "seconds": 143,
+    "log": [
+      {
+        "t": 0,
+        "type": "status",
+        "message": "Researching Gmail (Google OAuth)"
+      },
+      {
+        "t": 20.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.google.com/identity/protocols/oauth2 Google OAuth web server offline refresh tokens PKCE redirect URI",
+        "summary": "5 results"
+      },
+      {
+        "t": 20.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:support.google.com/cloud/answer OAuth app verification Google scopes sensitive restricted verification submit review",
+        "summary": "8 results"
+      },
+      {
+        "t": 20.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.google.com/workspace/gmail/api/auth/scopes Gmail API scopes restricted sensitive",
+        "summary": "6 results"
+      },
+      {
+        "t": 20.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.google.com/workspace/guides/configure-oauth-consent-screen testing users 100 Google OAuth",
+        "summary": "6 results"
+      },
+      {
+        "t": 20.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.google.com/identity/protocols/oauth2/production-readiness Google OAuth production app verification",
+        "summary": "8 results"
+      },
+      {
+        "t": 20.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.google.com/workspace/gmail/api/reference/quota Gmail API quota limits",
+        "summary": "3 results"
+      },
+      {
+        "t": 20.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:cloud.google.com/iam/quotas Google Cloud billing OAuth Gmail API pricing",
+        "summary": "8 results"
+      },
+      {
+        "t": 20.6,
+        "type": "tool",
+        "name": "search",
+        "target": "Google API Services User Data Policy AI LLM Gmail API developer",
+        "summary": "8 results"
+      },
+      {
+        "t": 20.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.google.com Google OAuth verification security assessment restricted scopes CASA",
+        "summary": "8 results"
+      },
+      {
+        "t": 20.6,
+        "type": "tool",
+        "name": "search",
+        "target": "Google OAuth app verification review time community Gmail restricted scopes security assessment",
+        "summary": "8 results"
+      },
+      {
+        "t": 20.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.google.com/workspace/gmail/api/guides Gmail API quickstart test users OAuth consent screen",
+        "summary": "6 results"
+      },
+      {
+        "t": 20.6,
+        "type": "tool",
+        "name": "search",
+        "target": "Google OAuth consent screen API console create OAuth client CLI gcloud branding audience data access",
+        "summary": "8 results"
+      },
+      {
+        "t": 39.3,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.google.com/workspace/gmail/api/auth/scopes",
+        "summary": "28 facts"
+      },
+      {
+        "t": 39.3,
+        "type": "tool",
+        "name": "read",
+        "target": "https://support.google.com/cloud/answer/13461325?hl=en",
+        "summary": "20 facts"
+      },
+      {
+        "t": 39.3,
+        "type": "tool",
+        "name": "read",
+        "target": "https://support.google.com/cloud/answer/13464321?hl=en",
+        "summary": "32 facts"
+      },
+      {
+        "t": 39.3,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.google.com/identity/protocols/oauth2/web-server",
+        "summary": "22 facts"
+      },
+      {
+        "t": 39.3,
+        "type": "tool",
+        "name": "read",
+        "target": "https://support.google.com/cloud/answer/15549945?hl=en-GB",
+        "summary": "13 facts"
+      },
+      {
+        "t": 39.3,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.google.com/workspace/gmail/api/reference/quota",
+        "summary": "77 facts"
+      },
+      {
+        "t": 39.3,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.google.com/workspace/workspace-api-user-data-developer-policy",
+        "summary": "12 facts"
+      },
+      {
+        "t": 39.3,
+        "type": "tool",
+        "name": "read",
+        "target": "https://support.google.com/cloud/answer/13463817?hl=en-GB",
+        "summary": "12 facts"
+      },
+      {
+        "t": 39.3,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification",
+        "summary": "12 facts"
+      },
+      {
+        "t": 39.3,
+        "type": "tool",
+        "name": "read",
+        "target": "https://support.google.com/cloud/answer/15549257?hl=en",
+        "summary": "23 facts"
+      },
+      {
+        "t": 39.3,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.google.com/terms/api-services-user-data-policy",
+        "summary": "12 facts"
+      },
+      {
+        "t": 39.3,
+        "type": "tool",
+        "name": "read",
+        "target": "https://workspace.google.com/blog/ai-and-machine-learning/api-policy-protections",
+        "summary": "6 facts"
+      },
+      {
+        "t": 57.5,
+        "type": "tool",
+        "name": "search",
+        "target": "site:reddit.com Google OAuth verification Gmail API CASA review experience weeks 2025",
+        "summary": "8 results"
+      },
+      {
+        "t": 57.5,
+        "type": "tool",
+        "name": "search",
+        "target": "site:community.nango.dev Google OAuth verification Gmail restricted scopes",
+        "summary": "8 results"
+      },
+      {
+        "t": 57.5,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.google.com/identity/protocols/oauth2/native-app PKCE Google OAuth",
+        "summary": "4 results"
+      },
+      {
+        "t": 57.5,
+        "type": "tool",
+        "name": "search",
+        "target": "Google Auth Platform API gcloud CLI OAuth client consent screen configuration",
+        "summary": "8 results"
+      },
+      {
+        "t": 57.5,
+        "type": "tool",
+        "name": "search",
+        "target": "site:support.google.com/cloud Google OAuth verification support contact Trust Safety",
+        "summary": "8 results"
+      },
+      {
+        "t": 57.5,
+        "type": "tool",
+        "name": "search",
+        "target": "Google Gmail API OAuth verification security assessment cost CASA community vendor guide",
+        "summary": "8 results"
+      },
+      {
+        "t": 83.4,
+        "type": "status",
+        "message": "Probing the provider's OAuth endpoints"
+      },
+      {
+        "t": 83.7,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://accounts.google.com/.well-known/openid-configuration",
+        "summary": "ok: authorize=https://accounts.google.com/o/oauth2/v2/auth; scopes=openid email prof"
+      },
+      {
+        "t": 83.7,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://accounts.google.com/o/oauth2/v2/auth",
+        "summary": "ok: HTTP 302 -> https://accounts.google.com/signin/oauth/error?authError=Cg9pbnZhbGl"
+      },
+      {
+        "t": 83.7,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://console.cloud.google.com/auth/overview",
+        "summary": "ok: reachable, requires sign-in (HTTP 200, final https://accounts.google.com/v3/sign"
+      },
+      {
+        "t": 83.7,
+        "type": "status",
+        "message": "Writing guide"
+      },
+      {
+        "t": 121.9,
+        "type": "status",
+        "message": "Writing the sign-in link and curl commands"
+      },
+      {
+        "t": 124.2,
+        "type": "status",
+        "message": "Checking quotes against the pages the agent read"
+      },
+      {
+        "t": 124.2,
+        "type": "status",
+        "message": "Checking the guide for contradictions"
+      }
+    ]
+  }
 }

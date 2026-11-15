@@ -106,6 +106,23 @@ export const Guide = z.object({
     .array(z.object({ name: z.string(), target: z.string(), result: z.string(), ok: z.boolean() }))
     .default([]),
   uncertain: z.array(Text).default([]),
+  // How the guide was researched: every status line, search, page read and probe, with seconds from start.
+  research: z
+    .object({
+      seconds: z.number(),
+      log: z.array(
+        z.object({
+          t: z.number(),
+          type: z.enum(["status", "tool"]),
+          message: z.string().optional(),
+          name: z.string().optional(),
+          target: z.string().optional(),
+          summary: z.string().optional(),
+          detail: z.array(z.string()).optional(),
+        }),
+      ),
+    })
+    .optional(),
 });
 
 export type Guide = z.infer<typeof Guide>;

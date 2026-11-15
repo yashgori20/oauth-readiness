@@ -867,5 +867,285 @@
     "The researched sources give no timing for identity verification or protected-customer-data review.",
     "The researched sources do not describe an appeal path for a denied protected-customer-data request.",
     "1 claim couldn't be matched word-for-word to its cited page and is marked Unverified. Check those sources before relying on them."
-  ]
+  ],
+  "research": {
+    "seconds": 180,
+    "log": [
+      {
+        "t": 0,
+        "type": "status",
+        "message": "Researching Shopify"
+      },
+      {
+        "t": 28.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:shopify.dev docs apps distribution app store review requirements OAuth access tokens",
+        "summary": "8 results"
+      },
+      {
+        "t": 28.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:shopify.dev OAuth authorization code grant refresh token offline access Shopify",
+        "summary": "7 results"
+      },
+      {
+        "t": 28.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:shopify.dev app review requirements submission Shopify App Store",
+        "summary": "8 results"
+      },
+      {
+        "t": 28.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:shopify.dev scopes protected customer data review Shopify API",
+        "summary": "5 results"
+      },
+      {
+        "t": 28.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:shopify.dev Shopify app configuration CLI TOML redirect URLs",
+        "summary": "7 results"
+      },
+      {
+        "t": 28.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:shopify.dev AI policy Shopify API artificial intelligence app requirements",
+        "summary": "8 results"
+      },
+      {
+        "t": 28.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:shopify.dev app development testing dev stores limits rate limits pricing partner account",
+        "summary": "8 results"
+      },
+      {
+        "t": 28.7,
+        "type": "tool",
+        "name": "search",
+        "target": "Shopify app review how long rejection reasons community Nango Codat Apideck",
+        "summary": "8 results"
+      },
+      {
+        "t": 28.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:shopify.dev API terms data protection AI Shopify developer changelog",
+        "summary": "8 results"
+      },
+      {
+        "t": 28.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:shopify.dev app store review contact support partner dashboard",
+        "summary": "8 results"
+      },
+      {
+        "t": 28.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:shopify.dev session tokens OAuth security state HMAC callback Shopify",
+        "summary": "8 results"
+      },
+      {
+        "t": 28.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:shopify.dev pricing app store revenue share billing requirements Shopify partner",
+        "summary": "7 results"
+      },
+      {
+        "t": 46,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/launch/distribution",
+        "summary": "14 facts"
+      },
+      {
+        "t": 46,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/build/authentication-authorization/authenticate-standalone-apps",
+        "summary": "14 facts"
+      },
+      {
+        "t": 46,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/build/authentication-authorization/access-tokens",
+        "summary": "21 facts"
+      },
+      {
+        "t": 46,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/build/security/credentials-and-data/use-expiring-offline-access-tokens",
+        "summary": "10 facts"
+      },
+      {
+        "t": 46,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/launch/app-store-review/submit-app-for-review",
+        "summary": "16 facts"
+      },
+      {
+        "t": 46,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/launch/protected-customer-data",
+        "summary": "16 facts"
+      },
+      {
+        "t": 46,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/launch/shopify-app-store/app-store-requirements",
+        "summary": "15 facts"
+      },
+      {
+        "t": 46,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/build/cli-for-apps/app-configuration",
+        "summary": "12 facts"
+      },
+      {
+        "t": 46,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/build/stores/development-stores",
+        "summary": "10 facts"
+      },
+      {
+        "t": 46,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/build/apis/graphql-admin/rate-limits",
+        "summary": "8 facts"
+      },
+      {
+        "t": 46,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/launch/distribution/revenue-share",
+        "summary": "15 facts"
+      },
+      {
+        "t": 46,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/build/ai",
+        "summary": "8 facts"
+      },
+      {
+        "t": 72.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/build/authentication-authorization/manage-access-scopes",
+        "summary": "27 facts"
+      },
+      {
+        "t": 72.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/launch/app-store-review/review-process",
+        "summary": "8 facts"
+      },
+      {
+        "t": 72.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/build/security/app-server/authenticate-every-request",
+        "summary": "5 facts"
+      },
+      {
+        "t": 72.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/build/webhooks/verify-deliveries",
+        "summary": "10 facts"
+      },
+      {
+        "t": 72.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/launch/privacy-requirements",
+        "summary": "7 facts"
+      },
+      {
+        "t": 72.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/launch/billing/shopify-app-pricing",
+        "summary": "10 facts"
+      },
+      {
+        "t": 72.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/changelog/posts/shopify-app-store-submission-requirements-build-grow-then-expand",
+        "summary": "7 facts"
+      },
+      {
+        "t": 72.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://community.shopify.com/t/how-long-does-it-take-for-an-app-review-to-be-completed/264027",
+        "summary": "16 facts"
+      },
+      {
+        "t": 72.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/docs/apps/build/authentication-authorization/manage-credentials",
+        "summary": "23 facts"
+      },
+      {
+        "t": 72.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://shopify.dev/support",
+        "summary": "2 facts"
+      },
+      {
+        "t": 103,
+        "type": "status",
+        "message": "Probing the provider's OAuth endpoints"
+      },
+      {
+        "t": 103.6,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://partners.shopify.com/",
+        "summary": "ok: HTTP 200 (final: https://www.shopify.com/partners)"
+      },
+      {
+        "t": 103.6,
+        "type": "status",
+        "message": "Writing guide"
+      },
+      {
+        "t": 149.3,
+        "type": "status",
+        "message": "Writing the sign-in link and curl commands"
+      },
+      {
+        "t": 162,
+        "type": "status",
+        "message": "Checking quotes against the pages the agent read"
+      },
+      {
+        "t": 162,
+        "type": "status",
+        "message": "Checking the guide for contradictions"
+      }
+    ]
+  }
 }

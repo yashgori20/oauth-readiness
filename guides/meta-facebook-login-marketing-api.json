@@ -796,5 +796,313 @@
     "App Review timing conflicts in official sources. One page says a decision should arrive within a week. Another says permission review may take several weeks.",
     "No source gives a standalone Meta developer subscription or Marketing API access price.",
     "3 claims couldn't be matched word-for-word to their cited page and are marked Unverified. Check those sources before relying on them."
-  ]
+  ],
+  "research": {
+    "seconds": 196,
+    "log": [
+      {
+        "t": 0,
+        "type": "status",
+        "message": "Researching Meta (Facebook Login and Marketing API)"
+      },
+      {
+        "t": 22.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.facebook.com/docs/facebook-login Facebook Login business verification app review redirect URI PKCE",
+        "summary": "8 results"
+      },
+      {
+        "t": 22.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.facebook.com/docs/marketing-api access levels standard advanced access app review",
+        "summary": "6 results"
+      },
+      {
+        "t": 22.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.facebook.com/docs/marketing-api/get-started Marketing API development access rate limits business verification",
+        "summary": "4 results"
+      },
+      {
+        "t": 22.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.facebook.com/docs/facebook-login/guides/advanced/manual-flow access token expiration refresh",
+        "summary": "5 results"
+      },
+      {
+        "t": 22.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.facebook.com/docs/development/create-an-app app types business consumer",
+        "summary": "4 results"
+      },
+      {
+        "t": 22.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.facebook.com/docs/apps/review submit app review requirements privacy policy screencast",
+        "summary": "6 results"
+      },
+      {
+        "t": 22.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.facebook.com/policy Meta Platform Terms AI machine learning generative AI",
+        "summary": "6 results"
+      },
+      {
+        "t": 22.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.facebook.com/docs/marketing-api/overview/pricing fees",
+        "summary": "5 results"
+      },
+      {
+        "t": 22.6,
+        "type": "tool",
+        "name": "search",
+        "target": "Meta Marketing API app review real time community rejection Facebook Login app review time",
+        "summary": "8 results"
+      },
+      {
+        "t": 22.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.facebook.com/tools/explorer Meta app dashboard support contact developer",
+        "summary": "7 results"
+      },
+      {
+        "t": 44.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/",
+        "summary": "17 facts"
+      },
+      {
+        "t": 44.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/facebook-login/create-an-app.md/",
+        "summary": "6 facts"
+      },
+      {
+        "t": 44.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/facebook-login/guides/advanced/oidc-token.md/",
+        "summary": "15 facts"
+      },
+      {
+        "t": 44.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/facebook-login/guides/access-tokens/get-long-lived.md/",
+        "summary": "9 facts"
+      },
+      {
+        "t": 44.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review/submission-guide.md/",
+        "summary": "23 facts"
+      },
+      {
+        "t": 44.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/resp-plat-initiatives/appreview/FAQs.md/",
+        "summary": "10 facts"
+      },
+      {
+        "t": 44.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/overview/rate-limiting.md/",
+        "summary": "19 facts"
+      },
+      {
+        "t": 44.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/development/release/access-verification.md/",
+        "summary": "18 facts"
+      },
+      {
+        "t": 44.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/development/create-an-app/marketing-api-use-cases.md/",
+        "summary": "19 facts"
+      },
+      {
+        "t": 44.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/development/support.md/",
+        "summary": "17 facts"
+      },
+      {
+        "t": 44.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/development/data-security.md/",
+        "summary": "10 facts"
+      },
+      {
+        "t": 44.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/development/terms-and-policies.md/",
+        "summary": "3 facts"
+      },
+      {
+        "t": 69.8,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/development/create-an-app/app-dashboard/app-types.md/",
+        "summary": "7 facts"
+      },
+      {
+        "t": 69.8,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/facebook-login/facebook-login-for-business.md/",
+        "summary": "21 facts"
+      },
+      {
+        "t": 69.8,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/development/release/business-verification.md/",
+        "summary": "11 facts"
+      },
+      {
+        "t": 69.8,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/development/permissions.md/",
+        "summary": "16 facts"
+      },
+      {
+        "t": 69.8,
+        "type": "tool",
+        "name": "search",
+        "target": "Meta Platform Terms developers AI train models LLM platform data restriction",
+        "summary": "7 results"
+      },
+      {
+        "t": 69.8,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.facebook.com/blog Marketing API generative AI 2025 2026 changes",
+        "summary": "4 results"
+      },
+      {
+        "t": 69.8,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.facebook.com Meta CLI create app app manifest Marketing API",
+        "summary": "8 results"
+      },
+      {
+        "t": 69.8,
+        "type": "tool",
+        "name": "search",
+        "target": "Facebook app review Marketing API review time Codat Nango Merge Apideck community",
+        "summary": "8 results"
+      },
+      {
+        "t": 69.8,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/development/create-an-app.md/",
+        "summary": "6 facts"
+      },
+      {
+        "t": 79.4,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/mcp.md/",
+        "summary": "7 facts"
+      },
+      {
+        "t": 79.4,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-cli/setup/get-started.md/",
+        "summary": "11 facts"
+      },
+      {
+        "t": 79.4,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/facebook-login/guides/advanced/manual-flow.md/",
+        "summary": "14 facts"
+      },
+      {
+        "t": 79.4,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/creative/generative-ai-features.md/",
+        "summary": "13 facts"
+      },
+      {
+        "t": 101.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://community.auth0.com/t/facebook-login-rejection/90304",
+        "summary": "6 facts"
+      },
+      {
+        "t": 131.3,
+        "type": "status",
+        "message": "Probing the provider's OAuth endpoints"
+      },
+      {
+        "t": 131.9,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://www.facebook.com/.well-known/openid-configuration",
+        "summary": "ok: authorize=https://facebook.com/dialog/oauth/; scopes="
+      },
+      {
+        "t": 131.9,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://www.facebook.com/v27.0/dialog/oauth",
+        "summary": "ok: HTTP 200"
+      },
+      {
+        "t": 131.9,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://developers.facebook.com/apps/creation/",
+        "summary": "ok: HTTP 200 (final: https://developers.facebook.com/apps/creation/)"
+      },
+      {
+        "t": 131.9,
+        "type": "status",
+        "message": "Writing guide"
+      },
+      {
+        "t": 177.1,
+        "type": "status",
+        "message": "Writing the sign-in link and curl commands"
+      },
+      {
+        "t": 183.3,
+        "type": "status",
+        "message": "Checking quotes against the pages the agent read"
+      },
+      {
+        "t": 183.3,
+        "type": "status",
+        "message": "Checking the guide for contradictions"
+      }
+    ]
+  }
 }

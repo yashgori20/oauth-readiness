@@ -690,5 +690,299 @@
   "uncertain": [
     "No OAuth test-user cap is published.",
     "The required form of written consent for LLM provider data processing is not specified."
-  ]
+  ],
+  "research": {
+    "seconds": 144,
+    "log": [
+      {
+        "t": 0,
+        "type": "status",
+        "message": "Researching Calendly"
+      },
+      {
+        "t": 13.4,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.calendly.com OAuth applications scopes authorization code refresh token",
+        "summary": "6 results"
+      },
+      {
+        "t": 13.4,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.calendly.com \"OAuth\" \"redirect\"",
+        "summary": "5 results"
+      },
+      {
+        "t": 13.4,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.calendly.com API authentication personal access token OAuth",
+        "summary": "7 results"
+      },
+      {
+        "t": 13.4,
+        "type": "tool",
+        "name": "search",
+        "target": "site:calendly.com pricing developer API OAuth app approval",
+        "summary": "8 results"
+      },
+      {
+        "t": 13.4,
+        "type": "tool",
+        "name": "search",
+        "target": "Calendly OAuth integration review approval developer community",
+        "summary": "8 results"
+      },
+      {
+        "t": 13.4,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.calendly.com rate limits webhooks OAuth",
+        "summary": "8 results"
+      },
+      {
+        "t": 28.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.calendly.com/docs/authentication/creating-an-oauth-app",
+        "summary": "22 facts"
+      },
+      {
+        "t": 28.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.calendly.com/docs/authentication/overview",
+        "summary": "9 facts"
+      },
+      {
+        "t": 28.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.calendly.com/docs/authentication/scopes",
+        "summary": "47 facts"
+      },
+      {
+        "t": 28.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.calendly.com/api-docs/calendly-o-auth/o-auth/post-oauth-refresh-token",
+        "summary": "11 facts"
+      },
+      {
+        "t": 28.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.calendly.com/docs/authentication/refresh-token-rotation-guide",
+        "summary": "8 facts"
+      },
+      {
+        "t": 28.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.calendly.com/api-docs/overview/rate-limits",
+        "summary": "15 facts"
+      },
+      {
+        "t": 28.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.calendly.com/docs/getting-started/introduction",
+        "summary": "10 facts"
+      },
+      {
+        "t": 28.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.calendly.com/api-docs/overview/webhooks/webhook-signatures",
+        "summary": "11 facts"
+      },
+      {
+        "t": 28.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.calendly.com/api-docs/calendly-o-auth/o-auth/get-oauth-authorize",
+        "summary": "14 facts"
+      },
+      {
+        "t": 28.5,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.calendly.com/docs/authentication/how-to-authenticate-with-personal-access-tokens",
+        "summary": "12 facts"
+      },
+      {
+        "t": 46.1,
+        "type": "tool",
+        "name": "search",
+        "target": "site:calendly.com/legal AI artificial intelligence developer terms API",
+        "summary": "6 results"
+      },
+      {
+        "t": 46.1,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.calendly.com changelog OAuth scopes 2026",
+        "summary": "5 results"
+      },
+      {
+        "t": 46.1,
+        "type": "tool",
+        "name": "search",
+        "target": "site:calendly.com/help API pricing FAQ developer API plans",
+        "summary": "5 results"
+      },
+      {
+        "t": 46.1,
+        "type": "tool",
+        "name": "search",
+        "target": "site:community.calendly.com OAuth app production approval review Calendly",
+        "summary": "6 results"
+      },
+      {
+        "t": 46.1,
+        "type": "tool",
+        "name": "search",
+        "target": "Calendly developer support contact API OAuth",
+        "summary": "7 results"
+      },
+      {
+        "t": 46.1,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.calendly.com CLI OAuth app manifest",
+        "summary": "6 results"
+      },
+      {
+        "t": 46.1,
+        "type": "tool",
+        "name": "search",
+        "target": "Calendly Partner Marketplace integration submission requirements",
+        "summary": "8 results"
+      },
+      {
+        "t": 46.1,
+        "type": "tool",
+        "name": "search",
+        "target": "site:calendly.com/legal developer terms API terms",
+        "summary": "6 results"
+      },
+      {
+        "t": 46.1,
+        "type": "tool",
+        "name": "search",
+        "target": "Calendly OAuth app review time approval",
+        "summary": "6 results"
+      },
+      {
+        "t": 46.1,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.calendly.com/docs \"Production\" \"review\" OAuth",
+        "summary": "4 results"
+      },
+      {
+        "t": 59.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://calendly.com/legal/developer-policy",
+        "summary": "19 facts"
+      },
+      {
+        "t": 59.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://calendly.com/help/calendly-api-overview",
+        "summary": "8 facts"
+      },
+      {
+        "t": 59.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.calendly.com/release-notes/2026/3/3",
+        "summary": "2 facts"
+      },
+      {
+        "t": 59.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://community.calendly.com/api-webhook-help-61/mcp-server-5503",
+        "summary": "5 facts"
+      },
+      {
+        "t": 59.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://community.calendly.com/api-webhook-help-61/missing-required-parameter-code_verifier-4746",
+        "summary": "11 facts"
+      },
+      {
+        "t": 59.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://calendly.com/partners/contact",
+        "summary": "5 facts"
+      },
+      {
+        "t": 59.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.calendly.com/docs/mcp/calendly-mcp-server",
+        "summary": "14 facts"
+      },
+      {
+        "t": 59.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.calendly.com/",
+        "summary": "4 facts"
+      },
+      {
+        "t": 83.1,
+        "type": "status",
+        "message": "Probing the provider's OAuth endpoints"
+      },
+      {
+        "t": 83.9,
+        "type": "tool",
+        "name": "probe",
+        "target": "auth.calendly.com",
+        "summary": "failed: no discovery document on these hosts (provider may not support OIDC)"
+      },
+      {
+        "t": 83.9,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://auth.calendly.com/oauth/authorize",
+        "summary": "ok: HTTP 301 -> https://calendly.com/oauth/authorize?client_id=probe-not-a-real-clie"
+      },
+      {
+        "t": 83.9,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://developer.calendly.com/",
+        "summary": "ok: HTTP 200 (final: https://developer.calendly.com/docs/getting-started/overview)"
+      },
+      {
+        "t": 83.9,
+        "type": "status",
+        "message": "Writing guide"
+      },
+      {
+        "t": 116.5,
+        "type": "status",
+        "message": "Writing the sign-in link and curl commands"
+      },
+      {
+        "t": 131.7,
+        "type": "status",
+        "message": "Checking quotes against the pages the agent read"
+      },
+      {
+        "t": 131.7,
+        "type": "status",
+        "message": "Checking the guide for contradictions"
+      }
+    ]
+  }
 }

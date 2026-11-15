@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import localFont from "next/font/local";
 import Link from "next/link";
+import { ResearchTray } from "@/components/ResearchTray";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import "./globals.css";
 
@@ -52,6 +53,7 @@ export default function RootLayout({
                 <Link href="/#method" className="label hidden px-2.5 py-2 text-ink-2 hover:text-ink sm:block">
                   Method
                 </Link>
+                <ResearchTray />
                 <ThemeToggle />
                 <Link href="/#research" className="label border border-ink bg-ink px-3 py-2 text-on-ink hover:bg-ink-2">
                   Research an app

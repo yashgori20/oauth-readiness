@@ -200,7 +200,20 @@ async function runToolUnsafe(ai: OpenAI, call: ToolCall, cache: PageCache): Prom
   return { result, event: { type: "tool", name: "read", target: url, summary: facts ? `${facts} facts` : "nothing relevant", detail } };
 }
 
+// Runs the pipeline and records every status and tool event into the guide's research log.
 export async function* generateGuide(appQuery: string): AsyncGenerator<AgentEvent> {
+  const t0 = Date.now();
+  const log: NonNullable<Guide["research"]>["log"] = [];
+  for await (const ev of runPipeline(appQuery)) {
+    const t = Math.round((Date.now() - t0) / 100) / 10;
+    if (ev.type === "status") log.push({ t, type: "status", message: ev.message });
+    if (ev.type === "tool") log.push({ t, type: "tool", name: ev.name, target: ev.target, summary: ev.summary, detail: ev.detail });
+    if (ev.type === "guide") yield { ...ev, guide: { ...ev.guide, research: { seconds: Math.round((Date.now() - t0) / 1000), log } } };
+    else yield ev;
+  }
+}
+
+async function* runPipeline(appQuery: string): AsyncGenerator<AgentEvent> {
   const ai = client();
   const cache: PageCache = new Map();
   const started = Date.now();

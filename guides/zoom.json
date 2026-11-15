@@ -798,5 +798,285 @@
     "The sources do not state the cost of a normal Marketplace OAuth app.",
     "The sources do not provide exact granular scope identifiers for each meeting and chat capability.",
     "The 2–3 week review estimate combines Zoom's five-business-day initial response with a community-reported security-review duration."
-  ]
+  ],
+  "research": {
+    "seconds": 181,
+    "log": [
+      {
+        "t": 0,
+        "type": "status",
+        "message": "Researching Zoom"
+      },
+      {
+        "t": 23.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.zoom.us OAuth app publish marketplace review scopes refresh tokens Zoom 2026",
+        "summary": "8 results"
+      },
+      {
+        "t": 23.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.zoom.us docs build oauth app authorization code redirect URL PKCE Zoom",
+        "summary": "6 results"
+      },
+      {
+        "t": 23.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.zoom.us marketplace app submission review requirements timeline",
+        "summary": "8 results"
+      },
+      {
+        "t": 23.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.zoom.us zoom app types OAuth app account-level user-managed distribution",
+        "summary": "8 results"
+      },
+      {
+        "t": 23.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.zoom.us pricing API rate limits developer account Zoom Marketplace",
+        "summary": "8 results"
+      },
+      {
+        "t": 23.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:zoom.com legal developer terms AI machine learning Zoom API",
+        "summary": "8 results"
+      },
+      {
+        "t": 23.6,
+        "type": "tool",
+        "name": "search",
+        "target": "Zoom OAuth app marketplace review time community Nango Apideck Codat",
+        "summary": "8 results"
+      },
+      {
+        "t": 23.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.zoom.us CLI app manifest OAuth app configuration Zoom",
+        "summary": "8 results"
+      },
+      {
+        "t": 23.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.zoom.us support contact Marketplace app review appeal",
+        "summary": "7 results"
+      },
+      {
+        "t": 23.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.zoom.us OAuth security state token storage webhook validation",
+        "summary": "7 results"
+      },
+      {
+        "t": 45.9,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/integrations/oauth/",
+        "summary": "26 facts"
+      },
+      {
+        "t": 45.9,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/integrations/create/",
+        "summary": "20 facts"
+      },
+      {
+        "t": 45.9,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/distribute/",
+        "summary": "9 facts"
+      },
+      {
+        "t": 45.9,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/distribute/app-submission/submit-apps-review/",
+        "summary": "19 facts"
+      },
+      {
+        "t": 45.9,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/distribute/app-review-process/",
+        "summary": "18 facts"
+      },
+      {
+        "t": 45.9,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/build-flow/basic-info/oauth-info/",
+        "summary": "12 facts"
+      },
+      {
+        "t": 45.9,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/api/rate-limits/",
+        "summary": "17 facts"
+      },
+      {
+        "t": 45.9,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/distribute/app-submission/common-rejection-issues/",
+        "summary": "15 facts"
+      },
+      {
+        "t": 45.9,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/blog/how-long-does-app-review-take/",
+        "summary": "4 facts"
+      },
+      {
+        "t": 45.9,
+        "type": "tool",
+        "name": "read",
+        "target": "https://www.zoom.com/en/trust/legal/zoom-api-license-and-tou/",
+        "summary": "17 facts"
+      },
+      {
+        "t": 45.9,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/build-flow/manifests/",
+        "summary": "21 facts"
+      },
+      {
+        "t": 45.9,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/api/webhooks/",
+        "summary": "20 facts"
+      },
+      {
+        "t": 80.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/integrations/oauth-scopes-overview/",
+        "summary": "24 facts"
+      },
+      {
+        "t": 80.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/integrations/end-user-auth/",
+        "summary": "8 facts"
+      },
+      {
+        "t": 80.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/integrations/PKCE/",
+        "summary": "21 facts"
+      },
+      {
+        "t": 80.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/distribute/app-review-guidelines/",
+        "summary": "30 facts"
+      },
+      {
+        "t": 80.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/distribute/published-apps/support/",
+        "summary": "10 facts"
+      },
+      {
+        "t": 80.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://devforum.zoom.us/t/average-approval-time-for-publishing-app/105707",
+        "summary": "2 facts"
+      },
+      {
+        "t": 80.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://nango.dev/docs/api-integrations/zoom",
+        "summary": "6 facts"
+      },
+      {
+        "t": 80.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/build-flow/manifests/schema/manifest-apis/",
+        "summary": "nothing relevant"
+      },
+      {
+        "t": 80.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/docs/build/platform-studio/",
+        "summary": "8 facts"
+      },
+      {
+        "t": 80.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.zoom.us/changelog/",
+        "summary": "5 facts"
+      },
+      {
+        "t": 103.5,
+        "type": "status",
+        "message": "Probing the provider's OAuth endpoints"
+      },
+      {
+        "t": 103.9,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://zoom.us/.well-known/openid-configuration",
+        "summary": "ok: authorize=https://zoom.us/oauth/authorize; scopes=openid email profile"
+      },
+      {
+        "t": 103.9,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://zoom.us/oauth/authorize",
+        "summary": "ok: HTTP 302 -> https://zoom.us/oauth/signin?_rnd=1794727503442&client_id=probe-not-"
+      },
+      {
+        "t": 103.9,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://marketplace.zoom.us/develop/create",
+        "summary": "ok: HTTP 200 (final: https://marketplace.zoom.us/develop/create)"
+      },
+      {
+        "t": 103.9,
+        "type": "status",
+        "message": "Writing guide"
+      },
+      {
+        "t": 147.3,
+        "type": "status",
+        "message": "Writing the sign-in link and curl commands"
+      },
+      {
+        "t": 162.5,
+        "type": "status",
+        "message": "Checking quotes against the pages the agent read"
+      },
+      {
+        "t": 162.5,
+        "type": "status",
+        "message": "Checking the guide for contradictions"
+      }
+    ]
+  }
 }

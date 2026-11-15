@@ -759,5 +759,278 @@
   ],
   "uncertain": [
     "2 claims couldn't be matched word-for-word to their cited page and are marked Unverified. Check those sources before relying on them."
-  ]
+  ],
+  "research": {
+    "seconds": 138,
+    "log": [
+      {
+        "t": 0,
+        "type": "status",
+        "message": "Researching Spotify"
+      },
+      {
+        "t": 17.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.spotify.com documentation Web API authorization code PKCE refresh token scopes",
+        "summary": "6 results"
+      },
+      {
+        "t": 17.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.spotify.com Spotify developer app creation dashboard redirect URI development mode quota extension",
+        "summary": "8 results"
+      },
+      {
+        "t": 17.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.spotify.com Spotify Web API development mode extended quota requirements review",
+        "summary": "7 results"
+      },
+      {
+        "t": 17.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.spotify.com Spotify Developer Terms AI machine learning policy",
+        "summary": "6 results"
+      },
+      {
+        "t": 17.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.spotify.com Spotify Developer Policy AI content chatbot",
+        "summary": "6 results"
+      },
+      {
+        "t": 17.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.spotify.com Spotify Web API rate limits documentation",
+        "summary": "5 results"
+      },
+      {
+        "t": 17.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.spotify.com Spotify API pricing commercial applications developer terms",
+        "summary": "8 results"
+      },
+      {
+        "t": 17.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.spotify.com Spotify developer contact support quota extension",
+        "summary": "7 results"
+      },
+      {
+        "t": 17.7,
+        "type": "tool",
+        "name": "search",
+        "target": "Spotify Web API extended quota review wait time community developer forum",
+        "summary": "8 results"
+      },
+      {
+        "t": 17.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.spotify.com blog changelog developer platform 2025 2026 Web API",
+        "summary": "8 results"
+      },
+      {
+        "t": 17.7,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.spotify.com Web API security authorization state PKCE redirect URI",
+        "summary": "8 results"
+      },
+      {
+        "t": 29.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/documentation/web-api/concepts/apps",
+        "summary": "13 facts"
+      },
+      {
+        "t": 29.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+        "summary": "24 facts"
+      },
+      {
+        "t": 29.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/documentation/web-api/tutorials/code-flow",
+        "summary": "11 facts"
+      },
+      {
+        "t": 29.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow",
+        "summary": "14 facts"
+      },
+      {
+        "t": 29.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/documentation/web-api/concepts/redirect_uri",
+        "summary": "7 facts"
+      },
+      {
+        "t": 29.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/documentation/web-api/concepts/scopes",
+        "summary": "22 facts"
+      },
+      {
+        "t": 29.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens",
+        "summary": "16 facts"
+      },
+      {
+        "t": 29.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/blog/2023-05-29-quota-extension",
+        "summary": "12 facts"
+      },
+      {
+        "t": 29.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/documentation/web-api/concepts/rate-limits",
+        "summary": "8 facts"
+      },
+      {
+        "t": 29.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/terms",
+        "summary": "12 facts"
+      },
+      {
+        "t": 29.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/documentation/web-api/tutorials/building-with-ai",
+        "summary": "12 facts"
+      },
+      {
+        "t": 40.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/documentation/web-api/tutorials/february-2026-migration-guide",
+        "summary": "15 facts"
+      },
+      {
+        "t": 40.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/blog/2026-02-06-update-on-developer-access-and-platform-security",
+        "summary": "8 facts"
+      },
+      {
+        "t": 40.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/policy",
+        "summary": "13 facts"
+      },
+      {
+        "t": 40.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://community.spotify.com/t5/Spotify-for-Developers/Important-App-review-and-quota-extension-waiting-times/td-p/5599466",
+        "summary": "15 facts"
+      },
+      {
+        "t": 40.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://community.spotify.com/t5/Spotify-for-Developers/Extended-quota-application-in-review-for-7-weeks/td-p/7429147",
+        "summary": "8 facts"
+      },
+      {
+        "t": 40.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/community",
+        "summary": "4 facts"
+      },
+      {
+        "t": 40.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/documentation/web-api",
+        "summary": "5 facts"
+      },
+      {
+        "t": 40.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/blog/2025-04-15-updating-the-criteria-for-web-api-extended-access",
+        "summary": "6 facts"
+      },
+      {
+        "t": 40.2,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.spotify.com/documentation/web-api/references/changes/february-2026",
+        "summary": "4 facts"
+      },
+      {
+        "t": 69.9,
+        "type": "status",
+        "message": "Probing the provider's OAuth endpoints"
+      },
+      {
+        "t": 70.1,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://accounts.spotify.com/.well-known/openid-configuration",
+        "summary": "ok: authorize=https://accounts.spotify.com/oauth2/v2/auth; scopes=email openid profi"
+      },
+      {
+        "t": 70.1,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://accounts.spotify.com/authorize",
+        "summary": "ok: HTTP 303 -> https://accounts.spotify.com/en/login?continue=https%3A%2F%2Faccount"
+      },
+      {
+        "t": 70.1,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://developer.spotify.com/dashboard",
+        "summary": "ok: HTTP 200 (final: https://developer.spotify.com/dashboard)"
+      },
+      {
+        "t": 70.1,
+        "type": "status",
+        "message": "Writing guide"
+      },
+      {
+        "t": 108.4,
+        "type": "status",
+        "message": "Writing the sign-in link and curl commands"
+      },
+      {
+        "t": 118,
+        "type": "status",
+        "message": "Checking quotes against the pages the agent read"
+      },
+      {
+        "t": 118,
+        "type": "status",
+        "message": "Checking the guide for contradictions"
+      }
+    ]
+  }
 }

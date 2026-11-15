@@ -1,0 +1,1509 @@
+{
+  "app": "Notion",
+  "slug": "notion",
+  "website": "https://www.notion.com/",
+  "developerConsole": "https://app.notion.com/developers/connections",
+  "generatedAt": "2026-11-15T07:38:10.083Z",
+  "origin": "live",
+  "verdict": {
+    "difficulty": 2,
+    "access": "open",
+    "summary": "You can build a public OAuth connection that users in independent Notion workspaces can authorize. Marketplace listing is optional. You do not need Marketplace review to use the OAuth connection. Choose the Any workspace installation scope carefully because it cannot be changed later. Enterprise workspace owners can restrict which connections users may install.",
+    "activeEffort": "3–6 hours, mostly OAuth setup and permission testing (estimate)",
+    "waitTime": "None for public OAuth use without a Marketplace listing. An optional Marketplace listing is reviewed.",
+    "mainGate": "To create a connection, you need workspace-owner access on Free or Plus. On Business or Enterprise, an owner can allow members or groups to create connections."
+  },
+  "agentPath": {
+    "recommendation": {
+      "text": "Create a public connection with the Any workspace installation scope. This lets users from independent Notion workspaces connect through OAuth. Marketplace listing is optional.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/guides/connections-and-tokens/overview",
+          "quote": "Use a public integration so users in any workspace can authorize your app through OAuth. You can also apply to list it on the Marketplace.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+          "quote": "For a public integration, choose Any workspace when you create it.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    "scopeTiers": [
+      {
+        "text": "Read-only retrieval needs the read content capability. It has no capability review. Users must still choose the pages and databases they share.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://developers.notion.com/guides/connections-and-tokens/overview",
+            "quote": "Capabilities determine which operations a connection or token can perform, such as reading pages, updating databases, or adding comments.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.notion.com/guides/authorization/overview",
+            "quote": "A user can search for and select pages and databases to share with the connection from the page picker.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+            "quote": "Public connections must undergo a Notion security review before being listed on the Marketplace . You can create and use a public connection without listing it.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Read the user's selected pages and databases",
+        "scopes": "read content"
+      },
+      {
+        "text": "Creating new pages or blocks needs insert content. It has no capability review. Marketplace listing remains optional and requires security review.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://developers.notion.com/guides/connections-and-tokens/overview",
+            "quote": "Capabilities determine which operations a connection or token can perform, such as reading pages, updating databases, or adding comments.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+            "quote": "Public connections must undergo a Notion security review before being listed on the Marketplace . You can create and use a public connection without listing it.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Create Notion content from an approved agent action",
+        "scopes": "insert content"
+      },
+      {
+        "text": "Editing existing content needs read content and update content. It has no capability review. Marketplace listing remains optional and requires security review.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://developers.notion.com/guides/connections-and-tokens/overview",
+            "quote": "Capabilities determine which operations a connection or token can perform, such as reading pages, updating databases, or adding comments.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+            "quote": "Notion presents a prompt describing the connection’s capabilities — what it will be able to do in the user’s workspace.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+            "quote": "Public connections must undergo a Notion security review before being listed on the Marketplace . You can create and use a public connection without listing it.",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Find and edit the user's selected existing content",
+        "scopes": "read content; update content"
+      }
+    ]
+  },
+  "essentials": [
+    {
+      "text": "Store access and refresh tokens encrypted for each authorization. Refresh through the token endpoint and atomically replace both tokens. Token lifetimes were not found in the sources researched.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/guides/authorization/overview",
+          "quote": "Notion responds to the request with an access_token , refresh_token , and additional information.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.notion.com/guides/authorization/overview",
+          "quote": "Refreshing an access token will generate a new access token and a new refresh token.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.notion.com/guides/authorization/credential-security",
+          "quote": "Store tokens in environment variables or an encrypted secret manager.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Tokens and refresh"
+    },
+    {
+      "text": "Register controlled production callback URLs in the Developer Portal. Send the same redirect_uri during authorization and token exchange. Exact matching and wildcard support were not found in the sources researched.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/reference/create-a-token",
+          "quote": "The redirect_uri is a required field in the request body for this endpoint if:",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.notion.com/reference/create-a-token",
+          "quote": "In most cases, the redirect_uri field is required.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Redirect URIs"
+    },
+    {
+      "text": "Use the designated development workspace and controlled test workspaces. New connections are initially internal. A Free workspace costs $0 per member per month. A test-user cap was not found in the sources researched.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://www.notion.com/help/create-integrations-with-the-notion-api",
+          "quote": "All newly added connections are internal initially.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://www.notion.com/help/create-integrations-with-the-notion-api",
+          "quote": "Every public connection has one workspace where you build and test it. You can switch to a different one without starting over.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://www.notion.com/pricing",
+          "quote": "Free\n $0 per member / month",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Test users and dev limits"
+    },
+    {
+      "text": "Use 180 requests per minute on Free and Plus plans. Use 600 requests per minute on Business and Enterprise plans. Handle 429 and 529 responses with Retry-After, backoff, and jitter.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/reference/request-limits",
+          "quote": "Business and Enterprise 600 requests per minute (an average of 10 per second)",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.notion.com/reference/request-limits",
+          "quote": "All other plans 180 requests per minute (an average of 3 per second)",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.notion.com/reference/request-limits",
+          "quote": "Connections should handle HTTP 429 and 529 responses and respect the Retry-After response header.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Rate limits"
+    },
+    {
+      "text": "A Free Notion workspace costs $0 per member per month. No separate REST API price was found in the sources researched.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://www.notion.com/pricing",
+          "quote": "Free\n $0 per member / month",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Cost"
+    },
+    {
+      "text": "Use a public connection with Any workspace to let outside users authorize it. This installation scope cannot be changed later. Create a new connection if you later need a different scope.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+          "quote": "For a public integration, choose Any workspace when you create it.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+          "quote": "Installation scope is set once, at creation time, and can’t be changed afterward.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Going live"
+    },
+    {
+      "text": "Review is only needed for optional Marketplace listing. Submit from Listings → Connections. Notion estimates a response within 5–10 business days.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/marketplace-listing",
+          "quote": "The Notion team reviews every listing submission.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/marketplace-listing",
+          "quote": "After submission, expect to hear back from our team within 5-10 business days via email.",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Submitting for review"
+    },
+    {
+      "text": "Exchange authorization codes only on your server using HTTP Basic authentication. Keep tokens in encrypted storage. If using webhooks, verify the HMAC-SHA256 signature over raw request bytes.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/guides/authorization/credential-security",
+          "quote": "OAuth token endpoints under /v1/oauth/* do not send CORS headers on purpose. OAuth code exchange requires a client secret and must run on a server.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.notion.com/guides/authorization/credential-security",
+          "quote": "Store tokens in environment variables or an encrypted secret manager.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.notion.com/reference/webhooks",
+          "quote": "Pass the raw request body exactly as it arrived (re-serialized JSON produces different bytes and fails verification)",
+          "quoteVerified": true
+        }
+      ],
+      "topic": "Security checks"
+    }
+  ],
+  "requests": [
+    {
+      "text": "Send the user to this browser URL and validate the returned state value.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/guides/authorization/overview",
+          "quote": "< a href = \"https://api.notion.com/v1/oauth/authorize?owner=user&client_id=463558a3-725e-4f37-b6d3-0889894f68de&redirect_uri=https%3A%2F%2Fexample.com%2Fauth%2Fnotion%2Fcallback&response_type=code\" > Add to Notion </ a >",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.notion.com/guides/authorization/overview",
+          "quote": "state If the user was in the middle of an interaction or operation, then this parameter can be used to restore state after the user returns. It can also be used to prevent CSRF attacks.",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Send the user to sign in",
+      "method": "GET",
+      "url": "https://api.notion.com/v1/oauth/authorize?owner=user&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&state=RANDOM_STATE"
+    },
+    {
+      "text": "Exchange the temporary authorization code for an access token and refresh token.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/guides/authorization/overview",
+          "quote": "Next, send the code as part of a POST request to Notion’s token endpoint: https://api.notion.com/v1/oauth/token .",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.notion.com/guides/authorization/overview",
+          "quote": "The request is authorized using HTTP Basic Authentication. The credential is a colon-delimited combination of the connection’s CLIENT_ID and CLIENT_SECRET , like so:\nCLIENT_ID:CLIENT_SECRET",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.notion.com/reference/create-a-token",
+          "quote": "curl --request POST \\\n --url https://api.notion.com/v1/oauth/token \\\n --header 'Authorization: Basic <encoded-value>' \\\n --header 'Content-Type: application/json' \\\n --header 'Notion-Version: <notion-version>' \\\n --data '\n{\n \"grant_type\": \"authorization_code\",\n \"code\": \"<string>\",\n \"redirect_uri\": \"<string>\"\n}\n'",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Exchange the code for tokens",
+      "method": "POST",
+      "url": "https://api.notion.com/v1/oauth/token",
+      "curl": "curl --request POST \\\n  --url https://api.notion.com/v1/oauth/token \\\n  --header \"Authorization: Basic $(printf '%s' 'YOUR_CLIENT_ID:YOUR_CLIENT_SECRET' | base64)\" \\\n  --header 'Content-Type: application/json' \\\n  --header 'Notion-Version: 2026-03-11' \\\n  --data '{\n    \"grant_type\": \"authorization_code\",\n    \"code\": \"AUTH_CODE\",\n    \"redirect_uri\": \"YOUR_REDIRECT_URI\"\n  }'"
+    },
+    {
+      "text": "Retrieve the identity associated with the connected token.",
+      "evidence": "inferred",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/guides/authorization/overview",
+          "quote": "GET /v1/users/me HTTP / 1.1 \n Authorization : Bearer {PERSONAL_ACCESS_TOKEN} \n Notion-Version : 2026-03-11",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.notion.com/guides/authorization/overview",
+          "quote": "The access_token will be used to authenticate subsequent Notion REST API requests.",
+          "quoteVerified": true
+        }
+      ],
+      "label": "Check the connection",
+      "method": "GET",
+      "url": "https://api.notion.com/v1/users/me",
+      "curl": "curl --request GET \\\n  --url https://api.notion.com/v1/users/me \\\n  --header 'Authorization: Bearer ACCESS_TOKEN' \\\n  --header 'Notion-Version: 2026-03-11' \\\n  --header 'Content-Type: application/json'"
+    }
+  ],
+  "phases": [
+    {
+      "name": "Register",
+      "steps": [
+        {
+          "title": "Confirm workspace permissions",
+          "owner": "you",
+          "detail": {
+            "text": "Use a workspace where you can create a connection. On Free and Plus plans, only workspace owners can create connections. On Business and Enterprise plans, workspace owners can also allow members or groups to create them. Only full members and workspace owners can own a connection; guests and limited-access members cannot.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://www.notion.com/help/create-integrations-with-the-notion-api",
+                "quote": "On Free and Plus plans, only workspace owners can create connections.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://www.notion.com/help/create-integrations-with-the-notion-api",
+                "quote": "Only full members and workspace owners can be owners. Guests and members with limited access can't.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "5 min",
+          "link": "https://www.notion.com/help/create-integrations-with-the-notion-api"
+        },
+        {
+          "title": "Create a public connection",
+          "owner": "you",
+          "detail": {
+            "text": "Open Build → Connections and create a connection. Choose Any workspace as the installation scope. Do this carefully because the choice cannot change later.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.notion.com/guides/connections-and-tokens/oauth-integrations/overview",
+                "quote": "Go to the Developer portal. In the Build section, select Connections. This is also where you create OAuth integrations limited to selected workspaces.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+                "quote": "Installation scope is set once, at creation time, and can’t be changed afterward.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "link": "https://app.notion.com/developers/connections"
+        }
+      ]
+    },
+    {
+      "name": "Configure",
+      "steps": [
+        {
+          "title": "Set callback and capabilities",
+          "owner": "you",
+          "detail": {
+            "text": "Add your controlled callback URL and choose read content first. Add insert content or update content only for approved product actions. Users will see these capabilities during authorization.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+                "quote": "Click Create new connection and fill in the required fields, including:",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+                "quote": "Connection capabilities (read content, update content, insert content, etc.)",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+                "quote": "Notion presents a prompt describing the connection’s capabilities — what it will be able to do in the user’s workspace.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "link": "https://app.notion.com/developers/connections"
+        },
+        {
+          "title": "Draft callback safeguards",
+          "owner": "agent",
+          "detail": {
+            "text": "Use state tied to the initiating user session. Send the code to your server for exchange with client-secret Basic authentication. Encrypt the returned access and refresh tokens.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.notion.com/guides/authorization/overview",
+                "quote": "state If the user was in the middle of an interaction or operation, then this parameter can be used to restore state after the user returns.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/guides/authorization/credential-security",
+                "quote": "OAuth code exchange requires a client secret and must run on a server.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/guides/authorization/overview",
+                "quote": "Notion responds to the request with an access_token , refresh_token , and additional information.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "output": "const state = crypto.randomUUID();\nsession.set('notion_state', state);\nredirect(notionAuthorizeUrl({ client_id, redirect_uri, response_type: 'code', owner: 'user', state }));\n\nasync function callback(req) {\n  if (!req.query.code || req.query.state !== session.get('notion_state')) throw Error('Invalid OAuth state');\n  const token = await postToken({ grant_type: 'authorization_code', code: req.query.code, redirect_uri });\n  await secrets.upsert(connectionKey, encrypt(token));\n}"
+        },
+        {
+          "title": "Store separate credentials",
+          "owner": "you",
+          "detail": {
+            "text": "Store the client secret and each user's token record in encrypted server-side storage. Use separate development, staging, and production credentials. Never put the client secret in browser code.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.notion.com/guides/authorization/credential-security",
+                "quote": "Store tokens in environment variables or an encrypted secret manager.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/guides/authorization/credential-security",
+                "quote": "Use separate tokens for development, staging, and production.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min"
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "steps": [
+        {
+          "title": "Test page sharing choices",
+          "owner": "you",
+          "detail": {
+            "text": "Authorize in the development workspace. Test selected pages, denied access, parent-page sharing, and least-privilege capabilities. Confirm your agent cannot access unshared content.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.notion.com/guides/authorization/overview",
+                "quote": "A user can search for and select pages and databases to share with the connection from the page picker.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/guides/connections-and-tokens/overview",
+                "quote": "Selecting a parent page also grants access to its child pages.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/guides/connections-and-tokens/overview",
+                "quote": "Capabilities and content access work together: permission to update pages does not grant access to every page.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–2 hr"
+        },
+        {
+          "title": "Test token rotation",
+          "owner": "you",
+          "detail": {
+            "text": "Exercise refresh and authorization again. Replace both stored tokens as one database operation. Handle failed refreshes by asking the user to reconnect.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.notion.com/guides/authorization/overview",
+                "quote": "Refreshing an access token will generate a new access token and a new refresh token.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/page/changelog",
+                "quote": "New public connections now mint a fresh access_token and refresh_token for each successful OAuth authorization",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min"
+        },
+        {
+          "title": "Add rate-limit handling",
+          "owner": "you",
+          "detail": {
+            "text": "Queue requests by workspace. Honor Retry-After on 429 and 529 responses. Use backoff and jitter because other connections can consume the same workspace budget.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.notion.com/reference/request-limits",
+                "quote": "Because it’s shared, requests can be rate limited even when each individual connection is within its per-connection limit.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/reference/request-limits",
+                "quote": "Connections should handle HTTP 429 and 529 responses and respect the Retry-After response header.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min"
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "steps": [
+        {
+          "title": "Skip Marketplace review",
+          "owner": "you",
+          "detail": {
+            "text": "Skip Marketplace listing for the first release. Your public connection can still use OAuth with any workspace. No provider review is required on this path.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/marketplace-listing",
+                "quote": "Listing on the Marketplace is optional and helps your connection reach a wider audience, but your connection can be used via its OAuth flow without being listed.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "5 min",
+          "link": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/marketplace-listing"
+        },
+        {
+          "title": "Submit an optional listing",
+          "owner": "you",
+          "detail": {
+            "text": "Only when you want Marketplace discovery, create listing metadata and assets in Listings → Connections. Submit only after the public connection is complete. This path requires provider review.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/marketplace-listing",
+                "quote": "Only public connections with an installation scope of Any workspace can be listed on the Marketplace.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/marketplace-listing",
+                "quote": "Save your listing as a draft. You can return to edit it at any time before submitting.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "half day",
+          "link": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/marketplace-listing"
+        },
+        {
+          "title": "Await listing decision",
+          "owner": "provider",
+          "detail": {
+            "text": "When you submit an optional Marketplace listing, wait for Notion's email decision. Track its status in Listings → Connections.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/marketplace-listing",
+                "quote": "After submission, expect to hear back from our team within 5-10 business days via email.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/marketplace-listing",
+                "quote": "After submission, your listing moves to the Submitted section where you can track its review status.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "wait: 5–10 business days"
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "steps": [
+        {
+          "title": "Release the connect flow",
+          "owner": "you",
+          "detail": {
+            "text": "Send users to Notion's authorization endpoint with client_id, redirect_uri, response_type=code, owner=user, and state. Use the same redirect URI in the code exchange when required.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.notion.com/guides/authorization/overview",
+                "quote": "The URL begins with https://api.notion.com/v1/oauth/authorize and has the following parameters:",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/guides/authorization/overview",
+                "quote": "response_type Always use code . ✅",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/reference/create-a-token",
+                "quote": "In most cases, the redirect_uri field is required.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min"
+        },
+        {
+          "title": "Enable verified webhooks",
+          "owner": "you",
+          "detail": {
+            "text": "Only when you need event notifications, register a public HTTPS webhook endpoint. Verify X-Notion-Signature against the raw body before processing any event.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.notion.com/reference/webhooks",
+                "quote": "It must be a secure (SSL) and publicly available endpoint. Endpoints in localhost are not reachable.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/reference/webhooks",
+                "quote": "Every webhook request from Notion includes an X-Notion-Signature header",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.notion.com/reference/webhooks",
+                "quote": "Pass the raw request body exactly as it arrived (re-serialized JSON produces different bytes and fails verification)",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–2 hr"
+        }
+      ]
+    }
+  ],
+  "gotchas": [
+    {
+      "text": "Choosing Any workspace is irreversible. This applies when creating the connection. Create a new connection if you later need selected-workspace access instead.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+          "quote": "Installation scope is set once, at creation time, and can’t be changed afterward.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Capabilities do not grant all workspace content. This applies after every authorization. Users must share content in the page picker.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/guides/connections-and-tokens/overview",
+          "quote": "Capabilities and content access work together: permission to update pages does not grant access to every page.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Refresh tokens rotate. This applies whenever you refresh or reauthorize. Replace access and refresh tokens together to avoid losing the current credential.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/guides/authorization/overview",
+          "quote": "Refreshing an access token will generate a new access token and a new refresh token.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.notion.com/page/changelog",
+          "quote": "New public connections now mint a fresh access_token and refresh_token for each successful OAuth authorization",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Workspace request budgets are shared. This applies when customers have several Notion connections. Your agent can be throttled even below its own connection limit.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/reference/request-limits",
+          "quote": "Because it’s shared, requests can be rate limited even when each individual connection is within its per-connection limit.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Marketplace review is optional but required for Marketplace discovery. This applies only after you submit a listing. Public OAuth use does not need it.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+          "quote": "Public connections must undergo a Notion security review before being listed on the Marketplace . You can create and use a public connection without listing it.",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "whenBlocked": [
+    {
+      "text": "If you cannot create a connection, ask the workspace owner to create it or delegate connection creation. This applies on Free and Plus workspaces without owner access.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://www.notion.com/help/create-integrations-with-the-notion-api",
+          "quote": "On Free and Plus plans, only workspace owners can create connections.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://www.notion.com/help/create-integrations-with-the-notion-api",
+          "quote": "On Business and Enterprise plans, workspace owners can also let members, or members in certain groups, create them.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If a customer cannot install the connection, ask their workspace owner to allow it. This applies in Enterprise workspaces with restricted connections.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://www.notion.com/help/add-and-manage-connections-with-the-api",
+          "quote": "On Enterprise plans, workspace owners can restrict which connections members are allowed to install.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://www.notion.com/help/add-and-manage-connections-with-the-api",
+          "quote": "If a connection you're looking for isn't available, contact your workspace owner.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If Marketplace changes are requested, update the listing and resubmit. This applies only after an optional listing review.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/marketplace-listing",
+          "quote": "If changes are required, the Notion team sends feedback and you can resubmit after making updates.",
+          "quoteVerified": true
+        }
+      ]
+    }
+  ],
+  "probes": [
+    {
+      "name": "OIDC discovery",
+      "target": "api.notion.com",
+      "result": "no discovery document on these hosts (provider may not support OIDC)",
+      "ok": false
+    },
+    {
+      "name": "Authorize endpoint",
+      "target": "https://api.notion.com/v1/oauth/authorize",
+      "result": "HTTP 302 -> https://app.notion.com/install-integration?response_type=code&client_id=probe-not-a-real-client&redirect_uri=https%3A%2F (mentions \"client_id\")",
+      "ok": true
+    },
+    {
+      "name": "Developer console",
+      "target": "https://app.notion.com/developers/connections",
+      "result": "HTTP 200 (final: https://app.notion.com/developers/connections)",
+      "ok": true
+    }
+  ],
+  "uncertain": [
+    "Access-token and refresh-token lifetimes were not found in the sources researched.",
+    "Exact redirect URI matching and wildcard support were not found in the sources researched.",
+    "A development-mode user cap or OAuth sandbox limit was not found in the sources researched.",
+    "No separate REST API price was found in the sources researched."
+  ],
+  "research": {
+    "seconds": 182,
+    "log": [
+      {
+        "t": 0,
+        "type": "status",
+        "message": "Researching Notion"
+      },
+      {
+        "t": 23.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.notion.com OAuth authorization Notion public integration redirect URI tokens refresh",
+        "summary": "7 results",
+        "detail": [
+          "Authorization - Notion API | https://developers.notion.com/guides/authorization/overview",
+          "Create a public Notion integration | https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+          "Create a Notion OAuth integration for selected workspaces | https://developers.notion.com/guides/connections-and-tokens/oauth-integrations/overview",
+          "Refresh a token - Notion Docs | https://developers.notion.com/reference/refresh-a-token",
+          "Notion connections and personal access tokens | https://developers.notion.com/guides/connections-and-tokens/overview",
+          "Authentication - Notion Docs | https://developers.notion.com/reference/authentication",
+          "Preparing your connection for users - Notion Docs | https://developers.notion.com/guides/get-started/preparing-for-users"
+        ]
+      },
+      {
+        "t": 23.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.notion.com Notion integration public internal distribution authorization scopes capabilities OAuth",
+        "summary": "8 results",
+        "detail": [
+          "Notion connections and personal access tokens | https://developers.notion.com/guides/connections-and-tokens/overview",
+          "Create a public Notion integration | https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+          "Create a Notion OAuth integration for selected workspaces | https://developers.notion.com/guides/connections-and-tokens/oauth-integrations/overview",
+          "Authorization - Notion API | https://developers.notion.com/guides/authorization/overview",
+          "Create a token - Notion Docs | https://developers.notion.com/reference/create-a-token",
+          "Authentication - Notion Docs | https://developers.notion.com/reference/authentication",
+          "List your connection on the Notion Marketplace | https://developers.notion.com/guides/connections-and-tokens/public-integrations/marketplace-listing",
+          "Preparing your connection for users - Notion Docs | https://developers.notion.com/guides/get-started/preparing-for-users"
+        ]
+      },
+      {
+        "t": 23.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.notion.com Notion public integration review submission approval marketplace security OAuth",
+        "summary": "6 results",
+        "detail": [
+          "Create a public Notion integration | https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+          "List your connection on the Notion Marketplace | https://developers.notion.com/guides/connections-and-tokens/public-integrations/marketplace-listing",
+          "Authorization - Notion API | https://developers.notion.com/guides/authorization/overview",
+          "Notion connections and personal access tokens | https://developers.notion.com/guides/connections-and-tokens/overview",
+          "Secure your Notion API credentials | https://developers.notion.com/guides/authorization/credential-security",
+          "Create a Notion OAuth integration for selected workspaces | https://developers.notion.com/guides/connections-and-tokens/oauth-integrations/overview"
+        ]
+      },
+      {
+        "t": 23.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.notion.com Notion rate limits pricing API limits",
+        "summary": "6 results",
+        "detail": [
+          "Request limits - Notion Docs | https://developers.notion.com/reference/request-limits",
+          "Workspace block limits - Notion Docs | https://developers.notion.com/reference/workspace-block-limits",
+          "Notion MCP rate limits and retries | https://developers.notion.com/guides/mcp/rate-limits",
+          "Frequently asked questions - Notion Docs | https://developers.notion.com/page/frequently-asked-questions",
+          "Notion Pricing Plans: Free, Plus, Business, & Enterprise. | https://www.notion.com/pricing",
+          "Limits - Notion Docs | https://developers.notion.com/workers/reference/limits"
+        ]
+      },
+      {
+        "t": 23.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.notion.com Notion API AI policy terms developer changelog",
+        "summary": "8 results",
+        "detail": [
+          "Changelog - Notion Docs | https://developers.notion.com/page/changelog",
+          "Overview - Notion Docs | https://developers.notion.com/guides/notion-agent-apis/overview",
+          "Connect AI assistants to Notion with MCP | https://developers.notion.com/guides/mcp/overview",
+          "Secure AI assistant connections to Notion MCP | https://developers.notion.com/guides/mcp/mcp-security-best-practices",
+          "Agent Skills API - Notion Docs | https://developers.notion.com/guides/agent-skills/overview",
+          "Versioning - Notion Docs | https://developers.notion.com/reference/versioning",
+          "Notion connections and personal access tokens | https://developers.notion.com/guides/connections-and-tokens/overview",
+          "Secure your Notion API credentials - developers.notion.com | https://developers.notion.com/guides/authorization/credential-security"
+        ]
+      },
+      {
+        "t": 23.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.notion.com Notion OAuth PKCE state security token storage",
+        "summary": "7 results",
+        "detail": [
+          "Build an MCP client that connects to Notion | https://developers.notion.com/guides/mcp/build-mcp-client",
+          "Secure your Notion API credentials | https://developers.notion.com/guides/authorization/credential-security",
+          "OAuth - Notion Docs | https://developers.notion.com/workers/guides/oauth",
+          "Authorization - Notion API | https://developers.notion.com/guides/authorization/overview",
+          "Create a token - Notion Docs | https://developers.notion.com/reference/create-a-token",
+          "How to manage secrets - Notion Docs | https://developers.notion.com/workers/guides/secrets",
+          "Authentication - Notion Docs | https://developers.notion.com/reference/authentication"
+        ]
+      },
+      {
+        "t": 23.2,
+        "type": "tool",
+        "name": "search",
+        "target": "Notion API public integration review approval timeline community OAuth",
+        "summary": "8 results",
+        "detail": [
+          "List your connection on the Notion Marketplace | https://developers.notion.com/guides/connections-and-tokens/public-integrations/marketplace-listing",
+          "Create a public Notion integration | https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+          "Notion connections and personal access tokens | https://developers.notion.com/guides/connections-and-tokens/overview",
+          "Authorization - Notion API | https://developers.notion.com/guides/authorization/overview",
+          "Create a token - Notion Docs | https://developers.notion.com/reference/create-a-token",
+          "Authentication - Notion Docs | https://developers.notion.com/reference/authentication",
+          "How to create a public Notion integration - Indie Hackers | https://www.indiehackers.com/post/how-to-create-a-public-notion-integration-abc4c75a8c",
+          "Unable to generate Access Token for Notion API using OAuth | https://stackoverflow.com/questions/74294500/unable-to-generate-access-token-for-notion-api-using-oauth"
+        ]
+      },
+      {
+        "t": 23.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.notion.com CLI manifest create integration Notion",
+        "summary": "7 results",
+        "detail": [
+          "Notion CLI - Notion Docs | https://developers.notion.com/cli/get-started/overview",
+          "Command reference - Notion Docs | https://developers.notion.com/cli/reference/commands",
+          "Authentication - Notion Docs | https://developers.notion.com/cli/get-started/authentication",
+          "Create and manage Notion personal access tokens | https://developers.notion.com/guides/connections-and-tokens/personal-access-tokens",
+          "Notion connections and personal access tokens | https://developers.notion.com/guides/connections-and-tokens/overview",
+          "Create a Notion OAuth integration for selected workspaces | https://developers.notion.com/guides/connections-and-tokens/oauth-integrations/overview",
+          "Create a public Notion integration | https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview"
+        ]
+      },
+      {
+        "t": 23.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:notion.com developers terms API AI machine learning Notion",
+        "summary": "8 results",
+        "detail": [
+          "Overview - Notion Docs | https://developers.notion.com/guides/notion-agent-apis/overview",
+          "Quickstart - Notion API | https://developers.notion.com/guides/notion-api/quick-start",
+          "Connect AI assistants to Notion with MCP | https://developers.notion.com/guides/mcp/overview",
+          "Agent Skills API - Notion Docs | https://developers.notion.com/guides/agent-skills/overview",
+          "Create and share Notion Skills across AI assistants | https://developers.notion.com/guides/mcp/notion-skills",
+          "Notion AI security & privacy practices | https://www.notion.com/help/notion-ai-security-practices",
+          "Using Notion AI to extend your impact | https://www.notion.com/help/guides/using-notion-ai",
+          "Notion’s commitment to AI safety | Notion Help | https://www.notion.com/help/ai-safety"
+        ]
+      },
+      {
+        "t": 23.2,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.notion.com Notion API webhooks verification signature public integration",
+        "summary": "6 results",
+        "detail": [
+          "Webhooks - Notion Docs | https://developers.notion.com/reference/webhooks",
+          "Create a public Notion integration | https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+          "Notion API authorization | https://developers.notion.com/guides/authorization/overview",
+          "Notion connections and personal access tokens | https://developers.notion.com/guides/connections-and-tokens/overview",
+          "Authentication - Notion Docs | https://developers.notion.com/reference/authentication",
+          "Page created - Notion Docs | https://developers.notion.com/reference/webhooks/page-created"
+        ]
+      },
+      {
+        "t": 37.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.notion.com/guides/connections-and-tokens/overview",
+        "summary": "14 facts",
+        "detail": [
+          "Notion documents four app/automation types: personal access tokens, internal connections, OAuth integrations, and public integrations. | quote: \"Compare personal access tokens, internal connections, OAuth integrations, and public integrations for your Notion app or automation.\"",
+          "Personal access tokens are intended to automate the creator’s own work, using the creator’s Notion permissions. | quote: \"Use a personal access token for scripts, tools, and Workers that run with your Notion permissions.\"",
+          "Internal connections are intended for shared workspace tools, with access granted independently of an individual user. | quote: \"Use an internal connection for tools your team shares, with access granted to the connection independently of any one person.\"",
+          "OAuth integrations are for apps used in selected workspaces, with each user authorizing their own access. | quote: \"Use an OAuth integration for internal tools where each person authorizes their own access.\"",
+          "Public integrations are for apps that users in any workspace can authorize through OAuth, and they may be listed on the Marketplace. | quote: \"Use a public integration so users in any workspace can authorize your app through OAuth. You can also apply to list it on the Marketplace.\"",
+          "OAuth integrations and public integrations use the same OAuth authorization flow, but OAuth integrations are limited to selected workspaces while public integrations are available to any workspace. | quote: \"OAuth integrations and public integrations use the same OAuth authorization flow. Here, OAuth integrations are limited to selected workspaces, while public integrations are available to any workspace.\"",
+          "Personal access tokens and internal connections have a one-workspace scope; OAuth integrations use workspaces selected when creating the integration; public integrations support any workspace. | quote: \"Workspace scope One workspace. One workspace. Workspaces you select when creating the integration. Any workspace.\"",
+          "Personal access tokens use the creator’s access, internal connections use the connection’s own shared access, and OAuth/public integrations use each user’s separately authorized access. | quote: \"Whose access does it use? Yours. The connection’s own access, shared by the tool. Each user’s separately authorized access. Each user’s separately authorized access.\"",
+          "Capabilities determine which operations a connection or token can perform, including reading pages, updating databases, and adding comments. | quote: \"Capabilities determine which operations a connection or token can perform, such as reading pages, updating databases, or adding comments.\"",
+          "Capabilities do not by themselves provide access to every page; capabilities and content access work together. | quote: \"Capabilities and content access work together: permission to update pages does not grant access to every page.\"",
+          "Personal access tokens use existing permissions without a separate sharing step, while internal connections require content access to be granted. | quote: \"A personal access token uses your existing permissions. An internal connection needs content access granted to it.\"",
+          "For OAuth integrations and public integrations, users select pages during authorization; selecting a parent page also grants access to its child pages. | quote: \"Each user selects pages in the OAuth page picker when authorizing the app. Selecting a parent page also grants access to its child pages.\"",
+          "Personal access tokens, internal connections, and OAuth integrations are not eligible for Marketplace listing; public integration listings are optional and subject to review. | quote: \"Marketplace listing Not eligible. Not eligible. Not eligible. Optional, subject to review.\"",
+          "The page was last modified on 2026-11-11. | quote: \"2026-11-11T20:53:46.746Z\""
+        ]
+      },
+      {
+        "t": 37.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.notion.com/guides/authorization/overview",
+        "summary": "15 facts",
+        "detail": [
+          "OAuth authorization endpoint: `https://api.notion.com/v1/oauth/authorize` | quote: \"The URL begins with https://api.notion.com/v1/oauth/authorize and has the following parameters:\"",
+          "Authorization URL parameters include `client_id`, `redirect_uri`, `response_type=code`, and `owner=user`; `state` is optional. | quote: \"response_type Always use code . ✅\"",
+          "The `state` parameter can restore interaction state and help prevent CSRF attacks. | quote: \"state If the user was in the middle of an interaction or operation, then this parameter can be used to restore state after the user returns.\"",
+          "No `scope` parameter is documented in the authorization parameter list; permissions are selected through Notion’s page picker. | quote: \"A user can search for and select pages and databases to share with the connection from the page picker.\"",
+          "The configured redirect URI receives a temporary authorization code in the query string after the user grants access. | quote: \"Notion generates a temporary code and sends a request to the redirect URI with the following information in the query string:\"",
+          "The redirect query parameters are `code` and, when supplied, `state`. | quote: \"code A temporary authorization code. ✅\"",
+          "OAuth token endpoint: `POST https://api.notion.com/v1/oauth/token`; authorization-code exchange uses HTTP Basic Authentication with the client ID and secret. | quote: \"Next, send the code as part of a POST request to Notion’s token endpoint: https://api.notion.com/v1/oauth/token .\"",
+          "The authorization-code token request uses `grant_type=authorization_code`, the temporary `code`, and conditionally `redirect_uri`. | quote: `\"grant_type\" string Always use \"authorization_code\" . ✅`",
+          "If `redirect_uri` was supplied in the authorization URL, or multiple redirect URIs are configured, it is required in the token request; otherwise it is not allowed. | quote: \"If the redirect URI was supplied as a query param in the Authorization URL, this field is required.\"",
+          "The token response includes both an `access_token` and a `refresh_token`. | quote: \"Notion responds to the request with an access_token , refresh_token , and additional information.\"",
+          "The page does not specify access-token or refresh-token lifetimes. | quote: \"The access_token will be used to authenticate subsequent Notion REST API requests.\"",
+          "Refreshing uses the same token endpoint with HTTP Basic Authentication and `grant_type=refresh_token`. | quote: \"Send the refresh_token provided from Step 4 as part of a POST request to Notion’s token endpoint: https://api.notion.com/v1/oauth/token .\"",
+          "Refresh-token requests contain `grant_type=refresh_token` and the returned `refresh_token`. | quote: `\"refresh_token\" string The \"refresh_token\" returned in the Authorization step. ✅\"",
+          "Refreshing rotates both tokens: it generates a new access token and a new refresh token. | quote: \"Refreshing an access token will generate a new access token and a new refresh token.\"",
+          "PKCE is not described; the documented token exchange is authorized with client-secret-based HTTP Basic Authentication. | quote: \"The request is authorized using HTTP Basic Authentication.\""
+        ]
+      },
+      {
+        "t": 37.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+        "summary": "11 facts",
+        "detail": [
+          "Public connections are OAuth integrations installable in any Notion workspace. | quote: \"A public integration is an OAuth integration that users can install in any Notion workspace.\"",
+          "The installation scope prerequisite is **Any workspace**. | quote: \"For a public integration, choose Any workspace when you create it.\"",
+          "Installation scope is permanent after creation. | quote: \"Installation scope is set once, at creation time, and can’t be changed afterward.\"",
+          "Creating a connection requires a name and development workspace, redirect URI(s), installation scope, and capabilities. | quote: \"Click Create new connection and fill in the required fields, including:\"",
+          "The distribution capability is selected through the installation scope; **Any workspace** makes the integration eligible for Marketplace listing. | quote: \"This makes the integration eligible for Marketplace listing, subject to review. Listing is optional.\"",
+          "Connection capabilities must be specified, such as reading, updating, or inserting content. | quote: \"Connection capabilities (read content, update content, insert content, etc.)\"",
+          "Notion presents users with the connection’s capabilities during authorization. | quote: \"Notion presents a prompt describing the connection’s capabilities — what it will be able to do in the user’s workspace.\"",
+          "Public connections use an OAuth page picker for users to grant page access. | quote: \"Public connections use the OAuth page picker, where users choose which pages to grant access to during the authorization flow.\"",
+          "After creation, the OAuth client ID and client secret are required to exchange an authorization code for an access token. | quote: \"Both are required when your server exchanges the authorization code for an access token.\"",
+          "Marketplace distribution requires Notion security review, but listing is not required to create or use the connection. | quote: \"Public connections must undergo a Notion security review before being listed on the Marketplace . You can create and use a public connection without listing it.\"",
+          "Page date shown: last modified 2026-11-02. | quote: \"dateModified\\\":\\\"2026-11-02T20:52:45.061Z\""
+        ]
+      },
+      {
+        "t": 37.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.notion.com/guides/connections-and-tokens/public-integrations/marketplace-listing",
+        "summary": "16 facts",
+        "detail": [
+          "Marketplace listing is optional; public connections can still be used through OAuth without being listed. | quote: \"Listing on the Marketplace is optional and helps your connection reach a wider audience, but your connection can be used via its OAuth flow without being listed.\"",
+          "The guide assumes you already have a public connection before starting a listing. | quote: \"This guide assumes you already have a public connection.\"",
+          "Only public connections with installation scope “Any workspace” are eligible; internal connections and “Selected workspaces only” public connections are not. | quote: \"Only public connections with an installation scope of Any workspace can be listed on the Marketplace.\"",
+          "Installation scope must be selected when the connection is created and cannot be changed afterward. | quote: \"Installation scope is set when the connection is created and can’t be changed afterward\"",
+          "Start a listing from the Marketplace listing dashboard by selecting Listings > Connections, then Drafts > Start a new connection listing. | quote: \"Under Drafts, click Start a new connection listing.\"",
+          "Required listing details include the name and description, category and tags, images and logo, and the associated public connection. | quote: \"Fill in the listing details, including:\"",
+          "A listing can be saved as a draft and edited any time before submission. | quote: \"Save your listing as a draft. You can return to edit it at any time before submitting.\"",
+          "Submit from the Listings > Connections page after reviewing that all listing details are complete and accurate. | quote: \"Review all listing details to ensure they are complete and accurate.\"",
+          "After submission, the listing moves to Submitted, where its review status can be tracked. | quote: \"After submission, your listing moves to the Submitted section where you can track its review status.\"",
+          "The Notion team reviews every listing submission, and status is tracked from Listings > Connections in the Marketplace listing dashboard. | quote: \"The Notion team reviews every listing submission.\"",
+          "Approved listings appear in the Notion Marketplace; listings requiring changes receive feedback and can be resubmitted. | quote: \"If changes are required, the Notion team sends feedback and you can resubmit after making updates.\"",
+          "Notion says to expect an email response within 5–10 business days after submission. | quote: \"After submission, expect to hear back from our team within 5-10 business days via email.\"",
+          "If requirements are not met, Notion emails an explanation and the submission status remains available in Listings > Connections. | quote: \"The Notion team sends an email explaining why your listing was not approved.\"",
+          "Rejection reasons may include brand or trademark issues, quality concerns, or failure to meet baseline connection criteria; developers may make changes and resubmit. | quote: \"Connections are rejected for various reasons, from brand/trademark issues to quality concerns to situations where the baseline connection criteria isn’t met.\"",
+          "The page recommends the Notion Connection Gallery Best Practices guide for review guidance and approval best practices. | quote: \"For guidance on the review process and best practices to get your connection approved, check out the Notion Connection Gallery Best Practices guide.\"",
+          "Page date: last modified November 2, 2026. | quote: \"2026-11-02T20:52:45.059Z\""
+        ]
+      },
+      {
+        "t": 37.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.notion.com/reference/request-limits",
+        "summary": "22 facts",
+        "detail": [
+          "The Notion API enforces both per-connection and per-workspace rate limits. | quote: \"The Notion API enforces two rate limits: a per-connection limit and a per-workspace limit. Some endpoints also have their own limit.\"",
+          "Each connection’s request budget is calculated over a 60-second window according to the workspace plan. | quote: \"Each connection has a fixed budget of requests per 60-second window, based on the workspace’s plan:\"",
+          "Business and Enterprise workspaces have a per-connection limit of 600 requests per minute, averaging 10 requests per second. | quote: \"Business and Enterprise 600 requests per minute (an average of 10 per second)\"",
+          "All other plans have a per-connection limit of 180 requests per minute, averaging 3 requests per second. | quote: \"All other plans 180 requests per minute (an average of 3 per second)\"",
+          "The per-connection budget may be used evenly or in a single burst within the 60-second window. | quote: \"The budget can be spent at any pace within the window — spread out evenly or in a single burst.\"",
+          "When the per-connection limit is exceeded, Retry-After indicates the time until the window resets and is at most 60 seconds. | quote: \"When a request exceeds this limit, the Retry-After value is the time until the window resets, so it is at most 60 seconds.\"",
+          "Data-source queries have a separate limit of about 3 requests per second per connection and return HTTP 429 with Retry-After when exceeded. | quote: \"Querying a data source has a separate limit of about 3 requests per second per connection. A request over this limit returns an HTTP 429 response with a Retry-After header.\"",
+          "A separate per-workspace limit is shared across all connections and can cause throttling even when each connection is within its own limit. | quote: \"Because it’s shared, requests can be rate limited even when each individual connection is within its per-connection limit.\"",
+          "Retry-After for the shared workspace limit may exceed one minute. | quote: \"Retry-After for this limit can be longer than a minute.\"",
+          "Requests exceeding a rate limit return the rate_limited error code and HTTP 429. | quote: \"Requests that exceed a limit return a \\\"rate_limited\\\" error code and an HTTP 429 response.\"",
+          "The rate_limit_reason field identifies which rate limit was exceeded. | quote: \"additional_data.rate_limit_reason says which limit was exceeded:\"",
+          "A per-connection limit violation is identified by public_api_request_rate_limit; clients should wait for Retry-After. | quote: \"public_api_request_rate_limit This connection is sending requests too fast. Wait for Retry-After .\"",
+          "A shared workspace-budget violation is identified by public_api_space_request_rate_limit; clients should wait for Retry-After. | quote: \"public_api_space_request_rate_limit The workspace’s shared budget is used up. Wait for Retry-After .\"",
+          "Endpoint-specific throttling is identified by public_api_endpoint_rate_limit; clients should wait for Retry-After. | quote: \"public_api_endpoint_rate_limit This endpoint has its own limit. Wait for Retry-After .\"",
+          "Connections should handle both HTTP 429 and 529 responses and respect the Retry-After header. | quote: \"Connections should handle HTTP 429 and 529 responses and respect the Retry-After response header.\"",
+          "Retry-After is an integer number of seconds, and clients should use its returned value rather than a fixed delay. | quote: \"The header value is an integer number of seconds. Use the returned value rather than assuming a fixed wait.\"",
+          "A 529 response means Notion is temporarily overloaded and should be retried like a 429. | quote: \"A 529 response carries the \\\"service_overload\\\" code and means Notion is temporarily overloaded; retry it the same way as a 429.\"",
+          "When Retry-After is present, the response body also provides the wait duration in additional_data.retry_after. | quote: \"the body repeats the wait as additional_data.retry_after , a string of whole seconds\"",
+          "For 429 or 529 responses, pause new requests for at least Retry-After seconds, retry the failed request, and use exponential backoff with jitter for subsequent failures. | quote: \"If another 429 or 529 arrives, increase the delay with exponential backoff and jitter.\"",
+          "A 429 with public_api_request_blocked should not be retried because the connection’s API access is restricted. | quote: \"Do not retry every error. Retry 429 and 529 responses, except a 429 with public_api_request_blocked .\""
+        ]
+      },
+      {
+        "t": 37.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.notion.com/reference/create-a-token",
+        "summary": "12 facts",
+        "detail": [
+          "The endpoint exchanges an authorization code for access and refresh tokens via `POST /v1/oauth/token`. | quote: `\"summary\":\"Exchange an authorization code for an access and refresh token\"`",
+          "Client authentication uses a required HTTP Basic Authorization header containing base64-encoded `username:password`. | quote: \"Basic authentication header of the form Basic <encoded-value> , where <encoded-value> is the base64-encoded string username:password .\"",
+          "The `Notion-Version` header is required; the latest API version shown is `2026-03-11`. | quote: \"The API version to use for this request. The latest version is 2026-03-11 .\"",
+          "For authorization-code exchange, `grant_type` and `code` are required, and `grant_type` must be `\"authorization_code\"`. | quote: `\"required\":[\"grant_type\",\"code\"],\"properties\":{\"grant_type\":{\"type\":\"string\",\"const\":\"authorization_code\"`",
+          "The authorization-code request may include `redirect_uri` and `external_account`; `external_account` requires `key` and `name`. | quote: `\"redirect_uri\":{\"type\":\"string\",\"uniqueKey\":\"oneOf.0.redirect_uri\"},\"external_account\":{\"type\":\"object\"`",
+          "For refresh, the request requires `grant_type: \"refresh_token\"` and a `refresh_token`. | quote: `\"required\":[\"grant_type\",\"refresh_token\"],\"properties\":{\"grant_type\":{\"type\":\"string\",\"const\":\"refresh_token\"}`",
+          "For public connections, `redirect_uri` is required when it was included in the authorization URL or when multiple redirect URIs are configured. | quote: \"The redirect_uri is a required field in the request body for this endpoint if:\"",
+          "In most cases, the `redirect_uri` field is required. | quote: \"In most cases, the redirect_uri field is required.\"",
+          "`redirect_uri` is disallowed when one redirect URI is configured and the authorization URL did not include the `redirect_uri` query parameter. | quote: \"This field is not allowed in the request body if:\"",
+          "A successful response requires `access_token`, bearer `token_type`, and `refresh_token` (which may be null), along with workspace and owner metadata. | quote: `\"access_token\" : \"<string>\" , \"token_type\" : \"bearer\" , \"refresh_token\" : \"<string>\" ,`",
+          "The page does not state access-token or refresh-token lifetimes, expiration durations, or refresh-token rotation behavior. | quote: \"Creates an access token that a third-party service can use to authenticate with Notion.\"",
+          "The page metadata shows a last-modified timestamp of November 2, 2026. | quote: `\"lastModified\":\"2026-11-02T20:52:42.096Z\"`"
+        ]
+      },
+      {
+        "t": 37.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.notion.com/guides/authorization/credential-security",
+        "summary": "11 facts",
+        "detail": [
+          "Notion’s credential-security guidance applies to OAuth access tokens. | quote: \"This guidance applies to internal connection API tokens, OAuth access tokens, and personal access tokens.\"",
+          "Anyone obtaining a token can use its permitted capabilities and content permissions, potentially exposing or changing workspace content. | quote: \"Anyone who obtains a token can make requests allowed by its capabilities and content permissions.\"",
+          "Tokens should be stored in environment variables or an encrypted secret manager rather than source code or configuration files. | quote: \"Store tokens in environment variables or an encrypted secret manager.\"",
+          "OAuth integrations for other users should exchange the OAuth authorization code for a token on a controlled server. | quote: \"For apps that other people use, create a public connection, which uses OAuth. Exchange the OAuth code for a token on a server you control.\"",
+          "Notion’s OAuth token endpoints intentionally omit CORS headers, and code exchange requires a client secret on a server. | quote: \"OAuth token endpoints under /v1/oauth/* do not send CORS headers on purpose. OAuth code exchange requires a client secret and must run on a server.\"",
+          "Internal connection tokens and client secrets must not be exposed in browser page source because viewers could use them to act as the connection. | quote: \"Never ship an internal connection token or a client secret in page source that strangers can load.\"",
+          "Secret scanning should block commits containing tokens and alert the token owner when a token is detected. | quote: \"Enable secret scanning in your repository and CI system. Block commits that contain tokens, and alert the token owner if a token is detected.\"",
+          "Long-lived tokens should be replaced on a schedule and when someone with access leaves the team. | quote: \"Replace long-lived tokens on a schedule and whenever someone with access to them leaves your team.\"",
+          "A potentially exposed token should be revoked or replaced immediately. | quote: \"Revoke or replace a token immediately if it may have been exposed.\"",
+          "After token replacement, every application and environment using the old token must be updated, tested, and cleaned of the old value. | quote: \"Replace the old token in every application and environment that used it. Test the new token, and remove the old value from configuration files and documentation.\"",
+          "The page was last modified on 2026-11-02. | quote: \"2026-11-02T20:52:45.740Z\""
+        ]
+      },
+      {
+        "t": 37.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.notion.com/reference/webhooks",
+        "summary": "12 facts",
+        "detail": [
+          "Webhook endpoints must be secure and publicly reachable; localhost is not supported. | quote: \"It must be a secure (SSL) and publicly available endpoint. Endpoints in localhost are not reachable.\"",
+          "Subscription verification uses a one-time POST request containing a verification token. | quote: \"When you create a subscription, Notion sends a one-time POST request to your webhook URL. The body of the request contains a verification_token\"",
+          "The verification token proves Notion can reach the endpoint. | quote: \"which proves that Notion can successfully reach your endpoint.\"",
+          "The verification token should be extracted from the incoming JSON payload and may be securely stored for later validation. | quote: \"Inspect the incoming request at your endpoint and extract the verification_token from the JSON payload.\"",
+          "Payload signature validation is recommended for production but is optional. | quote: \"While payload validation is optional, we recommend implementing it for any production environment.\"",
+          "Every webhook event includes an `X-Notion-Signature` header. | quote: \"Every webhook request from Notion includes an X-Notion-Signature header\"",
+          "The signature is an HMAC-SHA256 hash of the request body signed with the verification token. | quote: \"which contains an HMAC-SHA256 hash of the request body, signed with your verification_token .\"",
+          "The computed signature must match the received signature before trusting the payload. | quote: \"If they match, the payload is trustworthy.\"",
+          "Signature verification must use the raw request body exactly as received; re-serializing JSON causes verification to fail. | quote: \"Pass the raw request body exactly as it arrived (re-serialized JSON produces different bytes and fails verification)\"",
+          "The JavaScript/TypeScript SDK helper performs constant-time comparison. | quote: \"@notionhq/client v5.23.0 and later includes a verifyWebhookSignature() helper that performs this check for you, including the constant-time comparison.\"",
+          "Signature verification requires the raw body, signature header value, and verification token. | quote: \"Pass the raw request body exactly as it arrived, the X-Notion-Signature header value, and your verification_token\"",
+          "If a webhook subscription is rotated or recreated, the stored verification token must be updated. | quote: \"If you ever rotate or recreate your webhook subscription, be sure to update your stored verification_token .\""
+        ]
+      },
+      {
+        "t": 37.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.notion.com/page/changelog",
+        "summary": "15 facts",
+        "detail": [
+          "November 2, 2026 — Notion Agent APIs became generally available; private alpha routes are deprecated. | quote: \"The Notion Agent APIs are out of beta. If you still use the private alpha routes, they’re deprecated.\"",
+          "November 2, 2026 — Personal agents can be accessed and managed through the Agent APIs using personal access tokens. | quote: \"You can now chat with and manage the personal agent (Notion AI) through the Notion Agent APIs with a personal access token.\"",
+          "October 30, 2026 — Notion-flavored Markdown v2 will become the default on the next Notion-Version, while v1 is deprecated and planned for retirement. | quote: \"Enhanced markdown ( v1 ) is now deprecated.\"",
+          "October 30, 2026 — Agent API credit usage now reports fractional credits, requiring clients to handle decimal values. | quote: \"If your code assumes they’re integers, update it to handle decimals.\"",
+          "October 26, 2026 — Developer Portal connection health exposes recent API failures, blocked requests, client errors, and rate-limit responses. | quote: \"It shows the connection’s API requests from the last 24 hours, including how many failed and why.\"",
+          "October 26, 2026 — Connected-source fetches are restricted to data visible through the user’s own connection. | quote: \"Fetch reads the item through the user’s own connection to that source, so it returns only what that connection can see.\"",
+          "October 20, 2026 — Notion MCP separates Notion search from connected-source search across services such as Slack, Google Drive, GitHub, mail, and calendar. | quote: \"The new notion-connector-search tool searches connected sources such as Slack, Google Drive, GitHub, mail, and calendar.\"",
+          "September 30, 2026 — A new SIEM/DLP event records changes to the workspace requirement for consent before AI meeting-notes transcription. | quote: \"The SIEM and DLP event stream now sends workspace.settings.meeting_notes_consent_setting_updated\"",
+          "September 30, 2026 — The consent event records a policy change, not an individual meeting-consent instance. | quote: \"The new event records a change to the requirement, not an instance of consent.\"",
+          "September 17, 2026 — Notion MCP added a tool for checking connection-scoped access and plan restrictions before tool use. | quote: \"Notion MCP has a new notion-get-tool-access tool.\"",
+          "September 2, 2026 — Semantic search moved to a dedicated AI-search tool that can search connected workspace sources when available. | quote: \"Semantic search moved to a new notion-ai-search tool.\"",
+          "July 15, 2026 — OAuth token responses added identity fields, including user ID, workspace ID, and email domain. | quote: \"Notion MCP token responses now include top-level user_id , workspace_id , and email_domain fields\"",
+          "July 2, 2026 — Personal access tokens can be created with expirations from 7 days to 1 year; expired tokens stop authenticating. | quote: \"Expired tokens stop authenticating and return an unauthorized error\"",
+          "June 16, 2026 — The API introduced workspace-level rate limits shared across all connections. | quote: \"This limit is shared across all of a workspace’s connections and scaled to the workspace’s plan\"",
+          "June 8, 2026 — New public connections receive fresh access and refresh tokens for each successful OAuth authorization. | quote: \"New public connections now mint a fresh access_token and refresh_token for each successful OAuth authorization\""
+        ]
+      },
+      {
+        "t": 37.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.notion.com/cli/get-started/overview",
+        "summary": "6 facts",
+        "detail": [
+          "Notion CLI is documented for workspace authentication, Workers management, and API requests; no OAuth integration creation/configuration command is described. | quote: \"Use it to authenticate with Notion, deploy and manage Notion Workers, and make API requests — all from your terminal.\"",
+          "The CLI’s listed capabilities are Workers, API requests, data sources, and file uploads—not OAuth integrations. | quote: \"What you can do\"",
+          "CLI authentication is for connecting the CLI to a Notion workspace via a browser authorization flow. | quote: \"Log in to connect the CLI to your Notion workspace:\"",
+          "Workers commands create/scaffold, deploy, and list Workers. | quote: \"ntn workers new # Scaffold a project\"",
+          "API functionality is presented as making Notion API requests directly from the terminal. | quote: \"Make Notion API requests directly from the terminal.\"",
+          "The page’s displayed last-modified date is 2026-11-10. | quote: \"lastModified\\\":\\\"2026-11-10T20:02:26.647Z\""
+        ]
+      },
+      {
+        "t": 37.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://www.notion.com/pricing",
+        "summary": "14 facts",
+        "detail": [
+          "Free plan costs $0 per member/month. | quote: \"Free\\n $0 per member / month\"",
+          "Plus plan costs $10 per member/month. | quote: \"Plus\\n $10 per member / month\"",
+          "Business plan costs $20 per member/month. | quote: \"Business Recommended \\n $20 per member / month\"",
+          "Enterprise uses custom pricing. | quote: \"Enterprise\\n Custom pricing\"",
+          "Paid plans are charged per member. | quote: \"If you upgrade your workspace to one of the paid plans, you will be charged a fee per member.\"",
+          "Guests do not incur a charge. | quote: \"Guests are free of charge\"",
+          "The page lists a Public API under API automations and integrations, without stating that a paid subscription is required. | quote: \"API automations & integrations \\n Build bespoke integrations to connect your Notion workspace to internal tools and workflows.\\n\\nPublic API\"",
+          "Webhooks are listed alongside the Public API for real-time integration updates. | quote: \"Send real-time updates to your integrations when content changes in Notion.\\n\\nWebhooks\"",
+          "Workers require Notion credits, rather than being described as requiring a paid plan. | quote: \"Run custom code on Notion to extend agents, sync data, and trigger workflows. No infra required.\\n\\nWorkers Beta\\n Requires Notion credits\"",
+          "Custom Agents are free to try, then cost $10 per 1,000 monthly Notion credits. | quote: \"Free to try, then $10 per 1,000 monthly Notion credits.\"",
+          "Enterprise includes access to the Notion SCIM API for user and group provisioning. | quote: \"Access the Notion SCIM API to provision and manage users and groups.\"",
+          "Accepted payment methods are major credit and debit cards. | quote: \"We currently accept all major credit and debit card brands.\"",
+          "Subscriptions automatically renew until canceled. | quote: \"Your Notion subscription, annual or monthly, will automatically renew until you cancel it.\"",
+          "Failed payments may lead to restricted access and downgrade to Free. | quote: \"your workspace will get restricted to limited-access for a period of time before being downgraded to the Free plan.\""
+        ]
+      },
+      {
+        "t": 53.4,
+        "type": "tool",
+        "name": "search",
+        "target": "Notion Developer Terms Section 3.1 AI data use restrictions developer terms",
+        "summary": "5 results",
+        "detail": [
+          "Notion | https://www.notion.com/Developer-Terms-ba4131408d0844e08330da2cbb225c20",
+          "Notion AI security & privacy practices | https://www.notion.com/help/notion-ai-security-practices",
+          "Notion Marketplace guidelines & terms | Notion Help | https://www.notion.com/help/template-gallery-guidelines-and-terms",
+          "Notion connections and personal access tokens | https://developers.notion.com/guides/connections-and-tokens/overview",
+          "Notion AI security – Notion Help Center | https://www.notion.com/help/category/notion-ai-security"
+        ]
+      },
+      {
+        "t": 53.4,
+        "type": "tool",
+        "name": "search",
+        "target": "site:notion.com/help Notion API support contact developer support Marketplace listing",
+        "summary": "8 results",
+        "detail": [
+          "Add & manage connections in Notion | Notion Help | https://www.notion.com/help/add-and-manage-connections-with-the-api",
+          "Create integrations with the Notion API | Notion Help | https://www.notion.com/help/create-integrations-with-the-notion-api",
+          "What is the Notion Developer Platform? | Notion Help | https://www.notion.com/help/what-is-the-notion-developer-platform",
+          "Offer services on Notion Marketplace | Notion Help | https://www.notion.com/help/offering-services-on-marketplace",
+          "Find services on Notion Marketplace | Notion Help – Notion Help Center | https://www.notion.com/help/finding-services-on-marketplace",
+          "Sell templates on Notion Marketplace | Notion Help | https://www.notion.com/help/selling-on-marketplace",
+          "Marketplace guidelines & terms - Notion Help | https://www.notion.com/help/template-gallery-guidelines-and-terms",
+          "Notion basics – Notion Help Center | https://www.notion.com/help/category/new-to-notion"
+        ]
+      },
+      {
+        "t": 53.4,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.notion.com \"redirect URI\" \"exact\" OAuth",
+        "summary": "5 results",
+        "detail": [
+          "Authorization - Notion API | https://developers.notion.com/guides/authorization/overview",
+          "Create a token - Notion Docs | https://developers.notion.com/reference/create-a-token",
+          "Create a Notion OAuth integration for selected workspaces | https://developers.notion.com/guides/connections-and-tokens/oauth-integrations/overview",
+          "Build an MCP client that connects to Notion | https://developers.notion.com/guides/mcp/build-mcp-client",
+          "OAuth - Notion Docs | https://developers.notion.com/workers/guides/oauth"
+        ]
+      },
+      {
+        "t": 53.4,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.notion.com \"test\" \"public connection\" OAuth development workspace",
+        "summary": "7 results",
+        "detail": [
+          "Create a Notion OAuth integration for selected workspaces | https://developers.notion.com/guides/connections-and-tokens/oauth-integrations/overview",
+          "Create a public Notion integration | https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+          "Authorization - Notion Docs | https://developers.notion.com/guides/get-started/authorization",
+          "Authorization - Notion API | https://developers.notion.com/guides/authorization/overview",
+          "Notion connections and personal access tokens | https://developers.notion.com/guides/connections-and-tokens/overview",
+          "Create a token - Notion Docs | https://developers.notion.com/reference/create-a-token",
+          "Secure your Notion API credentials | https://developers.notion.com/guides/authorization/credential-security"
+        ]
+      },
+      {
+        "t": 53.4,
+        "type": "tool",
+        "name": "search",
+        "target": "site:notion.com/help pricing FAQ Notion API paid plan public integrations",
+        "summary": "7 results",
+        "detail": [
+          "Create integrations with the Notion API | Notion Help | https://www.notion.com/help/create-integrations-with-the-notion-api",
+          "Add & manage connections in Notion | Notion Help | https://www.notion.com/help/add-and-manage-connections-with-the-api",
+          "Connect your tools to Notion with the API | https://www.notion.com/help/guides/connect-tools-to-notion-api",
+          "Change your plan - Notion Help | https://www.notion.com/help/upgrade-or-downgrade-your-plan",
+          "Manage billing in Notion | Notion Help | https://www.notion.com/help/billing",
+          "Plans & billing – Notion Help Center | https://www.notion.com/help/category/plans-billing-and-payment",
+          "Paid plan trials - Notion Help | https://www.notion.com/help/paid-plan-trials"
+        ]
+      },
+      {
+        "t": 53.4,
+        "type": "tool",
+        "name": "search",
+        "target": "Notion API marketplace review rejection community integration vendor",
+        "summary": "7 results",
+        "detail": [
+          "List your connection on the Notion Marketplace | https://developers.notion.com/guides/connections-and-tokens/public-integrations/marketplace-listing",
+          "Create a public Notion integration | https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+          "Notion connections and personal access tokens | https://developers.notion.com/guides/connections-and-tokens/overview",
+          "Notion Connections & Integrations | https://www.notion.com/connections",
+          "Add & manage connections in Notion | Notion Help | https://www.notion.com/help/add-and-manage-connections-with-the-api",
+          "AppReviewBot - notion.com | https://www.notion.com/connections/appreviewbot",
+          "What’s your experience selling notion templates? Any tips? | https://www.redditmedia.com/r/Notion/comments/13iq9ai/whats_your_experience_selling_notion_templates/"
+        ]
+      },
+      {
+        "t": 53.4,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.notion.com \"Developer Terms\"",
+        "summary": "3 results",
+        "detail": [
+          "Notion | https://www.notion.com/Developer-Terms-ba4131408d0844e08330da2cbb225c20",
+          "Notion Marketplace guidelines & terms | Notion Help | https://www.notion.com/help/template-gallery-guidelines-and-terms",
+          "Notion connections and personal access tokens | https://developers.notion.com/guides/connections-and-tokens/overview"
+        ]
+      },
+      {
+        "t": 53.4,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developers.notion.com/guides/connections-and-tokens/oauth-integrations selected workspaces redirect URI",
+        "summary": "6 results",
+        "detail": [
+          "Create a Notion OAuth integration for selected workspaces | https://developers.notion.com/guides/connections-and-tokens/oauth-integrations/overview",
+          "Authorization - Notion Docs | https://developers.notion.com/guides/get-started/authorization",
+          "Authorization - Notion API | https://developers.notion.com/guides/authorization/overview",
+          "Notion connections and personal access tokens | https://developers.notion.com/guides/connections-and-tokens/overview",
+          "Create a public Notion integration | https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+          "Create a token - Notion Docs | https://developers.notion.com/reference/create-a-token"
+        ]
+      },
+      {
+        "t": 70.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.notion.com/guides/connections-and-tokens/oauth-integrations/overview",
+        "summary": "12 facts",
+        "detail": [
+          "OAuth is intended for internal tools where each user authorizes their own access and receives a user-tied token. | quote: \"Use an OAuth integration when your internal tool needs to act on behalf of each person who uses it. Each user authorizes the app separately and grants it access to content.\"",
+          "When creating the integration, select “Or select 1 or more workspaces” to restrict installation to selected workspaces. | quote: \"Choose Or select 1 or more workspaces when creating your integration. Only those workspaces can install it, and it cannot be listed on the Marketplace.\"",
+          "The installation scope is permanent; changing availability to any workspace requires creating a new integration. | quote: \"Installation scope cannot be changed after creation. If you later need to make the app available to any workspace, create a new integration.\"",
+          "Create selected-workspace OAuth integrations in the Developer portal under Build → Connections. | quote: \"Go to the Developer portal. In the Build section, select Connections. This is also where you create OAuth integrations limited to selected workspaces.\"",
+          "Integration setup requires a connection name, development workspace, redirect URIs, selected workspaces, and the capabilities the app needs. | quote: \"Enter the connection name, development workspace, and redirect URIs. Choose Or select 1 or more workspaces, select the workspaces, and choose the capabilities your app needs.\"",
+          "OAuth client credentials are available in the Configuration tab for implementing the authorization flow. | quote: \"Open the Configuration tab to find your OAuth client ID and OAuth client secret. Use them to implement the OAuth authorization flow.\"",
+          "Users start authorization through the connection’s authorization URL, which is found in the Configuration tab. | quote: \"The user visits the connection’s authorization URL. Find this URL in the Configuration tab of your connection in the Developer portal.\"",
+          "The authorization prompt describes the connection’s capabilities and what it can do in the user’s workspace. | quote: \"Notion presents a prompt describing the connection’s capabilities — what it will be able to do in the user’s workspace.\"",
+          "Users choose which pages to grant access to through the page picker. | quote: \"The user selects which pages to grant the connection access to using the page picker.\"",
+          "After approval, Notion redirects the user to the configured redirect URI with a temporary authorization code. | quote: \"After the user approves, Notion redirects them to your redirect URI with a temporary authorization code.\"",
+          "Each user must authorize separately; only the authorizing user can interact with the connection in that workspace. | quote: \"After a user authorizes a OAuth integration, only that user can interact with the connection in their workspace.\"",
+          "The page was last modified on 2026-11-02. | quote: \"lastModified\\\":\\\"2026-11-02T20:52:45.059Z\""
+        ]
+      },
+      {
+        "t": 70.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://www.notion.com/help/create-integrations-with-the-notion-api",
+        "summary": "13 facts",
+        "detail": [
+          "On Free and Plus plans, only workspace owners can create connections. | quote: \"On Free and Plus plans, only workspace owners can create connections.\"",
+          "On Business and Enterprise plans, workspace owners can allow members or members of certain groups to create connections. | quote: \"On Business and Enterprise plans, workspace owners can also let members, or members in certain groups, create them.\"",
+          "If a user cannot create a connection, they should ask a workspace owner. | quote: \"If you can't create a connection, ask a workspace owner.\"",
+          "Only full members and workspace owners can own connections; guests and members with limited access cannot. | quote: \"Only full members and workspace owners can be owners. Guests and members with limited access can't.\"",
+          "Who can be added as a connection owner follows the workspace setting for who can create connections. | quote: \"Who you can add as an owner also follows your workspace's setting for who can create connections.\"",
+          "Connection ownership sharing is available on Plus, Business, and Enterprise plans. | quote: \"You can share ownership on Plus, Business, and Enterprise plans, using Notion in your browser or the desktop app.\"",
+          "A connection always retains at least one owner. | quote: \"A connection always keeps at least one owner, so you can't remove the last one.\"",
+          "If the last owner leaves the workspace, the connection’s API token stops working immediately. | quote: \"If the last owner leaves the workspace, the connection's API token stops working right away.\"",
+          "Public connections are created first as internal connections, including when developing a public connection. | quote: \"All newly added connections are internal initially. If you're a developer working on a public connection, first use the above instructions to create an internal connection.\"",
+          "A public connection can be built and tested in one workspace, and that workspace can later be changed without creating a new connection. | quote: \"Every public connection has one workspace where you build and test it. You can switch to a different one without starting over.\"",
+          "Developers can choose content permissions of read-only, write-only, or insert content. | quote: \"Read content only",
+          "Developers can choose user-information permissions ranging from none to user info including email. | quote: \"No user information",
+          "The selected access level is shown when users install the connection and in the Share menu of pages connected to it. | quote: \"When users install connections, this access level will be displayed. It will also show in the Share menu\""
+        ]
+      },
+      {
+        "t": 70.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://www.notion.com/help/guides/connect-tools-to-notion-api",
+        "summary": "1 facts",
+        "detail": [
+          "Notion’s API is available to all Notion users. | quote: \"And to make the API as accessible as possible, it is available to all Notion users.\""
+        ]
+      },
+      {
+        "t": 70.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://www.notion.com/Developer-Terms-ba4131408d0844e08330da2cbb225c20",
+        "summary": "page empty or blocked (may need login or JS)"
+      },
+      {
+        "t": 70.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.notion.com/guides/mcp/build-mcp-client",
+        "summary": "21 facts",
+        "detail": [
+          "Notion MCP requires OAuth 2.0 Authorization Code flow with PKCE, Streamable HTTP, token refresh handling, and secure credential storage. | quote: \"Your client must support: OAuth 2.0 Authorization Code flow with PKCE Streamable HTTP ( /mcp ) Token refresh handling Secure credential storage\"",
+          "The documented flow applies to Notion’s hosted MCP server at `https://mcp.notion.com/mcp`, rather than establishing requirements for Notion’s standard REST API OAuth connection. | quote: \"Notion provides a hosted MCP (Model Context Protocol) server that lets MCP clients work with Notion workspaces.\"",
+          "PKCE is mandatory, and the client must verify that the authorization server advertises S256 support before authorization. | quote: \"PKCE (Proof Key for Code Exchange) is mandatory for secure OAuth flows.\"",
+          "The code verifier must remain secret until token exchange and must be stored securely. | quote: \"The codeVerifier must be kept secret and never sent to the authorization server until the token exchange step.\"",
+          "Recommended verifier storage includes encrypted session storage, a secure cookie, or short-lived in-memory storage. | quote: \"Store it securely (encrypted session, secure cookie, or in-memory with short expiry).\"",
+          "The authorization request must include the protected resource URL as `resource`, binding the access token to Notion MCP. | quote: \"Include the protected resource URL as resource in the authorization request and token exchange. This binds the access token to Notion MCP.\"",
+          "The authorization request must include `state`, `code_challenge`, and `code_challenge_method=S256`; the example also uses `redirect_uri`. | quote: \"code_challenge: codeChallenge , code_challenge_method: \\\"S256\\\" , prompt: \\\"consent\\\"\"",
+          "State must be cryptographically random and stored with the code verifier in secure session storage. | quote: \"const state = generateState() ... // Store state and codeVerifier in secure session storage\"",
+          "The example generates state using 32 random bytes encoded as hexadecimal. | quote: \"function generateState () : string { return randomBytes ( 32 ). toString ( \\\"hex\\\" ) }\"",
+          "Production redirect URIs must use HTTPS; HTTP is permitted only for localhost development. | quote: \"Always use HTTPS for redirect URIs in production\"",
+          "Stored state and verifier values should expire after 10 minutes. | quote: \"Set a short expiry (10 minutes) for stored values\"",
+          "The callback must validate the returned `state` against the stored state to prevent CSRF. | quote: \"Validate state on callback to prevent CSRF attacks\"",
+          "The callback example rejects a callback whose `iss` does not equal the Notion MCP origin. | quote: \"if ( params . iss !== mcpUrl . origin ) { throw new Error ( \\\"Unexpected authorization server\\\" ) }\"",
+          "The callback must reject a missing or mismatched state value. | quote: \"if ( params . state !== storedState ) { throw new Error ( \\\"Invalid state parameter - possible CSRF attack\\\" ) }\"",
+          "The authorization code exchange must send the exact original `code_verifier`, `redirect_uri`, client ID, and MCP resource URL. | quote: \"code_verifier: codeVerifier , })\"",
+          "Token exchange must be performed server-side for browser-based clients; the browser should only handle redirects. | quote: \"Do token exchange server-side; browser should only handle redirects\"",
+          "Tokens must be stored securely: web applications must keep them server-side and never in localStorage or cookies. | quote: \"Web applications: Store tokens server-side only, never in localStorage or cookies\"",
+          "Tokens must be encrypted at rest. | quote: \"Always encrypt tokens at rest\"",
+          "The page explicitly says an MCP access token is restricted to Notion MCP and must not be sent to the Notion REST API. | quote: \"An MCP access token works only with Notion MCP. Don’t send it to the REST API\"",
+          "Notion MCP’s OAuth flow requires discovery and validation of the resource metadata, issuer, authorization endpoint, and S256 support before redirecting. | quote: \"Discover the OAuth issuer and endpoints before redirecting the user.\""
+        ]
+      },
+      {
+        "t": 70.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.notion.com/guides/authorization/credential-security",
+        "summary": "5 facts",
+        "detail": [
+          "Use distinct credentials for each environment. | quote: \"Use separate tokens for development, staging, and production.\"",
+          "Store credentials outside source code in environment variables or an encrypted secret manager. | quote: \"Store tokens in environment variables or an encrypted secret manager.\"",
+          "Keep local development credentials out of version control. | quote: \"Use an environment variable for local development. Add .env files to .gitignore and never commit them.\"",
+          "Protect production credentials with restricted access and ownership tracking. | quote: \"Limit who can read production secrets and keep an inventory of each token’s owner and purpose.\"",
+          "Page last modified 2026-11-02. | quote: \"dateModified\\\":\\\"2026-11-02T20:52:45.740Z\""
+        ]
+      },
+      {
+        "t": 70.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developers.notion.com/cli/reference/commands",
+        "summary": "10 facts",
+        "detail": [
+          "`ntn workers create` creates a worker without deploying code and accepts `--name <name>`. | quote: \"ntn workers create Create a worker without deploying any code. Flags: --name <name> .\"",
+          "`ntn workers deploy` creates a worker when `workers.json` is missing, or updates the existing worker when it is present. | quote: \"Creates a new worker if workers.json is missing; otherwise updates the existing worker.\"",
+          "`--workers-config-file <path>` specifies a workers manifest file, and its `workspaceId` selects the workspace for authenticated commands. | quote: \"Path to a workers.json config file (overrides the default lookup in the current directory). The workspaceId field in this file selects the workspace\"",
+          "Worker IDs can be supplied with `--worker-id` or obtained from the `workerId` field in `workers.json`. | quote: \"The workerId field in workers.json in the current directory.\"",
+          "`ntn workers databases attach <database-key> <database>` binds a declared database to an existing Notion database using a database URL or data source ID. | quote: \"Bind an attached database declaration to an existing Notion database. <database> is a database link/URL or a data source ID.\"",
+          "`ntn workers databases list [worker-id]` reports databases declared in the worker manifest, including whether each is managed or attached and whether it is bound. | quote: \"List every database declared in the worker’s manifest, its lifecycle type ( managed / attached ), and whether it’s bound to a Notion database yet.\"",
+          "The CLI supports OAuth connections for capabilities that authenticate with external providers. | quote: \"Manage OAuth connections for capabilities that authenticate against external providers.\"",
+          "`ntn workers oauth start <key>` starts an OAuth flow and opens the provider authorization URL. | quote: \"ntn workers oauth start <key> Start an OAuth flow for an OAuth capability. Opens the provider’s authorization URL.\"",
+          "`ntn workers oauth show-redirect-url` prints the redirect URL to configure in the external provider or OAuth app. | quote: \"ntn workers oauth show-redirect-url Print the OAuth redirect URL to configure with your provider.\"",
+          "`ntn workers oauth token <key>` prints an OAuth access token for debugging; `--plain` outputs only the token for piping. | quote: \"Print an OAuth access token for a capability. Intended for debugging. With --plain , prints just the token for piping.\""
+        ]
+      },
+      {
+        "t": 70.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://www.notion.com/help/add-and-manage-connections-with-the-api",
+        "summary": "3 facts",
+        "detail": [
+          "On Enterprise plans, workspace owners can restrict members’ ability to install connections. | quote: \"On Enterprise plans, workspace owners can restrict which connections members are allowed to install.\"",
+          "If a connection is unavailable due to workspace restrictions, members should contact the workspace owner. | quote: \"If a connection you're looking for isn't available, contact your workspace owner.\"",
+          "Some connections are limited to specific workspaces by their developers, and installation stops if the workspace is not allowed. | quote: \"If a connection is looking for isn't available, contact your workspace owner.\""
+        ]
+      },
+      {
+        "t": 83.7,
+        "type": "tool",
+        "name": "search",
+        "target": "Notion Developer portal Build Connections URL",
+        "summary": "6 results",
+        "detail": [
+          "Notion - Log in | https://app.notion.com/developers/connections",
+          "Notion connections and personal access tokens | https://developers.notion.com/guides/connections-and-tokens/overview",
+          "Create a public Notion integration | https://developers.notion.com/guides/connections-and-tokens/public-integrations/overview",
+          "Authorization - Notion Docs | https://developers.notion.com/guides/get-started/authorization",
+          "Create and manage Notion personal access tokens | https://developers.notion.com/guides/connections-and-tokens/personal-access-tokens",
+          "Create integrations with the Notion API | Notion Help | https://www.notion.com/help/create-integrations-with-the-notion-api"
+        ]
+      },
+      {
+        "t": 114.5,
+        "type": "status",
+        "message": "Probing the provider's OAuth endpoints"
+      },
+      {
+        "t": 114.8,
+        "type": "tool",
+        "name": "probe",
+        "target": "api.notion.com",
+        "summary": "failed: no discovery document on these hosts (provider may not support OIDC)"
+      },
+      {
+        "t": 114.8,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://api.notion.com/v1/oauth/authorize",
+        "summary": "ok: HTTP 302 -> https://app.notion.com/install-integration?response_type=code&client"
+      },
+      {
+        "t": 114.8,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://app.notion.com/developers/connections",
+        "summary": "ok: HTTP 200 (final: https://app.notion.com/developers/connections)"
+      },
+      {
+        "t": 114.8,
+        "type": "status",
+        "message": "Writing guide"
+      },
+      {
+        "t": 160.9,
+        "type": "status",
+        "message": "Writing the sign-in link and curl commands"
+      },
+      {
+        "t": 173.3,
+        "type": "status",
+        "message": "Checking quotes against the pages the agent read"
+      },
+      {
+        "t": 173.5,
+        "type": "status",
+        "message": "Checking the guide for contradictions"
+      }
+    ]
+  }
+}

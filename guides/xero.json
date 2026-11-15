@@ -788,5 +788,334 @@
   "uncertain": [
     "The exact certification application path for an app that needs ten active connections but starts with five connections is not explained in the researched sources.",
     "1 claim couldn't be matched word-for-word to its cited page and is marked Unverified. Check those sources before relying on them."
-  ]
+  ],
+  "research": {
+    "seconds": 183,
+    "log": [
+      {
+        "t": 0,
+        "type": "status",
+        "message": "Researching Xero"
+      },
+      {
+        "t": 26.5,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.xero.com OAuth 2.0 app types web app custom connections scopes refresh token PKCE",
+        "summary": "8 results"
+      },
+      {
+        "t": 26.5,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.xero.com app partner certification review marketplace submit app review",
+        "summary": "6 results"
+      },
+      {
+        "t": 26.5,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.xero.com pricing FAQ OAuth app API limits development demo company",
+        "summary": "8 results"
+      },
+      {
+        "t": 26.5,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.xero.com AI policy generative AI terms Xero developer",
+        "summary": "8 results"
+      },
+      {
+        "t": 26.5,
+        "type": "tool",
+        "name": "search",
+        "target": "Xero OAuth app review approval time community integration guide",
+        "summary": "8 results"
+      },
+      {
+        "t": 26.5,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.xero.com Xero CLI app manifest webhooks security state redirect URI",
+        "summary": "8 results"
+      },
+      {
+        "t": 26.5,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.xero.com documentation OAuth2 scopes rate limits token refresh 60 days",
+        "summary": "7 results"
+      },
+      {
+        "t": 26.5,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.xero.com terms developer API security data storage",
+        "summary": "7 results"
+      },
+      {
+        "t": 26.5,
+        "type": "tool",
+        "name": "search",
+        "target": "site:central.xero.com developer partner certification marketplace app review requirements",
+        "summary": "8 results"
+      },
+      {
+        "t": 26.5,
+        "type": "tool",
+        "name": "search",
+        "target": "Xero developer blog changelog AI OAuth 2025 2026",
+        "summary": "8 results"
+      },
+      {
+        "t": 40.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/documentation/guides/oauth2/overview/",
+        "summary": "10 facts"
+      },
+      {
+        "t": 40.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/documentation/guides/oauth2/auth-flow/",
+        "summary": "25 facts"
+      },
+      {
+        "t": 40.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/documentation/guides/oauth2/scopes/",
+        "summary": "20 facts"
+      },
+      {
+        "t": 40.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/documentation/guides/oauth2/token-types/",
+        "summary": "8 facts"
+      },
+      {
+        "t": 40.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/pricing",
+        "summary": "23 facts"
+      },
+      {
+        "t": 40.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/faq/pricing-and-policy-updates",
+        "summary": "20 facts"
+      },
+      {
+        "t": 40.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/building-and-growing-your-app/",
+        "summary": "18 facts"
+      },
+      {
+        "t": 40.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/certification-checkpoints/",
+        "summary": "23 facts"
+      },
+      {
+        "t": 40.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/documentation/guides/oauth2/limits/",
+        "summary": "15 facts"
+      },
+      {
+        "t": 40.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/xero-developer-platform-terms-conditions",
+        "summary": "16 facts"
+      },
+      {
+        "t": 40.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/documentation/guides/webhooks/overview/",
+        "summary": "17 facts"
+      },
+      {
+        "t": 40.6,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/documentation/development-accounts/",
+        "summary": "13 facts"
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/faq/oauth2",
+        "summary": "4 facts"
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/faqs/",
+        "summary": "page empty or blocked (may need login or JS)"
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/documentation/xero-app-store/app-partner-guides/app-listing/",
+        "summary": "21 facts"
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/partner/security-standard-for-xero-api-consumers",
+        "summary": "19 facts"
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/documentation/guides/remote-mcp/overview/",
+        "summary": "18 facts"
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/ai",
+        "summary": "10 facts"
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/documentation/getting-started-guide/",
+        "summary": "4 facts"
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "search",
+        "target": "Xero app certification \"weeks\" review community",
+        "summary": "8 results"
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "search",
+        "target": "Xero app marketplace certification review rejection experience community",
+        "summary": "8 results"
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.xero.com \"Xero CLI\" create app configuration",
+        "summary": "6 results"
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "search",
+        "target": "site:developer.xero.com api support contact Developer Centre",
+        "summary": "7 results"
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/changelog",
+        "summary": "20 facts"
+      },
+      {
+        "t": 71.8,
+        "type": "tool",
+        "name": "search",
+        "target": "Xero Developer Centre create app URL \"developer.xero.com/app\"",
+        "summary": "6 results"
+      },
+      {
+        "t": 71.8,
+        "type": "tool",
+        "name": "read",
+        "target": "https://stackoverflow.com/questions/75762305/xero-api-error-uncertified-app-connection-limit-reached",
+        "summary": "nothing relevant"
+      },
+      {
+        "t": 71.8,
+        "type": "tool",
+        "name": "read",
+        "target": "https://docs.codat.io/integrations/accounting/xero/partner-certification/checkpoints-app-store/",
+        "summary": "17 facts"
+      },
+      {
+        "t": 71.8,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/contact-xero-developer-platform-support",
+        "summary": "8 facts"
+      },
+      {
+        "t": 71.8,
+        "type": "tool",
+        "name": "read",
+        "target": "https://developer.xero.com/documentation/guides/oauth2/pkce-flow/",
+        "summary": "14 facts"
+      },
+      {
+        "t": 112.3,
+        "type": "status",
+        "message": "Probing the provider's OAuth endpoints"
+      },
+      {
+        "t": 113.2,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://identity.xero.com/.well-known/openid-configuration",
+        "summary": "ok: authorize=https://login.xero.com/identity/connect/authorize; scopes="
+      },
+      {
+        "t": 113.2,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://login.xero.com/identity/connect/authorize",
+        "summary": "ok: HTTP 302 -> https://login.xero.com/identity/error?errorId=CfDJ8MOMn5AHNxVIkNNdLD"
+      },
+      {
+        "t": 113.2,
+        "type": "tool",
+        "name": "probe",
+        "target": "https://developer.xero.com/app/manage",
+        "summary": "ok: HTTP 200 (final: https://developer.xero.com/app/manage)"
+      },
+      {
+        "t": 113.2,
+        "type": "status",
+        "message": "Writing guide"
+      },
+      {
+        "t": 152.3,
+        "type": "status",
+        "message": "Writing the sign-in link and curl commands"
+      },
+      {
+        "t": 166.4,
+        "type": "status",
+        "message": "Checking quotes against the pages the agent read"
+      },
+      {
+        "t": 166.4,
+        "type": "status",
+        "message": "Checking the guide for contradictions"
+      }
+    ]
+  }
 }
