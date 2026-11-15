@@ -3,26 +3,21 @@
   "slug": "linear",
   "website": "https://linear.app",
   "developerConsole": "https://linear.app/settings/api/applications/new",
-  "generatedAt": "2026-11-15T07:38:19.805Z",
+  "generatedAt": "2026-11-15T07:39:55.286Z",
   "origin": "live",
   "verdict": {
-    "difficulty": 2,
-    "access": "open",
-    "summary": "You can create a public OAuth app for customer workspaces. Linear does not document a provider review for normal OAuth use. Each workspace needs an admin to install an app-actor integration.",
-    "activeEffort": "3–6 hours, mostly building OAuth token storage and webhook verification",
-    "waitTime": "No documented Linear provider review. A customer workspace approval process can add wait time.",
-    "mainGate": "A workspace admin must complete app-actor installation. In a paid workspace that requires third-party app approval, the app must also be approved."
+    "difficulty": 4,
+    "access": "gated",
+    "summary": "You can build a public OAuth app for each customer's Linear workspace. OAuth app setup is self-serve. Directory distribution needs Linear approval. Build a useful integration backed by a formal company, then submit it for directory review.",
+    "activeEffort": "1–3 days, mostly building OAuth, secure token storage, and agent event handling",
+    "waitTime": "Unknown: no official or community figure found",
+    "mainGate": "You need Linear directory review only if you want the agent listed in Linear's Integration Directory."
   },
   "agentPath": {
     "recommendation": {
-      "text": "Create a public OAuth application with actor=app. This lets each customer install the agent in their workspace. Actions then show as the app, not as the installing person.",
+      "text": "Create a public OAuth app. Add actor=app so the agent appears as its own workspace participant. Use the Integration Directory for broad agent distribution.",
       "evidence": "sourced",
       "sources": [
-        {
-          "url": "https://linear.app/developers/oauth-app-manifests",
-          "quote": "Whether the app should be available only in the current workspace or installable by other workspaces.",
-          "quoteVerified": true
-        },
         {
           "url": "https://linear.app/developers/oauth-app-manifests",
           "quote": "Allowed values: private , public",
@@ -30,14 +25,19 @@
         },
         {
           "url": "https://linear.app/developers/oauth-actor-authorization",
-          "quote": "when authenticating this way the user will instead authorize installing the app within the workspace, actions performed with the received OAuth token will come from the app itself.",
+          "quote": "To enable the actor authorization, add actor=app parameter to your OAuth authorization URL .",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://linear.app/developers/agents",
+          "quote": "To make your agent available to other workspaces, submit your agent to Linear’s integration directory.",
           "quoteVerified": true
         }
       ]
     },
     "scopeTiers": [
       {
-        "text": "Read workspace data without making changes. This is the cheapest tier.",
+        "text": "Read a user's Linear data. This is the cheapest access tier.",
         "evidence": "sourced",
         "sources": [
           {
@@ -46,52 +46,32 @@
             "quoteVerified": true
           }
         ],
-        "need": "Read issues, projects, and other workspace data.",
+        "need": "Read issues, projects, and workspace data.",
         "scopes": "read"
       },
       {
-        "text": "Post agent replies with a narrow write permission. No Linear review is documented for this scope.",
-        "evidence": "sourced",
+        "text": "Write updates as the authorized person or installed app. The workspace installer approves the requested access.",
+        "evidence": "inferred",
         "sources": [
           {
-            "url": "https://linear.app/developers/oauth-2-0-authentication",
-            "quote": "comments:create - Allows creating new issue comments",
-            "quoteVerified": true
+            "url": "https://linear.app/developers/oauth-2-0-authentication"
           },
           {
-            "url": "https://linear.app/developers/oauth-2-0-authentication",
-            "quote": "Once the user approves your application they will be redirected back to your application, with the OAuth authorization code in the URL params.",
+            "url": "https://linear.app/developers/oauth-actor-authorization",
+            "quote": "actions performed with the received OAuth token will come from the app itself.",
             "quoteVerified": true
           }
         ],
-        "need": "Add comments to existing issues.",
-        "scopes": "read; comments:create"
+        "need": "Update existing Linear records.",
+        "scopes": "read; write"
       },
       {
-        "text": "Create and update issues with a focused permission. Do not request broad write unless targeted scopes cannot work.",
-        "evidence": "sourced",
-        "sources": [
-          {
-            "url": "https://linear.app/developers/oauth-2-0-authentication",
-            "quote": "issues:create - Allows creating and updating issues, and creating their attachments",
-            "quoteVerified": true
-          },
-          {
-            "url": "https://linear.app/developers/oauth-2-0-authentication",
-            "quote": "write - Write access for the user’s account. If your application only needs to create comments, use a more targeted scope",
-            "quoteVerified": true
-          }
-        ],
-        "need": "Create issues, update issues, and add issue attachments.",
-        "scopes": "read; issues:create"
-      },
-      {
-        "text": "Add special agent capabilities only when the product needs them. App actors cannot request admin.",
+        "text": "Create issues and comments, and receive direct work. A workspace admin must install actor=app mode.",
         "evidence": "sourced",
         "sources": [
           {
             "url": "https://linear.app/developers/agents",
-            "quote": "app:assignable Allow the app to be assigned as a delegate on issues",
+            "quote": "Because this will be installed with a workspace scope admin permissions are required to complete the installation.",
             "quoteVerified": true
           },
           {
@@ -101,23 +81,41 @@
           },
           {
             "url": "https://linear.app/developers/agents",
-            "quote": "Note that integrations using the actor=app mode are not able to also request admin scope.",
+            "quote": "app:assignable Allow the app to be assigned as a delegate on issues",
             "quoteVerified": true
           }
         ],
-        "need": "Let users assign or mention the agent.",
-        "scopes": "read; app:assignable; app:mentionable"
+        "need": "Create issues, post comments, receive mentions, or accept delegated issues.",
+        "scopes": "read; issues:create; comments:create; app:mentionable; app:assignable"
+      },
+      {
+        "text": "Manage customer or initiative records. Ask only when this data is essential.",
+        "evidence": "sourced",
+        "sources": [
+          {
+            "url": "https://linear.app/developers/agents",
+            "quote": "customer:write Allow the app to read and write customer data in the workspace",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://linear.app/developers/agents",
+            "quote": "initiative:write Allow the app to read and write initiative data in the workspace",
+            "quoteVerified": true
+          }
+        ],
+        "need": "Read or change customer and initiative data.",
+        "scopes": "read; customer:read; customer:write; initiative:read; initiative:write"
       }
     ]
   },
   "essentials": [
     {
-      "text": "Access tokens last 24 hours by default. Refresh tokens last 30 days and rotate after use. Save each returned token pair together. Serialize refreshes for each workspace installation.",
+      "text": "Access tokens last 24 hours by default. Refresh tokens last 30 days and rotate after every refresh. Encrypt and replace both tokens together for each installed workspace.",
       "evidence": "sourced",
       "sources": [
         {
           "url": "https://linear.app/developers/oauth-2-0-authentication",
-          "quote": "Authorization code\n user or app \n 24 hours by default\n Exchange the refresh token for a new token pair.",
+          "quote": "Authorization code user or app 24 hours by default Exchange the refresh token for a new token pair.",
           "quoteVerified": true
         },
         {
@@ -134,36 +132,36 @@
       "topic": "Tokens and refresh"
     },
     {
-      "text": "Add one to 32 absolute HTTP or HTTPS callback URLs. Use the same redirect URI during code exchange. Send and validate state on every authorization.",
-      "evidence": "sourced",
+      "text": "Register one to 32 absolute HTTP or HTTPS callback URLs. Use one server-controlled callback and validate a stored state value.",
+      "evidence": "unverified",
       "sources": [
         {
           "url": "https://linear.app/developers/oauth-app-manifests",
-          "quote": "Format: absolute HTTP or HTTPS URL",
-          "quoteVerified": true
+          "quote": "OAuth redirect URIs must be absolute HTTP or HTTPS URLs; one to 32 unique values are supported.",
+          "quoteVerified": false
         },
         {
-          "url": "https://linear.app/developers/oauth-app-manifests",
-          "quote": "Maximum items: 32",
+          "url": "https://linear.app/developers/oauth-2-0-authentication",
+          "quote": "state (optional, recommended ) Prevents CSRF attacks and should always be supplied.",
           "quoteVerified": true
         },
         {
           "url": "https://linear.app/developers/oauth-2-0-authentication",
-          "quote": "redirect_uri \n (required) Same redirect URI which you used in the previous step",
-          "quoteVerified": true
-        },
-        {
-          "url": "https://linear.app/developers/oauth-2-0-authentication",
-          "quote": "state \n (optional, recommended ) Prevents CSRF attacks and should always be supplied.",
+          "quote": "If the values do not match, the request should not be trusted.",
           "quoteVerified": true
         }
       ],
       "topic": "Redirect URIs"
     },
     {
-      "text": "No documented OAuth test-user allowlist, development user cap, or production approval exists. Test with a free workspace and ordinary OAuth installation.",
-      "evidence": "sourced",
+      "text": "No OAuth test-user cap or development approval gate was found. Test with a free workspace and a private app before making it public.",
+      "evidence": "inferred",
       "sources": [
+        {
+          "url": "https://linear.app/developers/oauth-app-manifests",
+          "quote": "Allowed values: private , public",
+          "quoteVerified": true
+        },
         {
           "url": "https://linear.app/pricing",
           "quote": "API and webhook access Included Included Included Included",
@@ -173,7 +171,7 @@
       "topic": "Test users and dev limits"
     },
     {
-      "text": "Each OAuth user or app user gets 5,000 requests per hour. Each gets 2,000,000 complexity points per hour. Actor-authorized workspace apps may receive higher limits based on paid users.",
+      "text": "An OAuth app gets 5,000 requests and 2,000,000 GraphQL complexity points per user or app user each hour. On HTTP 429, wait for Retry-After.",
       "evidence": "sourced",
       "sources": [
         {
@@ -188,14 +186,14 @@
         },
         {
           "url": "https://linear.app/developers/rate-limiting",
-          "quote": "we dynamically increase rate limits further for workspace level OAuth apps using Actor Authorization based on number of paid users in that workspace.",
+          "quote": "The Retry-After header gives the number of seconds to wait before retrying.",
           "quoteVerified": true
         }
       ],
       "topic": "Rate limits"
     },
     {
-      "text": "Agent development costs nothing according to Linear. API and webhook access are included on the Free plan. Installed agents do not count as billable users.",
+      "text": "Developing agents is free. Installed agents are not billable users. Linear's Free plan is $0.",
       "evidence": "sourced",
       "sources": [
         {
@@ -204,59 +202,54 @@
           "quoteVerified": true
         },
         {
-          "url": "https://linear.app/pricing",
-          "quote": "API and webhook access Included Included Included Included",
+          "url": "https://linear.app/developers/agents",
+          "quote": "agents installed in your workspace do not count as billable users.",
           "quoteVerified": true
         },
         {
-          "url": "https://linear.app/developers/agents",
-          "quote": "Additionally, agents installed in your workspace do not count as billable users.",
+          "url": "https://linear.app/pricing",
+          "quote": "Free $0 Free for everyone",
           "quoteVerified": true
         }
       ],
       "topic": "Cost"
     },
     {
-      "text": "Make the OAuth app public for other workspaces. A workspace admin must install an app actor. A paid customer workspace can require separate app approval.",
+      "text": "Change the app from private to public for installs outside your own workspace. Add actor=app when the agent needs its own identity. An admin must complete that installation.",
       "evidence": "sourced",
       "sources": [
         {
+          "url": "https://linear.app/developers/oauth-app-manifests",
+          "quote": "Allowed values: private , public",
+          "quoteVerified": true
+        },
+        {
           "url": "https://linear.app/developers/agents",
           "quote": "Because this will be installed with a workspace scope admin permissions are required to complete the installation.",
-          "quoteVerified": true
-        },
-        {
-          "url": "https://linear.app/docs/third-party-application-approvals",
-          "quote": "Third-party application approvals are available on any paid plan.",
-          "quoteVerified": true
-        },
-        {
-          "url": "https://linear.app/docs/third-party-application-approvals",
-          "quote": "When a workspace member tries to install a third-party app, Linear will display a screen which allows the member to request approval",
           "quoteVerified": true
         }
       ],
       "topic": "Going live"
     },
     {
-      "text": "OAuth production use has no documented Linear review. Directory listing is optional and has a separate marketing review. Submit only if you want discovery through Linear's directory.",
+      "text": "Directory review applies after you build the integration. Linear accepts useful integrations from formal companies and generally rejects hobbyist or low-effort apps.",
       "evidence": "sourced",
       "sources": [
         {
           "url": "https://linear.app/developers/integration-directory",
-          "quote": "Fill out this form .",
+          "quote": "We’ll accept integrations that we think are useful to the community and are built by formal companies.",
           "quoteVerified": true
         },
         {
           "url": "https://linear.app/developers/integration-directory",
-          "quote": "We’ll accept integrations that we think are useful to the community and are built by formal companies.",
+          "quote": "We generally do not accept scripts, low-effort/vibe coded or apps built by hobbyists",
           "quoteVerified": true
         }
       ],
       "topic": "Submitting for review"
     },
     {
-      "text": "Use state and PKCE for OAuth callbacks. Verify webhooks from their raw body using Linear-Signature. Reject webhook events older than about one minute.",
+      "text": "Use PKCE with S256 and validate state. Verify webhook HMAC signatures against the raw body. Reject webhook events older than one minute.",
       "evidence": "sourced",
       "sources": [
         {
@@ -280,7 +273,7 @@
   ],
   "requests": [
     {
-      "text": "Open this browser URL and verify that the returned state matches RANDOM_STATE.",
+      "text": "Send the user here and verify the returned state matches RANDOM_STATE.",
       "evidence": "sourced",
       "sources": [
         {
@@ -290,61 +283,86 @@
         },
         {
           "url": "https://linear.app/developers/oauth-2-0-authentication",
-          "quote": "code_challenge\n(required) Code challenge you generated\ncode_challenge_method\n(required) Either plain or S256 , depending on whether the challenge is the plain verifier string or the SHA256 hash of the string",
+          "quote": "scope \n (required) Comma separated list of scopes:",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://linear.app/developers/oauth-2-0-authentication",
+          "quote": "state \n (optional, recommended ) Prevents CSRF attacks and should always be supplied.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://linear.app/developers/oauth-2-0-authentication",
+          "quote": "code_challenge \n (required) Code challenge you generated\n code_challenge_method \n (required) Either plain or S256",
           "quoteVerified": true
         }
       ],
       "label": "Send the user to sign in",
       "method": "GET",
-      "url": "https://linear.app/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=read,comments:create,issues:create,app:assignable,app:mentionable&state=RANDOM_STATE&code_challenge=CODE_CHALLENGE&code_challenge_method=S256"
+      "url": "https://linear.app/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=read%2Cwrite%2Cissues%3Acreate%2Ccomments%3Acreate%2Capp%3Amentionable%2Capp%3Aassignable%2Ccustomer%3Aread%2Ccustomer%3Awrite%2Cinitiative%3Aread%2Cinitiative%3Awrite&state=RANDOM_STATE&code_challenge=CODE_CHALLENGE&code_challenge_method=S256"
     },
     {
-      "text": "Exchange the callback code for an access token and refresh token.",
+      "text": "Exchange the authorization code using the verifier generated for the PKCE challenge.",
       "evidence": "sourced",
       "sources": [
         {
           "url": "https://linear.app/developers/oauth-2-0-authentication",
-          "quote": "POST https://api.linear.app/oauth/token HTTP/1.1 Pass parameters in body as URL-encoded form submission , where the Content-Type header must be application/x-www-form-urlencoded .",
+          "quote": "POST https://api.linear.app/oauth/token HTTP/1.1",
           "quoteVerified": true
         },
         {
           "url": "https://linear.app/developers/oauth-2-0-authentication",
-          "quote": "code_verifier\n(required) The code verifier for the PKCE request that you originally generated before the authorization request\ngrant_type=authorization_code\n(required)",
+          "quote": "Pass parameters in body as URL-encoded form submission , where the Content-Type header must be application/x-www-form-urlencoded .",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://linear.app/developers/oauth-2-0-authentication",
+          "quote": "code_verifier \n (required) The code verifier for the PKCE request that you originally generated before the authorization request\n grant_type=authorization_code \n (required)",
           "quoteVerified": true
         }
       ],
       "label": "Exchange the code for tokens",
       "method": "POST",
       "url": "https://api.linear.app/oauth/token",
-      "curl": "curl https://api.linear.app/oauth/token \\\n  -X POST \\\n  -H \"Content-Type: application/x-www-form-urlencoded\" \\\n  --data-urlencode \"code=AUTH_CODE\" \\\n  --data-urlencode \"redirect_uri=YOUR_REDIRECT_URI\" \\\n  --data-urlencode \"client_id=YOUR_CLIENT_ID\" \\\n  --data-urlencode \"client_secret=YOUR_CLIENT_SECRET\" \\\n  --data-urlencode \"code_verifier=CODE_VERIFIER\" \\\n  --data-urlencode \"grant_type=authorization_code\""
+      "curl": "curl https://api.linear.app/oauth/token \\\n  -X POST \\\n  -H \"Content-Type: application/x-www-form-urlencoded\" \\\n  --data-urlencode \"code=AUTH_CODE\" \\\n  --data-urlencode \"redirect_uri=YOUR_REDIRECT_URI\" \\\n  --data-urlencode \"client_id=YOUR_CLIENT_ID\" \\\n  --data-urlencode \"code_verifier=CODE_VERIFIER\" \\\n  --data-urlencode \"grant_type=authorization_code\""
     },
     {
-      "text": "Save both newly returned tokens because refresh tokens rotate and expire after 30 days.",
+      "text": "Save both replacement tokens returned by every successful refresh.",
       "evidence": "sourced",
       "sources": [
         {
           "url": "https://linear.app/developers/oauth-2-0-authentication",
-          "quote": "POST https://api.linear.app/oauth/token HTTP/1.1 Pass parameters in body as URL-encoded form submission , where the Content-Type header must be application/x-www-form-urlencoded .",
+          "quote": "POST https://api.linear.app/oauth/token HTTP/1.1",
           "quoteVerified": true
         },
         {
           "url": "https://linear.app/developers/oauth-2-0-authentication",
-          "quote": "refresh_token\n(required) Refresh token from the previous step\ngrant_type=refresh_token\n(required)",
+          "quote": "Pass parameters in body as URL-encoded form submission , where the Content-Type header must be application/x-www-form-urlencoded .",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://linear.app/developers/oauth-2-0-authentication",
+          "quote": "refresh_token \n (required) Refresh token from the previous step\n grant_type=refresh_token \n (required)",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://linear.app/developers/oauth-2-0-authentication",
+          "quote": "If your access token was generated using PKCE, you can simply pass client_id as a parameter.",
           "quoteVerified": true
         }
       ],
       "label": "Refresh the access token",
       "method": "POST",
       "url": "https://api.linear.app/oauth/token",
-      "curl": "curl https://api.linear.app/oauth/token \\\n  -X POST \\\n  -H \"Content-Type: application/x-www-form-urlencoded\" \\\n  --data-urlencode \"refresh_token=REFRESH_TOKEN\" \\\n  --data-urlencode \"grant_type=refresh_token\" \\\n  --data-urlencode \"client_id=YOUR_CLIENT_ID\" \\\n  --data-urlencode \"client_secret=YOUR_CLIENT_SECRET\""
+      "curl": "curl https://api.linear.app/oauth/token \\\n  -X POST \\\n  -H \"Content-Type: application/x-www-form-urlencoded\" \\\n  --data-urlencode \"refresh_token=REFRESH_TOKEN\" \\\n  --data-urlencode \"grant_type=refresh_token\" \\\n  --data-urlencode \"client_id=YOUR_CLIENT_ID\""
     },
     {
-      "text": "Fetch the authenticated Linear viewer to confirm the connection.",
+      "text": "Fetch the authenticated Linear viewer.",
       "evidence": "sourced",
       "sources": [
         {
           "url": "https://linear.app/developers/oauth-2-0-authentication",
-          "quote": "curl https://api.linear.app/graphql \\\n-X POST \\\n-H \"Content-Type: application/json\" \\\n-H 'Authorization: Bearer <ACCESS_TOKEN>' \\\n--data '{ \"query\": \"{ viewer { id name } }\" }' \\",
+          "quote": "curl https://api.linear.app/graphql \\\n -X POST \\\n -H \"Content-Type: application/json\" \\\n -H 'Authorization: Bearer <ACCESS_TOKEN>' \\\n --data '{ \"query\": \"{ viewer { id name } }\" }' \\",
           "quoteVerified": true
         }
       ],
@@ -354,7 +372,7 @@
       "curl": "curl https://api.linear.app/graphql \\\n  -X POST \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Authorization: Bearer ACCESS_TOKEN\" \\\n  --data '{ \"query\": \"{ viewer { id name } }\" }'"
     },
     {
-      "text": "Revoke the current access token using the token form field.",
+      "text": "Revoke the supplied access token using the documented token form field.",
       "evidence": "sourced",
       "sources": [
         {
@@ -364,14 +382,19 @@
         },
         {
           "url": "https://linear.app/developers/oauth-2-0-authentication",
-          "quote": "To revoke a user’s access, call the revocation endpoint and include the token to be revoked in the token form field of the request body.\nIf available, include token_type_hint ( access_token or refresh_token ) to help the server identify the token.",
+          "quote": "To revoke a user’s access, call the revocation endpoint and include the token to be revoked in the token form field of the request body.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://linear.app/developers/oauth-2-0-authentication",
+          "quote": "If available, include token_type_hint ( access_token or refresh_token ) to help the server identify the token.",
           "quoteVerified": true
         }
       ],
       "label": "Revoke access",
       "method": "POST",
       "url": "https://api.linear.app/oauth/revoke",
-      "curl": "curl https://api.linear.app/oauth/revoke \\\n  -X POST \\\n  --data-urlencode \"token=ACCESS_TOKEN\" \\\n  --data-urlencode \"token_type_hint=access_token\""
+      "curl": "curl https://api.linear.app/oauth/revoke \\\n  -X POST \\\n  -H \"Content-Type: application/x-www-form-urlencoded\" \\\n  --data-urlencode \"token=ACCESS_TOKEN\" \\\n  --data-urlencode \"token_type_hint=access_token\""
     }
   ],
   "phases": [
@@ -379,37 +402,20 @@
       "name": "Register",
       "steps": [
         {
-          "title": "Draft the app manifest",
-          "owner": "agent",
-          "detail": {
-            "text": "Prepare a versioned app manifest for source control. Replace the app name and callback URL before using it.",
-            "evidence": "sourced",
-            "sources": [
-              {
-                "url": "https://linear.app/developers/oauth-app-manifests",
-                "quote": "The JSON manifest format is the canonical, versioned representation of the same OAuth app configuration.",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://linear.app/developers/oauth-app-manifests",
-                "quote": "https://linear.app/.well-known/oauth-app-manifest.schema.json",
-                "quoteVerified": true
-              }
-            ]
-          },
-          "effort": "5 min",
-          "output": "{\"$schema\":\"https://linear.app/.well-known/oauth-app-manifest.schema.json\",\"name\":\"Your Agent\",\"distribution\":\"public\",\"redirectUris\":[\"https://app.example.com/oauth/linear/callback\"]}"
-        },
-        {
           "title": "Create a dedicated workspace",
           "owner": "you",
           "detail": {
-            "text": "Create a dedicated Linear workspace for the OAuth app. Limit workspace administrators because every administrator can access the app.",
+            "text": "Create a workspace only for OAuth app management. Then open the OAuth application page. This limits access to app settings.",
             "evidence": "sourced",
             "sources": [
               {
                 "url": "https://linear.app/developers/oauth-2-0-authentication",
                 "quote": "It is highly recommended you create a workspace for the purpose of managing the OAuth2 Application, as each admin user will have access.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://linear.app/developers/oauth-app-manifests",
+                "quote": "https://linear.app/settings/api/applications/new",
                 "quoteVerified": true
               }
             ]
@@ -418,17 +424,12 @@
           "link": "https://linear.app/settings/api/applications/new"
         },
         {
-          "title": "Create the OAuth app",
+          "title": "Choose the public distribution",
           "owner": "you",
           "detail": {
-            "text": "Open Settings, Administration, then API. Create an OAuth application and set distribution to public. Copy the client ID and secret into secure server-side storage.",
+            "text": "Set distribution to public in the OAuth application settings. Use private only while testing in your own workspace.",
             "evidence": "sourced",
             "sources": [
-              {
-                "url": "https://linear.app/docs/api-and-webhooks",
-                "quote": "Create and manage webhooks and OAuth applications in _Settings > Administration > API._ Admin permissions in your workspace are necessary to view this page.",
-                "quoteVerified": true
-              },
               {
                 "url": "https://linear.app/developers/oauth-app-manifests",
                 "quote": "Allowed values: private , public",
@@ -436,8 +437,7 @@
               }
             ]
           },
-          "effort": "15 min",
-          "link": "https://linear.app/settings/api/applications/new"
+          "effort": "5 min"
         }
       ]
     },
@@ -445,20 +445,42 @@
       "name": "Configure",
       "steps": [
         {
-          "title": "Add the callback URL",
-          "owner": "you",
+          "title": "Draft the OAuth callback",
+          "owner": "agent",
           "detail": {
-            "text": "Add your HTTPS OAuth callback URL in the app settings. Use that exact URL in authorization and token exchange requests.",
+            "text": "Use this authorization URL pattern. Store state server-side before redirecting. Include actor=app only when the agent needs its own Linear identity. The shown URL is for an app-actor installation; omit actor=app when actions should appear as the authenticating human.",
             "evidence": "sourced",
             "sources": [
               {
-                "url": "https://linear.app/developers/oauth-app-manifests",
-                "quote": "Format: absolute HTTP or HTTPS URL",
+                "url": "https://linear.app/developers/oauth-2-0-authentication",
+                "quote": "state (optional, recommended ) Prevents CSRF attacks and should always be supplied.",
                 "quoteVerified": true
               },
               {
+                "url": "https://linear.app/developers/oauth-actor-authorization",
+                "quote": "To enable the actor authorization, add actor=app parameter to your OAuth authorization URL .",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "output": "const state = crypto.randomUUID();\nawait saveAuthAttempt({ state, workspaceId, expiresAt });\nconst url = new URL('https://linear.app/oauth/authorize');\nurl.searchParams.set('client_id', CLIENT_ID);\nurl.searchParams.set('redirect_uri', CALLBACK_URL);\nurl.searchParams.set('response_type', 'code');\nurl.searchParams.set('scope', 'read issues:create comments:create');\nurl.searchParams.set('state', state);\nurl.searchParams.set('actor', 'app');\nurl.searchParams.set('code_challenge', challenge);\nurl.searchParams.set('code_challenge_method', 'S256');"
+        },
+        {
+          "title": "Register the callback URL",
+          "owner": "you",
+          "detail": {
+            "text": "Add an absolute HTTP or HTTPS callback URL in the OAuth application settings. Use the same URL during token exchange. Do not accept a caller-provided return URL.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://linear.app/developers/oauth-app-manifests",
+                "quote": "OAuth redirect URIs must be absolute HTTP or HTTPS URLs; one to 32 unique values are supported.",
+                "quoteVerified": false
+              },
+              {
                 "url": "https://linear.app/developers/oauth-2-0-authentication",
-                "quote": "redirect_uri \n (required) Same redirect URI which you used in the previous step",
+                "quote": "redirect_uri (required) Same redirect URI which you used in the previous step",
                 "quoteVerified": true
               }
             ]
@@ -466,74 +488,30 @@
           "effort": "5 min"
         },
         {
-          "title": "Build the authorization URL",
-          "owner": "agent",
+          "title": "Select minimal scopes",
+          "owner": "you",
           "detail": {
-            "text": "Use app actor mode for autonomous actions. Include actor=app in every authorization URL used for an agent installation. Request only the scopes the product needs. Include state and PKCE values generated for each installation attempt.",
+            "text": "Start with read. Add creation, comments, mentions, or delegation only for shipped features. Never request admin for this agent.",
             "evidence": "sourced",
             "sources": [
               {
-                "url": "https://linear.app/developers/oauth-actor-authorization",
-                "quote": "To enable the actor authorization, add actor=app parameter to your OAuth authorization URL .",
+                "url": "https://linear.app/developers/oauth-2-0-authentication",
+                "quote": "read - (Default) Read access for the user’s account. This scope will always be present.",
                 "quoteVerified": true
               },
               {
                 "url": "https://linear.app/developers/oauth-2-0-authentication",
-                "quote": "state \n (optional, recommended ) Prevents CSRF attacks and should always be supplied.",
-                "quoteVerified": true
-              }
-            ]
-          },
-          "effort": "15 min",
-          "output": "GET https://linear.app/oauth/authorize?client_id=CLIENT_ID&redirect_uri=CALLBACK_URL&response_type=code&scope=read%20issues%3Acreate&actor=app&state=RANDOM_STATE&code_challenge=CHALLENGE&code_challenge_method=S256"
-        },
-        {
-          "title": "Implement secure OAuth storage",
-          "owner": "you",
-          "detail": {
-            "text": "Exchange the authorization code at the token endpoint. Encrypt credentials at rest. Store the workspace-specific app ID beside each credential record. Refresh once per installation at a time.",
-            "evidence": "sourced",
-            "sources": [
-              {
-                "url": "https://linear.app/developers/oauth-2-0-authentication",
-                "quote": "POST https://api.linear.app/oauth/token HTTP/1.1 Pass parameters in body as URL-encoded form submission",
+                "quote": "admin - Full access to admin level endpoints. You should never ask for this permission unless it’s absolutely needed",
                 "quoteVerified": true
               },
               {
                 "url": "https://linear.app/developers/agents",
-                "quote": "Your app will have a unique ID for each workspace it is installed within",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://linear.app/developers/oauth-2-0-authentication",
-                "quote": "Save the returned credentials together and coordinate refreshes across processes sharing an authorization.",
+                "quote": "integrations using the actor=app mode are not able to also request admin scope.",
                 "quoteVerified": true
               }
             ]
           },
-          "effort": "1–2 hr"
-        },
-        {
-          "title": "Prepare webhook verification",
-          "owner": "agent",
-          "detail": {
-            "text": "Use the unmodified request body for HMAC verification. Reject events outside a one-minute receipt window.",
-            "evidence": "sourced",
-            "sources": [
-              {
-                "url": "https://linear.app/developers/webhooks",
-                "quote": "It’s strongly recommended to use raw request body rather than restringifying a parsed JSON body",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://linear.app/developers/webhooks",
-                "quote": "We recommend that you verify it’s within a minute of the time your system sees it to guard against replay attacks.",
-                "quoteVerified": true
-              }
-            ]
-          },
-          "effort": "15 min",
-          "output": "const ok = timingSafeEqual(\n  createHmac('sha256', secret).update(rawBody).digest(),\n  Buffer.from(signature, 'hex')\n);\nif (!ok) throw new Error('Bad Linear signature');\nif (Math.abs(Date.now() - new Date(event.webhookTimestamp).getTime()) > 60_000) {\n  throw new Error('Stale webhook');\n}"
+          "effort": "15 min"
         }
       ]
     },
@@ -541,119 +519,20 @@
       "name": "Test",
       "steps": [
         {
-          "title": "Install in a test workspace",
+          "title": "Test a private installation",
           "owner": "you",
           "detail": {
-            "text": "Install the public app in a test workspace as its administrator. Confirm issue changes show the app as the actor.",
-            "evidence": "sourced",
+            "text": "Keep the app private and test it in the workspace where the app is registered. A free workspace can be used as that test workspace. Test authorization, refresh, revocation, and workspace separation.",
+            "evidence": "inferred",
             "sources": [
               {
-                "url": "https://linear.app/developers/agents",
-                "quote": "Because this will be installed with a workspace scope admin permissions are required to complete the installation.",
+                "url": "https://linear.app/developers/oauth-app-manifests",
+                "quote": "Allowed values: private , public",
                 "quoteVerified": true
               },
               {
-                "url": "https://linear.app/developers/oauth-actor-authorization",
-                "quote": "In this mode, all mutations such as creating issues, comments, and status changes will be performed by the app.",
-                "quoteVerified": true
-              }
-            ]
-          },
-          "effort": "15 min"
-        },
-        {
-          "title": "Configure agent session events",
-          "owner": "you",
-          "detail": {
-            "text": "Configure a public HTTPS webhook endpoint. Enable webhooks and select Agent session events. Test with a request capture service before production.",
-            "evidence": "sourced",
-            "sources": [
-              {
-                "url": "https://linear.app/developers/agents",
-                "quote": "In the configuration, enable webhooks and make sure to select Agent session events at the bottom.",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://linear.app/developers/webhooks",
-                "quote": "It’s available in a publicly accessible HTTPS, non-localhost URL",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://linear.app/developers/webhooks",
-                "quote": "requestbin.com is a great tool for testing webhooks",
-                "quoteVerified": true
-              }
-            ]
-          },
-          "effort": "15 min"
-        },
-        {
-          "title": "Test refresh and revocation",
-          "owner": "you",
-          "detail": {
-            "text": "Test a refresh, then save both returned tokens atomically. Test disconnect by calling the revocation endpoint with the stored token.",
-            "evidence": "sourced",
-            "sources": [
-              {
-                "url": "https://linear.app/developers/oauth-2-0-authentication",
-                "quote": "Each refresh token expires 30 days after issuance. A successful refresh returns a new access token and refresh token, with a new 30-day refresh-token lifetime.",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://linear.app/developers/oauth-2-0-authentication",
-                "quote": "To revoke a user’s access, call the revocation endpoint and include the token to be revoked in the token form field of the request body.",
-                "quoteVerified": true
-              }
-            ]
-          },
-          "effort": "30 min"
-        }
-      ]
-    },
-    {
-      "name": "Review",
-      "steps": [
-        {
-          "title": "Skip provider app review",
-          "owner": "you",
-          "detail": {
-            "text": "No Linear production review is documented for normal OAuth scopes, so do not treat provider review as a launch gate. Ask each customer whether its workspace requires third-party app approval.",
-            "evidence": "sourced",
-            "sources": [
-              {
-                "url": "https://linear.app/developers/oauth-2-0-authentication",
-                "quote": "Once the user approves your application they will be redirected back to your application, with the OAuth authorization code in the URL params.",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://linear.app/docs/third-party-application-approvals",
-                "quote": "Requiring approval for third-party applications ensures that the people with permission to manage apps control which applications can access the workspace and its data.",
-                "quoteVerified": true
-              }
-            ]
-          },
-          "effort": "5 min"
-        }
-      ]
-    },
-    {
-      "name": "Production",
-      "steps": [
-        {
-          "title": "Enforce workspace access changes",
-          "owner": "you",
-          "detail": {
-            "text": "Subscribe to PermissionChange webhooks. Check the stored workspace identity before every action. Stop actions immediately after access changes or revocation.",
-            "evidence": "sourced",
-            "sources": [
-              {
-                "url": "https://linear.app/developers/agents",
-                "quote": "The team access available to your app can be changed or revoked at any time by workspace admins.",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://linear.app/developers/agents",
-                "quote": "a PermissionChange webhook will be sent when access changes occur.",
+                "url": "https://linear.app/pricing",
+                "quote": "Free $0 Free for everyone",
                 "quoteVerified": true
               }
             ]
@@ -661,91 +540,194 @@
           "effort": "1–2 hr"
         },
         {
-          "title": "Publish clear agent behavior",
+          "title": "Handle refresh token rotation",
           "owner": "you",
           "detail": {
-            "text": "Clearly identify the product as an agent so people do not mistake it for a person. Show progress for long actions. Let people stop it immediately. Keep final responsibility with a person.",
-            "evidence": "unverified",
+            "text": "Store each new access and refresh token as one encrypted update. Serialize refresh requests for each installation. Send users through authorization again after expiry or revocation.",
+            "evidence": "sourced",
             "sources": [
               {
-                "url": "https://linear.app/developers/aig",
-                "quote": "The agent must signal its identity clearly so that it can never be mistaken for a person.",
+                "url": "https://linear.app/developers/oauth-2-0-authentication",
+                "quote": "Save the returned credentials together and coordinate refreshes across processes sharing an authorization.",
                 "quoteVerified": true
               },
               {
-                "url": "https://linear.app/developers/aig",
-                "quote": "Human responsibility must remain final even when an agent carries out tasks.",
-                "quoteVerified": false
+                "url": "https://linear.app/developers/oauth-2-0-authentication",
+                "quote": "If the current refresh token expires or is revoked, complete authorization again.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–2 hr"
+        },
+        {
+          "title": "Verify webhook signatures",
+          "owner": "you",
+          "detail": {
+            "text": "Expose a public HTTPS webhook endpoint. Verify the HMAC over the raw request body with a timing-safe comparison. Check that the event timestamp is within one minute to protect against replay attacks.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://linear.app/developers/webhooks",
+                "quote": "It’s available in a publicly accessible HTTPS, non-localhost URL",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://linear.app/developers/webhooks",
+                "quote": "It’s strongly recommended to use raw request body rather than restringifying a parsed JSON body",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–2 hr"
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "steps": [
+        {
+          "title": "Prepare directory assets",
+          "owner": "you",
+          "detail": {
+            "text": "Prepare a useful integration description, company details, color and monochrome 320×320 icons, and one to three showcase images. Submit only after the integration works.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://linear.app/developers/integration-directory",
+                "quote": "Use Linear’s API to build your own integration and submit it to the directory following the instructions below.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://linear.app/developers/integration-directory",
+                "quote": "Color icon 320px by 320px",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://linear.app/developers/integration-directory",
+                "quote": "Showcase images (1-3 max) 1600px x 1000px",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "half day"
+        },
+        {
+          "title": "Wait for directory review",
+          "owner": "provider",
+          "detail": {
+            "text": "Wait for Linear's directory decision after submission. No reviewed source states a directory review service level.",
+            "evidence": "unverified",
+            "sources": [
+              {
+                "url": "https://linear.app/developers/integration-directory",
+                "quote": "Submit your integration ⁠",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "wait: unknown"
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "steps": [
+        {
+          "title": "Enable agent session events",
+          "owner": "you",
+          "detail": {
+            "text": "Enable agent session events if users can mention or delegate work to the app. Emit a thought activity within 10 seconds after a delegated session starts.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://linear.app/developers/agents",
+                "quote": "This triggers a created AgentSessionEvent webhook containing an agentSession object with the relevant issue, comment, and context.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://linear.app/developers/agents",
+                "quote": "Emit a thought activity within 10 seconds to acknowledge the session has begun",
+                "quoteVerified": true
               }
             ]
           },
           "effort": "30 min"
+        },
+        {
+          "title": "Add visible agent controls",
+          "owner": "you",
+          "detail": {
+            "text": "Clearly identify the app as AI. Show whether it is working, waiting, or finished. Let users stop it immediately and keep humans responsible for final decisions.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://linear.app/developers/aig",
+                "quote": "An agent should always disclose that it’s an agent",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://linear.app/developers/aig",
+                "quote": "When asked to disengage, an agent should step back, immediately",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://linear.app/developers/aig",
+                "quote": "the final responsibility should always remain with a human.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "1–2 hr"
         }
       ]
     }
   ],
   "gotchas": [
     {
-      "text": "Do not request admin with actor=app. Linear disallows that scope combination.",
+      "text": "An app assignment makes the agent a delegate, not the human issue owner.",
       "evidence": "sourced",
       "sources": [
         {
           "url": "https://linear.app/developers/agents",
-          "quote": "Note that integrations using the actor=app mode are not able to also request admin scope.",
+          "quote": "Assigning an issue to your app now sets it as the delegate , not the assignee —so humans maintain ownership while agents act on their behalf.",
           "quoteVerified": true
         }
       ]
     },
     {
-      "text": "Repeating installation does not add scopes. Request all old and new scopes with the update mechanism.",
-      "evidence": "sourced",
-      "sources": [
-        {
-          "url": "https://linear.app/developers/oauth-actor-authorization",
-          "quote": "Request the complete scope set: all existing scopes plus any scopes being added.",
-          "quoteVerified": true
-        },
-        {
-          "url": "https://linear.app/developers/oauth-actor-authorization",
-          "quote": "Repeating the ordinary installation flow without update_scopes_on_existing_token=true does not update an existing installation.",
-          "quoteVerified": true
-        }
-      ]
-    },
-    {
-      "text": "Removing scopes requires revocation and a new authorization. An ordinary scope update cannot reduce access.",
-      "evidence": "sourced",
-      "sources": [
-        {
-          "url": "https://linear.app/developers/oauth-actor-authorization",
-          "quote": "To remove scopes, revoke the existing authorization and authorize again with the reduced scope set.",
-          "quoteVerified": true
-        }
-      ]
-    },
-    {
-      "text": "API calls do not extend token lifetimes. Refresh tokens rotate, so stale tokens can break automation.",
-      "evidence": "sourced",
-      "sources": [
-        {
-          "url": "https://linear.app/developers/oauth-2-0-authentication",
-          "quote": "API requests do not extend either lifetime.",
-          "quoteVerified": true
-        },
-        {
-          "url": "https://linear.app/developers/oauth-2-0-authentication",
-          "quote": "Each refresh token expires 30 days after issuance. A successful refresh returns a new access token and refresh token, with a new 30-day refresh-token lifetime.",
-          "quoteVerified": true
-        }
-      ]
-    },
-    {
-      "text": "Customer workspaces can require their own approval even though Linear does not review your OAuth app.",
+      "text": "A paid customer workspace can block public-app installation until its admin approves the third-party app.",
       "evidence": "sourced",
       "sources": [
         {
           "url": "https://linear.app/docs/third-party-application-approvals",
-          "quote": "Workspace owners in Enterprise workspaces—and workspace admins in all other paid workspaces—will receive an email and an in-app notification when an application has been requested for approval.",
+          "quote": "Third-party application approvals are available on any paid plan.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://linear.app/docs/third-party-application-approvals",
+          "quote": "A workspace owner in an Enterprise workspace",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://linear.app/docs/third-party-application-approvals",
+          "quote": "or a workspace admin in any other paid workspace",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Changing scopes replaces the installation's credentials. Request the complete old and new scope set during reauthorization.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://linear.app/developers/oauth-actor-authorization",
+          "quote": "repeat the authorization flow with update_scopes_on_existing_token=true . Request the complete scope set: all existing scopes plus any scopes being added.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://linear.app/developers/oauth-actor-authorization",
+          "quote": "Exchanging the resulting authorization code replaces the installation’s access and refresh tokens",
           "quoteVerified": true
         }
       ]
@@ -753,45 +735,34 @@
   ],
   "whenBlocked": [
     {
-      "text": "If installation needs customer approval, ask the workspace admin to approve the request from the Applications page.",
-      "evidence": "sourced",
+      "text": "If a customer cannot install the app, ask their workspace admin to approve the third-party application in Linear.",
+      "evidence": "inferred",
       "sources": [
         {
           "url": "https://linear.app/docs/third-party-application-approvals",
-          "quote": "Workspace owners in Enterprise workspaces—and workspace admins in all other paid workspaces—will receive an email and an in-app notification when an application has been requested for approval.",
+          "quote": "or a workspace admin in any other paid workspace",
           "quoteVerified": true
         }
       ]
     },
     {
-      "text": "If you need a temporary rate increase, contact Linear Support with the expected workload.",
-      "evidence": "sourced",
-      "sources": [
-        {
-          "url": "https://linear.app/developers/rate-limiting",
-          "quote": "If you temporarily require higher limits, you can request them by contacting Linear support where we’ll review them on a case by case basis.",
-          "quoteVerified": true
-        }
-      ]
-    },
-    {
-      "text": "If documentation does not answer an API question, ask in Linear Slack's #api channel.",
-      "evidence": "sourced",
-      "sources": [
-        {
-          "url": "https://linear.app/docs/api-and-webhooks",
-          "quote": "If you have a question the docs don’t answer, post it in the #api channel in our Slack community.",
-          "quoteVerified": true
-        }
-      ]
-    },
-    {
-      "text": "If directory listing is rejected or needs changes, contact integrations@linear.app.",
+      "text": "If directory inclusion is unclear or rejected, email integrations@linear.app with the integration details and request guidance.",
       "evidence": "sourced",
       "sources": [
         {
           "url": "https://linear.app/developers/integration-directory",
-          "quote": "but feel free to reach out to integrations@linear.app if you think it should be included.",
+          "quote": "feel free to reach out to integrations@linear.app if you think it should be included.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If API behavior blocks implementation, ask in Linear's community Slack #api channel.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://linear.app/developers/integration-directory",
+          "quote": "You can also ask questions and see what others are building in our Slack community’s #api channel .",
           "quoteVerified": true
         }
       ]
@@ -800,7 +771,7 @@
   "probes": [
     {
       "name": "OIDC discovery",
-      "target": "linear.app",
+      "target": "linear.app, api.linear.app",
       "result": "no discovery document on these hosts (provider may not support OIDC)",
       "ok": false
     },
@@ -818,10 +789,10 @@
     }
   ],
   "uncertain": [
-    "1 claim couldn't be matched word-for-word to its cited page and is marked Unverified. Check those sources before relying on them."
+    "3 claims couldn't be matched word-for-word to their cited page and are marked Unverified. Check those sources before relying on them."
   ],
   "research": {
-    "seconds": 166,
+    "seconds": 156,
     "log": [
       {
         "t": 0,
@@ -829,580 +800,542 @@
         "message": "Researching Linear"
       },
       {
-        "t": 29.1,
+        "t": 16.3,
         "type": "tool",
         "name": "search",
-        "target": "site:linear.app/developers OAuth applications authorization scopes access token refresh token Linear API",
-        "summary": "6 results",
-        "detail": [
-          "OAuth 2.0 authentication – Linear Developers | https://linear.app/developers/oauth-2-0-authentication",
-          "OAuth actor authorization – Linear Developers | https://linear.app/developers/oauth-actor-authorization",
-          "OAuth application manifests – Linear Developers | https://linear.app/developers/oauth-app-manifests",
-          "Getting started – Linear Developers | https://linear.app/developers/graphql",
-          "Getting Started – Linear Developers | https://linear.app/developers/agents",
-          "Getting started – Linear Developers | https://linear.app/developers/sdk"
-        ]
-      },
-      {
-        "t": 29.1,
-        "type": "tool",
-        "name": "search",
-        "target": "site:linear.app developers OAuth app review distribution marketplace security PKCE redirect URI",
-        "summary": "8 results",
-        "detail": [
-          "OAuth 2.0 authentication – Linear Developers | https://linear.app/developers/oauth-2-0-authentication",
-          "OAuth application manifests – Linear Developers | https://linear.app/developers/oauth-app-manifests",
-          "Integration Directory – Linear Developers | https://linear.app/developers/integration-directory",
-          "linear.app | https://linear.app/docs/third-party-application-approvals.md",
-          "OAuth actor authorization – Linear Developers | https://linear.app/developers/oauth-actor-authorization",
-          "linear.app | https://linear.app/developers/agents.md",
-          "Security & Access – Linear Docs | https://linear.app/docs/security-and-access",
-          "Getting started – Linear Developers | https://linear.app/developers/graphql"
-        ]
-      },
-      {
-        "t": 29.1,
-        "type": "tool",
-        "name": "search",
-        "target": "Linear API terms AI LLM developer policy changelog OAuth",
-        "summary": "8 results",
-        "detail": [
-          "Terms of Service - linear.app | https://linear.app/terms",
-          "AI Services Addendum - linear.app | https://linear.app/legal/ai-addendum",
-          "Acceptable Use Policy - linear.app | https://linear.app/legal/aup",
-          "Getting started – Linear Developers | https://linear.app/developers/graphql",
-          "OAuth 2.0 authentication – Linear Developers | https://linear.app/developers/oauth-2-0-authentication",
-          "OAuth actor authorization – Linear Developers | https://linear.app/developers/oauth-actor-authorization",
-          "OAuth application manifests – Linear Developers | https://linear.app/developers/oauth-app-manifests",
-          "Agent Interaction Guidelines (AIG) – Linear Developers | https://linear.app/developers/aig"
-        ]
-      },
-      {
-        "t": 29.1,
-        "type": "tool",
-        "name": "search",
-        "target": "site:linear.app/pricing API rate limits developer pricing Linear OAuth",
-        "summary": "6 results",
-        "detail": [
-          "Rate limiting – Linear Developers | https://linear.app/developers/rate-limiting",
-          "Pricing – Linear | https://linear.app/pricing",
-          "OAuth 2.0 authentication – Linear Developers | https://linear.app/developers/oauth-2-0-authentication",
-          "Getting started – Linear Developers | https://linear.app/developers/graphql",
-          "Linear Developers | https://linear.app/developers",
-          "Integration Directory – Linear Developers | https://linear.app/developers/integration-directory"
-        ]
-      },
-      {
-        "t": 29.1,
-        "type": "tool",
-        "name": "search",
-        "target": "Linear developer OAuth application create app settings redirect URI authorization URL",
+        "target": "site:linear.app/developers OAuth applications Linear documentation scopes token refresh redirect URI",
         "summary": "5 results",
         "detail": [
           "OAuth 2.0 authentication – Linear Developers | https://linear.app/developers/oauth-2-0-authentication",
-          "API and Webhooks – Linear Docs | https://linear.app/docs/api-and-webhooks",
           "OAuth application manifests – Linear Developers | https://linear.app/developers/oauth-app-manifests",
           "OAuth actor authorization – Linear Developers | https://linear.app/developers/oauth-actor-authorization",
+          "Getting started – Linear Developers | https://linear.app/developers/graphql",
           "Getting Started – Linear Developers | https://linear.app/developers/agents"
         ]
       },
       {
-        "t": 29.1,
+        "t": 16.3,
         "type": "tool",
         "name": "search",
-        "target": "Linear OAuth refresh token expiry offline access community integration",
+        "target": "site:linear.app/developers Linear OAuth app review approval marketplace security AI policy",
         "summary": "8 results",
         "detail": [
           "OAuth 2.0 authentication – Linear Developers | https://linear.app/developers/oauth-2-0-authentication",
-          "Changelog – Linear | https://linear.app/changelog/page/5",
-          "Handling OAuth access token expiry: Is it possible to get a refresh ... | https://github.com/linear/linear/issues/251",
           "OAuth actor authorization – Linear Developers | https://linear.app/developers/oauth-actor-authorization",
-          "Update Linear implementation to handle refresh tokens #10032 | https://github.com/outline/outline/issues/10032",
-          "Linear OAuth refresh token invalid_grant - nango.dev | https://nango.dev/blog/linear-oauth-refresh-token-invalid-grant",
-          "Linear OAuth tokens expire after 24h - GitHub | https://github.com/ceedaragents/cyrus/issues/285",
-          "Guide: Restore Linear integration after OAuth security model upgrade | https://kb.coderabbit.ai/articles/9530185925-guide-restore-linear-integration-after-oauth-security-model-upgrade"
+          "OAuth application manifests – Linear Developers | https://linear.app/developers/oauth-app-manifests",
+          "Integration Directory – Linear Docs | https://linear.app/docs/integration-directory",
+          "Getting Started – Linear Developers | https://linear.app/developers/agents",
+          "Agent Interaction Guidelines (AIG) – Linear Developers | https://linear.app/developers/aig",
+          "Interaction Best Practices – Linear Developers | https://linear.app/developers/agent-best-practices",
+          "Security – Linear Docs | https://linear.app/docs/security"
         ]
       },
       {
-        "t": 29.1,
+        "t": 16.3,
         "type": "tool",
         "name": "search",
-        "target": "Linear API OAuth app approval review marketplace submit app integration",
+        "target": "site:linear.app pricing API rate limits OAuth app Linear developer",
+        "summary": "8 results",
+        "detail": [
+          "Pricing – Linear | https://linear.app/pricing",
+          "Rate limiting – Linear Developers | https://linear.app/developers/rate-limiting",
+          "OAuth 2.0 authentication – Linear Developers | https://linear.app/developers/oauth-2-0-authentication",
+          "OAuth application manifests – Linear Developers | https://linear.app/developers/oauth-app-manifests",
+          "Getting started – Linear Developers | https://linear.app/developers/graphql",
+          "OAuth actor authorization – Linear Developers | https://linear.app/developers/oauth-actor-authorization",
+          "Integration Directory – Linear Developers | https://linear.app/developers/integration-directory",
+          "Webhooks – Linear Developers | https://linear.app/developers/webhooks"
+        ]
+      },
+      {
+        "t": 16.3,
+        "type": "tool",
+        "name": "search",
+        "target": "Linear OAuth app approval review community wait time integration",
         "summary": "8 results",
         "detail": [
           "Integration Directory – Linear Docs | https://linear.app/docs/integration-directory",
           "OAuth 2.0 authentication – Linear Developers | https://linear.app/developers/oauth-2-0-authentication",
+          "OAuth application manifests – Linear Developers | https://linear.app/developers/oauth-app-manifests",
           "Third-Party App Approvals – Linear Docs | https://linear.app/docs/third-party-application-approvals",
-          "OAuth application manifests – Linear Developers | https://linear.app/developers/oauth-app-manifests",
-          "Linear Developers | https://linear.app/developers",
-          "API and Webhooks – Linear Docs | https://linear.app/docs/api-and-webhooks",
-          "Third-party Application Approvals – Changelog - linear.app | https://linear.app/changelog/2022-08-25-third-party-application-approvals",
-          "Changelog – Linear | https://linear.app/changelog/page/5"
+          "How to register your own Linear OAuth app - Nango Docs | https://nango.dev/docs/api-integrations/linear/how-to-register-your-own-linear-api-oauth-app",
+          "How Linear Can Build a Safer OAuth App Ecosystem (Lessons from ... | https://www.marcusmth.com/linear-oauth-learnings",
+          "Linear Integration Directory for developers — auth, review ... | https://www.platformappstores.com/categories/productivity-collaboration-suites/linear-integration-directory",
+          "How to get listed on Linear Integration Directory (Free) | https://www.altftool.com/backlinks/linear-integration-directory"
         ]
       },
       {
-        "t": 29.1,
-        "type": "tool",
-        "name": "search",
-        "target": "site:linear.app/developers rate limits webhooks app manifests CLI",
-        "summary": "7 results",
-        "detail": [
-          "Rate limiting – Linear Developers | https://linear.app/developers/rate-limiting",
-          "Webhooks – Linear Developers | https://linear.app/developers/webhooks",
-          "OAuth application manifests – Linear Developers | https://linear.app/developers/oauth-app-manifests",
-          "Getting started – Linear Developers | https://linear.app/developers/graphql",
-          "Webhooks – Linear Developers | https://linear.app/developers/sdk-webhooks",
-          "Getting Started – Linear Developers | https://linear.app/developers/agents",
-          "Integration Directory – Linear Developers | https://linear.app/developers/integration-directory"
-        ]
-      },
-      {
-        "t": 44.7,
+        "t": 33.9,
         "type": "tool",
         "name": "read",
         "target": "https://linear.app/developers/oauth-2-0-authentication",
-        "summary": "32 facts",
+        "summary": "26 facts",
         "detail": [
-          "Linear recommends OAuth2 for applications integrating with Linear. | quote: \"Linear supports OAuth2 authentication, which is recommended if you’re building applications to integrate with Linear.\"",
-          "Create an OAuth2 Application and configure its redirect callback URLs. | quote: \"Create a new OAuth2 Application and configure the redirect callback URLs to your application.\"",
-          "A dedicated workspace is highly recommended because each admin user can access the OAuth2 Application. | quote: \"It is highly recommended you create a workspace for the purpose of managing the OAuth2 Application, as each admin user will have access.\"",
-          "All OAuth2 applications migrated to the new refresh-token system on April 1, 2026. | quote: \"All OAuth2 applications were migrated to the new refresh token system on April 1, 2026.\"",
+          "OAuth2 applications should be managed in a dedicated workspace because each admin user will have access. | quote: \"It is highly recommended you create a workspace for the purpose of managing the OAuth2 Application, as each admin user will have access.\"",
+          "Create an OAuth2 application in Linear and configure its redirect callback URLs. | quote: \"Create a new OAuth2 Application and configure the redirect callback URLs to your application.\"",
           "The authorization endpoint is `https://linear.app/oauth/authorize`. | quote: \"GET https://linear.app/oauth/authorize HTTP/1.1\"",
-          "Authorization requests require `client_id`, `redirect_uri`, `response_type=code`, and `scope`. | quote: \"client_id \\n (required) Client ID provided when you create the OAuth2 Application\"",
-          "The redirect URI is required during authorization and must be the configured callback URI. | quote: \"redirect_uri \\n (required) Redirect URI\"",
-          "The authorization-code response type is required. | quote: \"response_type=code \\n (required) Expected response type\"",
-          "The default `read` scope always appears; available scopes include `write`, `issues:create`, `comments:create`, `timeSchedule:write`, and `admin`. | quote: \"read - (Default) Read access for the user’s account. This scope will always be present.\"",
-          "The `admin` scope grants full admin-level endpoint access and should only be requested when absolutely necessary. | quote: \"admin - Full access to admin level endpoints. You should never ask for this permission unless it’s absolutely needed\"",
-          "`state` is optional but recommended to prevent CSRF attacks. | quote: \"state \\n (optional, recommended ) Prevents CSRF attacks and should always be supplied.\"",
-          "The consent prompt can be forced on every authorization by using `prompt=consent`. | quote: \"The consent screen is displayed every time, even if all scopes were previously granted.\"",
-          "The `actor` parameter selects whether resources are created as the authorizing user or the application; the default is `user`. | quote: \"user - (Default) Resources are created as the user who authorized the application.\"",
-          "After approval, Linear redirects to the configured URL with an authorization code; returned `state` must match the original value. | quote: \"Any state parameter you specified in step 2 will also be returned in the URL params and must match the value specified in step 2.\"",
-          "Linear supports PKCE using required `code_challenge` and `code_challenge_method` authorization parameters; the method is `plain` or `S256`. | quote: \"Linear supports the PKCE flow . To use this flow, you’ll need to include two additional parameters as part of your /authorize request:\"",
-          "The token endpoint is `https://api.linear.app/oauth/token`, and requests use URL-encoded form data with the specified content type. | quote: \"POST https://api.linear.app/oauth/token HTTP/1.1 Pass parameters in body as URL-encoded form submission\"",
-          "Authorization-code token exchange requires `code`, the same `redirect_uri`, `client_id`, `client_secret`, and `grant_type=authorization_code`. | quote: \"redirect_uri \\n (required) Same redirect URI which you used in the previous step\"",
-          "With PKCE, `code_verifier` is required and `client_secret` is optional. | quote: \"code_verifier \\n (required) The code verifier for the PKCE request that you originally generated before the authorization request\"",
-          "Authorization-code access tokens last 24 hours by default and are renewed by exchanging a refresh token for a new token pair. | quote: \"Authorization code\\n user or app \\n 24 hours by default\\n Exchange the refresh token for a new token pair.\"",
-          "Each refresh token expires 30 days after issuance; successful refresh rotates both tokens and starts a new 30-day refresh-token lifetime. | quote: \"Each refresh token expires 30 days after issuance. A successful refresh returns a new access token and refresh token, with a new 30-day refresh-token lifetime.\""
+          "Authorization-code requests require `client_id`, `redirect_uri`, `response_type=code`, and `scope`. | quote: \"client_id (required) Client ID provided when you create the OAuth2 Application\"",
+          "The default `read` scope always applies; available scopes include `write`, `issues:create`, `comments:create`, `timeSchedule:write`, and `admin`. | quote: \"read - (Default) Read access for the user’s account. This scope will always be present.\"",
+          "The `admin` scope provides full admin-level access and should only be requested when absolutely necessary. | quote: \"admin - Full access to admin level endpoints. You should never ask for this permission unless it’s absolutely needed\"",
+          "The `state` parameter is optional but recommended to prevent CSRF attacks. | quote: \"state (optional, recommended ) Prevents CSRF attacks and should always be supplied.\"",
+          "Linear supports PKCE; authorization requests require `code_challenge` and `code_challenge_method`, using either `plain` or `S256`. | quote: \"Linear supports the PKCE flow . To use this flow, you’ll need to include two additional parameters as part of your /authorize request:\"",
+          "After authorization, Linear redirects to a callback URL configured in the OAuth2 application. | quote: \"Once the user approves your application they will be redirected back to your application, with the OAuth authorization code in the URL params.\"",
+          "The returned `state` must match the original value; mismatches must not be trusted. | quote: \"If the values do not match, the request should not be trusted.\"",
+          "The token exchange endpoint is `https://api.linear.app/oauth/token`. | quote: \"POST https://api.linear.app/oauth/token HTTP/1.1\"",
+          "Authorization-code token requests use URL-encoded form data with `Content-Type: application/x-www-form-urlencoded`. | quote: \"Pass parameters in body as URL-encoded form submission , where the Content-Type header must be application/x-www-form-urlencoded .\"",
+          "The authorization-code exchange requires the same `redirect_uri` used in the authorization request, plus `client_id`, `client_secret`, and `grant_type=authorization_code`. | quote: \"redirect_uri (required) Same redirect URI which you used in the previous step\"",
+          "PKCE token exchange requires `code_verifier`; `client_secret` is optional. | quote: \"client_secret (optional) Application’s client secret\"",
+          "Authorization-code access tokens last 24 hours by default and are renewed by exchanging the refresh token for a new token pair. | quote: \"Authorization code user or app 24 hours by default Exchange the refresh token for a new token pair.\"",
+          "Each refresh token expires 30 days after issuance; successful refreshes rotate both tokens and provide a new 30-day refresh-token lifetime. | quote: \"Each refresh token expires 30 days after issuance. A successful refresh returns a new access token and refresh token, with a new 30-day refresh-token lifetime.\"",
+          "API requests do not extend access-token or refresh-token lifetimes. | quote: \"API requests do not extend either lifetime.\"",
+          "Returned credentials should be saved together, and refreshes should be coordinated across processes sharing an authorization. | quote: \"Save the returned credentials together and coordinate refreshes across processes sharing an authorization.\"",
+          "If a refresh token expires or is revoked, authorization must be completed again. | quote: \"If the current refresh token expires or is revoked, complete authorization again.\"",
+          "If a successful refresh response is lost, the same refresh token can be retried within 30 minutes to recover replacement credentials. | quote: \"If a refresh succeeds but its response is lost, retry with the same refresh token within 30 minutes of the original successful refresh to recover the replacement credentials.\""
         ]
       },
       {
-        "t": 44.7,
-        "type": "tool",
-        "name": "read",
-        "target": "https://linear.app/developers/oauth-actor-authorization",
-        "summary": "11 facts",
-        "detail": [
-          "OAuth actor authorization changes the actor from the authenticating user to the app, useful for agents and service accounts. | quote: \"when authenticating this way the user will instead authorize installing the app within the workspace, actions performed with the received OAuth token will come from the app itself.\"",
-          "Enable app-actor authorization by adding the `actor=app` parameter to the OAuth authorization URL. | quote: \"To enable the actor authorization, add actor=app parameter to your OAuth authorization URL .\"",
-          "The actor setting is tied to the authorization and access token. | quote: \"The setting is tied to the authorization and its access token.\"",
-          "In app-actor mode, mutations such as issue creation, comments, and status changes are performed by the app. | quote: \"In this mode, all mutations such as creating issues, comments, and status changes will be performed by the app.\"",
-          "Updating scopes for authorization-code installations requires the complete scope set and is subject to permission and team-access checks. | quote: \"Request the complete scope set: all existing scopes plus any scopes being added. The update is subject to permission and team-access checks.\"",
-          "Repeating the ordinary installation flow does not update an existing installation’s scopes. | quote: \"Repeating the ordinary installation flow without update_scopes_on_existing_token=true does not update an existing installation.\"",
-          "Removing scopes requires revoking the existing authorization and authorizing again with the reduced scope set. | quote: \"To remove scopes, revoke the existing authorization and authorize again with the reduced scope set.\"",
-          "For client credentials, changing scopes revokes existing app-actor tokens for the app in the workspace. | quote: \"Adding or removing scopes revokes existing app-actor tokens for that app in the workspace.\"",
-          "Processes sharing an app must use the same scope set to avoid invalidating one another’s tokens. | quote: \"Processes sharing the app must use the same scope set to avoid invalidating each other’s tokens.\"",
-          "App actions can display an optional custom user name and avatar in `User (via Application)` format. | quote: \"You can also add an optional user name and avatar to go with the application to have it rendered in User (via Application) format.\"",
-          "The deprecated `actor=application` mode may continue to be used by existing apps. | quote: \"actor=application as a mode – this was deprecated in favor of the behavior in actor=app . If your app already uses this option then you can continue to do so.\""
-        ]
-      },
-      {
-        "t": 44.7,
+        "t": 33.9,
         "type": "tool",
         "name": "read",
         "target": "https://linear.app/developers/agents",
-        "summary": "25 facts",
+        "summary": "26 facts",
         "detail": [
+          "Agents behave like other users in a workspace and can be mentioned, assigned issues, create and reply to comments, and collaborate on projects and documents. | quote: \"Agents behave similar to other users in a workspace. They can be @mentioned, delegated issues through assignment, create and reply to comments, collaborate on projects and documents, etc.\"",
+          "App users are installed and managed by workspace admins. | quote: \"App users are installed and managed by workspace admins.\"",
           "Agents can be built for internal workspace use or distributed to other organizations. | quote: \"You can build agents for internal use within your own workspace or for distribution to other organizations.\"",
-          "Agents can be submitted to Linear’s integration directory for distribution. | quote: \"To make your agent available to other workspaces, submit your agent to Linear’s integration directory.\"",
           "Developing agents in Linear is free. | quote: \"It does not cost anything to develop agents in Linear.\"",
-          "Agents installed in a workspace are not billable users. | quote: \"Additionally, agents installed in your workspace do not count as billable users.\"",
-          "Agents are configured as applications with webhooks and Agent session events enabled. | quote: \"Create a new Application and configure the settings as you would for a standard OAuth application.\"",
-          "Agent session events should be selected to receive relevant user events. | quote: \"In the configuration, enable webhooks and make sure to select Agent session events at the bottom.\"",
-          "Agent installations use OAuth with the `actor=app` parameter. | quote: \"In the OAuth authorization url add the actor=app parameter to switch to an app installation rather than requesting authentication as the installing user.\"",
-          "Workspace-scope installation requires admin permissions. | quote: \"Because this will be installed with a workspace scope admin permissions are required to complete the installation.\"",
-          "`actor=app` supersedes `actor=application` for agent, app, and service account use cases. | quote: \"This new actor type supersedes any references to actor=application and can be used for all agent, app, and service account use-cases.\"",
-          "Assignability and mentionability are optional OAuth scopes. | quote: \"the ability to mention and assign your agent is optional and must be requested through the use of two new additional scopes\"",
-          "The `app:assignable` scope allows assignment as an issue delegate. | quote: \"app:assignable Allow the app to be assigned as a delegate on issues\"",
-          "The `app:mentionable` scope allows mentions across supported editor surfaces. | quote: \"app:mentionable Allow the app to be mentioned in issues, documents, and other editor surfaces\"",
-          "Assigning an issue makes the agent the delegate rather than the assignee. | quote: \"Assigning an issue to your app now sets it as the delegate , not the assignee —so humans maintain ownership while agents act on their behalf.\"",
-          "Agents cannot be project members or project leads, even with assignability. | quote: \"Agents cannot be added as project members or set as project leads, even with the app:assignable scope.\"",
-          "Customer data access requires customer scopes. | quote: \"The ability to access customer-related entities in your workspace for your agent must be requested through scopes:\"",
-          "The `customer:read` scope permits reading customer data. | quote: \"customer:read Allow the app to read customer data in the workspace\"",
-          "The `customer:write` scope permits reading and writing customer data. | quote: \"customer:write Allow the app to read and write customer data in the workspace\"",
-          "Initiative data access requires initiative scopes. | quote: \"The ability to access initiative-related entities in your workspace for your agent must be requested through scopes:\"",
-          "The `initiative:read` scope permits reading initiative data. | quote: \"initiative:read Allow the app to read initiative data in the workspace\"",
-          "The `initiative:write` scope permits reading and writing initiative data. | quote: \"initiative:write Allow the app to read and write initiative data in the workspace\""
+          "To distribute an agent to other workspaces, submit it to Linear’s integration directory. | quote: \"To make your agent available to other workspaces, submit your agent to Linear’s integration directory.\"",
+          "Agents installed in a workspace do not count as billable users. | quote: \"Additionally, agents installed in your workspace do not count as billable users.\"",
+          "Agent applications are configured like standard OAuth applications, with webhooks and Agent session events enabled. | quote: \"Create a new Application and configure the settings as you would for a standard OAuth application.\"",
+          "OAuth installation requires the `actor=app` parameter to install the agent rather than authenticate as the installing user. | quote: \"In the OAuth authorization url add the actor=app parameter to switch to an app installation rather than requesting authentication as the installing user.\"",
+          "Installing an agent with workspace scope requires admin permissions. | quote: \"Because this will be installed with a workspace scope admin permissions are required to complete the installation.\"",
+          "The `actor=app` actor type applies to agent, app, and service account use cases. | quote: \"This new actor type supersedes any references to actor=application and can be used for all agent, app, and service account use-cases.\"",
+          "Mentioning and assigning agents are optional OAuth capabilities requested through additional scopes. | quote: \"the ability to mention and assign your agent is optional and must be requested through the use of two new additional scopes\"",
+          "The `app:assignable` scope allows an app to be assigned as a delegate on issues. | quote: \"app:assignable Allow the app to be assigned as a delegate on issues\"",
+          "The `app:mentionable` scope allows an app to be mentioned in issues, documents, and other editor surfaces. | quote: \"app:mentionable Allow the app to be mentioned in issues, documents, and other editor surfaces\"",
+          "Assigning an issue to an app makes it the delegate rather than the assignee, preserving human ownership. | quote: \"Assigning an issue to your app now sets it as the delegate , not the assignee —so humans maintain ownership while agents act on their behalf.\"",
+          "Agents cannot be project members or project leads, even with the `app:assignable` scope. | quote: \"Agents cannot be added as project members or set as project leads, even with the app:assignable scope.\"",
+          "Customer data access requires `customer:read` or `customer:write` scopes. | quote: \"customer:read Allow the app to read customer data in the workspace\"",
+          "The `customer:write` scope allows reading and writing customer data. | quote: \"customer:write Allow the app to read and write customer data in the workspace\"",
+          "Initiative data access requires `initiative:read` or `initiative:write` scopes. | quote: \"initiative:read Allow the app to read initiative data in the workspace\"",
+          "The `initiative:write` scope allows reading and writing initiative data. | quote: \"initiative:write Allow the app to read and write initiative data in the workspace\"",
+          "Apps using `actor=app` cannot also request the admin scope. | quote: \"integrations using the actor=app mode are not able to also request admin scope.\""
         ]
       },
       {
-        "t": 44.7,
+        "t": 33.9,
         "type": "tool",
         "name": "read",
         "target": "https://linear.app/developers/oauth-app-manifests",
-        "summary": "20 facts",
+        "summary": "21 facts",
         "detail": [
-          "OAuth app manifests define a Linear OAuth app as structured data instead of requiring manual form entry. | quote: \"OAuth app manifests let developers define a Linear OAuth app as structured data instead of filling the form manually.\"",
-          "URL parameters can directly pre-populate the OAuth application creation page. | quote: \"Use URL parameters when you want to send someone directly to a pre-filled app setup page.\"",
-          "The direct create URL is the workspace-agnostic application creation form at `https://linear.app/settings/api/applications/new`. | quote: \"https://linear.app/settings/api/applications/new\"",
-          "A JSON manifest can be passed directly to the create page through one `manifest` query parameter. | quote: \"A JSON manifest can be passed to the create page through a single manifest query parameter.\"",
-          "The manifest query parameter is useful for opening the app creation page with an existing JSON configuration applied. | quote: \"This is useful when the configuration already exists as JSON and you want to open the app creation page with that manifest applied directly.\"",
-          "Distribution supports private apps limited to the current workspace and public apps installable by other workspaces. | quote: \"Whether the app should be available only in the current workspace or installable by other workspaces.\"",
-          "Distribution accepts `private` or `public`, with `private` as the default. | quote: \"Allowed values: private , public\"",
-          "The JSON manifest likewise distinguishes between private-to-one-workspace and publicly installable applications. | quote: \"Whether the application is private to one workspace or publicly installable.\"",
-          "Redirect URIs must be absolute HTTP or HTTPS URLs. | quote: \"Format: absolute HTTP or HTTPS URL\"",
-          "Redirect URIs are required, may be repeated, and support between 1 and 32 unique values. | quote: \"Required for a complete setup\"",
-          "Redirect URI values must be unique, with a maximum of 32 entries. | quote: \"Maximum items: 32\"",
-          "Repeated query parameters provide multiple redirect URIs. | quote: \"Repeat this parameter to provide multiple values.\"",
-          "The manifest schema represents redirect URIs as a required string array with 1–32 unique values. | quote: \"oauth.redirect_uris\"",
+          "OAuth app manifests define a Linear OAuth app as structured data, supporting reproducible hosted-platform setup and pre-populated configurations for self-hosted or open-source projects. | quote: \"OAuth app manifests let developers define a Linear OAuth app as structured data instead of filling the form manually.\"",
+          "Linear supports URL parameters and JSON manifests as equivalent configuration formats. | quote: \"Linear supports two equivalent formats:\"",
+          "URL parameters can open a pre-populated OAuth app creation page. | quote: \"Use URL parameters when you want to send someone directly to a pre-filled app setup page.\"",
+          "JSON manifests are intended for storing, validating, sharing, or programmatically generating app configuration. | quote: \"Use the JSON manifest format when you want to store the configuration in a file, validate it locally, or generate it programmatically.\"",
+          "The app creation page accepts configuration through URL parameters at the workspace-agnostic endpoint. | quote: \"https://linear.app/settings/api/applications/new\"",
+          "App distribution can be private to the current workspace or public and installable by other workspaces; private is the default. | quote: \"Allowed values: private , public\"",
           "The JSON manifest is the canonical, versioned representation of the OAuth app configuration. | quote: \"The JSON manifest format is the canonical, versioned representation of the same OAuth app configuration.\"",
-          "The JSON manifest can be stored, validated locally, and generated programmatically. | quote: \"Use the JSON manifest format when you want to store the configuration in a file, validate it locally, or generate it programmatically.\"",
-          "Linear publishes a JSON Schema that editors and CI tooling can use for local manifest validation. | quote: \"Developers can reference it from the $schema field so editors and CI tooling can validate the manifest locally.\"",
-          "The schema URL is `https://linear.app/.well-known/oauth-app-manifest.schema.json`. | quote: \"https://linear.app/.well-known/oauth-app-manifest.schema.json\"",
-          "The page documents URL-parameter and JSON-manifest configuration capabilities, but does not mention a CLI. | quote: \"Linear supports two equivalent formats:\"",
-          "Unsupported query parameters are ignored. | quote: \"Unsupported query parameters are ignored.\"",
-          "If dot-notation parameters and a manifest query parameter are both supplied, the JSON manifest takes precedence. | quote: \"If both dot-notation parameters and a manifest query parameter are provided, the JSON manifest takes precedence.\""
+          "The published JSON Schema can be referenced for local editor and CI validation. | quote: \"Developers can reference it from the $schema field so editors and CI tooling can validate the manifest locally.\"",
+          "Repeated query parameters represent array values such as redirect URIs, grant types, and webhook resource types. | quote: \"Repeated query parameters are used for array values such as oauth.redirect_uris , oauth.grant_types , and webhook.resourceTypes .\"",
+          "Unsupported query parameters are ignored, and a JSON manifest takes precedence over dot-notation parameters when both are provided. | quote: \"If both dot-notation parameters and a manifest query parameter are provided, the JSON manifest takes precedence.\"",
+          "OAuth redirect URIs must be absolute HTTP or HTTPS URLs; one to 32 unique values are supported. | quote: \"Minimum items: 1\"",
+          "Multiple redirect URIs can be supplied by repeating the redirect URI parameter. | quote: \"Repeat this parameter to provide multiple values.\"",
+          "Supported grant types are authorization_code and client_credentials, with authorization_code always required. | quote: \"Allowed values: authorization_code , client_credentials\"",
+          "Authorization-code grants use refresh tokens, while client-credentials grants do not. | quote: \"Authorization-code grants use refresh tokens; client-credentials grants do not.\"",
+          "Grant types configure supported authorization flows, not actors or token lifetimes; refresh_token must not be added. | quote: \"Do not add refresh_token to this field.\"",
+          "Scopes are requested in authorization or client-credentials requests rather than declared in the manifest. | quote: \"Request scopes in the authorization or client-credentials request, not the manifest.\"",
+          "A JSON manifest must specify schemaVersion, currently 1.0.0. | quote: \"Current value: 1.0.0\"",
+          "Webhooks are optional; enabling them requires an HTTPS URL and resource types. | quote: \"Optional webhook configuration for the OAuth app.\"",
+          "Webhook URLs must use HTTPS and cannot target loopback hosts, private-network hosts, or linear.app. | quote: \"The host must not be a loopback host, private-network host, or linear.app\"",
+          "Webhook resource types are repeatable query parameters or string arrays in JSON and must contain at least one unique value when configured. | quote: \"Minimum items: 1 when webhook.url is set\""
         ]
       },
       {
-        "t": 44.7,
+        "t": 33.9,
         "type": "tool",
         "name": "read",
         "target": "https://linear.app/developers/integration-directory",
-        "summary": "12 facts",
+        "summary": "14 facts",
         "detail": [
-          "Submit the integration using Linear’s form, which includes a sample page for copy guidance. | quote: \"Fill out this form . It includes a sample page to give you a sense of copy style and length.\"",
-          "Submit assets by email or include a link in the submission form. | quote: \"Submit assets to integrations@linear.app or include a link in the form.\"",
-          "A Figma template is available to help prepare listing assets. | quote: \"We’ve built a template in Figma to make this easy.\"",
-          "Include a 320px by 320px color icon in SVG, JPEG, or PNG format. | quote: \"Color icon 320px by 320px in .svg, .jpeg, or .png file format\"",
-          "Include a 320px by 320px monochrome white icon in SVG, JPEG, or PNG format. | quote: \"Monochrome (white) icon 320px x 320px in.svg, .jpeg, or .png file format\"",
-          "Include one to three showcase images at 1600px by 1000px in SVG, JPEG, or PNG format. | quote: \"Showcase images (1-3 max) 1600px x 1000px in .svg, .jpeg, or .png file format\"",
-          "Showcase images should represent the integration’s functionality rather than simply showing app screenshots. | quote: \"Defer away from simple screenshots of your app, and design it to best represent your integrations functionality.\"",
-          "Linear accepts integrations considered useful to the community and built by formal companies. | quote: \"We’ll accept integrations that we think are useful to the community and are built by formal companies.\"",
+          "Build the integration using Linear’s API before submitting it. | quote: \"Use Linear’s API to build your own integration and submit it to the directory following the instructions below.\"",
+          "OAuth is recommended, along with a separate workspace for the application. | quote: \"We recommend building applications using OAuth and having a separate workspace for the application, which gives all admins access to the application\"",
+          "Directory acceptance is based on usefulness to the community and the applicant being a formal company. | quote: \"We’ll accept integrations that we think are useful to the community and are built by formal companies.\"",
           "Scripts, low-effort or vibe-coded apps, and hobbyist apps are generally not accepted. | quote: \"We generally do not accept scripts, low-effort/vibe coded or apps built by hobbyists\"",
-          "Applicants with questions about inclusion can contact integrations@linear.app. | quote: \"but feel free to reach out to integrations@linear.app if you think it should be included.\"",
-          "Linear recommends building with OAuth and using a separate workspace for the application. | quote: \"We recommend building applications using OAuth and having a separate workspace for the application\"",
-          "Listing changes, image updates, or delisting requests should be sent to integrations@linear.app. | quote: \"you can contact integrations@linear.app with the updates required.\""
+          "Submit the directory form, which includes a sample page for copy style and length. | quote: \"Fill out this form . It includes a sample page to give you a sense of copy style and length.\"",
+          "Submit listing assets by email or link them in the form. | quote: \"Submit assets to integrations@linear.app or include a link in the form.\"",
+          "Required assets include a 320×320 color icon in SVG, JPEG, or PNG format. | quote: \"Color icon 320px by 320px in .svg, .jpeg, or .png file format\"",
+          "Required assets include a 320×320 monochrome white icon in SVG, JPEG, or PNG format. | quote: \"Monochrome (white) icon 320px x 320px in.svg, .jpeg, or .png file format\"",
+          "Provide one to three showcase images at 1600×1000 in SVG, JPEG, or PNG format. | quote: \"Showcase images (1-3 max) 1600px x 1000px in .svg, .jpeg, or .png file format\"",
+          "Showcase images should represent the integration’s functionality rather than be simple app screenshots. | quote: \"Defer away from simple screenshots of your app, and design it to best represent your integrations functionality.\"",
+          "Questions, inclusion requests, and other escalation can be directed to integrations@linear.app. | quote: \"but feel free to reach out to integrations@linear.app if you think it should be included.\"",
+          "Questions about the submission process can also be raised in Linear’s Slack community in the #api channel. | quote: \"You can also ask questions and see what others are building in our Slack community’s #api channel .\"",
+          "Listing changes or delisting requests should be sent to integrations@linear.app with the required updates. | quote: \"you can contact integrations@linear.app with the updates required.\"",
+          "The page does not state a review timeline or response-time commitment. | quote: \"Submit your integration ⁠\""
         ]
       },
       {
-        "t": 44.7,
+        "t": 33.9,
+        "type": "tool",
+        "name": "read",
+        "target": "https://linear.app/docs/integration-directory",
+        "summary": "11 facts",
+        "detail": [
+          "Integrations must be useful to the community and built by formal companies. | quote: \"We’ll accept integrations that we think are useful to the community and are built by formal companies.\"",
+          "Scripts, low-effort/vibe-coded apps, and hobbyist-built apps are generally not accepted. | quote: \"We generally do not accept scripts, low-effort/vibe coded or apps built by hobbyists\"",
+          "Applicants may contact Linear if they believe an otherwise excluded integration should be included. | quote: \"but feel free to reach out to integrations@linear.app if you think it should be included.\"",
+          "Submit an integration by filling out Linear’s form. | quote: \"Fill out this form . It includes a sample page to give you a sense of copy style and length.\"",
+          "Submit listing assets by email or include a link to them in the form. | quote: \"Submit assets to integrations@linear.app or include a link in the form.\"",
+          "Required assets include a 320px square color icon in SVG, JPEG, or PNG format. | quote: \"Color icon 320px by 320px in .svg, .jpeg, or .png file format\"",
+          "Required assets include a 320px square monochrome white icon in SVG, JPEG, or PNG format. | quote: \"Monochrome (white) icon 320px x 320px in.svg, .jpeg, or .png file format\"",
+          "Submit one to three showcase images, each 1600px by 1000px, in SVG, JPEG, or PNG format. | quote: \"Showcase images (1-3 max) 1600px x 1000px in .svg, .jpeg, or .png file format\"",
+          "Showcase images should represent the integration’s functionality rather than being simple app screenshots. | quote: \"Defer away from simple screenshots of your app, and design it to best represent your integrations functionality.\"",
+          "Listing changes or delisting can be requested by emailing Linear with the required updates. | quote: \"If you require any changes to your listing such as copy, image updates or removing your listing if you no longer provide your service, you can contact integrations@linear.app with the updates required.\"",
+          "The page states no review or publication timeline. | quote: \"Submit your integration\""
+        ]
+      },
+      {
+        "t": 33.9,
         "type": "tool",
         "name": "read",
         "target": "https://linear.app/developers/rate-limiting",
-        "summary": "31 facts",
+        "summary": "17 facts",
         "detail": [
-          "API requests use three HTTP response headers to track global rate limits. | quote: \"To make it easier to keep track and avoid going over the limits, there are 3 HTTP response headers we send back on each request.\"",
-          "`X-RateLimit-Requests-Limit` is the global hourly request limit. | quote: \"X-RateLimit-Requests-Limit The maximum number of API requests you’re permitted to make per hour.\"",
-          "`X-RateLimit-Requests-Remaining` reports requests left in the current window. | quote: \"X-RateLimit-Requests-Remaining The number of API requests remaining in the current rate limit window.\"",
-          "`X-RateLimit-Requests-Reset` reports the UTC epoch-millisecond reset time. | quote: \"X-RateLimit-Requests-Reset The time at which the current rate limit window resets in UTC epoch milliseconds .\"",
-          "API keys allow up to 2,500 requests per hour, shared by the authenticated user across API keys. | quote: \"When authenticated using an API key you can make up to 2,500 requests per hour . Requests are associated with the authenticated user\"",
-          "OAuth apps allow 5,000 requests per hour per user or app user. | quote: \"OAuth App 5,000 User (or App User) 1 hour\"",
-          "Unauthenticated requests allow 600 requests per hour per originating IP address. | quote: \"Unauthenticated 600 IP Address 1 hour\"",
-          "Query- and mutation-specific limits can be lower than the global limit, with endpoint-specific windows. | quote: \"Some queries and mutations have individual request rate limits that are lower than the global request limit.\"",
-          "Endpoint-specific limits include four additional headers. | quote: \"We will also send these extra headers:\"",
-          "`X-RateLimit-Endpoint-Requests-Limit` reports the endpoint request limit. | quote: \"X-RateLimit-Endpoint-Requests-Limit The maximum number of API requests you’re permitted to make to this endpoint in a rate limit window.\"",
-          "`X-RateLimit-Endpoint-Requests-Remaining` reports remaining endpoint requests. | quote: \"X-RateLimit-Endpoint-Requests-Remaining The number of API requests remaining in the current rate limit window.\"",
-          "`X-RateLimit-Endpoint-Requests-Reset` reports the endpoint window reset time in UTC epoch milliseconds. | quote: \"X-RateLimit-Endpoint-Requests-Reset The time at which the current rate limit window resets in UTC epoch milliseconds .\"",
-          "`X-RateLimit-Endpoint-Name` identifies the rate-limited endpoint. | quote: \"X-RateLimit-Endpoint-Name The name of the endpoint that was rate limited.\"",
-          "Complexity limits include four response headers. | quote: \"To make it easier to keep track and avoid going over the limits, there are 4 HTTP response headers we send back on each request.\"",
-          "`X-Complexity` reports query complexity. | quote: \"X-Complexity The complexity of the query.\"",
-          "`X-RateLimit-Complexity-Limit` reports the hourly complexity-point limit. | quote: \"X-RateLimit-Complexity-Limit The maximum number of API complexity points you’re permitted to request per hour.\"",
-          "`X-RateLimit-Complexity-Remaining` reports remaining complexity points. | quote: \"X-RateLimit-Complexity-Remaining The number of points of API request complexity remaining in the current rate limit window.\"",
-          "`X-RateLimit-Complexity-Reset` reports the complexity-window reset time in UTC epoch milliseconds. | quote: \"X-RateLimit-Complexity-Reset The time at which the current rate limit window resets in UTC epoch milliseconds .\"",
-          "API keys allow 3,000,000 complexity points per hour, shared by the authenticated user across API keys. | quote: \"Requests authenticated using an API key can request up to 3,000,000 points per hour . Requests are associated with the authenticated user\"",
-          "OAuth apps allow 2,000,000 complexity points per hour per user or app user. | quote: \"OAuth app 2,000,000 User (or App User) 1 hour\""
+          "Rate limiting uses a leaky bucket algorithm with constant token refill. | quote: \"We use the leaky bucket algorithm for our rate limiters, which means that your tokens are refilled with a constant rate of LIMIT_AMOUNT / LIMIT_PERIOD .\"",
+          "API-key requests are limited to 2,500 requests per hour, shared across API keys for the same user. | quote: \"When authenticated using an API key you can make up to 2,500 requests per hour . Requests are associated with the authenticated user, which means all requests by the same user share the same quota even when using different API keys.\"",
+          "OAuth apps are limited to 5,000 requests per user or app user per hour. | quote: \"OAuth App 5,000 User (or App User) 1 hour\"",
+          "Unauthenticated requests are limited to 600 requests per hour per originating IP address. | quote: \"When making unauthenticated requests, you are limited to 600 requests per hour . These requests are associated with the originating IP address instead of the user making the request.\"",
+          "Global request-limit headers report the limit, remaining requests, and reset time in UTC epoch milliseconds. | quote: \"X-RateLimit-Requests-Reset The time at which the current rate limit window resets in UTC epoch milliseconds .\"",
+          "Some queries and mutations have lower, endpoint-specific request limits, with potentially different windows. | quote: \"Some queries and mutations have individual request rate limits that are lower than the global request limit. When one of these limits is hit, the Linear API will send the same response as described in Handling rate limited errors .\"",
+          "Endpoint-specific limits provide limit, remaining, reset, and endpoint-name headers. | quote: \"X-RateLimit-Endpoint-Name The name of the endpoint that was rate limited.\"",
+          "API-key requests are limited to 3,000,000 complexity points per user per hour, shared across API keys. | quote: \"Requests authenticated using an API key can request up to 3,000,000 points per hour . Requests are associated with the authenticated user, which means all requests by the same user share the same quota even when using different API keys.\"",
+          "OAuth apps are limited to 2,000,000 complexity points per user or app user per hour. | quote: \"OAuth app 2,000,000 User (or App User) 1 hour\"",
+          "Unauthenticated requests are limited to 100,000 complexity points per originating IP address per hour. | quote: \"Unauthenticated requests are limited to 100,000 points per hour . These requests are associated with the originating IP address instead of the user making the request.\"",
+          "Complexity-limit headers report query complexity, the hourly limit, remaining points, and reset time. | quote: \"X-RateLimit-Complexity-Remaining The number of points of API request complexity remaining in the current rate limit window.\"",
+          "A single query may not exceed 10,000 complexity points. | quote: \"We also enforce a maximum complexity of a single query at any time to 10,000 points . Your query will always get rejected if it exceeds that.\"",
+          "Complexity is calculated as 0.1 point per property, 1 point per object, and connection child complexity multiplied by pagination; the result is rounded up. | quote: \"Each property is 0.1 point, each object is 1 point and any connection multiplies its children’s points based on the given pagination argument, or the default 50. The score is then rounded up to the nearest integer.\"",
+          "Free and Basic plans receive standard limits; Business receives 2× standard limits; Enterprise receives 5× standard limits. | quote: \"Free, Basic Standard limits Business 2x standard limits Enterprise 5x standard limits\"",
+          "Workspace-level OAuth apps using Actor Authorization may receive further dynamic rate-limit increases based on paid users. | quote: \"we dynamically increase rate limits further for workspace level OAuth apps using Actor Authorization based on number of paid users in that workspace.\"",
+          "Requests exceeding a rate limit return HTTP 429 and a GraphQL error with code RATELIMITED. | quote: \"GraphQL requests that exceed a rate limit return HTTP status code 429 . You can catch these by inspecting the errors field in the response body, which contains the RATELIMITED error code.\"",
+          "The Retry-After header specifies how many seconds to wait before retrying. | quote: \"The Retry-After header gives the number of seconds to wait before retrying.\""
         ]
       },
       {
-        "t": 44.7,
+        "t": 33.9,
         "type": "tool",
         "name": "read",
         "target": "https://linear.app/pricing",
-        "summary": "6 facts",
-        "detail": [
-          "API and webhook access is included on all plans, including Free. | quote: \"API and webhook access Included Included Included Included\"",
-          "API rate limits are standard on Free and Basic, 2× standard on Business, and 5× standard on Enterprise. | quote: \"API rate limits Standard limits Standard limits 2x standard limits 5x standard limits\"",
-          "Enterprise requires annual billing. | quote: \"Enterprise Custom Annual billing only\"",
-          "Enterprise pricing is custom and requires contacting sales. | quote: \"Enterprise Custom Annual billing only All Business features +\"",
-          "Cloud coding agent and Loops require AI credits on every plan. | quote: \"** Requires AI credits View docs\"",
-          "No FAQ section or FAQ content is shown on the provided pricing page. | quote: \"Pricing\""
-        ]
-      },
-      {
-        "t": 44.7,
-        "type": "tool",
-        "name": "read",
-        "target": "https://linear.app/developers/webhooks",
-        "summary": "17 facts",
-        "detail": [
-          "Webhook consumers must use a publicly accessible HTTPS URL that is not localhost. | quote: \"It’s available in a publicly accessible HTTPS, non-localhost URL\"",
-          "Webhook endpoints must respond to Linear’s POST request with HTTP 200. | quote: \"It will respond to the Linear Webhook push (HTTP POST request) with a HTTP 200 (“OK”) response\"",
-          "Failed deliveries are retried up to three times with delays of one minute, one hour, and six hours. | quote: \"the push will be retried a maximum of 3 times. A backoff delay is used: the attempt will be retried after 1 minute, 1 hour, and finally after 6 hours.\"",
-          "Linear may disable a webhook that remains unresponsive, requiring manual re-enablement. | quote: \"If the webhook URL continues to be unresponsive the webhook might be disabled by Linear, and must be re-enabled again manually.\"",
-          "RequestBin is suggested for testing webhook endpoints. | quote: \"requestbin.com is a great tool for testing webhooks\"",
-          "Webhooks can be configured through Linear API settings after creating a consumer endpoint. | quote: \"Once your consumer is ready to receive updates, you can enable it for your Linear team. You can configure webhooks in Linear from API settings.\"",
-          "Webhook creation requires specifying an endpoint URL, and the webhook is enabled by default after successful creation. | quote: \"That’s it! Your webhook is now ready to use and enabled by default.\"",
-          "Each webhook request includes a `Linear-Signature` header containing an HMAC-SHA256 signature of the raw body. | quote: \"This header contains a hex-encoded HMAC-SHA256 signature of the raw body contents, signed using the webhook’s signing secret.\"",
-          "The signing secret is available on the webhook detail page. | quote: \"You can find the signing secret on the webhook’s detail page.\"",
-          "Signature verification should compute an HMAC over the raw request body and compare it with the `Linear-Signature` header. | quote: \"To verify the webhook, you need to compute the signature of the request body using the webhook’s signing secret and compare it against the Linear-Signature header.\"",
-          "Verification should use the raw body rather than re-stringifying parsed JSON. | quote: \"It’s strongly recommended to use raw request body rather than restringifying a parsed JSON body, otherwise the signature may differ.\"",
-          "The request body’s `webhookTimestamp` should be checked to prevent replay attacks. | quote: \"We recommend that you verify it’s within a minute of the time your system sees it to guard against replay attacks.\"",
-          "Invalid signatures and stale timestamps should be rejected with HTTP 401 in the provided Express example. | quote: \"if (!verifySignature(req.get(\\\"linear-signature\\\"), req.rawBody)) { return res.sendStatus(401); }\"",
-          "The example rejects webhook timestamps older or newer than 60 seconds. | quote: \"if (Math.abs(Date.now() - req.body.webhookTimestamp) > 60 * 1000) {\"",
-          "Signature comparison should use a timing-safe comparison. | quote: \"return crypto.timingSafeEqual(computedSignature, headerSignature);\"",
-          "The source IP address can also be checked as an additional security measure. | quote: \"In addition to verifying the signature, you can check the source IP address.\"",
-          "A successful verified webhook should return HTTP 200; server errors should return HTTP 500 so Linear retries delivery. | quote: \"return res.sendStatus(500);\""
-        ]
-      },
-      {
-        "t": 61.7,
-        "type": "tool",
-        "name": "read",
-        "target": "https://linear.app/docs/third-party-application-approvals",
-        "summary": "10 facts",
-        "detail": [
-          "Third-party app approvals control which applications can be installed and access workspace data. | quote: \"Requiring approval for third-party applications ensures that the people with permission to manage apps control which applications can access the workspace and its data.\"",
-          "Third-party application approvals are available on any paid plan. | quote: \"Third-party application approvals are available on any paid plan.\"",
-          "Enterprise workspace owners and admins of other paid workspaces can enable approvals in Security settings. | quote: \"A workspace owner in an Enterprise workspace—or a workspace admin in any other paid workspace—can turn on third-party application approvals from Settings > Administration > Security.\"",
-          "Approved and denied apps appear in Applications. | quote: \"Apps that have been approved or denied will show up in Applications.\"",
-          "A member triggers an approval request by trying to install a third-party app. | quote: \"When a workspace member tries to install a third-party app, Linear will display a screen which allows the member to request approval and optionally include a reason for their request.\"",
-          "If an app was previously denied, the requester is told and shown the reason. | quote: \"If the application has already been denied previously, Linear will let the requestor know and share the reason.\"",
-          "Enterprise workspace owners and admins of other paid workspaces receive email and in-app notifications for approval requests. | quote: \"Workspace owners in Enterprise workspaces—and workspace admins in all other paid workspaces—will receive an email and an in-app notification when an application has been requested for approval.\"",
-          "Approval-request notifications link to the workspace applications page for approval or denial. | quote: \"This notification will contain a link to the workspace applications page so you can approve or deny the application swiftly.\"",
-          "The requesting member receives email and in-app notifications after an approval or denial. | quote: \"Once the application has been approved or denied, the member who requested the application will also receive an email and an in-app notification.\"",
-          "Denial may include an optional reason, which is shared with the requester. | quote: \"When denying a request, they can include an optional reason. This reason will be shared with the member who made the request.\""
-        ]
-      },
-      {
-        "t": 61.7,
-        "type": "tool",
-        "name": "read",
-        "target": "https://linear.app/developers/graphql",
-        "summary": "6 facts",
-        "detail": [
-          "GraphQL endpoint: https://api.linear.app/graphql | quote: \"Linear’s GraphQL endpoint is:",
-          "API authentication options include personal API keys and OAuth2 | quote: \"The Linear API supports personal API keys and OAuth2 authentication.\"",
-          "OAuth2 is recommended for applications used by others | quote: \"If you’re building an application for others to use, we recommend you use OAuth2 authentication\"",
-          "OAuth access tokens use the Bearer Authorization header | quote: \"pass it with the header Authorization: Bearer <ACCESS_TOKEN>\"",
-          "Personal API keys are easiest for personal scripts | quote: \"For personal scripts API keys are the easiest way to access the API.\"",
-          "Personal API keys use the Authorization header | quote: \"you need to pass the API key with header: Authorization: <API_KEY>\""
-        ]
-      },
-      {
-        "t": 61.7,
-        "type": "tool",
-        "name": "read",
-        "target": "https://linear.app/legal/aup",
-        "summary": "15 facts",
-        "detail": [
-          "Effective date: June 09, 2026 | quote: \"Effective date : June 09, 2026\"",
-          "Automated access is prohibited beyond Linear’s documented rate limits and parameters | quote: \"access the Services through automated means beyond the rate limits and parameters set forth in Linear’s developer Documentation\"",
-          "Scraping or extracting data outside Linear’s published APIs is prohibited | quote: \"scrape or extract data outside Linear’s published APIs\"",
-          "Using AI inputs or outputs to train, fine-tune, distill, or extract competing model weights is prohibited | quote: \"You may not use inputs to or outputs of the AI Features to train, fine-tune, distill, or extract weights from any AI model that competes with the AI Features\"",
-          "Using AI Features to bypass safety controls, including jailbreaking and prompt injection, is prohibited | quote: \"You may not bypass or circumvent the AI Features’ safety controls, including by means of jailbreaking, prompt injection, or adversarial prompts.\"",
-          "Using AI Features as a proxy, gateway, or reseller for unauthorized third parties is prohibited | quote: \"You may not use the AI Features as a proxy, gateway, or reseller offering to provide AI capabilities to third parties outside your authorized users.\"",
-          "AI-generated content may not be presented as a specific human’s work or used to deceive people about human-versus-AI interaction | quote: \"You may not present AI-generated content as the work of a specific human or in a manner intended to deceive a person about whether they are interacting with a human or AI\"",
-          "Consumer-facing chatbots using AI Features must disclose that users are interacting with AI | quote: \"consumer-facing chatbots and similar interactive systems built on the AI Features must clearly disclose that the user is interacting with AI.\"",
-          "Impersonating a real person or organization without consent is prohibited | quote: \"You may not impersonate a real person or organization without consent.\"",
-          "Creating or disseminating disinformation, deceptive synthetic media, or fake reviews, testimonials, or endorsements is prohibited | quote: \"You may not use AI Features to create or disseminate disinformation, synthetic media of real persons designed to deceive, or fake reviews, testimonials, or endorsements.\"",
-          "AI Features may not be used for practices prohibited or classified as high-risk under the EU AI Act or analogous laws | quote: \"You may not use AI Features for any practice prohibited or classified as high-risk under the EU Artificial Intelligence Act or analogous laws\"",
-          "Regulated professional advice requires review by a qualified, licensed professional before delivery or reliance | quote: \"You may not use AI Features to provide legal, medical, financial, insurance, or other regulated professional advice without review by a qualified, licensed professional\"",
-          "High-risk AI use requires qualified human review and approval before outputs are disseminated or acted upon | quote: \"a qualified human reviewer in the relevant field must review and approve the AI output before any decision, advice, recommendation, or content is disseminated or acted upon\"",
-          "High-risk AI output presented to end users or the public must disclose that AI was used | quote: \"if AI-generated output is presented to or relied upon by an end user, individual consumer, or member of the public, you must clearly disclose that AI was used.\"",
-          "Linear may block inputs or outputs and suspend or terminate access for AUP violations | quote: \"block specific inputs or outputs; and report illegal activity to law enforcement and preserve evidence in connection with any such report.\""
-        ]
-      },
-      {
-        "t": 61.7,
-        "type": "tool",
-        "name": "read",
-        "target": "https://linear.app/changelog/page/5",
-        "summary": "18 facts",
-        "detail": [
-          "OAuth — October 2, 2025: Fixed unsupported scopes for app tokens using the client credentials grant. | quote: \"Fixed an issue where initiative:read , initative:write , customer:read , and customer:write scopes were not supported for app tokens issued via the client_credentials grant\"",
-          "OAuth — October 2, 2025: Existing app tokens can upgrade scopes during authorization without token replacement. | quote: \"Improved support for upgrading scopes for an existing app token during the authorization code flow without revoking and regenerating the token\"",
-          "OAuth — October 2, 2025: Previously denied application approval requests can be cleared. | quote: \"Application approval requests that were previously denied can now be cleared, allowing users in the workspace to request approval again\"",
-          "OAuth — October 2, 2025: Users can request additional OAuth scopes after initial approval. | quote: \"In workspaces with OAuth app approvals, users can now request approval for additional scopes beyond the initial set of scopes an app was approved for\"",
-          "OAuth improvements — September 18, 2025: Linear announced short-lived access tokens and refresh tokens for user-initiated OAuth. | quote: \"We’re moving OAuth apps to use short-lived access tokens for user-initiated OAuth. These new tokens will be valid for 24 hours and paired with refresh tokens.\"",
-          "OAuth improvements — September 18, 2025: New OAuth apps issue refresh tokens by default from October 1, 2025; existing apps have until April 1, 2026 to migrate. | quote: \"Starting October 1st, 2025, all newly created OAuth apps will issue refresh tokens by default. Existing apps will have until April 1st, 2026 to migrate to the new refresh token system.\"",
-          "OAuth improvements — September 18, 2025: Client credentials grant support was added for server-to-server OAuth use cases. | quote: \"We also added support for the client_credentials grant type for apps that use OAuth tokens for direct server-to-server communication\"",
-          "API — September 18, 2025: Developer tokens for app users can now be created with selectable scopes. | quote: \"Improved the process of creating a developer token for an app user with the option to choose which scopes to grant\"",
-          "OAuth — September 4, 2025: OAuth application avatar updates now propagate to associated app users. | quote: \"Updating an OAuth application’s avatar will now propagate to all app users associated with the application\"",
-          "OAuth — August 14, 2025: App actors can use initiative scopes for workspace-level initiative entities. | quote: \"Added the ability to use the initiative:read and initiative:write scopes when initiating OAuth with actor=app to give the app user access to your workspace-level initiative entities\"",
-          "OAuth — August 14, 2025: App actors can use customer scopes for workspace-level customer entities. | quote: \"You can now use the customer:read or customer:write scopes when initiating OAuth with actor=app to give the app user access to your workspace-level customer entities\"",
-          "Agent Interaction SDK — July 30, 2025: Linear released the SDK as a developer preview. | quote: \"The Agent Interaction SDK gives developers a structured way to define how agents communicate status and progress.\"",
-          "Agent Interaction SDK — July 30, 2025: The SDK supports agent delegation, sessions, and activity reporting. | quote: \"Here’s what’s new in the Agent Interaction SDK:\"",
-          "API — July 17, 2025: Issue history now exposes delegation source and destination fields. | quote: \"Added fromDelegate and toDelegate fields to IssueHistory\"",
-          "Webhooks — July 17, 2025: Two additional external IPs may send webhooks, with signature verification recommended. | quote: \"Added two new external IPs that may be used to send webhooks: 34.134.222.122 and 35.222.25.142\"",
-          "Developer documentation — July 10, 2025: Documentation pages can be copied or fetched as Markdown for LLM use. | quote: \"Any Docs page can now be copied as Markdown, so you can feed the full content into an LLM.\"",
-          "API — July 10, 2025: Cycle state properties were added to the API. | quote: \"isActive , isFuture , isPast , isNext , and isPrevious properties are now available on cycles\"",
-          "API — July 10, 2025: Project lead fields were added to MCP project payloads. | quote: \"Added lead and leadId to Project payloads returned by the MCP server\""
-        ]
-      },
-      {
-        "t": 61.7,
-        "type": "tool",
-        "name": "read",
-        "target": "https://nango.dev/blog/linear-oauth-refresh-token-invalid-grant",
-        "summary": "23 facts",
-        "detail": [
-          "Page date: Apr 1, 2026 | quote: \"Apr 1, 2026\"",
-          "Linear refresh failures commonly return HTTP 400 with OAuth error `invalid_grant`. | quote: \"Common HTTP status: 400",
-          "The error means the stored refresh token cannot mint a new access token, and retrying the same request will continue failing. | quote: \"the refresh token you have stored can’t be used to mint a new access token. Retrying the same request will keep failing\"",
-          "Root causes include invalid, expired, revoked, or stale refresh tokens after rotation. | quote: \"This happens because the token is invalid, expired, revoked, or you’re using a stale token after rotation.\"",
-          "Linear rotates refresh tokens; exchanging one invalidates the previous access and refresh tokens. | quote: \"when a refresh token is exchanged, the previous access and refresh tokens are invalidated and new tokens are returned.\"",
-          "Concurrent refreshes can cause one process to overwrite the current refresh token with a stale one. | quote: \"one process stores the “new” refresh token, another process overwrites it with the stale one, and suddenly every refresh starts failing.\"",
-          "Linear access tokens expire in 24 hours when refresh tokens are enabled. | quote: \"Linear access tokens expire in 24 hours when refresh tokens are enabled.\"",
-          "An inactive, expired refresh token causes `invalid_grant` and requires re-authorization. | quote: \"if the refresh token itself has expired due to inactivity, Linear returns invalid_grant and requires re-authorization.\"",
-          "Removing or revoking the app invalidates all associated tokens. | quote: \"Linear immediately invalidates all associated tokens.\"",
-          "Refresh requests may be rejected because the token was already rotated, retried after a duplicate-refresh grace period, or sent with incorrect client credentials. | quote: \"The refresh token is stale because it was already rotated\"",
-          "Scope or app-configuration changes can invalidate existing refresh tokens and require re-authorization. | quote: \"existing refresh tokens may become invalid and require re-authorization.\"",
-          "Incorrect client credentials can result from secret rotation, wrong workspace credentials, or environment-variable errors. | quote: \"Using incorrect client_id or client_secret when refreshing tokens will result in invalid_grant errors.\"",
-          "Simultaneous refreshes by multiple workers create a race in which a worker uses a stale token. | quote: \"Worker B refreshes with the now-stale token and gets invalid_grant\"",
-          "Security heuristics may revoke tokens for unusual access patterns, suspicious activity, rate-limit violations, or detected compromise. | quote: \"Linear may revoke refresh tokens based on security heuristics or policy changes.\"",
-          "Persist every new `refresh_token` returned by Linear and use it for the next refresh. | quote: \"If Linear returns a new refresh_token on refresh, always persist it and use that value for the next refresh.\"",
-          "Refresh requests should use `grant_type=refresh_token`, form encoding, appropriate client authentication, and Linear’s token endpoint. | quote: \"grant_type=refresh_token",
-          "Only one refresh should run per connection; other requests should wait for the in-flight refresh. | quote: \"Only one refresh can run for a given connection at a time (distributed lock or single-flight)\"",
-          "Token state updates should atomically include access token, refresh token, and expiration time. | quote: \"Updates to (access_token, refresh_token, expires_at) happen atomically\"",
-          "Treat persistent `invalid_grant` as terminal after ruling out rotation and credential issues; trigger re-authentication instead of repeatedly retrying. | quote: \"treat invalid_grant as a terminal state for that connection.\"",
-          "The production playbook is to retry once, mark the connection as needing re-authentication after a second failure, pause background syncs, and ask the user to reconnect. | quote: \"If it fails again, mark the connection as “needs re-auth”\""
-        ]
-      },
-      {
-        "t": 61.7,
-        "type": "tool",
-        "name": "read",
-        "target": "https://github.com/ceedaragents/cyrus/issues/285",
         "summary": "12 facts",
         "detail": [
-          "Issue opened Sep 26, 2025 | quote: \"Linear OAuth access tokens expire after 24 hours, but Cyrus does not implement the proper refresh token flow\"",
-          "Token expiry timing | quote: \"Linear OAuth tokens ( LINEAR_OAUTH_TOKEN ) expire after 24 hours\"",
-          "Authentication impact | quote: \"When tokens expire, Cyrus fails with authentication errors\"",
-          "User impact | quote: \"Users must manually re-authorize to continue using Cyrus\"",
-          "Reproduction timing | quote: \"Wait 24 hours for the token to expire\"",
-          "Result after expiry | quote: \"Observe authentication failure requiring manual re-authorization\"",
-          "Workflow impact | quote: \"Daily manual re-authorization disrupts automated workflows\"",
-          "Pipeline impact | quote: \"Breaks continuous integration/deployment pipelines\"",
-          "Reliability impact | quote: \"Reduces the reliability of Cyrus as an automation tool\"",
-          "Maintainer context, Sep 26, 2025 | quote: \"we havent yet configured for the refresh tokens, only recently linear introduced them.\"",
-          "Resolution reported Nov 24, 2025 | quote: \"The PR adds automatic OAuth token refresh for self-hosting deployments, addressing the Linear 24-hour token expiration policy.\"",
-          "Issue closed Dec 29, 2025 | quote: \"this is official merged in now\""
+          "API and webhook access is included on the Free plan. | quote: \"API and webhook access Included Included Included Included\"",
+          "API and webhook access is included on the Basic plan. | quote: \"API and webhook access Included Included Included Included\"",
+          "API and webhook access is included on the Business plan. | quote: \"API and webhook access Included Included Included Included\"",
+          "API and webhook access is included on the Enterprise plan. | quote: \"API and webhook access Included Included Included Included\"",
+          "The Free plan costs $0. | quote: \"Free $0 Free for everyone\"",
+          "The Basic plan costs $10 per user/month and is billed yearly. | quote: \"$10 per user/month Billed yearly\"",
+          "The Business plan costs $16 per user/month and is billed yearly. | quote: \"$16 per user/month Billed yearly\"",
+          "Enterprise requires custom pricing and annual billing only. | quote: \"Enterprise Custom Annual billing only\"",
+          "Free and Basic plans have standard API rate limits. | quote: \"API rate limits Standard limits Standard limits 2x standard limits 5x standard limits\"",
+          "The Business plan has 2x standard API rate limits. | quote: \"API rate limits Standard limits Standard limits 2x standard limits 5x standard limits\"",
+          "The Enterprise plan has 5x standard API rate limits. | quote: \"API rate limits Standard limits Standard limits 2x standard limits 5x standard limits\"",
+          "The page does not show an FAQ section or a date. | quote: \"Pricing – Linear\""
         ]
       },
       {
-        "t": 61.7,
-        "type": "tool",
-        "name": "read",
-        "target": "https://linear.app/docs/api-and-webhooks",
-        "summary": "9 facts",
-        "detail": [
-          "Admins can control whether workspace Members may create personal API keys; Admins can always create them. | quote: \"Admins can choose whether or not Members can create their own API keys from _Settings > Administration > API > Member API keys._ This setting will not apply to Admins who can always create API keys.\"",
-          "Existing workspace API keys can be viewed and revoked by administrators. | quote: \"Existing API keys for your workspace can be viewed from the same menu and revoked if needed.\"",
-          "Admins and permitted Members create personal API keys under account security settings. | quote: \"Admins and permitted Members can create personal API keys from _Settings > Account > Security & Access._\"",
-          "Personal API keys can be configured with full or restricted permissions. | quote: \"For each key you create, you can choose to give it full access to the data your user can access, or restrict it to certain permissions (_Read, Write, Admin, Create issues, Create comments)._\"",
-          "Personal API keys can be limited to particular workspace teams. | quote: \"You can also limit an API key’s access to specific teams in your workspace.\"",
-          "Creating and managing webhooks requires admin permissions. | quote: \"Creating and managing webhooks requires admin permissions.\"",
-          "Admin permissions are required to access the workspace API administration page, where webhooks and OAuth applications are managed. | quote: \"Create and manage webhooks and OAuth applications in _Settings > Administration > API._ Admin permissions in your workspace are necessary to view this page.\"",
-          "API access and documentation are available from the account security settings. | quote: \"Go to the API section under Account > Security & Accesssettings and read the linkedAPI documentation for more information.\"",
-          "The page directs developers to more detailed documentation and an API community channel for unanswered questions. | quote: \"For more in depth documentation visit developers.linear.app. If you have a question the docs don’t answer, post it in the #api channel in our Slack community.\""
-        ]
-      },
-      {
-        "t": 61.7,
+        "t": 33.9,
         "type": "tool",
         "name": "read",
         "target": "https://linear.app/developers/aig",
         "summary": "8 facts",
         "detail": [
-          "Agents must clearly disclose their identity and never be mistaken for a person. | quote: \"The agent must signal its identity clearly so that it can never be mistaken for a person.\"",
-          "Agents should use the platform’s existing UI patterns and standard actions by default. | quote: \"By default, agents should be able to work through existing UI patterns and standard actions of the platform they operate in.\"",
-          "Agents should provide immediate, unobtrusive feedback when invoked. | quote: \"When invoked, an agent should provide immediate, but unobtrusive, feedback to reassure the user it has received a request.\"",
-          "Agents should transparently communicate their internal state, including whether they are thinking, waiting, executing, or finished. | quote: \"Agents should clearly indicate whether they’re thinking, waiting for input, executing, or finished working.\"",
-          "Users should be able to inspect an agent’s reasoning, tool calls, prompts, and decision logic when needed. | quote: \"Humans should be able to understand what’s happening at a glance and, when needed, inspect the underlying reasoning, tool calls, prompts, and decision logic.\"",
-          "Agents must immediately disengage when asked and only re-engage after a clear signal. | quote: \"When asked to disengage, an agent should step back, immediately – and only re-engage once it’s received a clear signal to do so.\"",
-          "Human responsibility must remain final even when an agent carries out tasks. | quote: \"An agent can carry out tasks, but the final responsibility should always remain with a human.\"",
-          "The guidelines are a living document expected to evolve through practical learning. | quote: \"This page is a living document and we expect to continually add to it as we learn more in practice.\""
+          "Agents must clearly disclose their identity and never be mistaken for people. | quote: \"An agent should always disclose that it’s an agent\"",
+          "Agents must signal their identity clearly when interacting with humans. | quote: \"The agent must signal its identity clearly so that it can never be mistaken for a person.\"",
+          "Agents should transparently indicate their internal state and allow inspection of reasoning, tools, prompts, and decision logic. | quote: \"Agents should clearly indicate whether they’re thinking, waiting for input, executing, or finished working.\"",
+          "Humans should be able to inspect an agent’s reasoning and operational details when needed. | quote: \"when needed, inspect the underlying reasoning, tool calls, prompts, and decision logic.\"",
+          "Agents must immediately disengage when asked and may only re-engage after a clear signal. | quote: \"When asked to disengage, an agent should step back, immediately – and only re-engage once it’s received a clear signal to do so.\"",
+          "Final responsibility for agent actions must remain with a human. | quote: \"An agent can carry out tasks, but the final responsibility should always remain with a human.\"",
+          "The page states that the guidelines are a living document expected to evolve with practical experience. | quote: \"This page is a living document and we expect to continually add to it as we learn more in practice.\"",
+          "No page date is shown."
         ]
       },
       {
-        "t": 61.7,
+        "t": 33.9,
         "type": "tool",
         "name": "read",
-        "target": "https://linear.app/developers/sdk-webhooks",
-        "summary": "7 facts",
+        "target": "https://linear.app/developers/webhooks",
+        "summary": "13 facts",
         "detail": [
-          "The TypeScript SDK provides a helper class for listening to Linear webhook events. | quote: \"The SDK provides a helper class to help you start listening to Linear webhook events quickly.\"",
-          "`LinearWebhookClient` creates a typed, signature-verified event listener. | quote: \"Use LinearWebhookClient to create a typed, signature-verified event listener that can be mounted on Bun, Fastify, Express, or other server frameworks\"",
-          "Configure the client with the webhook secret. | quote: \"const webhookClient = new LinearWebhookClient(\\\"WEBHOOK_SECRET\\\");\"",
-          "The handler must receive the exact raw request body for signature verification. | quote: \"Ensure no middleware (e.g., body parser) consumes the raw request body before the handler!\"",
-          "Parsing the body before verification causes signature verification to fail. | quote: \"Linear signs the exact raw body, so signature verification will fail if any parsing occurs beforehand.\"",
-          "The SDK includes a helper for manually verifying webhook signatures. | quote: \"It also provides a helper to verify webhook signatures , in case you’d like to handle the webhook events manually:\"",
-          "Manual verification uses the raw body, signature header, and webhook timestamp field. | quote: \"webhookClient.verify(\\n buf,\\n req.headers[LINEAR_WEBHOOK_SIGNATURE_HEADER] as string,\\n JSON.parse(buf.toString())[LINEAR_WEBHOOK_TS_FIELD],\\n );\""
+          "Webhook consumers must use a publicly accessible HTTPS, non-localhost URL. | quote: \"It’s available in a publicly accessible HTTPS, non-localhost URL\"",
+          "Linear recommends securing webhook POST requests by verifying their signature and timestamp, or checking the source IP address. | quote: \"You can do this in two ways: verifying the webhook request signature and timestamp, and checking the source IP address.\"",
+          "The `Linear-Signature` header contains a hex-encoded HMAC-SHA256 signature of the raw request body, signed with the webhook’s signing secret. | quote: \"This header contains a hex-encoded HMAC-SHA256 signature of the raw body contents, signed using the webhook’s signing secret.\"",
+          "The webhook signing secret is available on the webhook’s detail page. | quote: \"You can find the signing secret on the webhook’s detail page.\"",
+          "Webhook consumers should verify the `webhookTimestamp` is within one minute to help prevent replay attacks. | quote: \"We recommend that you verify it’s within a minute of the time your system sees it to guard against replay attacks.\"",
+          "Signature verification should use the raw request body rather than re-serializing parsed JSON. | quote: \"It’s strongly recommended to use raw request body rather than restringifying a parsed JSON body, otherwise the signature may differ.\"",
+          "Verification requires computing an HMAC over the request body with the webhook secret and comparing it with the `Linear-Signature` header. | quote: \"To verify the webhook, you need to compute the signature of the request body using the webhook’s signing secret and compare it against the Linear-Signature header.\"",
+          "The example verifies signatures using a timing-safe comparison. | quote: \"return crypto.timingSafeEqual(computedSignature, headerSignature);\"",
+          "The example rejects invalid signatures with HTTP 401. | quote: \"if (!verifySignature(req.get(\\\"linear-signature\\\"), req.rawBody)) {\\n return res.sendStatus(401);\\n }\"",
+          "The example rejects webhook requests older or newer than 60 seconds to prevent replay attacks. | quote: \"if (Math.abs(Date.now() - req.body.webhookTimestamp) > 60 * 1000) {\\n // Reject any webhooks not within 60 seconds of the current time to prevent replay attacks.\"",
+          "Linear provides a `Linear-Timestamp` header containing the Unix timestamp in milliseconds when the webhook was sent. | quote: \"Linear-Timestamp \\n A Unix timestamp, in milliseconds, when the webhook was sent.\"",
+          "Linear provides a `Linear-Signature` header described as the HMAC signature of the webhook payload. | quote: \"Linear-Signature \\n HMAC signature of the webhook payload.\"",
+          "Consumers can additionally validate the webhook source IP against Linear’s documented outbound IP addresses. | quote: \"In addition to verifying the signature, you can check the source IP address. Our outbound IP addresses are documented on our Security page .\""
         ]
       },
       {
-        "t": 61.7,
+        "t": 33.9,
         "type": "tool",
         "name": "read",
-        "target": "https://linear.app/developers/oauth-2-0-authentication",
-        "summary": "11 facts",
+        "target": "https://linear.app/docs/third-party-application-approvals",
+        "summary": "9 facts",
         "detail": [
-          "Scope `write` — write access for the user’s account. | quote: \"write - Write access for the user’s account. If your application only needs to create comments, use a more targeted scope\"",
-          "Scope `issues:create` — allows creating and updating issues and creating attachments. | quote: \"issues:create - Allows creating and updating issues, and creating their attachments\"",
-          "Scope `comments:create` — allows creating new issue comments. | quote: \"comments:create - Allows creating new issue comments\"",
-          "Scope `timeSchedule:write` — allows creating and modifying time schedules. | quote: \"timeSchedule:write - Allows creating and modifying time schedules\"",
-          "Scope `admin` — full access to admin-level endpoints; the page says it should only be requested when absolutely needed. | quote: \"admin - Full access to admin level endpoints. You should never ask for this permission unless it’s absolutely needed\"",
-          "App-specific scopes are referenced but not enumerated on this page. | quote: \"See App authentication for agent-specific scopes such as app:assignable or app:mentionable .\"",
-          "User approval is part of the authorization flow. | quote: \"Once the user approves your application they will be redirected back to your application, with the OAuth authorization code in the URL params.\"",
-          "The consent prompt is optional and can force the consent screen to appear every time. | quote: \"prompt=consent\"",
-          "No approval or review requirement for requesting write/create scopes is stated on the page. | quote: \"When authorizing a user to the Linear API, redirect to an authorization URL with correct parameters and scopes:\"",
-          "No test cap or testing-limit requirement is stated on the page. | quote: \"Linear supports OAuth2 authentication, which is recommended if you’re building applications to integrate with Linear.\"",
-          "The page notes that all OAuth2 applications were migrated to the new refresh-token system on April 1, 2026. | quote: \"All OAuth2 applications were migrated to the new refresh token system on April 1, 2026.\""
+          "Third-party application approvals are available on any paid plan. | quote: \"Third-party application approvals are available on any paid plan.\"",
+          "In Enterprise workspaces, only a workspace owner can enable third-party application approvals. | quote: \"A workspace owner in an Enterprise workspace\"",
+          "In other paid workspaces, a workspace admin can enable third-party application approvals. | quote: \"or a workspace admin in any other paid workspace—can turn on third-party application approvals\"",
+          "Approvals are enabled from Settings > Administration > Security. | quote: \"can turn on third-party application approvals from Settings > Administration > Security.\"",
+          "Approved and denied applications are listed in Applications. | quote: \"Apps that have been approved or denied will show up in Applications.\"",
+          "Members can request approval when attempting to install a third-party app and may provide a reason. | quote: \"When a workspace member tries to install a third-party app, Linear will display a screen which allows the member to request approval and optionally include a reason for their request.\"",
+          "If an application was previously denied, the requester is informed and shown the reason. | quote: \"If the application has already been denied previously, Linear will let the requestor know and share the reason.\"",
+          "Enterprise workspace owners and admins of other paid workspaces receive notifications for approval requests. | quote: \"Workspace owners in Enterprise workspaces—and workspace admins in all other paid workspaces—will receive an email and an in-app notification when an application has been requested for approval.\"",
+          "The requester is notified after an application is approved or denied. | quote: \"Once the application has been approved or denied, the member who requested the application will also receive an email and an in-app notification.\""
         ]
       },
       {
-        "t": 92.5,
+        "t": 50.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:linear.app \"AI\" API Terms developer terms Linear LLM",
+        "summary": "8 results",
+        "detail": [
+          "AI Services Addendum - linear.app | https://linear.app/legal/ai-addendum",
+          "Acceptable Use Policy - linear.app | https://linear.app/legal/aup",
+          "Terms of Service - linear.app | https://linear.app/terms",
+          "Getting Started – Linear Developers | https://linear.app/developers/agents",
+          "Developing the Agent Interaction – Linear Developers | https://linear.app/developers/agent-interaction",
+          "Linear Developers | https://linear.app/developers",
+          "MCP server – Linear Docs | https://mcp.linear.app/",
+          "Getting started – Linear Developers | https://linear.app/developers/graphql"
+        ]
+      },
+      {
+        "t": 50.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:linear.app/changelog agent OAuth Linear 2026 2025",
+        "summary": "8 results",
+        "detail": [
+          "Linear for Agents – Changelog | https://linear.app/changelog/2025-05-20-linear-for-agents",
+          "Linear MCP server – Changelog | https://linear.app/changelog/2025-05-01-mcp",
+          "Agent Interaction Guidelines and SDK – Changelog | https://linear.app/changelog/2025-07-30-agent-interaction-guidelines-and-sdk",
+          "New to Product Intelligence: Auto-apply triage suggestions | https://linear.app/changelog/2025-09-19-auto-apply-triage-suggestions",
+          "Mobile app redesign – Changelog - linear.app | https://linear.app/changelog/2025-10-16-mobile-app-redesign",
+          "Introducing Linear Agent – Changelog | https://linear.app/changelog/2026-03-24-introducing-linear-agent",
+          "Linear Agent MCP support – Changelog | https://linear.app/changelog/2026-04-23-linear-agent-mcp-support",
+          "Agent assisted project updates – Changelog - linear.app | https://linear.app/changelog/2026-06-18-agent-assisted-project-updates"
+        ]
+      },
+      {
+        "t": 50.6,
+        "type": "tool",
+        "name": "search",
+        "target": "Linear integration directory review approval time Reddit community",
+        "summary": "4 results",
+        "detail": [
+          "Integration Directory – Linear Docs | https://linear.app/docs/integration-directory",
+          "Integration Directory – Linear Developers | https://linear.app/developers/integration-directory",
+          "Integration directory – Changelog | https://linear.app/changelog/2022-06-16-integration-directory",
+          "How to get listed on Linear Integration Directory (Free) | https://www.altftool.com/backlinks/linear-integration-directory"
+        ]
+      },
+      {
+        "t": 50.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:linear.app/developers \"app:mentionable\" scopes OAuth",
+        "summary": "3 results",
+        "detail": [
+          "Getting Started – Linear Developers | https://linear.app/developers/agents",
+          "OAuth 2.0 authentication – Linear Developers | https://linear.app/developers/oauth-2-0-authentication",
+          "linear.app | https://linear.app/developers/agents.md"
+        ]
+      },
+      {
+        "t": 50.6,
+        "type": "tool",
+        "name": "search",
+        "target": "site:linear.app/developers GraphQL API endpoint oauth personal api keys",
+        "summary": "4 results",
+        "detail": [
+          "Getting started – Linear Developers | https://linear.app/developers/graphql",
+          "OAuth 2.0 authentication – Linear Developers | https://linear.app/developers/oauth-2-0-authentication",
+          "Getting started – Linear Developers | https://linear.app/developers/sdk",
+          "Advanced usage – Linear Developers | https://linear.app/developers/advanced-usage"
+        ]
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://linear.app/developers/graphql",
+        "summary": "8 facts",
+        "detail": [
+          "Linear’s GraphQL API endpoint is `https://api.linear.app/graphql`. | quote: \"Linear’s GraphQL endpoint is:\"",
+          "The exact API endpoint is `https://api.linear.app/graphql`. | quote: \"https://api.linear.app/graphql It supports introspection so you can query the whole schema.\"",
+          "Linear supports both personal API keys and OAuth2 authentication. | quote: \"The Linear API supports personal API keys and OAuth2 authentication.\"",
+          "OAuth2 is recommended for applications used by others. | quote: \"If you’re building an application for others to use, we recommend you use OAuth2 authentication\"",
+          "OAuth access tokens must be sent using the Bearer authorization header. | quote: \"pass it with the header Authorization: Bearer <ACCESS_TOKEN>\"",
+          "Personal API keys are recommended for personal scripts. | quote: \"For personal scripts API keys are the easiest way to access the API.\"",
+          "Personal API keys must be sent using the `Authorization: <API_KEY>` header. | quote: \"To authenticate your requests, you need to pass the API key with header: Authorization: <API_KEY>\"",
+          "The API accepts either OAuth or API keys for authenticated image access. | quote: \"Regular API authentication (OAuth or API keys) is accepted for displaying images.\""
+        ]
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://linear.app/changelog/2025-09-19-auto-apply-triage-suggestions",
+        "summary": "6 facts",
+        "detail": [
+          "Page date: September 18, 2025 | quote: \"September 18, 2025\"",
+          "Linear is moving OAuth apps to short-lived access tokens for user-initiated OAuth. | quote: \"We’re moving OAuth apps to use short-lived access tokens for user-initiated OAuth.\"",
+          "New OAuth access tokens will be valid for 24 hours and paired with refresh tokens. | quote: \"These new tokens will be valid for 24 hours and paired with refresh tokens.\"",
+          "Starting October 1, 2025, newly created OAuth apps will issue refresh tokens by default. | quote: \"Starting October 1st, 2025, all newly created OAuth apps will issue refresh tokens by default.\"",
+          "Existing OAuth apps have until April 1, 2026, to migrate to the new refresh token system. | quote: \"Existing apps will have until April 1st, 2026 to migrate to the new refresh token system.\"",
+          "Linear added support for the `client_credentials` grant type for apps using OAuth tokens for direct server-to-server communication that cannot support a user-initiated OAuth flow involving refresh tokens. | quote: \"We also added support for the client_credentials grant type for apps that use OAuth tokens for direct server-to-server communication and cannot support a user-initiated OAuth flow involving refresh tokens.\""
+        ]
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://linear.app/changelog/2025-07-30-agent-interaction-guidelines-and-sdk",
+        "summary": "9 facts",
+        "detail": [
+          "Date: July 30, 2025 | quote: \"Agent Interaction Guidelines and SDK\"",
+          "Linear introduced the Agent Interaction Guidelines (AIG), a framework based on learnings from agent partners to help developers design agents that integrate naturally into human workflows. | quote: \"These principles and practices help developers design agents that integrate more naturally into human workflows.\"",
+          "AIG is a living document expected to expand as Linear gains practical experience. | quote: \"AIG is a living document, and we expect to continually add to it as we learn more in practice.\"",
+          "Linear released the Agent Interaction SDK as a developer preview to structure how agents communicate status and progress, with Linear automatically rendering the appropriate UI. | quote: \"The Agent Interaction SDK gives developers a structured way to define how agents communicate status and progress.\"",
+          "Agent delegation now keeps the user as the primary assignee and adds the agent as a contributor working on the user’s behalf. | quote: \"When a user delegates an issue to an agent, the user remains the primary assignee, while the agent is added as a contributor working on the user’s behalf.\"",
+          "Agent sessions can communicate whether an agent is actively working, waiting for input, encountering an error, or finished. | quote: \"Agents can share a rich status indicating whether they’re actively working, waiting for input, have encountered an error, or completed their work.\"",
+          "Agent activity can expose reasoning steps, tool usage, clarification prompts, and final responses. | quote: \"Agents can expose detailed activity like their reasoning steps, tool usage, prompts for clarification, and final responses.\"",
+          "The SDK provides structured, semantic communication of agent behavior and real-time visibility into agent activity within Linear. | quote: \"These updates give agent developers a structured, semantic way to communicate agent behavior, while giving users realtime visibility into what agents are doing\"",
+          "Developers can begin implementing the SDK capabilities immediately. | quote: \"The Agent Interaction SDK is available as a developer preview, and developers can start implementing the new capabilities today.\""
+        ]
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://linear.app/legal/aup",
+        "summary": "26 facts",
+        "detail": [
+          "Effective date: June 09, 2026. | quote: \"Effective date : June 09, 2026\"",
+          "AI-generated legal, medical, financial, insurance, and other regulated professional advice requires qualified licensed professional review before delivery or reliance. | quote: \"You may not use AI Features to provide legal, medical, financial, insurance, or other regulated professional advice without review by a qualified, licensed professional\"",
+          "AI-generated content may not be falsely presented as the work of a specific human or used to deceive people about whether they are interacting with a human or AI. | quote: \"You may not present AI-generated content as the work of a specific human or in a manner intended to deceive a person about whether they are interacting with a human or AI\"",
+          "Consumer-facing chatbots and similar interactive AI systems must disclose that users are interacting with AI. | quote: \"consumer-facing chatbots and similar interactive systems built on the AI Features must clearly disclose that the user is interacting with AI\"",
+          "Impersonation of a real person or organization without consent is prohibited. | quote: \"You may not impersonate a real person or organization without consent.\"",
+          "Circumventing AI safety controls, including through jailbreaking, prompt injection, or adversarial prompts, is prohibited. | quote: \"You may not bypass or circumvent the AI Features’ safety controls, including by means of jailbreaking, prompt injection, or adversarial prompts.\"",
+          "Inputs and outputs may not be used to train, fine-tune, distill, or extract weights from competing AI models. | quote: \"You may not use inputs to or outputs of the AI Features to train, fine-tune, distill, or extract weights from any AI model that competes with the AI Features\"",
+          "AI Features may not be used as a proxy, gateway, or reseller to provide AI capabilities to unauthorized third parties. | quote: \"You may not use the AI Features as a proxy, gateway, or reseller offering to provide AI capabilities to third parties outside your authorized users.\"",
+          "Creating or disseminating disinformation, deceptive synthetic media of real persons, fake reviews, testimonials, or endorsements is prohibited. | quote: \"You may not use AI Features to create or disseminate disinformation, synthetic media of real persons designed to deceive, or fake reviews, testimonials, or endorsements.\"",
+          "AI Features may not be used for practices prohibited or classified as high-risk under the EU AI Act or analogous laws. | quote: \"You may not use AI Features for any practice prohibited or classified as high-risk under the EU Artificial Intelligence Act or analogous laws\"",
+          "Prohibited practices include subliminal, manipulative, or deceptive techniques that materially distort behavior. | quote: \"subliminal, manipulative, or deceptive techniques that materially distort behavior\"",
+          "Exploiting vulnerabilities based on age, disability, or socioeconomic status is prohibited. | quote: \"exploitation of vulnerabilities based on age, disability, or socio-economic status\"",
+          "Social scoring of individuals is prohibited. | quote: \"social scoring of individuals\"",
+          "Emotion inference in workplace or educational settings is prohibited, except for medical or safety purposes. | quote: \"emotion inference in workplace or educational settings (other than for medical or safety purposes)\"",
+          "Biometric categorization to infer sensitive traits, including race, political opinions, religion, sex life, or sexual orientation, is prohibited. | quote: \"biometric categorization to infer race, political opinions, trade union membership, religious or philosophical beliefs, sex life, or sexual orientation\"",
+          "Predictive policing based on profiling is prohibited. | quote: \"predictive policing based on profiling.\"",
+          "AI use must comply with Linear’s AI subprocessors’ acceptable use policies; where policies conflict, the more restrictive policy applies. | quote: \"Where this AUP and a subprocessor’s policy conflict, the more restrictive policy applies.\"",
+          "High-risk AI use requires qualified human review and approval before AI output is disseminated or acted upon. | quote: \"a qualified human reviewer in the relevant field must review and approve the AI output before any decision, advice, recommendation, or content is disseminated or acted upon\"",
+          "AI use must be disclosed when generated output is presented to or relied upon by an end user, consumer, or member of the public in a high-risk use case. | quote: \"you must clearly disclose that AI was used.\"",
+          "Users remain responsible for the accuracy, appropriateness, and legal compliance of AI output they rely on or distribute. | quote: \"You remain responsible for the accuracy, appropriateness, and legal compliance of any output you rely on or distribute.\""
+        ]
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://linear.app/developers/oauth-actor-authorization",
+        "summary": "18 facts",
+        "detail": [
+          "By default, Linear treats the authenticating user as the API actor, so actions appear to come from that user. | quote: \"By default all Linear’s API authentication methods treat the authenticating user as the API actor.\"",
+          "OAuth Actor Authorization makes the app—not the user—the actor, after the user authorizes installing the app in the workspace. | quote: \"when authenticating this way the user will instead authorize installing the app within the workspace, actions performed with the received OAuth token will come from the app itself.\"",
+          "Enable app-actor authorization by adding the `actor=app` parameter to the OAuth authorization URL. | quote: \"To enable the actor authorization, add actor=app parameter to your OAuth authorization URL .\"",
+          "The actor setting applies to both the authorization and its access token. | quote: \"The setting is tied to the authorization and its access token.\"",
+          "In app-actor mode, mutations such as issue creation, comments, and status changes are performed by the app. | quote: \"In this mode, all mutations such as creating issues, comments, and status changes will be performed by the app.\"",
+          "Token renewal behavior is unchanged by using `actor=app`. | quote: \"Using actor=app changes the identity that performs actions, not how tokens are renewed.\"",
+          "Authorization-code grants require the refresh token to obtain a new access and refresh token pair. | quote: \"Authorization-code grants: Use the refresh token to obtain a new access and refresh token pair.\"",
+          "Client-credentials grants do not issue refresh tokens; request a new access token shortly before expiration. | quote: \"Client-credentials grants: No refresh token is issued. Request a new access token shortly before the current one expires.\"",
+          "Updating scopes for an authorization-code installation requires repeating the flow with `update_scopes_on_existing_token=true` and requesting all existing plus new scopes. | quote: \"repeat the authorization flow with update_scopes_on_existing_token=true . Request the complete scope set: all existing scopes plus any scopes being added.\"",
+          "Scope updates are subject to permission and team-access checks. | quote: \"The update is subject to permission and team-access checks.\"",
+          "Exchanging the updated authorization code replaces the installation’s access and refresh tokens, so all processes sharing the credentials must be updated. | quote: \"Exchanging the resulting authorization code replaces the installation’s access and refresh tokens, even if the scopes have not changed.\"",
+          "Removing scopes requires revoking the existing authorization and authorizing again with the reduced scope set. | quote: \"To remove scopes, revoke the existing authorization and authorize again with the reduced scope set.\"",
+          "Repeating the ordinary installation flow without the update parameter does not change an existing installation’s scopes. | quote: \"Repeating the ordinary installation flow without update_scopes_on_existing_token=true does not update an existing installation.\"",
+          "For client credentials, requesting a new scope set revokes existing app-actor tokens for that app in the workspace. | quote: \"Adding or removing scopes revokes existing app-actor tokens for that app in the workspace.\"",
+          "Processes sharing a client-credentials app must use the same scope set to avoid token invalidation. | quote: \"Processes sharing the app must use the same scope set to avoid invalidating each other’s tokens.\"",
+          "A custom user name and avatar can identify actions performed by the app for users without Linear accounts. | quote: \"You can also add an optional user name and avatar to go with the application to have it rendered in User (via Application) format.\"",
+          "The custom display name is set with `createAsUser`, and the avatar URL with `displayIconUrl`, in `issueCreate` or `commentCreate` mutations. | quote: \"To set the custom user name, set the createAsUser attribute with the user name and set displayIconUrl with the URL of the avatar in issueCreate or commentCreate mutations:\"",
+          "The former `actor=application` mode is deprecated in favor of `actor=app`, though existing apps may continue using it. | quote: \"actor=application as a mode – this was deprecated in favor of the behavior in actor=app . If your app already uses this option then you can continue to do so.\""
+        ]
+      },
+      {
+        "t": 62.1,
+        "type": "tool",
+        "name": "read",
+        "target": "https://nango.dev/docs/api-integrations/linear/how-to-register-your-own-linear-api-oauth-app",
+        "summary": "8 facts",
+        "detail": [
+          "Registering a dedicated OAuth app lets users grant the app access to their Linear accounts. | quote: \"This guide shows you how to register your own app with Linear to obtain your OAuth credentials (client ID & secret).\"",
+          "Create the app under a Linear workspace’s OAuth application settings. | quote: \"Under your specific workspace, navigate to Settings > API > OAuth applications.\"",
+          "Use a dedicated workspace because workspace administrators will have access to the OAuth app. | quote: \"It is highly recommended to create a dedicated workspace for managing your OAuth application, as each admin user will have access.\"",
+          "Set Nango’s callback URL and enable public installation for other workspaces. | quote: \"For Callback URLs, add https://api.nango.dev/oauth/callback and toggle the Public switch to allow installation in other workspaces.\"",
+          "Enable refresh tokens for new connections, especially because Linear is moving to short-lived access tokens. | quote: \"Newly created OAuth applications will have the Refresh Tokens option enabled by default.\"",
+          "Existing OAuth apps need the Refresh Token option enabled before new connections will include refresh tokens. | quote: \"Existing OAuth2 apps must be updated to support refresh tokens by toggling the Refresh Token option in the OAuth settings.\"",
+          "Copy the generated client credentials for configuring the Nango integration. | quote: \"After creating your application, you’ll be provided with Client ID and Client Secret.\"",
+          "Page last modified date: January 28, 2026. | quote: \"2026-01-28T17:05:38.368Z\""
+        ]
+      },
+      {
+        "t": 89,
         "type": "status",
         "message": "Probing the provider's OAuth endpoints"
       },
       {
-        "t": 93,
+        "t": 90.4,
         "type": "tool",
         "name": "probe",
-        "target": "linear.app",
+        "target": "linear.app, api.linear.app",
         "summary": "failed: no discovery document on these hosts (provider may not support OIDC)"
       },
       {
-        "t": 93,
+        "t": 90.4,
         "type": "tool",
         "name": "probe",
         "target": "https://linear.app/oauth/authorize",
         "summary": "ok: HTTP 200"
       },
       {
-        "t": 93,
+        "t": 90.4,
         "type": "tool",
         "name": "probe",
         "target": "https://linear.app/settings/api/applications/new",
         "summary": "ok: HTTP 200 (final: https://linear.app/settings/api/applications/new)"
       },
       {
-        "t": 93,
+        "t": 90.4,
         "type": "status",
         "message": "Writing guide"
       },
       {
-        "t": 132.1,
+        "t": 124.4,
         "type": "status",
         "message": "Writing the sign-in link and curl commands"
       },
       {
-        "t": 149.7,
+        "t": 141.4,
         "type": "status",
         "message": "Checking quotes against the pages the agent read"
       },
       {
-        "t": 149.7,
+        "t": 141.5,
         "type": "status",
         "message": "Checking the guide for contradictions"
       }

@@ -79,13 +79,13 @@ function Evidence({ claim }: { claim: Claim }) {
       </span>
     );
   return (
-    <details className="group mt-2">
+    <details className="group/ev mt-2">
       <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 select-none" title={e.tip}>
         <span className={`label inline-flex items-center gap-1.5 ${e.cls}`}>
           <span className={`h-1.5 w-1.5 ${e.dot}`} /> {e.label}
         </span>
         <span className="text-xs text-muted">· {hosts.join(", ")}</span>
-        <Chevron className="h-3 w-3 text-muted transition-transform group-open:rotate-90" />
+        <Chevron className="h-3 w-3 text-muted transition-transform group-open/ev:rotate-90" />
       </summary>
       <ul className="mt-3 space-y-3 border-l border-line pl-4">
         {claim.sources.map((s, i) => (
@@ -113,10 +113,13 @@ export function GuideView({ guide }: { guide: Guide }) {
   const v = guide.verdict;
   const steps = guide.phases.flatMap((p) => p.steps);
   const count = (o: keyof typeof OWNER) => steps.filter((s) => s.owner === o).length;
+  const { quotes, verified, claims } = evidenceStats(guide);
+  const unverified = claims.filter((c) => c.evidence === "unverified").length;
+  const pct = quotes.length ? Math.round((verified / quotes.length) * 100) : 0;
 
   return (
     <article>
-      {/* Verdict */}
+      {/* 1. Verdict: always visible, the answer in one screen */}
       <header id="ref-verdict" className="scroll-mt-16 border-b border-line px-5 pt-6 pb-10 sm:px-8 sm:pt-8">
         <Link href="/#library" className="label group mb-6 inline-flex items-center gap-1.5 text-muted hover:text-ink">
           <ArrowRight className="h-3.5 w-3.5 rotate-180 transition-transform group-hover:-translate-x-0.5" /> All guides
@@ -155,12 +158,26 @@ export function GuideView({ guide }: { guide: Guide }) {
         ))}
       </dl>
 
-      {guide.agentPath && <AgentPath path={guide.agentPath} />}
-      {guide.essentials.length > 0 && <Essentials items={guide.essentials} />}
-      {guide.requests.length > 0 && <Requests items={guide.requests} />}
+      {/* 2. What to build: the recommendation is visible, the scope table is one click away */}
+      {guide.agentPath && (
+        <section id="ref-path" className="ask-target scroll-mt-16 border-b border-line px-5 py-7 sm:px-8">
+          <h2 className="label text-muted">What to build</h2>
+          <p className="mt-3 max-w-[72ch] text-[17px] leading-relaxed text-ink">{guide.agentPath.recommendation.text}</p>
+          <Evidence claim={guide.agentPath.recommendation} />
+          {guide.agentPath.scopeTiers.length > 0 && (
+            <details className="group/tiers mt-5">
+              <summary className="label inline-flex cursor-pointer list-none items-center gap-2 border border-line px-3 py-2 text-ink-2 select-none hover:border-ink hover:text-ink">
+                Which scopes to ask for · {guide.agentPath.scopeTiers.length} options
+                <Chevron className="h-3 w-3 transition-transform group-open/tiers:rotate-90" />
+              </summary>
+              <ScopeTable tiers={guide.agentPath.scopeTiers} />
+            </details>
+          )}
+        </section>
+      )}
 
-      {/* Path */}
-      <section className="grid border-b border-line lg:grid-cols-[240px_1fr]">
+      {/* 3. Steps: a one-line checklist; each step expands to the how, the agent's draft and the evidence */}
+      <section className="grid border-b border-line lg:grid-cols-[220px_1fr]">
         <aside className="border-b border-line px-5 py-6 sm:px-8 lg:border-r lg:border-b-0">
           <div className="lg:sticky lg:top-20">
             <h2 className="label text-muted">
@@ -180,9 +197,7 @@ export function GuideView({ guide }: { guide: Guide }) {
             <ul className="mt-3 space-y-2">
               {(Object.keys(OWNER) as (keyof typeof OWNER)[]).map((o) => (
                 <li key={o} className="flex items-center justify-between gap-3 text-sm text-ink-2">
-                  <span className="flex items-center gap-2">
-                    <span className={`label px-1.5 py-0.5 ${OWNER[o].cls}`}>{OWNER[o].label}</span>
-                  </span>
+                  <span className={`label px-1.5 py-0.5 ${OWNER[o].cls}`}>{OWNER[o].label}</span>
                   <span className="tnum text-muted">{count(o)}</span>
                 </li>
               ))}
@@ -191,38 +206,47 @@ export function GuideView({ guide }: { guide: Guide }) {
         </aside>
 
         <div>
+          <p className="border-b border-line px-5 py-3 text-sm text-muted sm:px-8">Click a step to see how to do it and where it comes from.</p>
           {guide.phases.map((p, pi) => (
             <section key={pi} id={`phase-${pi}`} className="scroll-mt-16 border-b border-line last:border-b-0">
-              <h3 className="flex items-baseline gap-3 px-5 pt-7 pb-2 sm:px-8">
+              <h3 className="flex items-baseline gap-3 px-5 pt-5 pb-1 sm:px-8">
                 <span className="label tnum text-muted">{String(pi + 1).padStart(2, "0")}</span>
-                <span className="text-lg font-medium tracking-tight text-ink">{p.name}</span>
+                <span className="font-medium tracking-tight text-ink">{p.name}</span>
               </h3>
-              <ul>
+              <ul className="pb-2">
                 {p.steps.map((s, si) => (
-                  <li key={si} id={`ref-step-${pi}-${si}`} className="ask-target grid scroll-mt-16 gap-x-6 gap-y-2 px-5 py-5 sm:grid-cols-[96px_1fr_auto] sm:px-8 [&+li]:border-t [&+li]:border-line">
-                    <span className={`label h-fit w-fit px-1.5 py-0.5 ${OWNER[s.owner].cls}`} title={OWNER[s.owner].long}>
-                      {OWNER[s.owner].label}
-                    </span>
-                    <div className="min-w-0">
-                      <p className="font-medium text-ink">
-                        {s.link ? (
-                          <a href={s.link} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-brand">
-                            {s.title} <ArrowUpRight className="h-3.5 w-3.5" />
+                  <li key={si} id={`ref-step-${pi}-${si}`} className="ask-target scroll-mt-16">
+                    <details className="group/step">
+                      <summary className="grid cursor-pointer list-none grid-cols-[80px_1fr_auto] items-center gap-x-4 px-5 py-3 select-none hover:bg-ground sm:grid-cols-[88px_1fr_auto_16px] sm:px-8">
+                        <span className={`label w-fit px-1.5 py-0.5 ${OWNER[s.owner].cls}`} title={OWNER[s.owner].long}>
+                          {OWNER[s.owner].label}
+                        </span>
+                        <span className="min-w-0 text-[15px] text-ink">
+                          {s.title}
+                          {s.output && s.owner === "agent" && <span className="label ml-2 text-brand">· draft included</span>}
+                        </span>
+                        <span className="label tnum text-right text-muted">{s.effort}</span>
+                        <Chevron className="hidden h-3.5 w-3.5 text-muted transition-transform group-open/step:rotate-90 sm:block" />
+                      </summary>
+                      <div className="px-5 pt-1 pb-5 sm:pr-8 sm:pl-[136px]">
+                        <p className="max-w-[72ch] text-[15px] leading-relaxed text-ink-2">{s.detail.text}</p>
+                        {s.link && (
+                          <a href={s.link} target="_blank" rel="noreferrer" className="label mt-2 inline-flex items-center gap-1 text-brand hover:text-brand-hover">
+                            Open <ArrowUpRight className="h-3 w-3" />
                           </a>
-                        ) : (
-                          s.title
                         )}
-                      </p>
-                      <p className="mt-1.5 max-w-[72ch] text-[15px] leading-relaxed text-ink-2">{s.detail.text}</p>
-                      {s.output && (
-                        <div className="mt-3 max-w-[72ch] border border-line bg-ground">
-                          <p className="label border-b border-line px-3 py-1.5 text-brand">Drafted by the agent</p>
-                          <pre className="overflow-x-auto px-3 py-2.5 font-mono text-xs leading-relaxed whitespace-pre-wrap text-ink-2">{s.output}</pre>
-                        </div>
-                      )}
-                      <Evidence claim={s.detail} />
-                    </div>
-                    {s.effort && <span className="label tnum h-fit text-muted sm:max-w-[160px] sm:text-right">{s.effort}</span>}
+                        {s.output && (
+                          <div className="mt-3 max-w-[72ch] border border-line bg-ground">
+                            <div className="flex items-center justify-between border-b border-line px-3 py-1.5">
+                              <p className="label text-brand">Drafted by the agent</p>
+                              <CopyButton text={s.output} />
+                            </div>
+                            <pre className="overflow-x-auto px-3 py-2.5 font-mono text-xs leading-relaxed whitespace-pre-wrap text-ink-2">{s.output}</pre>
+                          </div>
+                        )}
+                        <Evidence claim={s.detail} />
+                      </div>
+                    </details>
                   </li>
                 ))}
               </ul>
@@ -231,59 +255,95 @@ export function GuideView({ guide }: { guide: Guide }) {
         </div>
       </section>
 
-      <div className="grid border-b border-line md:grid-cols-2">
-        <ClaimList title="Gotchas" claims={guide.gotchas} idPrefix="ref-gotcha" />
-        <ClaimList title="When you're blocked" claims={guide.whenBlocked} idPrefix="ref-blocked" className="border-t border-line md:border-t-0 md:border-l" />
-      </div>
-
-      {/* Evidence */}
-      <section className="px-5 py-10 sm:px-8">
-        <h2 className="text-2xl font-normal tracking-[-0.02em] text-ink">How we know</h2>
-        <p className="mt-2 max-w-[68ch] text-ink-2">
-          Every claim shows where it came from. After the guide is written, code re-opens each cited page and checks the quote is
-          really there, word for word. If it isn&apos;t, the claim is marked Unverified instead of hidden.
-        </p>
-        <EvidenceSummary guide={guide} />
-        {guide.probes.length > 0 && (
-          <div className="mt-8">
-            <h3 className="label text-muted">Endpoint checks (unauthenticated requests the agent made)</h3>
-            <ul className="mt-3 border border-line">
-              {guide.probes.map((p, i) => (
-                <li key={i} className="grid gap-1 px-4 py-3 font-mono text-xs sm:grid-cols-[20px_160px_1fr] [&+li]:border-t [&+li]:border-line">
-                  {p.ok ? <Check className="h-4 w-4 text-green" /> : <Cross className="h-4 w-4 text-red" />}
-                  <span className="text-ink">{p.name}</span>
-                  <span className="break-all text-muted">
-                    {p.target} <span className="text-ink-2">→ {p.result}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
+      {/* 4. Detail on demand */}
+      {guide.essentials.length > 0 && (
+        <Fold title="Quick facts" meta={`${guide.essentials.length} topics · tokens, limits, cost, review, security`}>
+          <Essentials items={guide.essentials} />
+        </Fold>
+      )}
+      {guide.requests.length > 0 && (
+        <Fold title="Try it: the sign-in link and requests" meta={`${guide.requests.length} ready-to-run ${guide.requests.length === 1 ? "request" : "requests"}`}>
+          <Requests items={guide.requests} />
+        </Fold>
+      )}
+      {(guide.gotchas.length > 0 || guide.whenBlocked.length > 0) && (
+        <Fold title="Gotchas and what to do when blocked" meta={`${guide.gotchas.length} gotchas · ${guide.whenBlocked.length} ways forward`}>
+          <div className="grid border-t border-line md:grid-cols-2">
+            <ClaimList title="Gotchas" claims={guide.gotchas} idPrefix="ref-gotcha" />
+            <ClaimList title="When you're blocked" claims={guide.whenBlocked} idPrefix="ref-blocked" className="border-t border-line md:border-t-0 md:border-l" />
           </div>
-        )}
-        {guide.uncertain.length > 0 && (
-          <div id="ref-uncertain" className="ask-target mt-8 scroll-mt-16">
-            <h3 className="label text-muted">Still uncertain</h3>
-            <ul className="mt-3 max-w-[76ch] space-y-2 text-[15px] leading-relaxed text-ink-2">
-              {guide.uncertain.map((u, i) => (
-                <li key={i} className="flex gap-3">
-                  <span className="mt-2.5 h-1 w-1 shrink-0 bg-muted" />
-                  {u}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </section>
+        </Fold>
+      )}
+      <Fold
+        title="How we know"
+        meta={`${pct}% of quotes confirmed on their page${unverified ? ` · ${unverified} unverified` : ""}${guide.uncertain.length ? ` · ${guide.uncertain.length} open ${guide.uncertain.length === 1 ? "question" : "questions"}` : ""}`}
+      >
+        <div className="border-t border-line px-5 py-8 sm:px-8">
+          <p className="max-w-[68ch] text-ink-2">
+            Every claim shows where it came from. After the guide is written, code re-opens each cited page and checks the quote is
+            really there, word for word. If it isn&apos;t, the claim is marked Unverified instead of hidden.
+          </p>
+          <EvidenceSummary guide={guide} />
+          {guide.probes.length > 0 && (
+            <div className="mt-8">
+              <h3 className="label text-muted">Endpoint checks (unauthenticated requests the agent made)</h3>
+              <ul className="mt-3 border border-line">
+                {guide.probes.map((p, i) => (
+                  <li key={i} className="grid gap-1 px-4 py-3 font-mono text-xs sm:grid-cols-[20px_160px_1fr] [&+li]:border-t [&+li]:border-line">
+                    {p.ok ? <Check className="h-4 w-4 text-green" /> : <Cross className="h-4 w-4 text-red" />}
+                    <span className="text-ink">{p.name}</span>
+                    <span className="break-all text-muted">
+                      {p.target} <span className="text-ink-2">→ {p.result}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {guide.uncertain.length > 0 && (
+            <div id="ref-uncertain" className="ask-target mt-8 scroll-mt-16">
+              <h3 className="label text-muted">Still uncertain</h3>
+              <ul className="mt-3 max-w-[76ch] space-y-2 text-[15px] leading-relaxed text-ink-2">
+                {guide.uncertain.map((u, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span className="mt-2.5 h-1 w-1 shrink-0 bg-muted" />
+                    {u}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {guide.research && (
+            <Link href={`/apps/${guide.slug}/research`} className="label mt-8 inline-flex items-center gap-1.5 text-brand hover:text-brand-hover">
+              See every search and page the agent read <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          )}
+        </div>
+      </Fold>
       <GuideChat slug={guide.slug} app={guide.app} />
     </article>
+  );
+}
+
+// A collapsed section: title and a one-line summary, the detail one click away.
+function Fold({ title, meta, children }: { title: string; meta: string; children: React.ReactNode }) {
+  return (
+    <details className="group/fold border-b border-line">
+      <summary className="flex cursor-pointer list-none items-center gap-x-4 gap-y-1 px-5 py-5 select-none hover:bg-ground max-sm:flex-wrap sm:px-8">
+        <h2 className="text-lg font-medium tracking-tight text-ink">{title}</h2>
+        <span className="label text-muted">{meta}</span>
+        <Chevron className="ml-auto h-4 w-4 text-muted transition-transform group-open/fold:rotate-90" />
+      </summary>
+      {children}
+    </details>
   );
 }
 
 function ClaimList({ title, claims, idPrefix, className = "" }: { title: string; claims: Claim[]; idPrefix: string; className?: string }) {
   if (!claims.length) return null;
   return (
-    <section className={`px-5 py-8 sm:px-8 ${className}`}>
-      <h2 className="text-lg font-medium tracking-tight text-ink">{title}</h2>
+    <section className={`px-5 py-6 sm:px-8 ${className}`}>
+      <h3 className="label text-muted">{title}</h3>
       <ul className="mt-2">
         {claims.map((c, i) => (
           <li key={i} id={`${idPrefix}-${i}`} className="ask-target scroll-mt-16 py-4 text-[15px] leading-relaxed text-ink-2 [&+li]:border-t [&+li]:border-line">
@@ -330,70 +390,58 @@ function EvidenceSummary({ guide }: { guide: Guide }) {
   );
 }
 
-function AgentPath({ path }: { path: NonNullable<Guide["agentPath"]> }) {
+function ScopeTable({ tiers }: { tiers: NonNullable<Guide["agentPath"]>["scopeTiers"] }) {
   return (
-    <section id="ref-path" className="ask-target scroll-mt-16 border-b border-line px-5 py-8 sm:px-8">
-      <h2 className="label text-muted">What to build</h2>
-      <p className="mt-3 max-w-[72ch] text-[17px] leading-relaxed text-ink">{path.recommendation.text}</p>
-      <Evidence claim={path.recommendation} />
-      {path.scopeTiers.length > 0 && (
-        <div className="mt-6 overflow-x-auto border border-line">
-          <table className="w-full min-w-[560px] text-left text-sm">
-            <thead className="bg-ground">
-              <tr className="label text-muted">
-                <th className="px-4 py-2.5 font-normal">If your agent needs to</th>
-                <th className="px-4 py-2.5 font-normal">Ask for these scopes</th>
-                <th className="px-4 py-2.5 font-normal">What that means for approval</th>
-              </tr>
-            </thead>
-            <tbody>
-              {path.scopeTiers.map((t, i) => (
-                <tr key={i} id={`ref-tier-${i}`} className="ask-target scroll-mt-16 border-t border-line align-top">
-                  <td className="px-4 py-3 text-ink">{t.need}</td>
-                  <td className="px-4 py-3 font-mono text-xs break-words text-ink-2">{t.scopes}</td>
-                  <td className="px-4 py-3 text-ink-2">
-                    {t.text}
-                    <div>
-                      <Evidence claim={t} />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </section>
+    <div className="mt-4 overflow-x-auto border border-line">
+      <table className="w-full min-w-[560px] text-left text-sm">
+        <thead className="bg-ground">
+          <tr className="label text-muted">
+            <th className="px-4 py-2.5 font-normal">If your agent needs to</th>
+            <th className="px-4 py-2.5 font-normal">Ask for these scopes</th>
+            <th className="px-4 py-2.5 font-normal">What that means for approval</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tiers.map((t, i) => (
+            <tr key={i} id={`ref-tier-${i}`} className="ask-target scroll-mt-16 border-t border-line align-top">
+              <td className="px-4 py-3 text-ink">{t.need}</td>
+              <td className="px-4 py-3 font-mono text-xs break-words text-ink-2">{t.scopes}</td>
+              <td className="px-4 py-3 text-ink-2">
+                {t.text}
+                <div>
+                  <Evidence claim={t} />
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
 function Essentials({ items }: { items: Guide["essentials"] }) {
   return (
-    <section className="border-b border-line">
-      <h2 className="label px-5 pt-8 pb-4 text-muted sm:px-8">Quick facts</h2>
-      {/* 8 fixed topics: 2 or 4 columns keep the grid full. */}
-      <dl className="grid gap-px border-t border-line bg-line sm:grid-cols-2 xl:grid-cols-4">
-        {items.map((e, i) => (
-          <div key={i} id={`ref-ess-${i}`} className="ask-target scroll-mt-16 bg-surface px-5 py-5 sm:px-8">
-            <dt className="text-sm font-medium text-ink">{e.topic}</dt>
-            <dd className={`mt-1.5 text-sm leading-relaxed ${e.text.startsWith("Not found") ? "text-muted italic" : "text-ink-2"}`}>
-              {e.text}
-              <div>
-                <Evidence claim={e} />
-              </div>
-            </dd>
-          </div>
-        ))}
-      </dl>
-    </section>
+    <dl className="grid gap-px border-t border-line bg-line sm:grid-cols-2 xl:grid-cols-4">
+      {items.map((e, i) => (
+        <div key={i} id={`ref-ess-${i}`} className="ask-target scroll-mt-16 bg-surface px-5 py-5 sm:px-8">
+          <dt className="text-sm font-medium text-ink">{e.topic}</dt>
+          <dd className={`mt-1.5 text-sm leading-relaxed ${e.text.startsWith("Not found") ? "text-muted italic" : "text-ink-2"}`}>
+            {e.text}
+            <div>
+              <Evidence claim={e} />
+            </div>
+          </dd>
+        </div>
+      ))}
+    </dl>
   );
 }
 
 function Requests({ items }: { items: Guide["requests"] }) {
   return (
-    <section className="border-b border-line px-5 py-8 sm:px-8">
-      <h2 className="label text-muted">Try it: the sign-in link and requests</h2>
-      <p className="mt-2 max-w-[72ch] text-sm leading-relaxed text-ink-2">
+    <div className="border-t border-line px-5 py-6 sm:px-8">
+      <p className="max-w-[72ch] text-sm leading-relaxed text-ink-2">
         Replace the capitalised placeholders with your app&apos;s values. These come from the provider&apos;s docs; check the evidence under
         each one before relying on it.
       </p>
@@ -421,6 +469,6 @@ function Requests({ items }: { items: Guide["requests"] }) {
           );
         })}
       </ol>
-    </section>
+    </div>
   );
 }

@@ -16,6 +16,12 @@ const STARTERS = ["How long will this really take?", "Which scopes does my agent
 function jumpTo(ids: string[]) {
   const els = ids.map((id) => document.getElementById(id)).filter((e): e is HTMLElement => !!e);
   if (!els.length) return;
+  // Sections and steps are collapsed by default: open every fold around the target, and the step itself.
+  for (const el of els) {
+    for (let p: HTMLElement | null = el.parentElement; p; p = p.parentElement) if (p instanceof HTMLDetailsElement) p.open = true;
+    const own = el.querySelector(":scope > details");
+    if (own instanceof HTMLDetailsElement) own.open = true;
+  }
   els[0].scrollIntoView({ behavior: "smooth", block: "center" });
   for (const el of els) {
     el.classList.add("ask-hit");
