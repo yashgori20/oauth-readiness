@@ -33,3 +33,4 @@
 [126.9s] {"type":"status","message":"Writing the sign-in link and curl commands"}
 [151.8s] {"type":"status","message":"Checking quotes against the pages the agent read"}
 [151.8s] {"type":"status","message":"Checking the guide for contradictions"}
+[177.1s] guide -> guides/dropbox.json

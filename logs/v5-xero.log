@@ -38,3 +38,11 @@
 [71.8s] {"type":"tool","name":"read","target":"https://docs.codat.io/integrations/accounting/xero/partner-certification/checkpoints-app-store/","summary":"17 facts","detail":["App Store listing is required on
 [71.8s] {"type":"tool","name":"read","target":"https://developer.xero.com/contact-xero-developer-platform-support","summary":"8 facts","detail":["Xero provides a contact support escalation form and says it wi
 [71.8s] {"type":"tool","name":"read","target":"https://developer.xero.com/documentation/guides/oauth2/pkce-flow/","summary":"14 facts","detail":["The PKCE authorization endpoint is `https://login.xero.com/ide
+[112.3s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[113.2s] {"type":"tool","name":"probe","target":"https://identity.xero.com/.well-known/openid-configuration","summary":"ok: authorize=https://login.xero.com/identity/connect/authorize; scopes="}
+[113.2s] {"type":"tool","name":"probe","target":"https://login.xero.com/identity/connect/authorize","summary":"ok: HTTP 302 -> https://login.xero.com/identity/error?errorId=CfDJ8MOMn5AHNxVIkNNdLD"}
+[113.2s] {"type":"tool","name":"probe","target":"https://developer.xero.com/app/manage","summary":"ok: HTTP 200 (final: https://developer.xero.com/app/manage)"}
+[113.2s] {"type":"status","message":"Writing guide"}
+[152.3s] {"type":"status","message":"Writing the sign-in link and curl commands"}
+[166.4s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[166.4s] {"type":"status","message":"Checking the guide for contradictions"}

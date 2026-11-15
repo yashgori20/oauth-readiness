@@ -35,3 +35,12 @@
 [79.4s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/facebook-login/guides/advanced/manual-flow.md/","summary":"14 facts","detail":["The OAuth authorize endpoint is `ht
 [79.4s] {"type":"tool","name":"read","target":"https://developers.facebook.com/documentation/ads-commerce/marketing-api/creative/generative-ai-features.md/","summary":"13 facts","detail":["Advertisers must re
 [101.6s] {"type":"tool","name":"read","target":"https://community.auth0.com/t/facebook-login-rejection/90304","summary":"6 facts","detail":["On Sep 9, 2022, the developer reported repeated Facebook notices war
+[131.3s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[131.9s] {"type":"tool","name":"probe","target":"https://www.facebook.com/.well-known/openid-configuration","summary":"ok: authorize=https://facebook.com/dialog/oauth/; scopes="}
+[131.9s] {"type":"tool","name":"probe","target":"https://www.facebook.com/v27.0/dialog/oauth","summary":"ok: HTTP 200"}
+[131.9s] {"type":"tool","name":"probe","target":"https://developers.facebook.com/apps/creation/","summary":"ok: HTTP 200 (final: https://developers.facebook.com/apps/creation/)"}
+[131.9s] {"type":"status","message":"Writing guide"}
+[177.1s] {"type":"status","message":"Writing the sign-in link and curl commands"}
+[183.3s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[183.3s] {"type":"status","message":"Checking the guide for contradictions"}
+[196.0s] guide -> guides/meta-facebook-login-marketing-api.json

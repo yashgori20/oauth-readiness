@@ -1,0 +1,37 @@
+[0.0s] {"type":"status","message":"Researching Spotify"}
+[17.7s] {"type":"tool","name":"search","target":"site:developer.spotify.com documentation Web API authorization code PKCE refresh token scopes","summary":"6 results","detail":["Authorization | Spotify for Dev
+[17.7s] {"type":"tool","name":"search","target":"site:developer.spotify.com Spotify developer app creation dashboard redirect URI development mode quota extension","summary":"8 results","detail":["Apps | Spot
+[17.7s] {"type":"tool","name":"search","target":"site:developer.spotify.com Spotify Web API development mode extended quota requirements review","summary":"7 results","detail":["Quota modes - Spotify for Deve
+[17.7s] {"type":"tool","name":"search","target":"site:developer.spotify.com Spotify Developer Terms AI machine learning policy","summary":"6 results","detail":["Spotify Developer Terms - Spotify for Developer
+[17.7s] {"type":"tool","name":"search","target":"site:developer.spotify.com Spotify Developer Policy AI content chatbot","summary":"6 results","detail":["Spotify Developer Policy - Spotify for Developers | ht
+[17.7s] {"type":"tool","name":"search","target":"site:developer.spotify.com Spotify Web API rate limits documentation","summary":"5 results","detail":["Rate Limits - Spotify for Developers | https://developer
+[17.7s] {"type":"tool","name":"search","target":"site:developer.spotify.com Spotify API pricing commercial applications developer terms","summary":"8 results","detail":["Spotify Developer Terms - Spotify for 
+[17.7s] {"type":"tool","name":"search","target":"site:developer.spotify.com Spotify developer contact support quota extension","summary":"7 results","detail":["Quota modes - Spotify for Developers | https://d
+[17.7s] {"type":"tool","name":"search","target":"Spotify Web API extended quota review wait time community developer forum","summary":"8 results","detail":["Quota modes - Spotify for Developers | https://deve
+[17.7s] {"type":"tool","name":"search","target":"site:developer.spotify.com blog changelog developer platform 2025 2026 Web API","summary":"8 results","detail":["Update on Developer Access and Platform Securi
+[17.7s] {"type":"tool","name":"search","target":"site:developer.spotify.com Web API security authorization state PKCE redirect URI","summary":"8 results","detail":["Authorization - Spotify for Developers | ht
+[29.1s] {"type":"tool","name":"read","target":"https://developer.spotify.com/documentation/web-api/concepts/apps","summary":"13 facts","detail":["You can create up to 25 apps per developer account. | quote: \
+[29.1s] {"type":"tool","name":"read","target":"https://developer.spotify.com/documentation/web-api/concepts/quota-modes","summary":"24 facts","detail":["Apps can be in either development mode or extended quot
+[29.1s] {"type":"tool","name":"read","target":"https://developer.spotify.com/documentation/web-api/tutorials/code-flow","summary":"11 facts","detail":["The authorization endpoint is `/authorize`, accessed wit
+[29.1s] {"type":"tool","name":"read","target":"https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow","summary":"14 facts","detail":["The PKCE flow is recommended when a client secret c
+[29.1s] {"type":"tool","name":"read","target":"https://developer.spotify.com/documentation/web-api/concepts/redirect_uri","summary":"7 facts","detail":["Spotify began enforcing the redirect URI validations fo
+[29.1s] {"type":"tool","name":"read","target":"https://developer.spotify.com/documentation/web-api/concepts/scopes","summary":"22 facts","detail":["`user-read-playback-state` provides read access to a user’s 
+[29.1s] {"type":"tool","name":"read","target":"https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens","summary":"16 facts","detail":["Access tokens have a limited lifespan of 1 hour.
+[29.1s] {"type":"tool","name":"read","target":"https://developer.spotify.com/blog/2023-05-29-quota-extension","summary":"12 facts","detail":["Page date: May 29, 2023. | quote: \"Posted May 29, 2023\"","Expect
+[29.1s] {"type":"tool","name":"read","target":"https://developer.spotify.com/documentation/web-api/concepts/rate-limits","summary":"8 facts","detail":["Spotify Web API rate limits are calculated by the number
+[29.1s] {"type":"tool","name":"read","target":"https://developer.spotify.com/terms","summary":"12 facts","detail":["The terms are Version 10, effective 15 May 2025. | quote: \"Version 10 , effective as of 15 
+[29.1s] {"type":"tool","name":"read","target":"https://developer.spotify.com/documentation/web-api/tutorials/building-with-ai","summary":"12 facts","detail":["AI coding assistants may use Spotify’s machine-re
+[40.2s] {"type":"tool","name":"read","target":"https://developer.spotify.com/documentation/web-api/tutorials/february-2026-migration-guide","summary":"15 facts","detail":["Page date: February 2026 migration g
+[40.2s] {"type":"tool","name":"read","target":"https://developer.spotify.com/blog/2026-02-06-update-on-developer-access-and-platform-security","summary":"8 facts","detail":["Posted February 6, 2026. | quote: 
+[40.2s] {"type":"tool","name":"read","target":"https://developer.spotify.com/policy","summary":"13 facts","detail":["The policy is effective as of 15 May 2025. | quote: \"Effective as of 15 May, 2025\"","Deve
+[40.2s] {"type":"tool","name":"read","target":"https://community.spotify.com/t5/Spotify-for-Developers/Important-App-review-and-quota-extension-waiting-times/td-p/5599466","summary":"15 facts","detail":["Duri
+[40.2s] {"type":"tool","name":"read","target":"https://community.spotify.com/t5/Spotify-for-Developers/Extended-quota-application-in-review-for-7-weeks/td-p/7429147","summary":"8 facts","detail":["The communi
+[40.2s] {"type":"tool","name":"read","target":"https://developer.spotify.com/community","summary":"4 facts","detail":["Spotify’s developer community forum is available for discussion with other developers. | 
+[40.2s] {"type":"tool","name":"read","target":"https://developer.spotify.com/documentation/web-api","summary":"5 facts","detail":["Spotify Web API requires a Spotify Premium account. | quote: \"Note: You need
+[40.2s] {"type":"tool","name":"read","target":"https://developer.spotify.com/blog/2025-04-15-updating-the-criteria-for-web-api-extended-access","summary":"6 facts","detail":["Page date: April 15, 2025. | quot
+[40.2s] {"type":"tool","name":"read","target":"https://developer.spotify.com/documentation/web-api/references/changes/february-2026","summary":"4 facts","detail":["February 2026 Web API changelog | quote: \"W
+[69.9s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[70.1s] {"type":"tool","name":"probe","target":"https://accounts.spotify.com/.well-known/openid-configuration","summary":"ok: authorize=https://accounts.spotify.com/oauth2/v2/auth; scopes=email openid profi"}
+[70.1s] {"type":"tool","name":"probe","target":"https://accounts.spotify.com/authorize","summary":"ok: HTTP 303 -> https://accounts.spotify.com/en/login?continue=https%3A%2F%2Faccount"}
+[70.1s] {"type":"tool","name":"probe","target":"https://developer.spotify.com/dashboard","summary":"ok: HTTP 200 (final: https://developer.spotify.com/dashboard)"}
+[70.1s] {"type":"status","message":"Writing guide"}

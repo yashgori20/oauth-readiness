@@ -7,6 +7,9 @@ type Msg =
   | { role: "user"; content: string }
   | { role: "assistant"; content: string; refs?: { id: string; label: string }[]; sources?: { title: string; url: string }[]; searched?: boolean; error?: boolean };
 
+const PAGE = 1240; // the site's content width
+const PANEL = 400;
+
 const STARTERS = ["How long will this really take?", "Which scopes does my agent need?", "What happens if I get rejected?"];
 
 // Scroll to the sections an answer is based on and flash them.
@@ -22,6 +25,7 @@ function jumpTo(ids: string[]) {
 
 export function GuideChat({ slug, app }: { slug: string; app: string }) {
   const [open, setOpen] = useState(false);
+  const [docked, setDocked] = useState(false); // wide screens: panel sits beside the page, open by default
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [q, setQ] = useState("");
   const [busy, setBusy] = useState(false);
@@ -29,14 +33,37 @@ export function GuideChat({ slug, app }: { slug: string; app: string }) {
 
   useEffect(() => end.current?.scrollIntoView({ behavior: "smooth" }), [msgs, busy]);
 
-  // On wide screens, push the page right so the panel never covers the section it points to.
+  // Wide screens have spare space beside the 1240px page: dock the panel there, open by default.
   useEffect(() => {
-    const wide = window.matchMedia("(min-width: 1024px)").matches;
-    document.body.style.paddingLeft = open && wide ? "400px" : "";
-    return () => {
-      document.body.style.paddingLeft = "";
+    const mq = window.matchMedia(`(min-width: ${PAGE + PANEL}px)`);
+    const apply = () => {
+      setDocked(mq.matches);
+      let hidden = false;
+      try {
+        hidden = localStorage.getItem("ask-hidden") === "1";
+      } catch {}
+      setOpen(mq.matches && !hidden);
     };
-  }, [open]);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  // When docked and open, reserve the space on the right so the panel never covers the section it points to.
+  useEffect(() => {
+    document.body.style.paddingRight = docked && open ? `${PANEL}px` : "";
+    return () => {
+      document.body.style.paddingRight = "";
+    };
+  }, [docked, open]);
+
+  const toggle = (next: boolean) => {
+    setOpen(next);
+    if (docked)
+      try {
+        localStorage.setItem("ask-hidden", next ? "0" : "1");
+      } catch {}
+  };
 
   async function ask(question: string) {
     const text = question.trim();
@@ -61,18 +88,21 @@ export function GuideChat({ slug, app }: { slug: string; app: string }) {
   if (!open)
     return (
       <button
-        onClick={() => setOpen(true)}
-        className="label fixed bottom-5 left-5 z-40 inline-flex items-center gap-2 border border-ink bg-ink px-4 py-3 text-on-ink shadow-[0_8px_24px_rgba(0,0,0,0.18)] hover:border-brand hover:bg-brand hover:text-white"
+        onClick={() => toggle(true)}
+        className="label fixed right-5 bottom-5 z-40 inline-flex items-center gap-2 border border-ink bg-ink px-4 py-3 text-on-ink shadow-[0_8px_24px_rgba(0,0,0,0.18)] hover:border-brand hover:bg-brand hover:text-white"
       >
         <Search className="h-4 w-4" /> Ask about this guide
       </button>
     );
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-40 flex w-full flex-col border-r border-line bg-surface shadow-[8px_0_32px_rgba(0,0,0,0.10)] sm:w-[400px]" aria-label="Ask about this guide">
+    <aside
+      className={`fixed inset-y-0 right-0 z-40 flex w-full flex-col border-l border-line bg-surface sm:w-[400px] ${docked ? "" : "shadow-[-8px_0_32px_rgba(0,0,0,0.12)]"}`}
+      aria-label="Ask about this guide"
+    >
       <header className="flex h-14 shrink-0 items-center justify-between border-b border-line px-5">
         <span className="font-medium tracking-tight text-ink">Ask about {app}</span>
-        <button onClick={() => setOpen(false)} className="p-1 text-muted hover:text-ink" aria-label="Close">
+        <button onClick={() => toggle(false)} className="p-1 text-muted hover:text-ink" aria-label={docked ? "Hide panel" : "Close"} title={docked ? "Hide panel" : "Close"}>
           <Cross className="h-4 w-4" />
         </button>
       </header>

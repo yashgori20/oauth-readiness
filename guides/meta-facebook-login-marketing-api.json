@@ -1,48 +1,48 @@
 {
-  "app": "Meta Facebook Login and Marketing API",
+  "app": "Meta (Facebook Login and Marketing API)",
   "slug": "meta-facebook-login-marketing-api",
   "website": "https://developers.facebook.com/",
-  "developerConsole": "https://developers.facebook.com/apps/",
-  "generatedAt": "2026-11-15T07:08:29.730Z",
+  "developerConsole": "https://developers.facebook.com/apps/creation/",
+  "generatedAt": "2026-11-15T07:21:37.151Z",
   "origin": "live",
   "verdict": {
     "difficulty": 4,
     "access": "gated",
-    "summary": "Use one Meta Business app. Each customer connects through OAuth, Meta's sign-in and permission flow. Before customers can connect ad accounts, complete business verification and App Review for the permissions you need. Start with read-only access. Prepare reviewer evidence. Do not give write access to an AI that handles untrusted input.",
-    "activeEffort": "1–3 days (estimate), mostly building the consent flow and review evidence",
-    "waitTime": "1–several weeks after verification [official]; business verification timing is not published",
-    "mainGate": "Business verification is required before users from other businesses can grant your app permissions."
+    "summary": "You can build this integration. To let customers connect their own business data, you need Business Verification and App Review for the needed permissions. Record each permission flow and give reviewers clear test instructions.",
+    "activeEffort": "2–4 days, mostly building a testable flow and preparing review evidence (estimate)",
+    "waitTime": "A few days to several weeks (official)",
+    "mainGate": "The app must be connected to a business that completed Business Verification before it can request Advanced Access permissions or let other businesses access their own data. Multi-customer ad permissions also need App Review."
   },
   "agentPath": {
     "recommendation": {
-      "text": "Create one Business app, add Facebook Login and Marketing API, and make it Live after approval. Each customer's account authorizes the same app through OAuth.",
+      "text": "Create a Business app and use Facebook Login for Business. Use a separate configuration for each customer group when needed. Request a business integration system-user token for automated customer ad actions.",
       "evidence": "sourced",
       "sources": [
         {
-          "url": "https://developers.facebook.com/documentation/development/create-an-app/other-app-types.md/",
-          "quote": "Create or manage business assets like Pages, Events, Groups, Ads, Messenger, WhatsApp, and Instagram Graph API using the available business permissions, features, and products.",
+          "url": "https://developers.facebook.com/documentation/development/create-an-app/app-dashboard/app-types.md/",
+          "quote": "The Business app type is for apps that help businesses, creators, and organizations manage their presence and advertise on Meta's Social Technologies apps.",
           "quoteVerified": true
         },
         {
-          "url": "https://developers.facebook.com/documentation/development/create-an-app/other-app-types.md/",
-          "quote": "For example, consumer type apps can't generate access tokens. If you need to generate an access token, a business type app might be more suitable.",
+          "url": "https://developers.facebook.com/documentation/facebook-login/facebook-login-for-business.md/",
+          "quote": "Facebook Login for Business is the preferred authentication and authorization solution for tech providers building integrations with Meta's business tools to create marketing, messaging, and selling solutions.",
           "quoteVerified": true
         },
         {
-          "url": "https://developers.facebook.com/documentation/development/build-and-test/app-modes.md/",
-          "quote": "All newly created apps start out in Development mode and should not be switched to Live mode until app development is complete.",
+          "url": "https://developers.facebook.com/documentation/facebook-login/facebook-login-for-business.md/",
+          "quote": "Business integration system user access tokens should be used if your app performs programmatic, automated actions on your business clients' assets",
           "quoteVerified": true
         }
       ]
     },
     "scopeTiers": [
       {
-        "text": "Read a customer's ad reporting.",
+        "text": "Read ad reports only. This is the cheapest Marketing API read-only tier.",
         "evidence": "sourced",
         "sources": [
           {
-            "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/",
-            "quote": "If you're managing someone's ads, use the `scope` parameter to prompt them for the `ads_management` or `ads_read` permissions.",
+            "url": "https://developers.facebook.com/documentation/development/permissions.md/",
+            "quote": "The ads_read permission allows your app to access the Ads Insights API to pull Ads report information",
             "quoteVerified": true
           },
           {
@@ -51,138 +51,136 @@
             "quoteVerified": true
           }
         ],
-        "need": "Read the customer's advertising data.",
+        "need": "Read each customer's ad reports.",
         "scopes": "ads_read"
       },
       {
-        "text": "Create or change campaigns for a customer.",
+        "text": "Create or change campaigns. This needs Advanced Access, Meta's permission review, for customer accounts.",
         "evidence": "sourced",
         "sources": [
           {
-            "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/",
-            "quote": "If you're managing someone's ads, use the `scope` parameter to prompt them for the `ads_management` or `ads_read` permissions.",
+            "url": "https://developers.facebook.com/documentation/development/permissions.md/",
+            "quote": "The ads_management permission allows your app to both read and manage the Ads account it owns, or has been granted access to",
             "quoteVerified": true
           },
           {
             "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/",
             "quote": "If your app is managing other people's ad accounts, you need advanced access to the `ads_read` and/or `ads_management` permissions.",
             "quoteVerified": true
-          },
-          {
-            "url": "https://developers.facebook.com/documentation/mcp.md/",
-            "quote": "Don't grant permissions that can make changes to AI agents that process untrusted input.",
-            "quoteVerified": true
           }
         ],
-        "need": "Create, edit, or act on campaigns.",
+        "need": "Create, pause, or edit ads and campaigns for each customer.",
         "scopes": "ads_management"
       },
       {
-        "text": "Capture and manage advertising leads.",
+        "text": "Manage business assets or system-user tokens. This adds a broader business permission and review justification.",
+        "evidence": "unverified",
+        "sources": [
+          {
+            "url": "https://developers.facebook.com/documentation/development/permissions.md/",
+            "quote": "The business_management permission allows your app to read and write with the Business Manager API.",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-cli/setup/get-started.md/",
+            "quote": "The system user must be added to your app",
+            "quoteVerified": true
+          },
+          {
+            "url": "https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-cli/setup/get-started.md/",
+            "quote": "`business_management`",
+            "quoteVerified": false
+          },
+          {
+            "url": "https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-cli/setup/get-started.md/",
+            "quote": "`ads_management`",
+            "quoteVerified": false
+          }
+        ],
+        "need": "Manage business assets or create and manage system-user tokens.",
+        "scopes": "business_management; ads_management"
+      },
+      {
+        "text": "Retrieve ad leads. This adds a permission that must be separately justified in review.",
         "evidence": "sourced",
         "sources": [
           {
             "url": "https://developers.facebook.com/documentation/development/create-an-app/marketing-api-use-cases.md/",
-            "quote": "**Required for Capture & manage ad leads**.",
+            "quote": "`leads_retrieval` | Required for Capture & manage ad leads.",
             "quoteVerified": true
           }
         ],
-        "need": "Retrieve leads from customer advertising.",
-        "scopes": "leads_retrieval; page_manage_ads"
+        "need": "Read leads submitted through customer ad forms.",
+        "scopes": "leads_retrieval"
       }
     ]
   },
   "essentials": [
     {
-      "text": "Use server-side code exchange and extend browser tokens. Short-lived tokens typically last one to two hours. Long-lived tokens typically last about 60 days. Do not rely on either duration. Meta uses token extension, not a normal refresh-token grant. Detect invalid tokens and ask the customer to reconnect.",
-      "evidence": "unverified",
+      "text": "Exchange codes on your server. Default user and Page tokens expire in hours. Exchange them before expiry for a token lasting about 60 days. Expired tokens require login again. For automated customer actions, use a customer-authorized business system-user token, which normally never expires.",
+      "evidence": "sourced",
       "sources": [
         {
-          "url": "https://developers.facebook.com/documentation/facebook-login/guides/access-tokens.md/",
-          "quote": "Short-lived tokens typically last about one to two hours, while long-lived tokens last about 60 days. Do not depend on these lifetimes remaining the same — they may change without warning or expire early.",
+          "url": "https://developers.facebook.com/documentation/facebook-login/guides/access-tokens/get-long-lived.md/",
+          "quote": "Default User and Page access tokens are short-lived, expiring in hours",
           "quoteVerified": true
         },
         {
-          "url": "https://developers.facebook.com/documentation/facebook-login/guides/access-tokens.md/",
-          "quote": "Access tokens generated via web login are short-lived, but you can convert them to long-lived tokens by making a server-side API call with your app secret.",
-          "quoteVerified": false
+          "url": "https://developers.facebook.com/documentation/facebook-login/guides/access-tokens/get-long-lived.md/",
+          "quote": "A long-lived token generally lasts about 60 days.",
+          "quoteVerified": true
         },
         {
-          "url": "https://developers.facebook.com/documentation/facebook-login/guides/access-tokens.md/",
-          "quote": "Standard-access Marketing API tokens do not expire based on time, though they are still subject to invalidation for other reasons.",
-          "quoteVerified": false
+          "url": "https://developers.facebook.com/documentation/facebook-login/guides/access-tokens/get-long-lived.md/",
+          "quote": "You can not use an expired token to request a long-lived token. If the token has expired, your app must send the user through the login flow again",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.facebook.com/documentation/facebook-login/facebook-login-for-business.md/",
+          "quote": "Defaults to never expire for the common offline server-to-server communication.",
+          "quoteVerified": true
         }
       ],
       "topic": "Tokens and refresh"
     },
     {
-      "text": "Add your fixed HTTPS callback in Facebook Login Client OAuth Settings. Use that exact URI for authorization and code exchange. Put the customer account reference in state, not in a changing callback address.",
+      "text": "Add every callback URL in Client OAuth Settings. Send exactly the same redirect URI during login and code exchange.",
       "evidence": "sourced",
       "sources": [
         {
           "url": "https://developers.facebook.com/documentation/facebook-login/guides/advanced/manual-flow.md/",
-          "quote": "Verify the **Valid OAuth redirect URIs** in the **Client OAuth Settings** section.",
+          "quote": "Verify the Valid OAuth redirect URIs in the Client OAuth Settings section.",
           "quoteVerified": true
         },
         {
           "url": "https://developers.facebook.com/documentation/facebook-login/guides/advanced/manual-flow.md/",
           "quote": "`redirect_uri`. This argument is required and must be the same as the original `request_uri` that you used when starting the OAuth login process.",
           "quoteVerified": true
-        },
-        {
-          "url": "https://developers.facebook.com/documentation/facebook-login/security.md",
-          "quote": "The full URI must be an exact match, including all parameters, with the exception of the optional state parameter",
-          "quoteVerified": true
-        },
-        {
-          "url": "https://developers.facebook.com/documentation/facebook-login/security.md",
-          "quote": "For apps with **dynamic redirect URIs**, use the [state parameter]",
-          "quoteVerified": true
         }
       ],
       "topic": "Redirect URIs"
     },
     {
-      "text": "Development-mode apps can request permissions only from app-role users. Test users can grant all permissions in Development mode. Apps have a 10 test-user limit. Meta has temporarily removed new test-user creation.",
+      "text": "Use a sandbox ad account for test ad creation and reports. It has no charges, needs no payment method, and does not deliver ads. An unverified business account may hold developer or administrator roles on at most 15 unconnected apps.",
       "evidence": "unverified",
       "sources": [
         {
-          "url": "https://developers.facebook.com/documentation/development/build-and-test/app-modes.md/",
-          "quote": "Apps in Development mode can only request permissions from role users",
+          "url": "https://developers.facebook.com/documentation/development/create-an-app/marketing-api-use-cases.md/",
+          "quote": "Sandbox ad accounts allow testing without charges, do not require a payment method, and do not deliver ads.",
           "quoteVerified": false
         },
         {
-          "url": "https://developers.facebook.com/documentation/development/build-and-test/test-users.md/",
-          "quote": "Test users can grant your app any permission while it is in Development mode but can only grant approved permissions while it is in Live Mode.",
-          "quoteVerified": false
-        },
-        {
-          "url": "https://developers.facebook.com/documentation/development/build-and-test/test-users.md/",
-          "quote": "Apps are limited to 10 test users.",
-          "quoteVerified": true
-        },
-        {
-          "url": "https://developers.facebook.com/documentation/development/build-and-test/test-users.md/",
-          "quote": "We are temporarily removing the ability for apps to create new test users.",
+          "url": "https://developers.facebook.com/documentation/development/create-an-app.md/",
+          "quote": "You are permitted to have a developer or administrator role on a maximum of 15 apps that are not already connected to a Meta Verified Business Account.",
           "quoteVerified": true
         }
       ],
       "topic": "Test users and dev limits"
     },
     {
-      "text": "Limited Marketing API access has a score capacity of 60 and a 300-second block. Full access has a score capacity of 9,000 and a 60-second block. Reads usually cost one point. Writes usually cost three points. Campaign changes are capped at 100 requests per second per app and ad account.",
+      "text": "Limited Access has a maximum score of 60. Full Access has a maximum score of 9000. Reads use one point and writes use three points. Write calls are limited to 100 requests per second for each app and ad-account pair. The same object defaults to one edit every 30 seconds.",
       "evidence": "sourced",
       "sources": [
-        {
-          "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/overview/rate-limiting.md/",
-          "quote": "Your maximum score is 60. The decay rate is 300 seconds. You will be blocked for 300 seconds",
-          "quoteVerified": true
-        },
-        {
-          "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/overview/rate-limiting.md/",
-          "quote": "Your maximum score is 9000. The decay rate is 300 seconds. You will be blocked for 60 seconds",
-          "quoteVerified": true
-        },
         {
           "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/overview/rate-limiting.md/",
           "quote": "Generally speaking, a read API call is equal to 1 point, and a write API call is equal to 3 points",
@@ -190,115 +188,110 @@
         },
         {
           "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/overview/rate-limiting.md/",
+          "quote": "maximum score is 60",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/overview/rate-limiting.md/",
+          "quote": "maximum score is 9000.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/overview/rate-limiting.md/",
           "quote": "Limit: 100 requests per second (QPS) per app and ad account combination.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/overview/rate-limiting.md/",
+          "quote": "one edit per object every 30 seconds.",
           "quoteVerified": true
         }
       ],
       "topic": "Rate limits"
     },
     {
-      "text": "No separate Marketing API subscription price was found. Each active ad account must handle campaign billing and spending limits.",
-      "evidence": "inferred",
+      "text": "Use a sandbox ad account for no-charge API testing. It does not require a payment method and does not deliver ads.",
+      "evidence": "unverified",
       "sources": [
         {
-          "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started.md/",
-          "quote": "To manage your ads through the Marketing API, you must have an active ad account to run campaigns and manage billing.",
-          "quoteVerified": false
-        },
-        {
-          "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started.md/",
-          "quote": "your ad account number appears in the Account overview section along with other details such as your billing information and spending limits.",
+          "url": "https://developers.facebook.com/documentation/development/create-an-app/marketing-api-use-cases.md/",
+          "quote": "Sandbox ad accounts allow testing without charges, do not require a payment method, and do not deliver ads.",
           "quoteVerified": false
         }
       ],
       "topic": "Cost"
     },
     {
-      "text": "Switch the app to Live only after development is complete. Live apps can ask anyone for permissions, but only approved permissions work. Customer business users cannot grant permissions until business verification completes.",
-      "evidence": "unverified",
+      "text": "Add the Marketing API product. Limited Access is automatic but is for development only. Move to Full Access for live advertiser workloads after meeting Meta's call volume and error-rate requirements.",
+      "evidence": "sourced",
       "sources": [
         {
-          "url": "https://developers.facebook.com/documentation/development/build-and-test/app-modes.md/",
-          "quote": "Apps in Live mode can request permissions from anyone, but only permissions approved through App Review.",
-          "quoteVerified": false
+          "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/",
+          "quote": "Automatically granted when you add the Marketing API product to your app.",
+          "quoteVerified": true
         },
         {
-          "url": "https://developers.facebook.com/documentation/development/release/business-verification.md/",
-          "quote": "Until then, app users from other Businesses will be unable to grant these apps permissions and all features will be inactive.",
-          "quoteVerified": false
+          "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/",
+          "quote": "Heavily rate-limited per ad account. For development only. Not for production apps running for live advertisers.",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/overview/rate-limiting.md/",
+          "quote": "Your app needs 500+ Marketing API calls in the past 15 days and an error rate below 15% for the last 500 calls.",
+          "quoteVerified": true
         }
       ],
       "topic": "Going live"
     },
     {
-      "text": "Request advanced access for every customer-data permission. Make a successful call for each requested permission within 30 days. Provide public access or test instructions. Record permission grant and use separately for each permission. Meta says a decision should arrive within a week, but may take several weeks during high volume.",
-      "evidence": "unverified",
+      "text": "Finish the app before submission. Make a successful call with every requested permission within 30 days. Give separate explanations, a screen recording, and reviewer steps for every permission. Add a 1024x1024 app icon, privacy policy URL, purpose, category, and primary contact.",
+      "evidence": "sourced",
       "sources": [
         {
           "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review/submission-guide.md/",
-          "quote": "Make at least 1 successful API call using each permission for which you are requesting advanced access.",
-          "quoteVerified": false
+          "quote": "Make sure you have completed app development and that it is ready for us to test.",
+          "quoteVerified": true
         },
         {
           "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review/submission-guide.md/",
-          "quote": "Calls must be made within 30 days of submitting for App Review",
-          "quoteVerified": false
+          "quote": "Make at least 1 successful API call using each permission for which you are requesting advanced access. Calls must be made within 30 days of submitting for App Review",
+          "quoteVerified": true
         },
         {
           "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review/submission-guide.md/",
-          "quote": "screen recordings show an app user granting your app each permission your app requires, and that it shows how your app uses each granted permission and feature",
-          "quoteVerified": false
+          "quote": "Any requested permission or feature missing a screen recording will not be approved.",
+          "quoteVerified": true
         },
         {
           "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review/submission-guide.md/",
-          "quote": "you should [receive a decision](https://developers.facebook.com/docs/app-review/introduction#submission-status) within a week.",
-          "quoteVerified": false
-        },
-        {
-          "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/appreview/FAQs.md/",
-          "quote": "increased volume means permission review may take **up to several weeks**",
-          "quoteVerified": false
+          "quote": "Upload a 1024x1024 compliant app icon image to Settings > Basic > App Icon.",
+          "quoteVerified": true
         }
       ],
       "topic": "Submitting for review"
     },
     {
-      "text": "Use HTTPS and enable Strict Mode. Generate, bind, validate, and single-use state. Keep the app secret and tokens on your server. Validate tokens and send appsecret_proof. Separate development and production apps. Give AI read-only access unless changes are necessary.",
-      "evidence": "unverified",
+      "text": "Encrypt stored customer tokens with standard encryption and managed keys. Log access to user data and where it was sent or stored. Keep read-only connections separate from write-capable connections. Require customer confirmation before ad changes.",
+      "evidence": "sourced",
       "sources": [
         {
-          "url": "https://developers.facebook.com/documentation/facebook-login/security.md",
-          "quote": "Strict Mode keeps apps safe by preventing bad actors from hijacking your redirect. Enabling Strict Mode is required for all apps.",
+          "url": "https://developers.facebook.com/documentation/development/data-security.md/",
+          "quote": "Use standard encryption; don’t roll your own or rely on data encoding or obfuscation",
           "quoteVerified": true
         },
         {
-          "url": "https://developers.facebook.com/documentation/facebook-login/security.md",
-          "quote": "Use HTTPS, instead of HTTP, as an internet protocol, because it uses encryption.",
+          "url": "https://developers.facebook.com/documentation/development/data-security.md/",
+          "quote": "Use key management systems when available",
           "quoteVerified": true
         },
         {
-          "url": "https://developers.facebook.com/documentation/facebook-login/guides/advanced/manual-flow.md/",
-          "quote": "This parameter should be used for preventing [Cross-site Request Forgery] and will be passed back to you, unchanged",
-          "quoteVerified": false
-        },
-        {
-          "url": "https://developers.facebook.com/documentation/facebook-login/security.md",
-          "quote": "Never include your App Secret in client-side or decompilable code",
-          "quoteVerified": true
-        },
-        {
-          "url": "https://developers.facebook.com/documentation/facebook-login/security.md",
-          "quote": "The app secret proof is a sha256 hash of your access token, using your app secret as the key.",
+          "url": "https://developers.facebook.com/documentation/development/data-security.md/",
+          "quote": "Have a system in place for logging access to user data, tracing where user data was sent and stored",
           "quoteVerified": true
         },
         {
           "url": "https://developers.facebook.com/documentation/mcp.md/",
-          "quote": "Use separate apps for dev and prod. Don't grant production app permissions to experimental agents.",
-          "quoteVerified": true
-        },
-        {
-          "url": "https://developers.facebook.com/documentation/mcp.md/",
-          "quote": "Give an agent read-only access unless it needs to make changes",
+          "quote": "Don't grant permissions that can make changes to AI agents that process untrusted input.",
           "quoteVerified": true
         }
       ],
@@ -311,48 +304,50 @@
       "name": "Register",
       "steps": [
         {
+          "title": "Register as a Meta developer",
+          "owner": "you",
+          "detail": {
+            "text": "Register as a developer, then open Meta's App Creation flow. Meta requires a developer account before you can create an app.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.facebook.com/documentation/development/create-an-app.md/",
+                "quote": "To create an app with Meta, you must first register as a developer and be logged into your developer account.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.facebook.com/documentation/development/create-an-app.md/",
+                "quote": "Navigate to https://developers.facebook.com/apps/creation/ to begin the app creation process.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "15 min",
+          "link": "https://developers.facebook.com/apps/creation/",
+          "output": "A logged-in Meta developer account."
+        },
+        {
           "title": "Create a Business app",
           "owner": "you",
           "detail": {
-            "text": "In Meta App Dashboard, create an app with a name and contact email. Choose Other, then Business. Connect a business portfolio now or later. This app type can generate the access tokens your service needs.",
+            "text": "Create a Business app in the App Creation flow. Enter the app name and contact email. Choose carefully because Meta does not allow app type changes.",
             "evidence": "sourced",
             "sources": [
               {
-                "url": "https://developers.facebook.com/documentation/development/create-an-app/other-app-types.md/",
-                "quote": "Enter your **app's name** and a **contact email address**.",
+                "url": "https://developers.facebook.com/documentation/development/create-an-app.md/",
+                "quote": "Enter your app's name and a contact email address.",
                 "quoteVerified": true
               },
               {
-                "url": "https://developers.facebook.com/documentation/development/create-an-app/other-app-types.md/",
-                "quote": "Select **Business** or **Consumer**.",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://developers.facebook.com/documentation/development/create-an-app/other-app-types.md/",
-                "quote": "Connect a **business portfolio** now or at any time during app development.",
+                "url": "https://developers.facebook.com/documentation/development/create-an-app/app-dashboard/app-types.md/",
+                "quote": "App types cannot be changed.",
                 "quoteVerified": true
               }
             ]
           },
           "effort": "15 min",
-          "link": "https://developers.facebook.com/apps/"
-        },
-        {
-          "title": "Add required products",
-          "owner": "you",
-          "detail": {
-            "text": "In the app dashboard, add Facebook Login and Marketing API. Configure each product separately before building the consent flow. Configure the Marketing API use case and its required permissions: Meta documents `ads_management`, `ads_read`, and `business_management` as required for all Marketing API use cases. The Capture & manage ad leads use case also requires `leads_retrieval` and `page_manage_ads`.",
-            "evidence": "sourced",
-            "sources": [
-              {
-                "url": "https://developers.facebook.com/documentation/development/create-an-app/other-app-types.md/",
-                "quote": "Click **Set up** for each product you want to add to your app.",
-                "quoteVerified": true
-              }
-            ]
-          },
-          "effort": "15 min",
-          "link": "https://developers.facebook.com/apps/"
+          "link": "https://developers.facebook.com/apps/creation/",
+          "output": "A Business app with its name and contact email."
         }
       ]
     },
@@ -360,74 +355,107 @@
       "name": "Configure",
       "steps": [
         {
-          "title": "Configure OAuth callback",
+          "title": "Add required products",
           "owner": "you",
           "detail": {
-            "text": "In Facebook Login Client OAuth Settings, add one fixed HTTPS callback under Valid OAuth Redirect URIs. Enable Strict Mode. Use the identical callback URI during code exchange.",
+            "text": "Add Facebook Login for Business and the Marketing API product in the app dashboard. Limited Marketing API access is granted when you add the product.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/",
+                "quote": "Automatically granted when you add the Marketing API product to your app.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.facebook.com/documentation/facebook-login/facebook-login-for-business.md/",
+                "quote": "Facebook Login for Business is the preferred authentication and authorization solution for tech providers building integrations with Meta's business tools to create marketing, messaging, and selling solutions.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "30 min",
+          "output": "Facebook Login for Business and Marketing API are added."
+        },
+        {
+          "title": "Allowlist callback URLs",
+          "owner": "you",
+          "detail": {
+            "text": "Add exact callback URLs under Client OAuth Settings. Use the same URL during authorization and the code exchange.",
             "evidence": "sourced",
             "sources": [
               {
                 "url": "https://developers.facebook.com/documentation/facebook-login/guides/advanced/manual-flow.md/",
-                "quote": "Verify the **Valid OAuth redirect URIs** in the **Client OAuth Settings** section.",
+                "quote": "Verify the Valid OAuth redirect URIs in the Client OAuth Settings section.",
                 "quoteVerified": true
               },
               {
-                "url": "https://developers.facebook.com/documentation/facebook-login/security.md",
-                "quote": "Strict Mode keeps apps safe by preventing bad actors from hijacking your redirect. Enabling Strict Mode is required for all apps.",
+                "url": "https://developers.facebook.com/documentation/facebook-login/guides/advanced/manual-flow.md/",
+                "quote": "`redirect_uri`. This argument is required and must be the same as the original `request_uri` that you used when starting the OAuth login process.",
                 "quoteVerified": true
               }
             ]
           },
           "effort": "15 min",
-          "link": "https://developers.facebook.com/documentation/facebook-login/guides/advanced/manual-flow.md/"
+          "output": "Production and test callback URLs in Client OAuth Settings."
         },
         {
-          "title": "Draft callback handler",
+          "title": "Draft secure callback handler",
           "owner": "agent",
           "detail": {
-            "text": "Use this server-side callback pattern. Replace storage calls with your database code. Bind state to one customer account and delete it after use. Set `scope` to the permissions required by the configured Marketing API use case and approved for the app; `ads_read` alone is not the complete documented permission set for a Marketing API use case.",
-            "evidence": "unverified",
+            "text": "Use a session-bound state value and PKCE, a proof that binds the login to your app. Exchange the code on your server. Store the returned customer token encrypted after verifying its identity and customer mapping.",
+            "evidence": "sourced",
             "sources": [
               {
-                "url": "https://developers.facebook.com/documentation/facebook-login/guides/advanced/manual-flow.md/",
-                "quote": "The call will need to be server-to-server, since it involves your app secret. (Your app secret should never end up in client code.)",
+                "url": "https://developers.facebook.com/documentation/facebook-login/guides/advanced/oidc-token.md/",
+                "quote": "used to prevent Cross-site Request Forgery.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.facebook.com/documentation/facebook-login/guides/advanced/oidc-token.md/",
+                "quote": "Facebook Login supports the OpenID Connect (OIDC) standard's Authorization Code flow with Proof Key for Code Exchange (PKCE)",
                 "quoteVerified": true
               },
               {
                 "url": "https://developers.facebook.com/documentation/facebook-login/guides/advanced/manual-flow.md/",
-                "quote": "This parameter should be used for preventing [Cross-site Request Forgery] and will be passed back to you, unchanged",
-                "quoteVerified": false
+                "quote": "The call will need to be server-to-server, since it involves your app secret.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.facebook.com/documentation/facebook-login/guides/advanced/manual-flow.md/",
+                "quote": "Never include this app secret in client-side code or in binaries that could be decompiled.",
+                "quoteVerified": true
               }
             ]
           },
           "effort": "30 min",
-          "output": "const state = randomBytes(32).toString('base64url');\nawait saveOneTimeState({ state, customerId, expiresAt });\nconst url = new URL('https://www.facebook.com/v27.0/dialog/oauth');\nurl.search = new URLSearchParams({ client_id: APP_ID, redirect_uri: CALLBACK, state, scope: 'ads_read' });\n// Callback: require HTTPS and compare state.\nconst row = await consumeOneTimeState(req.query.state);\nif (!row) throw new Error('Invalid state');\n// Exchange req.query.code server-side only.\n// Store the token encrypted under row.customerId.\n// Send appsecret_proof on Graph API calls."
+          "output": "```ts\nconst state = randomUUID();\nsession.state = state;\nsession.pkce = verifier();\nredirect(oauthUrl({ state, code_challenge: s256(session.pkce) }));\n\nassert(req.query.state === session.state);\nconst token = await exchangeCodeServerSide({\n  code: req.query.code,\n  redirect_uri: CALLBACK_URL,\n  code_verifier: session.pkce\n});\nawait saveEncryptedToken(customerId, token);\n```"
         },
         {
-          "title": "Set data controls",
+          "title": "Configure customer token access",
           "owner": "you",
           "detail": {
-            "text": "Store each customer's token and advertising data separately. Add deletion handling and a privacy policy that describes each use. Do not use advertising data for eligibility or discriminatory profiling.",
-            "evidence": "unverified",
+            "text": "Create a Facebook Login for Business configuration for automated customer ad work. For programmatic actions, use a customer-authorized business integration system-user token. Login requests for this token work only on web surfaces. Each customer needs a business portfolio, and your business portfolio must be separate from theirs.",
+            "evidence": "sourced",
             "sources": [
               {
-                "url": "https://developers.facebook.com/terms",
-                "quote": "You will only use Platform and Process Platform Data on behalf of and at the direction of your Client",
-                "quoteVerified": false
+                "url": "https://developers.facebook.com/documentation/facebook-login/facebook-login-for-business.md/",
+                "quote": "You can create multiple configurations and present them to different sets of users.",
+                "quoteVerified": true
               },
               {
-                "url": "https://developers.facebook.com/terms",
-                "quote": "Delete all Platform Data as soon as reasonably possible in the following cases:",
-                "quoteVerified": false
+                "url": "https://developers.facebook.com/documentation/facebook-login/facebook-login-for-business.md/",
+                "quote": "Associated with your business client's business portfolio rather than a specific user.",
+                "quoteVerified": true
               },
               {
-                "url": "https://developers.facebook.com/terms",
-                "quote": "Processing Platform Data to make eligibility determinations about people",
-                "quoteVerified": false
+                "url": "https://developers.facebook.com/documentation/facebook-login/facebook-login-for-business.md/",
+                "quote": "This needs to be separate from the business portfolio owned by your business client.",
+                "quoteVerified": true
               }
             ]
           },
-          "effort": "half day"
+          "effort": "1–2 hr",
+          "output": "A Login for Business configuration using customer-authorized business system-user tokens."
         }
       ]
     },
@@ -435,51 +463,48 @@
       "name": "Test",
       "steps": [
         {
-          "title": "Test with role users",
+          "title": "Test with sandbox ads",
           "owner": "you",
           "detail": {
-            "text": "Keep the app in Development mode. Test with existing test users or app-role users. Make at least one successful call for every permission you will request.",
-            "evidence": "unverified",
+            "text": "Create or use a sandbox ad account. Test each requested permission with successful API calls. Do this before review because each call must be recent.",
+            "evidence": "sourced",
             "sources": [
               {
-                "url": "https://developers.facebook.com/documentation/development/build-and-test/app-modes.md/",
-                "quote": "Apps in Development mode can only request permissions from role users",
-                "quoteVerified": false
-              },
-              {
-                "url": "https://developers.facebook.com/documentation/development/build-and-test/test-users.md/",
-                "quote": "We are temporarily removing the ability for apps to create new test users.",
+                "url": "https://developers.facebook.com/documentation/development/create-an-app/marketing-api-use-cases.md/",
+                "quote": "A sandbox ad account lets you test ad creation and reporting using the Facebook Marketing API without incurring charges.",
                 "quoteVerified": true
               },
               {
                 "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review/submission-guide.md/",
-                "quote": "Make at least 1 successful API call using each permission for which you are requesting advanced access.",
-                "quoteVerified": false
+                "quote": "Make at least 1 successful API call using each permission for which you are requesting advanced access. Calls must be made within 30 days of submitting for App Review",
+                "quoteVerified": true
               }
             ]
           },
-          "effort": "1–2 hr"
+          "effort": "1–2 hr",
+          "output": "Successful report and ad mutation calls against a sandbox ad account."
         },
         {
-          "title": "Throttle API work",
+          "title": "Add customer approval gates",
           "owner": "you",
           "detail": {
-            "text": "Queue writes and back off after rate-limit responses. Design for the Limited tier during development. Do not rely on it for live advertisers.",
+            "text": "Require customer confirmation before any publish, budget, audience, or campaign change. Keep report-only connections separate from connections that can change ads.",
             "evidence": "sourced",
             "sources": [
               {
-                "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/",
-                "quote": "Heavily rate-limited per ad account. For development only. Not for production apps running for live advertisers.",
+                "url": "https://developers.facebook.com/documentation/mcp.md/",
+                "quote": "An AI agent can directly call anything your granted permissions allow, without asking you first",
                 "quoteVerified": true
               },
               {
-                "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/overview/rate-limiting.md/",
-                "quote": "Your maximum score is 60. The decay rate is 300 seconds. You will be blocked for 300 seconds",
+                "url": "https://developers.facebook.com/documentation/mcp.md/",
+                "quote": "Don't grant permissions that can make changes to AI agents that process untrusted input.",
                 "quoteVerified": true
               }
             ]
           },
-          "effort": "1–2 hr"
+          "effort": "half day",
+          "output": "A confirmation screen before publishing, budget, audience, or campaign changes."
         }
       ]
     },
@@ -487,95 +512,102 @@
       "name": "Review",
       "steps": [
         {
-          "title": "Complete business verification",
+          "title": "Verify the business",
           "owner": "you",
           "detail": {
-            "text": "In App Dashboard, open Settings, Basic, then Verification. A Business Manager administrator must submit the required business documents. Connect an already verified business when possible.",
+            "text": "Connect the app to your business, then start verification at Settings > Basic > Verification. A business administrator must complete this step. It applies before Advanced Access and customer-owned data access.",
             "evidence": "sourced",
             "sources": [
               {
                 "url": "https://developers.facebook.com/documentation/development/release/business-verification.md/",
-                "quote": "Load your app in the App Dashboard and go to **Settings** > **Basic** > **Verification** and click the Start Verification button",
+                "quote": "Apps that request advanced access for permissions and apps that allow other Businesses to access their own data must be connected to a Business that has completed Business Verification.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.facebook.com/documentation/development/release/business-verification.md/",
+                "quote": "go to Settings > Basic > Verification and click the Start Verification button",
                 "quoteVerified": true
               },
               {
                 "url": "https://developers.facebook.com/documentation/development/release/business-verification.md/",
                 "quote": "only someone with an Admin role in the Business will be able to complete the verification process.",
                 "quoteVerified": true
-              },
-              {
-                "url": "https://developers.facebook.com/documentation/development/release/business-verification.md/",
-                "quote": "Connecting your app to a verified Business completes the connection process and there's nothing else you have to do.",
-                "quoteVerified": true
               }
             ]
           },
           "effort": "30 min",
-          "link": "https://developers.facebook.com/documentation/development/release/business-verification.md/"
+          "output": "A Business Verification submission with required documents."
         },
         {
           "title": "Prepare review materials",
           "owner": "agent",
           "detail": {
-            "text": "Adapt this draft for each requested permission. Record one separate video for each permission. Give reviewers a working test path, not personal Meta credentials.",
-            "evidence": "unverified",
+            "text": "Prepare separate permission explanations, reviewer instructions, and a screen-recording storyboard. Do not give personal account credentials. Meta tests with its own test accounts.",
+            "evidence": "sourced",
             "sources": [
               {
                 "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review/submission-guide.md/",
-                "quote": "Each permission and feature must have its own description. **Do not copy and paste.**",
-                "quoteVerified": false
+                "quote": "Any requested permission or feature missing a screen recording will not be approved.",
+                "quoteVerified": true
               },
               {
                 "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review/submission-guide.md/",
-                "quote": "We will test your app using our own test accounts. **Do not include your _personal_ Meta Technologies app account's credentials.**",
-                "quoteVerified": false
+                "quote": "We will test your app using our own test accounts. Do not include your _personal_ Meta Technologies app account's credentials.",
+                "quoteVerified": true
               }
             ]
           },
-          "effort": "30 min",
-          "output": "ads_read justification: The customer connects their own ad account. The app displays that customer's campaign performance. It does not alter campaigns.\n\nReviewer steps: Open /connect/meta. Sign in with your test account. Approve ads_read. Select the test ad account. Open Reporting. Confirm campaign metrics appear.\n\nRecording: Show the consent screen, account selection, and Reporting page."
+          "effort": "1–2 hr",
+          "output": "Review script: 1. Open Connect Meta. 2. Sign in with Meta's reviewer test account. 3. Select one test ad account. 4. Open Reports to show ads_read data. 5. Open Draft campaign. 6. Change a field and show the confirmation screen. 7. Confirm the change. Record these steps once for each requested permission."
         },
         {
-          "title": "Submit advanced access",
+          "title": "Submit Advanced Access request",
           "owner": "you",
           "detail": {
-            "text": "In App Review, request advanced access for the needed customer ad-account permissions. Managing other businesses' ad accounts requires advanced access to `ads_read` and/or `ads_management`. Also configure all permissions required by the selected Marketing API use case, including `business_management`; lead handling additionally requires `leads_retrieval` and `page_manage_ads`. Submit the matching explanation, reviewer instructions, and recording. Submit only permissions your product currently uses.",
-            "evidence": "unverified",
+            "text": "Submit Advanced Access requests for only the needed permissions. Include a public app or clear test access instructions. Add the required app icon and disclosure settings before submission.",
+            "evidence": "sourced",
             "sources": [
               {
-                "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/",
-                "quote": "Advanced access must be approved through the [App Review] process on an individual permission and feature basis.",
-                "quoteVerified": false
+                "url": "https://developers.facebook.com/documentation/development/permissions.md/",
+                "quote": "Selecting unneeded permissions is a common reason for rejection during app review.",
+                "quoteVerified": true
               },
               {
-                "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review.md/",
-                "quote": "Rejections commonly occur when reviewers cannot access the app, cannot reproduce the requested permission flow, or cannot verify the described functionality.",
-                "quoteVerified": false
+                "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review/submission-guide.md/",
+                "quote": "Your app must be publicly available or you must provide instructions on how to access it.",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review/submission-guide.md/",
+                "quote": "Upload a 1024x1024 compliant app icon image to Settings > Basic > App Icon.",
+                "quoteVerified": true
               }
             ]
           },
-          "effort": "30 min"
+          "effort": "1–2 hr",
+          "output": "An App Review submission for only the required permissions."
         },
         {
-          "title": "Wait for review",
+          "title": "Wait for review decisions",
           "owner": "provider",
           "detail": {
-            "text": "Wait for Meta's decision. Respond with an accessible test flow if Meta asks questions. Review volume can extend the published one-week target.",
-            "evidence": "unverified",
+            "text": "Wait for business verification and permission review. Business verification depends on document quality. Permission review may take several weeks.",
+            "evidence": "sourced",
             "sources": [
               {
-                "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review/submission-guide.md/",
-                "quote": "you should [receive a decision](https://developers.facebook.com/docs/app-review/introduction#submission-status) within a week.",
-                "quoteVerified": false
+                "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/appreview/FAQs.md/",
+                "quote": "Business verification should take a few days, however it will depend on the quality of documentation.",
+                "quoteVerified": true
               },
               {
                 "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/appreview/FAQs.md/",
-                "quote": "increased volume means permission review may take **up to several weeks**",
-                "quoteVerified": false
+                "quote": "Permission review may take up to several weeks.",
+                "quoteVerified": true
               }
             ]
           },
-          "effort": "wait: 1–several weeks"
+          "effort": "wait: a few days to several weeks",
+          "output": "Business Verification and App Review decisions."
         }
       ]
     },
@@ -583,106 +615,108 @@
       "name": "Production",
       "steps": [
         {
-          "title": "Switch the app Live",
+          "title": "Request Full Access",
           "owner": "you",
           "detail": {
-            "text": "After approval and verification, change the app to Live in the dashboard. Customers can then authorize approved permissions through your OAuth flow.",
-            "evidence": "unverified",
-            "sources": [
-              {
-                "url": "https://developers.facebook.com/documentation/development/build-and-test/app-modes.md/",
-                "quote": "Apps in Live mode can request permissions from anyone, but only permissions approved through App Review.",
-                "quoteVerified": false
-              },
-              {
-                "url": "https://developers.facebook.com/documentation/development/release/business-verification.md/",
-                "quote": "Until then, app users from other Businesses will be unable to grant these apps permissions and all features will be inactive.",
-                "quoteVerified": false
-              }
-            ]
-          },
-          "effort": "5 min"
-        },
-        {
-          "title": "Qualify for Full access",
-          "owner": "you",
-          "detail": {
-            "text": "Use real, successful API traffic after launch. Maintain at least 500 successful calls in 15 days and keep errors below 15% in the latest 500 calls. Full access supports unlimited ad accounts when each grants the needed permission.",
+            "text": "Request a Full Access upgrade through App Review when the app needs live advertiser scale. First meet Meta's recent API performance requirements: at least 500 Marketing API calls in the past 15 days and an error rate below 15% for the last 500 calls. This applies after Limited Access development usage.",
             "evidence": "sourced",
             "sources": [
               {
                 "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/",
-                "quote": "Have successfully made at least 500 Marketing API calls in the last 15 days.",
+                "quote": "These requirements also apply to upgrading your Marketing API Access Tier from Limited access to Full access.",
                 "quoteVerified": true
               },
               {
-                "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/",
-                "quote": "Have made Marketing API calls with an error rate of less than 15% in the last 500 calls.",
-                "quoteVerified": true
-              },
-              {
-                "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/",
-                "quote": "Manage an unlimited number of ad accounts, assuming you get `ads_read` or `ads_management` permission from the ad account.",
+                "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/overview/rate-limiting.md/",
+                "quote": "Your app needs 500+ Marketing API calls in the past 15 days and an error rate below 15% for the last 500 calls.",
                 "quoteVerified": true
               }
             ]
           },
-          "effort": "1–3 days"
+          "effort": "30 min",
+          "output": "A Full Access upgrade request after the required recent API performance."
+        },
+        {
+          "title": "Encrypt and audit tokens",
+          "owner": "you",
+          "detail": {
+            "text": "Encrypt every stored customer token with managed keys. Log token and data access. Prevent a token from one customer business from accessing another customer's assets.",
+            "evidence": "sourced",
+            "sources": [
+              {
+                "url": "https://developers.facebook.com/documentation/development/data-security.md/",
+                "quote": "Use key management systems when available",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.facebook.com/documentation/development/data-security.md/",
+                "quote": "Have a system in place for logging access to user data, tracing where user data was sent and stored",
+                "quoteVerified": true
+              },
+              {
+                "url": "https://developers.facebook.com/documentation/facebook-login/facebook-login-for-business.md/",
+                "quote": "not shareable and accessible across different client businesses.",
+                "quoteVerified": true
+              }
+            ]
+          },
+          "effort": "half day",
+          "output": "Encrypted token storage, access logs, and customer-specific access controls."
         }
       ]
     }
   ],
   "gotchas": [
     {
-      "text": "Do not choose a Consumer app. Consumer apps cannot generate access tokens. App type controls available products and permissions.",
+      "text": "Choose the Business app type at creation. Meta does not allow changing the app type later.",
       "evidence": "sourced",
       "sources": [
         {
-          "url": "https://developers.facebook.com/documentation/development/create-an-app/other-app-types.md/",
-          "quote": "For example, consumer type apps can't generate access tokens. If you need to generate an access token, a business type app might be more suitable.",
-          "quoteVerified": true
-        },
-        {
-          "url": "https://developers.facebook.com/documentation/development/create-an-app/other-app-types.md/",
-          "quote": "Note that the type of app you create determines the products, permissions and features, and functionalities available to your app.",
+          "url": "https://developers.facebook.com/documentation/development/create-an-app/app-dashboard/app-types.md/",
+          "quote": "App types cannot be changed.",
           "quoteVerified": true
         }
       ]
     },
     {
-      "text": "Limited access is automatic but is for development only. Do not promise production capacity before Full access.",
+      "text": "Meta renamed access tiers. Older screens may say Standard or Advanced, while newer screens say Limited or Full.",
       "evidence": "sourced",
       "sources": [
         {
           "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/",
-          "quote": "Automatically granted when you add the Marketing API product to your app.",
+          "quote": "Tier labels have been updated: \"Standard Access\" is now Limited Access, and \"Advanced Access\" is now Full Access.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "Business system-user login requests work only from web surfaces. They also require a business portfolio and separate provider and customer portfolios.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.facebook.com/documentation/facebook-login/facebook-login-for-business.md/",
+          "quote": "Your app can only request logins from web surfaces",
           "quoteVerified": true
         },
         {
-          "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization.md/",
-          "quote": "Heavily rate-limited per ad account. For development only. Not for production apps running for live advertisers.",
+          "url": "https://developers.facebook.com/documentation/facebook-login/facebook-login-for-business.md/",
+          "quote": "This needs to be separate from the business portfolio owned by your business client.",
           "quoteVerified": true
         }
       ]
     },
     {
-      "text": "Do not give campaign-write permission to an agent handling untrusted prompts. Prompt injection could trigger advertising changes.",
+      "text": "If you use Meta generative ad features, extra terms apply. A human must preview AI-generated creative before publication.",
       "evidence": "sourced",
       "sources": [
         {
-          "url": "https://developers.facebook.com/documentation/mcp.md/",
-          "quote": "Don't grant permissions that can make changes to AI agents that process untrusted input.",
+          "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/creative/generative-ai-features.md/",
+          "quote": "If you use Marketing API to access our Generative AI features outlined below, the Ad Creative Generative AI Terms apply in addition to the Meta Platform Terms.",
           "quoteVerified": true
-        }
-      ]
-    },
-    {
-      "text": "Published apps are required for webhooks, but webhooks do not themselves require App Review.",
-      "evidence": "sourced",
-      "sources": [
+        },
         {
-          "url": "https://developers.facebook.com/documentation/development/create-an-app/marketing-api-use-cases.md/",
-          "quote": "To receive webhook notifications your app must be published.  App Review is not required to use webhooks.",
+          "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/creative/generative-ai-features.md/",
+          "quote": "Advertisers are responsible for previewing ad creative featuring AI-generated creatives before publishing their ads.",
           "quoteVerified": true
         }
       ]
@@ -690,40 +724,50 @@
   ],
   "whenBlocked": [
     {
-      "text": "If business verification stalls, contact Business Manager Direct Support with the business issue and documents.",
-      "evidence": "unverified",
+      "text": "If business verification stalls, ask the business administrator to check documents and restart verification in Settings > Basic > Verification.",
+      "evidence": "sourced",
       "sources": [
         {
-          "url": "https://developers.facebook.com/documentation/development/support.md/",
-          "quote": "[Business Manager](https://business.facebook.com/direct-support/) – Visit the Business Manager for any questions about business issues in including payments.",
-          "quoteVerified": false
-        }
-      ]
-    },
-    {
-      "text": "If App Review rejects the app, fix the reproducible flow and submit an appeal through Developer Appeals.",
-      "evidence": "unverified",
-      "sources": [
-        {
-          "url": "https://developers.facebook.com/documentation/development/support.md/",
-          "quote": "[Developer Appeals](https://developers.facebook.com/appeal/) – View app appeals, appeal a descision, restore apps",
-          "quoteVerified": false
+          "url": "https://developers.facebook.com/documentation/development/release/business-verification.md/",
+          "quote": "Refer to our Business Manager Help Center's About Business Verification topic for an explanation of the process and a list of documents you will need.",
+          "quoteVerified": true
         },
         {
-          "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/individual-processes/app-review.md/",
-          "quote": "Rejections commonly occur when reviewers cannot access the app, cannot reproduce the requested permission flow, or cannot verify the described functionality.",
-          "quoteVerified": false
+          "url": "https://developers.facebook.com/documentation/development/release/business-verification.md/",
+          "quote": "only someone with an Admin role in the Business will be able to complete the verification process.",
+          "quoteVerified": true
         }
       ]
     },
     {
-      "text": "If a dashboard setting is unclear, use Ask a question or Contact Direct Support.",
-      "evidence": "unverified",
+      "text": "If App Review rejects a permission, fix the stated issue, then comment in the dashboard or resubmit the permission review.",
+      "evidence": "sourced",
+      "sources": [
+        {
+          "url": "https://developers.facebook.com/documentation/resp-plat-initiatives/appreview/FAQs.md/",
+          "quote": "Once fixed, you can submit a comment on your app dashboard, or if your appeal is regarding a permission request review, you can resubmit your app review.",
+          "quoteVerified": true
+        }
+      ]
+    },
+    {
+      "text": "If documentation or dashboard behavior is unclear, use Ask a question or Contact Direct Support.",
+      "evidence": "sourced",
       "sources": [
         {
           "url": "https://developers.facebook.com/documentation/development/support.md/",
-          "quote": "Support is available by directly asking a question using the \"Ask a question\" feature, or by selecting \"Contact Direct Support\".",
-          "quoteVerified": false
+          "quote": "Ask a question",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.facebook.com/documentation/development/support.md/",
+          "quote": "Contact Direct Support,",
+          "quoteVerified": true
+        },
+        {
+          "url": "https://developers.facebook.com/documentation/development/support.md/",
+          "quote": "Once submitted, Developer Support will get back to you within 2 business days.",
+          "quoteVerified": true
         }
       ]
     }
@@ -743,13 +787,14 @@
     },
     {
       "name": "Developer console",
-      "target": "https://developers.facebook.com/apps/",
-      "result": "HTTP 200 (final: https://developers.facebook.com/apps/)",
+      "target": "https://developers.facebook.com/apps/creation/",
+      "result": "HTTP 200 (final: https://developers.facebook.com/apps/creation/)",
       "ok": true
     }
   ],
   "uncertain": [
-    "Meta does not publish a business-verification processing time in the researched sources.",
-    "15 claims couldn't be matched word-for-word to their cited page and are marked Unverified. Check those sources before relying on them."
+    "App Review timing conflicts in official sources. One page says a decision should arrive within a week. Another says permission review may take several weeks.",
+    "No source gives a standalone Meta developer subscription or Marketing API access price.",
+    "3 claims couldn't be matched word-for-word to their cited page and are marked Unverified. Check those sources before relying on them."
   ]
 }
