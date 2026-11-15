@@ -1,0 +1,35 @@
+[0.0s] {"type":"status","message":"Researching Dropbox"}
+[16.3s] {"type":"tool","name":"search","target":"site:developers.dropbox.com OAuth guide refresh tokens scopes app review production approval Dropbox","summary":"7 results","detail":["OAuth | Dropbox API Docu
+[16.3s] {"type":"tool","name":"search","target":"site:help.dropbox.com developers app review production status Dropbox API","summary":"6 results","detail":["DBX Platform developer guide | Dropbox API Document
+[16.3s] {"type":"tool","name":"search","target":"site:developers.dropbox.com app console permissions team member file access app folder full Dropbox","summary":"8 results","detail":["The team folder manager -
+[16.3s] {"type":"tool","name":"search","target":"site:dropbox.tech developer OAuth PKCE redirect URI Dropbox API","summary":"7 results","detail":["Using OAuth 2.0 with offline access - Dropbox | https://dropb
+[16.3s] {"type":"tool","name":"search","target":"site:developers.dropbox.com rate limits pricing API Dropbox developer","summary":"8 results","detail":["Developers - Dropbox | https://www.dropbox.com/develope
+[16.3s] {"type":"tool","name":"search","target":"Dropbox API AI LLM policy developer terms","summary":"7 results","detail":["Dropbox - Dropbox Developer Terms and Conditions | https://www.dropbox.com/develope
+[16.3s] {"type":"tool","name":"search","target":"Dropbox API app review approval time community forum","summary":"5 results","detail":["How quickly does an app get approved for production status? | https://co
+[16.3s] {"type":"tool","name":"search","target":"site:developers.dropbox.com CLI app manifest Dropbox app console","summary":"6 results","detail":["dbxcli: Dropbox from the command line | dbxcli | https://dro
+[33.5s] {"type":"tool","name":"read","target":"https://docs.dropboxapi.com/dropbox-api/docs/get-started/authorization","summary":"29 facts","detail":["Dropbox supports OAuth 2.0 for authorizing API requests, 
+[33.5s] {"type":"tool","name":"read","target":"https://docs.dropboxapi.com/dropbox-api/docs/get-started/tutorial/app-console","summary":"20 facts","detail":["Register/manage apps at the Dropbox developer port
+[33.5s] {"type":"tool","name":"read","target":"https://docs.dropboxapi.com/dropbox-api/docs/developer-resources/developer-guide","summary":"20 facts","detail":["Apps start in development status and can initia
+[33.5s] {"type":"tool","name":"read","target":"https://dropbox.tech/developers/using-oauth-2-0-with-offline-access","summary":"20 facts","detail":["Page date: Oct 19, 2022 | quote: \"By Dropbox Platform Team 
+[33.5s] {"type":"tool","name":"read","target":"https://www.dropbox.com/developers/reference/tos","summary":"12 facts","detail":["The terms were posted and became effective on March 1, 2025. | quote: \"Posted:
+[33.5s] {"type":"tool","name":"read","target":"https://www.dropbox.com/developers/documentation/http/teams","summary":"13 facts","detail":["Dropbox Business apps can select team and user-data scopes in the De
+[33.5s] {"type":"tool","name":"read","target":"https://www.dropbox.com/developers/support","summary":"8 facts","detail":["The Dropbox developer forum provides technical support from the Dropbox team and commu
+[33.5s] {"type":"tool","name":"read","target":"https://community.dropbox.com/en/discussion/11597/how-quickly-does-an-app-get-approved-for-production-status/p1","summary":"1 facts","detail":["Reported review t
+[33.5s] {"type":"tool","name":"read","target":"https://dropbox.tech/developers/pkce--what-and-why-","summary":"19 facts","detail":["Page date: Dec 04, 2020 | quote: \"PKCE: What and Why? // By Taylor Krusen &
+[33.5s] {"type":"tool","name":"read","target":"https://www.dropbox.com/ai-principles","summary":"5 facts","detail":["Page last updated April 4, 2025. | quote: \"Last update: April 4, 2025\"","The page describ
+[52.0s] {"type":"tool","name":"search","target":"site:developers.dropbox.com \"files.content.read\" \"files.content.write\" scopes","summary":"6 results","detail":["Developers - Dropbox | https://www.dropbox.
+[52.0s] {"type":"tool","name":"search","target":"site:developers.dropbox.com webhook signature X-Dropbox-Signature validation","summary":"4 results","detail":["Webhooks | Dropbox API Documentation | https://d
+[52.0s] {"type":"tool","name":"search","target":"Dropbox API app review rejection reason privacy policy community","summary":"8 results","detail":["DBX Platform developer guide | Dropbox API Documentation | h
+[52.0s] {"type":"tool","name":"search","target":"site:help.dropbox.com plans API developer API free Dropbox no charge","summary":"8 results","detail":["Dropbox Sign API documentation - Dropbox Help | https://
+[60.7s] {"type":"tool","name":"read","target":"https://docs.dropboxapi.com/dropbox-api/docs/webhooks","summary":"16 facts","detail":["Webhook URIs must be publicly accessible over the internet; localhost and 
+[60.7s] {"type":"tool","name":"read","target":"https://docs.dropboxapi.com/dropbox-api/docs/oauth","summary":"14 facts","detail":["OAuth scopes determine the actions an application is allowed to perform on a 
+[60.7s] {"type":"tool","name":"read","target":"https://www.dropbox.com/developers/reference/migration-guide","summary":"nothing relevant","detail":[]}
+[60.7s] {"type":"tool","name":"read","target":"https://community.dropbox.com/en/discussion/862005/production-status-approval-for-app-platform/p1","summary":"7 facts","detail":["Oct 13, 2026 — The poster says 
+[90.5s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
+[91.1s] {"type":"tool","name":"probe","target":"https://www.dropbox.com/.well-known/openid-configuration","summary":"ok: authorize=https://www.dropbox.com/oauth2/authorize; scopes=openid profile email"}
+[91.1s] {"type":"tool","name":"probe","target":"https://www.dropbox.com/oauth2/authorize","summary":"ok: HTTP 302 -> /oauth2/authorize_error?client_id=probe-not-a-real-client&error_deta"}
+[91.1s] {"type":"tool","name":"probe","target":"https://www.dropbox.com/developers","summary":"ok: HTTP 200 (final: https://www.dropbox.com/developers)"}
+[91.1s] {"type":"status","message":"Writing guide"}
+[126.9s] {"type":"status","message":"Writing the sign-in link and curl commands"}
+[151.8s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[151.8s] {"type":"status","message":"Checking the guide for contradictions"}

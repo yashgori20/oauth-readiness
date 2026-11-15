@@ -37,3 +37,4 @@
 [121.9s] {"type":"status","message":"Writing the sign-in link and curl commands"}
 [124.2s] {"type":"status","message":"Checking quotes against the pages the agent read"}
 [124.2s] {"type":"status","message":"Checking the guide for contradictions"}
+[143.1s] guide -> guides/gmail-google-oauth.json

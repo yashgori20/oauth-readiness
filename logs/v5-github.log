@@ -42,3 +42,7 @@
 [140.3s] {"type":"tool","name":"probe","target":"https://github.com/login/oauth/authorize","summary":"ok: HTTP 302 -> https://github.com/login?client_id=probe-not-a-real-client&return_to"}
 [140.3s] {"type":"tool","name":"probe","target":"https://github.com/settings/apps","summary":"ok: reachable, requires sign-in (HTTP 200, final https://github.com/login?return_to="}
 [140.3s] {"type":"status","message":"Writing guide"}
+[177.2s] {"type":"status","message":"Writing the sign-in link and curl commands"}
+[193.3s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[193.3s] {"type":"status","message":"Checking the guide for contradictions"}
+[209.0s] guide -> guides/github.json

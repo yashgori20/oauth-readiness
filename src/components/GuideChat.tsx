@@ -158,7 +158,7 @@ export function GuideChat({ slug, app }: { slug: string; app: string }) {
           className="h-14 flex-1 bg-transparent px-5 text-sm text-ink outline-none"
           aria-label="Your question"
         />
-        <button disabled={!q.trim() || busy} className="label bg-ink px-5 text-on-ink hover:bg-brand hover:text-white disabled:bg-disabled">
+        <button disabled={!q.trim() || busy} className="label bg-ink px-5 text-on-ink hover:bg-brand hover:text-white disabled:bg-disabled disabled:text-muted">
           Ask
         </button>
       </form>

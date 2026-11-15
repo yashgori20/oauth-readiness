@@ -25,51 +25,51 @@
   color-scheme: light;
 }
 
-/* Dark: same structure, warm near-black ground, a lighter blue that holds contrast on dark. */
+/* Dark follows docs.composio.dev: near-black surfaces, 6-9% white hairlines, softer blue #5b8bf0. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --ground: #0c0c0d;
-    --surface: #141415;
-    --ink: #f2f2ef;
-    --ink-2: #c6c6c1;
-    --muted: #8f8f8a;
-    --line: #2a2a2c;
-    --brand: #5566ff;
-    --brand-hover: #6e7cff;
-    --brand-soft: #1a1d3f;
-    --amber: #f0b45a;
-    --amber-soft: #2d2410;
-    --green: #52c98d;
-    --green-soft: #10261a;
-    --red: #ff7d70;
-    --red-soft: #2f1512;
+    --ground: #161616;
+    --surface: #0f0f0f;
+    --ink: #fafafa;
+    --ink-2: #d0d0d0;
+    --muted: #a0a0a0;
+    --line: #ffffff17;
+    --brand: #5b8bf0;
+    --brand-hover: #95a5fd;
+    --brand-soft: #16203a;
+    --amber: #f99c00;
+    --amber-soft: #2a1d06;
+    --green: #00bb7f;
+    --green-soft: #06281d;
+    --red: #ef4444;
+    --red-soft: #2c1111;
     --on-ink: #0f0f0f;
-    --disabled: #3a3a3c;
-    --scroll: #3a3a3c;
-    --placeholder: #6f6f6b;
+    --disabled: #2a2a2a;
+    --scroll: #2e2e2e;
+    --placeholder: #6e6e6e;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --ground: #0c0c0d;
-  --surface: #141415;
-  --ink: #f2f2ef;
-  --ink-2: #c6c6c1;
-  --muted: #8f8f8a;
-  --line: #2a2a2c;
-  --brand: #5566ff;
-  --brand-hover: #6e7cff;
-  --brand-soft: #1a1d3f;
-  --amber: #f0b45a;
-  --amber-soft: #2d2410;
-  --green: #52c98d;
-  --green-soft: #10261a;
-  --red: #ff7d70;
-  --red-soft: #2f1512;
+  --ground: #161616;
+  --surface: #0f0f0f;
+  --ink: #fafafa;
+  --ink-2: #d0d0d0;
+  --muted: #a0a0a0;
+  --line: #ffffff17;
+  --brand: #5b8bf0;
+  --brand-hover: #95a5fd;
+  --brand-soft: #16203a;
+  --amber: #f99c00;
+  --amber-soft: #2a1d06;
+  --green: #00bb7f;
+  --green-soft: #06281d;
+  --red: #ef4444;
+  --red-soft: #2c1111;
   --on-ink: #0f0f0f;
-  --disabled: #3a3a3c;
-  --scroll: #3a3a3c;
-  --placeholder: #6f6f6b;
+  --disabled: #2a2a2a;
+  --scroll: #2e2e2e;
+  --placeholder: #6e6e6e;
   color-scheme: dark;
 }
 

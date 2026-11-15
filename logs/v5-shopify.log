@@ -36,3 +36,7 @@
 [103.0s] {"type":"status","message":"Probing the provider's OAuth endpoints"}
 [103.6s] {"type":"tool","name":"probe","target":"https://partners.shopify.com/","summary":"ok: HTTP 200 (final: https://www.shopify.com/partners)"}
 [103.6s] {"type":"status","message":"Writing guide"}
+[149.3s] {"type":"status","message":"Writing the sign-in link and curl commands"}
+[162.0s] {"type":"status","message":"Checking quotes against the pages the agent read"}
+[162.0s] {"type":"status","message":"Checking the guide for contradictions"}
+[180.2s] guide -> guides/shopify.json

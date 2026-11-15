@@ -79,6 +79,11 @@ export default async function Home() {
               </Link>
             </li>
           ))}
+          {/* Fill the last row so no empty grey cells show (2 columns on tablet, 3 on desktop). */}
+          {Array.from({ length: (3 - (guides.length % 3)) % 3 }, (_, i) => (
+            <li key={`fill3-${i}`} aria-hidden className="hidden bg-surface lg:block" />
+          ))}
+          {guides.length % 2 === 1 && <li aria-hidden className="hidden bg-surface sm:block lg:hidden" />}
         </ul>
       </section>
 
